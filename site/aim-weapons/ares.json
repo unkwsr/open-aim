@@ -1,0 +1,1 @@
+{"source":"GN_LMG_S0_Skelmesh","attach":{"t":[-0.0,1.708,-0.429],"q":[0.5,-0.5,0.5,0.5]},"posScale":10,"uvMax":2,"parts":[{"name":"gun","texture":"ares.gun.png","verts":6023,"tris":8415,"pos":0,"nrm":36140,"uv":72280,"idx":96372},{"name":"magazine","texture":"ares.gun.png","verts":1151,"tris":1781,"pos":146864,"nrm":153772,"uv":160680,"idx":165284}]}

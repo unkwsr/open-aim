@@ -1,0 +1,227 @@
+/* Compact, modern pause menus (Tab menu and "Paused" menu), injected by main.js.
+   The game's own rules use scoped [data-v-…] selectors, so properties here use
+   !important. Transform/opacity are left un-important so the entrance animation runs. */
+
+:root {
+  --aim-card-bg: rgba(14, 19, 27, 0.78);
+  --aim-card-border: rgba(255, 255, 255, 0.08);
+  --aim-text: #e6edf1;
+  --aim-muted: rgba(220, 231, 236, 0.58);
+  --aim-hover: rgba(255, 255, 255, 0.07);
+  --aim-accent: #ff4655;
+  --aim-accent-hover: #ff5d6b;
+  --aim-card-width: 340px;
+}
+
+@keyframes aim-card-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- overlay: light tint instead of a near-black screen ---------- */
+.al-pause-layer,
+.al-pause-overlay {
+  background: radial-gradient(circle at 50% 50%, rgba(5, 8, 11, 0.12), rgba(5, 8, 11, 0.42)) !important;
+}
+
+/* ---------- Tab menu: title block + actions block become one card ---------- */
+.al-pause-layer:has(> .al-pause-acts) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.al-pause-id,
+.al-pause-acts {
+  position: static !important;
+  width: var(--aim-card-width) !important;
+  box-sizing: border-box !important;
+  background: var(--aim-card-bg) !important;
+  backdrop-filter: blur(18px) saturate(1.3);
+  border: 1px solid var(--aim-card-border) !important;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45) !important;
+  animation: aim-card-in 0.18s ease-out both;
+}
+.al-pause-id {
+  border-bottom: 0 !important;
+  border-radius: 16px 16px 0 0 !important;
+  padding: 18px 20px 12px !important;
+  text-align: left !important;
+  box-shadow: none !important;
+}
+.al-pause-id h1 {
+  font-size: 16px !important;
+  font-weight: 650 !important;
+  line-height: 1.3 !important;
+  color: var(--aim-text) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+.al-pause-meta {
+  margin-top: 4px !important;
+  font-size: 12px !important;
+  color: var(--aim-muted) !important;
+}
+.al-pause-desc {
+  max-width: none !important;
+  margin: 6px 0 0 !important;
+  font-size: 11.5px !important;
+  line-height: 1.5 !important;
+  color: rgba(220, 231, 236, 0.42) !important;
+  text-align: left !important;
+}
+.al-pause-acts {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 2px !important;
+  padding: 10px !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 0 0 16px 16px !important;
+}
+
+/* ---------- "Paused" menu: the body becomes the card ---------- */
+.al-pause-lite {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+.al-pause-lite-body {
+  width: var(--aim-card-width) !important;
+  max-width: calc(100vw - 32px) !important;
+  box-sizing: border-box !important;
+  padding: 18px 10px 10px !important;
+  text-align: left !important;
+  background: var(--aim-card-bg) !important;
+  backdrop-filter: blur(18px) saturate(1.3);
+  border: 1px solid var(--aim-card-border) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45) !important;
+  animation: aim-card-in 0.18s ease-out both;
+}
+.al-pause-lite-body h2 {
+  margin: 0 10px 12px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--aim-muted) !important;
+}
+.al-pause-lite-acts {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 2px !important;
+}
+
+/* ---------- buttons (both menus) ---------- */
+.al-pause-act {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 9px 12px !important;
+  font-size: 14px !important;
+  font-weight: 550 !important;
+  line-height: 1.3 !important;
+  color: var(--aim-text) !important;
+  text-align: left !important;
+  background: transparent !important;
+  border-radius: 10px !important;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease !important;
+}
+.al-pause-act:hover,
+.al-pause-act:focus-visible {
+  color: #fff !important;
+  background: var(--aim-hover) !important;
+}
+.al-pause-act:active {
+  transform: scale(0.98);
+}
+.al-pause-act.is-primary {
+  justify-content: center !important;
+  margin-bottom: 6px !important;
+  padding: 11px 12px !important;
+  font-size: 15px !important;
+  font-weight: 650 !important;
+  color: #fff !important;
+  background: var(--aim-accent) !important;
+  box-shadow: 0 6px 18px rgba(255, 70, 85, 0.28) !important;
+}
+.al-pause-act.is-primary:hover,
+.al-pause-act.is-primary:focus-visible {
+  background: var(--aim-accent-hover) !important;
+}
+.al-pause-act.is-exit {
+  margin-top: 6px !important;
+  padding-top: 11px !important;
+  font-size: 13px !important;
+  color: rgba(255, 128, 138, 0.92) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 0 0 10px 10px !important;
+}
+.al-pause-act.is-exit:hover {
+  color: #ff8a94 !important;
+  background: rgba(255, 70, 85, 0.1) !important;
+}
+
+/* key hints and status badges */
+.al-pause-act kbd,
+.al-pause-act-key {
+  margin-left: 10px !important;
+  padding: 2px 6px !important;
+  font: 600 10.5px/1.4 ui-monospace, Consolas, monospace !important;
+  color: rgba(220, 231, 236, 0.72) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 5px !important;
+}
+.al-pause-timer-state {
+  margin-left: 10px !important;
+  padding: 2px 9px !important;
+  font-size: 10.5px !important;
+  color: rgba(220, 231, 236, 0.75) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 999px !important;
+}
+
+/* timer row, pre-aim row, sensitivity */
+.al-pause-timer {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 0 !important;
+  max-width: none !important;
+}
+.al-pause-timer small {
+  padding: 0 12px 6px !important;
+  font-size: 11px !important;
+  line-height: 1.45 !important;
+  color: rgba(255, 196, 107, 0.78) !important;
+  text-align: left !important;
+}
+.al-pause-preaim-row {
+  flex-direction: column !important;
+  flex-wrap: nowrap !important;
+  gap: 2px !important;
+}
+.al-pause-sens {
+  justify-content: space-between !important;
+  padding: 6px 12px !important;
+  font-size: 14px !important;
+  font-weight: 550 !important;
+  color: var(--aim-text) !important;
+}
+.al-pause-sens-label {
+  letter-spacing: 0 !important;
+}
+.al-pause-sens-field {
+  border-radius: 8px !important;
+}
+.al-pause-dirty {
+  bottom: 24px !important;
+}

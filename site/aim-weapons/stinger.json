@@ -1,0 +1,1 @@
+{"source":"GN_Vector_S0_Skelmesh","attach":{"t":[-0.0,1.198,-0.769],"q":[0.5,-0.5,0.5,0.5]},"posScale":10,"uvMax":1.0,"parts":[{"name":"gun","texture":"stinger.gun.png","verts":5291,"tris":5149,"pos":0,"nrm":31748,"uv":63496,"idx":84660},{"name":"magazine","texture":"stinger.gun.png","verts":152,"tris":154,"pos":115556,"nrm":116468,"uv":117380,"idx":117988}]}

@@ -1,0 +1,1 @@
+{"source":"GN_BasePistol_S0_Skelmesh","attach":{"t":[-0.0,-0.748,0.942],"q":[0.5,-0.5,0.5,0.5]},"posScale":10,"uvMax":2,"parts":[{"name":"gun","texture":"classic.gun.png","verts":3065,"tris":3834,"pos":0,"nrm":18392,"uv":36784,"idx":49044},{"name":"magazine","texture":"classic.gun.png","verts":246,"tris":312,"pos":72048,"nrm":73524,"uv":75000,"idx":75984}]}

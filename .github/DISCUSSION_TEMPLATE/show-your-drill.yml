@@ -1,0 +1,31 @@
+title: "[Drill] "
+labels: ["scenario"]
+body:
+  - type: markdown
+    attributes:
+      value: Share a drill you made. Attach the `.json` file from your `scenarios/` folder.
+  - type: input
+    id: map
+    attributes:
+      label: Map
+      placeholder: Haven (or "empty arena")
+    validations:
+      required: true
+  - type: textarea
+    id: trains
+    attributes:
+      label: What it trains
+      placeholder: Holding A long while two enemies flash and swing.
+    validations:
+      required: true
+  - type: textarea
+    id: file
+    attributes:
+      label: Drill file and a screenshot or clip
+      description: Drag the .json file and any images here.
+    validations:
+      required: true
+  - type: input
+    id: best
+    attributes:
+      label: Your best score

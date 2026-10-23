@@ -1,0 +1,33 @@
+.aim-ranking-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  padding: 4px;
+  margin: 16px 0 8px;
+  border: 1px solid #ffffff12;
+  border-radius: 10px;
+  background: #050a11aa;
+}
+.aim-ranking-tabs button {
+  min-height: 42px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: #91a1ad;
+  font: 800 13px/1 Inter,"Segoe UI",Arial,sans-serif;
+  cursor: pointer;
+}
+.aim-ranking-tabs button.is-active { border-color: #67f5bc55; background: #67f5bc16; color: #67f5bc; }
+.aim-ranking-tabs button:focus-visible { outline: 2px solid #67f5bc; outline-offset: 2px; }
+.aim-ranking-note { margin: 8px 0 14px !important; font-size: 12px; }
+.aim-rank-scroll { width: 100%; overflow-x: auto; scrollbar-color: #ffffff28 transparent; scrollbar-width: thin; }
+.aim-rank-scroll .aim-rank-table { min-width: 430px; }
+.aim-rank-table tr.is-top-1 td:first-child { color: #f2c14e; font-weight: 900; }
+.aim-rank-table tr.is-top-2 td:first-child { color: #b9c5d1; font-weight: 900; }
+.aim-rank-table tr.is-top-3 td:first-child { color: #d49462; font-weight: 900; }
+.aim-rank-table td:nth-child(2) { max-width: 210px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.aim-rank-table th:not(:nth-child(2)),.aim-rank-table td:not(:nth-child(2)) { text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 520px) {
+  .aim-rank-scroll { width: calc(100% + 12px); margin-inline: -6px; }
+  .aim-rank-table th,.aim-rank-table td { padding: 9px 6px; }
+}

@@ -1,0 +1,1 @@
+{"source":"GN_Dmr_S0_Skelmesh","attach":{"t":[-0.0,0.13,2.39],"q":[0.5,-0.5,0.5,0.5]},"posScale":10,"uvMax":1.0,"parts":[{"name":"gun","texture":"guardian.gun.png","verts":5126,"tris":5666,"pos":0,"nrm":30756,"uv":61512,"idx":82016},{"name":"magazine","texture":"guardian.gun.png","verts":298,"tris":324,"pos":116012,"nrm":117800,"uv":119588,"idx":120780}]}

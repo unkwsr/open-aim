@@ -1,0 +1,76 @@
+{
+  "name": "aim-trainer",
+  "productName": "AimTrainer",
+  "version": "1.0.0",
+  "description": "Offline desktop version of the open-aim trainer",
+  "main": "main.js",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "prestart": "node ../scripts/build-scenarios.mjs",
+    "start": "electron .",
+    "prebuild": "node ../scripts/build-scenarios.mjs",
+    "build": "electron-builder --win portable nsis",
+    "check": "node ../scripts/build-scenarios.mjs --check"
+  },
+  "build": {
+    "appId": "local.aimtrainer.offline",
+    "productName": "AimTrainer",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "ui.css",
+      "theme-esports.css",
+      "lobby-bar.js",
+      "player-tools.js",
+      "backups.js",
+      "offline.css",
+      "studio-store.js",
+      "studio-launch.js",
+      "shooting-error.js",
+      "studio/**/*",
+      "training-set.json",
+      "translations.js",
+      "english-fixes.js",
+      "build/icon.ico",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "../site",
+        "to": "site"
+      },
+      {
+        "from": "../site_meta.json",
+        "to": "site_meta.json"
+      },
+      {
+        "from": "mods",
+        "to": "mods"
+      }
+    ],
+    "win": {
+      "target": ["portable", "nsis"],
+      "icon": "build/icon.ico"
+    },
+    "portable": {
+      "artifactName": "AimTrainer.exe"
+    },
+    "nsis": {
+      "artifactName": "AimTrainer-Setup.exe",
+      "oneClick": true,
+      "perMachine": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "AimTrainer",
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "devDependencies": {
+    "electron": "^44.9.2",
+    "electron-builder": "^26.15.3"
+  }
+}

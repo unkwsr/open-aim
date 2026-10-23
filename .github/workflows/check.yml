@@ -1,0 +1,35 @@
+# Runs on every push and pull request: checks the scenarios and the app's scripts.
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check scenarios
+        run: |
+          node scripts/build-scenarios.mjs --check
+          node scripts/build-scenarios.mjs --check examples
+
+      - name: Check app scripts for syntax errors
+        run: |
+          for f in app/*.js scripts/*.mjs; do
+            node --check "$f"
+          done
+
+      - name: Make sure no game files slipped in
+        run: |
+          if git ls-files | grep -E '^site/|\.(glb|ktx2|avif|ogg|har)$'; then
+            echo "Game files must not be committed. See docs/game-files.md."
+            exit 1
+          fi

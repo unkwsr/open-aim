@@ -1,0 +1,14 @@
+{
+  "name": "瞄准专家 - 无畏契约瞄准训练",
+  "short_name": "瞄准专家",
+  "description": "无畏契约瞄准训练，浏览器打开就能练",
+  "lang": "zh-CN",
+  "start_url": "/aim",
+  "display": "standalone",
+  "theme_color": "#121314",
+  "background_color": "#121314",
+  "icons": [
+    { "src": "/icon-aim-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-aim-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,19 @@
+name: Feature request
+description: Ideas for the app, theme, tools or editor
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What would make training better?
+      placeholder: I'd like the Sens tools to remember my last game.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: How could it work?
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Anything you've tried instead?

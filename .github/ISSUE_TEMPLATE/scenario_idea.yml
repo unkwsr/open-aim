@@ -1,0 +1,36 @@
+name: Scenario idea
+description: Suggest a new drill, or one you'd like to build
+labels: ["scenario"]
+body:
+  - type: textarea
+    id: trains
+    attributes:
+      label: What should it train?
+      placeholder: Holding a tight angle while enemies flash and swing wide.
+    validations:
+      required: true
+  - type: input
+    id: map
+    attributes:
+      label: Map and spot
+      placeholder: Haven, A long (or "empty arena")
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      options:
+        - basic (arena drill)
+        - flash (anti-flash)
+        - hold (angle holding or peek duel)
+        - not sure
+  - type: textarea
+    id: details
+    attributes:
+      label: How it plays
+      description: Number of enemies, timing, rules, what counts as a win.
+  - type: checkboxes
+    id: build
+    attributes:
+      label: Building it
+      options:
+        - label: I'd like to build this one myself

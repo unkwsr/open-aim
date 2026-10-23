@@ -1,0 +1,34 @@
+{
+  "item": {
+    "createTime": "2026-10-21 12:00:00",
+    "description": "The drift wall as a tracking drill: hold fire and keep the crosshair on the balls. Scored on time on target; targets can't die.",
+    "docBytes": 1233,
+    "featured": false,
+    "mapId": null,
+    "name": "Drift Track",
+    "parSeconds": null,
+    "playCount": 0,
+    "sceneKey": "set-ea9dd90bd251f6ba",
+    "shareCode": "ea9dd90bd251f6ba",
+    "sort": 109,
+    "status": 1,
+    "type": "basic",
+    "updateTime": "2026-10-21 12:00:00"
+  },
+  "scene": {
+    "authorNickname": "open-aim",
+    "authorUid": "local",
+    "blockCount": 2,
+    "createTime": "2026-10-21 12:00:00",
+    "description": "The drift wall as a tracking drill: hold fire and keep the crosshair on the balls. Scored on time on target; targets can't die.",
+    "docBytes": 1233,
+    "name": "Drift Track",
+    "playCount": 0,
+    "sceneHash": "ea9dd90bd251f6ba",
+    "sceneKey": "set-ea9dd90bd251f6ba",
+    "schemaVersion": 2,
+    "shareCode": "ea9dd90bd251f6ba",
+    "updateTime": "2026-10-21 12:00:00",
+    "doc": "{\"schemaVersion\":2,\"meta\":{\"id\":\"set-ea9dd90bd251f6ba\",\"name\":\"Drift Track\",\"seed\":246013328,\"createdAt\":0},\"environment\":{\"skyColor\":\"#111820\",\"fogNear\":14,\"fogFar\":33,\"ambientIntensity\":1.55,\"keyLightIntensity\":2.2,\"lightingVersion\":2,\"fogEnabled\":false},\"blocks\":[{\"id\":\"ground\",\"shape\":\"plane\",\"position\":{\"x\":0,\"y\":0,\"z\":0},\"rotationY\":0,\"size\":{\"x\":100,\"y\":0.4,\"z\":100},\"color\":\"#cfd2d4\",\"collidable\":true},{\"id\":\"backdrop\",\"shape\":\"box\",\"position\":{\"x\":0,\"y\":4.0,\"z\":-3.5},\"rotationY\":0,\"size\":{\"x\":18,\"y\":8,\"z\":0.4},\"color\":\"#26303b\",\"collidable\":true}],\"playerSpawn\":{\"position\":{\"x\":0,\"y\":0,\"z\":10},\"yaw\":0},\"spawners\":[{\"id\":\"grid\",\"name\":\"Wall\",\"kind\":\"grid\",\"actorTemplateId\":\"actor-1\",\"position\":{\"x\":0,\"y\":2.9,\"z\":-2},\"size\":{\"x\":9,\"y\":3.2,\"z\":0},\"columns\":6,\"rows\":3,\"maxAlive\":2,\"spawnDelay\":[0.0,0.1]}],\"actors\":[{\"id\":\"actor-1\",\"name\":\"Ball\",\"body\":{\"shape\":\"sphere\",\"headSize\":1,\"bodyWidth\":0,\"bodyHeight\":0,\"radius\":0.32},\"color\":\"#2fe0c8\",\"behaviors\":[{\"kind\":\"sway\",\"amplitude\":{\"x\":1.4,\"y\":0.8},\"frequency\":0.4,\"unit\":\"hz\"}],\"hitSlow\":true}],\"rules\":{\"duration\":60,\"scoring\":\"tracking\",\"weapon\":\"vandal\",\"playerMovable\":false,\"fireMode\":\"hold\",\"perfectAccuracy\":true,\"targetsInvincible\":true,\"buyMenu\":false}}"
+  }
+}

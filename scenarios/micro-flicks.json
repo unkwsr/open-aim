@@ -1,0 +1,34 @@
+{
+  "item": {
+    "createTime": "2026-10-21 12:00:00",
+    "description": "Two small balls at a time inside a narrow box straight ahead. Short, exact flicks: land the first shot instead of correcting after it.",
+    "docBytes": 1125,
+    "featured": false,
+    "mapId": null,
+    "name": "Micro flicks",
+    "parSeconds": null,
+    "playCount": 0,
+    "sceneKey": "set-e3c17ccb9f5a1500",
+    "shareCode": "e3c17ccb9f5a1500",
+    "sort": 101,
+    "status": 1,
+    "type": "basic",
+    "updateTime": "2026-10-21 12:00:00"
+  },
+  "scene": {
+    "authorNickname": "open-aim",
+    "authorUid": "local",
+    "blockCount": 2,
+    "createTime": "2026-10-21 12:00:00",
+    "description": "Two small balls at a time inside a narrow box straight ahead. Short, exact flicks: land the first shot instead of correcting after it.",
+    "docBytes": 1125,
+    "name": "Micro flicks",
+    "playCount": 0,
+    "sceneHash": "e3c17ccb9f5a1500",
+    "sceneKey": "set-e3c17ccb9f5a1500",
+    "schemaVersion": 2,
+    "shareCode": "e3c17ccb9f5a1500",
+    "updateTime": "2026-10-21 12:00:00",
+    "doc": "{\"schemaVersion\":2,\"meta\":{\"id\":\"set-e3c17ccb9f5a1500\",\"name\":\"Micro flicks\",\"seed\":238819276,\"createdAt\":0},\"environment\":{\"skyColor\":\"#111820\",\"fogNear\":14,\"fogFar\":33,\"ambientIntensity\":1.55,\"keyLightIntensity\":2.2,\"lightingVersion\":2,\"fogEnabled\":false},\"blocks\":[{\"id\":\"ground\",\"shape\":\"plane\",\"position\":{\"x\":0,\"y\":0,\"z\":0},\"rotationY\":0,\"size\":{\"x\":100,\"y\":0.4,\"z\":100},\"color\":\"#cfd2d4\",\"collidable\":true},{\"id\":\"backdrop\",\"shape\":\"box\",\"position\":{\"x\":0,\"y\":2.5,\"z\":-3.5},\"rotationY\":0,\"size\":{\"x\":8,\"y\":5,\"z\":0.4},\"color\":\"#26303b\",\"collidable\":true}],\"playerSpawn\":{\"position\":{\"x\":0,\"y\":0,\"z\":10},\"yaw\":0},\"spawners\":[{\"id\":\"spawner-1\",\"name\":\"Area\",\"kind\":\"area\",\"actorTemplateId\":\"actor-1\",\"position\":{\"x\":0,\"y\":1.6,\"z\":-2},\"size\":{\"x\":2.4,\"y\":1.4,\"z\":0.5},\"maxAlive\":2,\"spawnDelay\":[0.0,0.1]}],\"actors\":[{\"id\":\"actor-1\",\"name\":\"Ball\",\"body\":{\"shape\":\"sphere\",\"headSize\":1,\"bodyWidth\":0,\"bodyHeight\":0,\"radius\":0.12},\"color\":\"#ff4655\",\"behaviors\":[],\"hitSlow\":true}],\"rules\":{\"duration\":60,\"scoring\":\"clicking\",\"weapon\":\"vandal\",\"playerMovable\":false,\"fireMode\":\"single\",\"perfectAccuracy\":true,\"buyMenu\":false}}"
+  }
+}

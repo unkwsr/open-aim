@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="vi" data-aim-local translate="no" class="notranslate">
+<head>
+  <meta charset="utf-8">
+  <meta name="google" content="notranslate">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0F1428">
+  <title>open-aim</title>
+  <script defer src="/_assets/r20261021-1/js/dom-work.js"></script>
+  <script type="module" crossorigin src="/i18n/runtime.r20261021-1.mjs"></script>
+  <script defer src="/_assets/r20261021-1/js/account.js"></script>
+  <script defer src="/_assets/r20261021-1/js/ad-state.js"></script>
+  <script defer src="/_assets/r20261021-1/js/map-card-ads.js"></script>
+  <script defer src="/_assets/r20261021-1/js/adsterra-direct.js"></script>
+  <script defer src="/_assets/r20261021-1/js/result-ads.js"></script>
+  <script defer src="/_assets/r20261021-1/js/valorant-difficulty.js"></script>
+  <script defer src="/_assets/r20261021-1/js/page-security.js"></script>
+  <script defer src="/_assets/r20261021-1/js/performance-access.js"></script>
+  <script defer src="/_assets/r20261021-1/js/donate.js"></script>
+  <link rel="modulepreload" crossorigin href="/_assets/r20261021-1/next/js/CK5kb5jb.js">
+  <link rel="stylesheet" crossorigin href="/_assets/r20261021-1/next/css/index.CmAb5xQs.css">
+  <link rel="stylesheet" href="/_assets/r20261021-1/i18n/vi.css">
+  <link rel="stylesheet" href="/_assets/r20261021-1/css/account.css">
+  <link rel="stylesheet" href="/_assets/r20261021-1/css/ranking.css">
+  <link rel="stylesheet" href="/_assets/r20261021-1/css/site-overrides.css">
+  <link rel="stylesheet" href="/_assets/r20261021-1/css/ui-polish.css">
+  <link rel="stylesheet" href="/_assets/r20261021-1/css/performance-diagnostics.css">
+</head>
+<body>
+  <div id="app"></div>
+  <aside class="aim-game-credit" aria-label="Liên hệ hỗ trợ">
+    <p>Cần hỗ trợ hoặc báo lỗi?</p>
+    <nav aria-label="Liên hệ hỗ trợ"></nav>
+  </aside>
+  <aside class="aim-ad-dock" aria-label="Quảng cáo">
+    <span class="aim-ad-label">Quảng cáo</span>
+  </aside>
+  <div class="aim-local-actions" aria-label="Điều khiển Aim Local">
+    <button class="aim-performance-button" type="button" disabled>
+      <span class="aim-performance-glyph" aria-hidden="true"></span>
+      <span class="aim-performance-label">Kiểm tra hiệu năng</span>
+    </button>
+  </div>
+</body>
+</html>

@@ -1,0 +1,344 @@
+/* open-aim: offline typography and an independent interface identity. */
+html[data-aim-local] {
+  --local-font: "Segoe UI", Arial, sans-serif;
+  --local-accent: #65d6b0;
+  --local-accent-ink: #102c24;
+}
+html[data-aim-local][lang="vi"] {
+  --aim-local-footer: "open-aim · Luyện tập trên máy";
+  --aim-local-community: "Thư viện cộng đồng trên máy\A Chọn bài tập bên dưới để bắt đầu. Không cần VPN khi chơi.";
+}
+html[data-aim-local][lang="en"] {
+  --aim-local-footer: "open-aim · Local training";
+  --aim-local-community: "Local community library\A Choose a training map below to begin. No VPN required.";
+}
+html[data-aim-local] body,
+html[data-aim-local] body * {
+  font-family: var(--local-font) !important;
+  letter-spacing: normal !important;
+  font-synthesis: none;
+  -webkit-text-stroke: 0 !important;
+  text-shadow: none !important;
+}
+html[data-aim-local] body { font-size: 14px; line-height: 1.5; }
+html[data-aim-local] body :where(span,small,p,em) { font-weight: 400 !important; }
+html[data-aim-local] :is(h1,h2,h3,h4,h5,h6,b,strong) { font-weight: 600 !important; }
+html[data-aim-local] :is(button,[role="tab"],label) { font-weight: 600 !important; }
+html[data-aim-local] :is(button,h1,h2,h3,h4,h5,h6) * { font-weight: inherit !important; }
+html[data-aim-local] :is(input,textarea,select) { line-height: 1.5; }
+html[data-aim-local] :is(code,pre,kbd,textarea[aria-label*="VALORANT"]) {
+  font-family: Consolas, "Courier New", monospace !important;
+}
+html[data-aim-local]:not(.am-page) :is(button,[role="button"],.el-button) {
+  clip-path: none !important;
+  border-radius: 8px !important;
+  transform: none !important;
+  text-transform: none !important;
+}
+html[data-aim-local] :is(button,a,input,textarea,select):focus-visible {
+  outline: 2px solid var(--local-accent) !important;
+  outline-offset: 3px;
+}
+
+/* Hosted services are absent from the offline trainer's navigation. */
+html[data-aim-local] :is(.hall-dl-btn,.hall-profile--login,.hall-community-wrap,.hall-rail-review,
+  .hall-rail [data-action="changelog"],.hall-promo,.hall-brand>img,.st-sync,
+  .auth-dialog-overlay,.hall-dialog [data-action="kook"],.hall-dialog [data-action="download"],
+  [data-action="coach"],[data-action="cloud-sync"],[data-action="desktop-download"]) { display: none !important; }
+html[data-aim-local] .hall-root {
+  --h-accent: #65d6b0;
+  --h-accent-deep: #248967;
+  --h-accent-mid: #44b48e;
+  --h-chrome: #141b20;
+  --h-chrome-line: #2b363d;
+  --h-bg: #10171c;
+  --h-panel: #172127;
+  --h-surface: #202c33;
+  --h-text: #eef3f5;
+  --h-text-soft: #ced9df;
+  --h-text-muted: #a4b5bf;
+  --h-border: #34434c;
+}
+html[data-aim-local] .hall-root.hall-light {
+  --h-chrome: #ffffff;
+  --h-chrome-line: #d4dfe3;
+  --h-bg: #f2f6f5;
+  --h-panel: #ffffff;
+  --h-surface: #e7efec;
+  --h-text: #182d26;
+  --h-text-soft: #314d42;
+  --h-text-muted: #536c61;
+  --h-border: #c6d7ce;
+  --h-accent: #237c5e;
+}
+html[data-aim-local] .hall-topnav {
+  background: var(--h-chrome) !important;
+  box-shadow: 0 1px 0 var(--h-chrome-line) !important;
+}
+html[data-aim-local] .hall-topnav-right { display: none !important; }
+html[data-aim-local] .hall-topnav::after { display: none; }
+html[data-aim-local] .hall-sens { clip-path: none !important; border-radius: 8px; }
+html[data-aim-local] .hall-brand { gap: 12px; }
+html[data-aim-local] .hall-brand::before {
+  content: "";
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--local-accent);
+  border-radius: 11px;
+  color: var(--local-accent);
+  background: linear-gradient(var(--local-accent),var(--local-accent)) center / 16px 2px no-repeat,
+    linear-gradient(var(--local-accent),var(--local-accent)) center / 2px 16px no-repeat;
+}
+html[data-aim-local] .hall-brand b { font-size: 19px; font-weight: 600; }
+html[data-aim-local] .hall-brand small { font-size: 11px; font-weight: 400; }
+html[data-aim-local] .hall-tabs { align-items: center; gap: 6px; }
+html[data-aim-local] .hall-tab {
+  height: 38px !important;
+  padding: 0 16px !important;
+  background: transparent !important;
+  color: var(--h-text-muted) !important;
+  font-size: 14px !important;
+  box-shadow: none !important;
+}
+html[data-aim-local] .hall-tab:is(.is-active,:hover) {
+  color: var(--h-text) !important;
+  background: var(--h-surface) !important;
+}
+html[data-aim-local] .hall-tab.is-active { color: var(--h-accent) !important; }
+html[data-aim-local] :is(.hall-tab,.al-wk-go,.al-wk-split-go,.al-wk-split-alt)::before,
+html[data-aim-local] :is(.hall-tab,.al-wk-go,.al-wk-split-go,.al-wk-split-alt)::after {
+  display: none !important;
+}
+html[data-aim-local] :is(.hall-lat-btn,.hall-icon-btn) {
+  background: var(--h-surface) !important;
+  box-shadow: none !important;
+  border: 1px solid var(--h-border) !important;
+}
+html[data-aim-local] .hall-lat-btn-glyph {
+  clip-path: none !important;
+  border-radius: 5px;
+  background: transparent !important;
+  color: var(--h-accent) !important;
+}
+html[data-aim-local] .hall-rail {
+  background: var(--h-chrome) !important;
+  box-shadow: 1px 0 0 var(--h-chrome-line) !important;
+}
+html[data-aim-local] .hall-rail-item { border-radius: 8px; line-height: 1.5; }
+html[data-aim-local] .hall-rail-item:has(> svg path[d^="M13 2L4 14"]) { display: none !important; }
+html[data-aim-local] .hall-bottombar { height: 48px; }
+html[data-aim-local] .hall-bottombar::after {
+  content: var(--aim-local-footer);
+  margin-left: auto;
+  color: var(--h-text-muted);
+  font-size: 12px;
+}
+html[data-aim-local] .hall-search { clip-path: none !important; border-radius: 8px; }
+
+/* Map selection and lessons use regular tiles instead of angled strips. */
+html[data-aim-local] [class*="al-wk-"] { --wk-red: var(--local-accent); }
+html[data-aim-local] .al-wk-hero-art { clip-path: none !important; border-radius: 16px; }
+html[data-aim-local] :is(.al-wk-hero-edge,.al-wk-go-tick,.al-wk-card-mark) { display: none !important; }
+html[data-aim-local] .al-wk-hero-copy h1 { font-size: 30px; line-height: 1.35; }
+html[data-aim-local] .al-wk-hero-copy h2 { line-height: 1.4; }
+html[data-aim-local] .al-wk-hero-word { font-size: clamp(38px,4vw,68px); font-weight: 600; }
+html[data-aim-local] .al-wk-hero-sub { line-height: 1.6; }
+html[data-aim-local] .al-wk-feat {
+  grid-template-columns: 1fr !important;
+  gap: 14px !important;
+  clip-path: none !important;
+  border-radius: 12px;
+  border: 1px solid #ffffff26;
+  box-shadow: none !important;
+}
+html[data-aim-local] .al-wk-feat h2 {
+  white-space: normal;
+  font-size: 25px !important;
+  line-height: 1.4 !important;
+}
+html[data-aim-local] .al-wk-feat-desc { white-space: normal; }
+html[data-aim-local] .al-wk-feat .al-wk-go { justify-self: start; margin: 0; height: 40px; }
+html[data-aim-local] :is(.al-wk-go,.al-wk-split-go) {
+  color: var(--local-accent-ink) !important;
+  background: var(--local-accent) !important;
+  box-shadow: none !important;
+  border: 1px solid transparent !important;
+  font-size: 14px !important;
+  line-height: 1.5;
+}
+html[data-aim-local] :is(.al-wk-go,.al-wk-split-go):hover { background: #8be3c4 !important; }
+html[data-aim-local] .al-wk-strip { height: 92px; gap: 9px; }
+html[data-aim-local] .al-wk-slice {
+  clip-path: none !important;
+  margin-left: 0 !important;
+  border-radius: 10px !important;
+  border: 1px solid var(--h-border) !important;
+  flex-grow: 1 !important;
+}
+html[data-aim-local] .al-wk-slice.is-on { border: 2px solid var(--h-accent) !important; }
+html[data-aim-local] .al-wk-slice.is-on::before { display: none !important; }
+html[data-aim-local] .al-wk-slice.is-all { background: var(--h-surface) !important; }
+html[data-aim-local] .al-wk-slice.is-all .al-wk-s-name { left: 14px; bottom: 32px; }
+html[data-aim-local] .al-wk-slice.is-all .al-wk-s-count { left: 14px; right: auto; bottom: 10px; font-size: 16px; line-height: 1; }
+html[data-aim-local] .al-wk-slice.is-all .al-wk-s-note { left: 14px; top: 9px; }
+html[data-aim-local] .al-wk-slice.is-locked { display: none !important; }
+html[data-aim-local] .al-wk-s-name { font-size: 15px !important; line-height: 1.5; }
+html[data-aim-local] :is(.al-wk-chip,.al-wk-toggle,.al-wk-sec-more,.al-wk-paddle,.al-wk-split-alt) {
+  clip-path: none !important;
+  background: var(--h-surface) !important;
+  border: 1px solid var(--h-border) !important;
+  color: var(--h-text-soft) !important;
+  box-shadow: none !important;
+  font-size: 13px;
+}
+html[data-aim-local] :is(.al-wk-chip.al-wk-on,.al-wk-toggle.is-on) {
+  color: var(--h-accent) !important;
+  border-color: var(--h-accent) !important;
+}
+html[data-aim-local] .al-wk-card {
+  clip-path: none !important;
+  border: 1px solid var(--h-border) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  overflow: hidden;
+  transform: none !important;
+  animation: none !important;
+}
+html[data-aim-local] .al-wk-card:not(.is-back) {
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: auto;
+  min-height: 390px;
+}
+html[data-aim-local] .al-wk-card:not(.is-back) .al-wk-art {
+  position: relative;
+  inset: auto;
+  flex: none;
+  height: 140px;
+}
+html[data-aim-local] .al-wk-card:not(.is-back) .al-wk-tag {
+  position: static;
+  margin: 10px 14px 0;
+}
+html[data-aim-local] .al-wk-card-map { display: none; }
+html[data-aim-local] :is(.al-wk-holo,.al-wk-frame,.al-wk-cut) { display: none !important; }
+html[data-aim-local] .al-wk-split {
+  position: static;
+  flex: none;
+  margin: 0 12px 12px;
+  height: 38px;
+  gap: 8px;
+  grid-template-columns: 1fr 84px;
+  transform: none !important;
+}
+html[data-aim-local] .al-wk-body { position: static; flex: 1; padding: 12px 14px !important; }
+html[data-aim-local] .al-wk-card h3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  line-height: 1.5 !important;
+  font-size: 16px !important;
+}
+html[data-aim-local] .al-wk-card p { line-height: 1.65 !important; }
+html[data-aim-local] .al-wk-sec-head h2 { font-size: 21px; line-height: 1.5; }
+
+html[data-aim-local] .st-title { align-items: center; }
+html[data-aim-local] .st-title h1 { font-size: 25px; line-height: 1.4; }
+html[data-aim-local] .st-tabs { gap: 6px; padding-bottom: 8px; }
+html[data-aim-local] .st-tab { height: 38px; font-size: 14px; }
+html[data-aim-local] .st-tab.is-active { background: var(--h-surface); color: var(--h-accent); }
+html[data-aim-local] .st-tab.is-active::after { display: none !important; }
+html[data-aim-local] .st-tabbar { box-shadow: none; border-bottom: 1px solid var(--h-border); }
+html[data-aim-local] :is(.st-title,.st-head) p { line-height: 1.6; }
+html[data-aim-local] .st-head ~ * h3 { line-height: 1.5; }
+html[data-aim-local] :is(.hall-dialog-btn.is-primary,.el-button--primary) {
+  color: var(--local-accent-ink) !important;
+  background: var(--local-accent) !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+@media (max-width: 900px) {
+  html[data-aim-local] .hall-brand small { display: none; }
+  html[data-aim-local] .hall-tab { padding: 0 10px !important; font-size: 13px !important; }
+  html[data-aim-local] .hall-bottombar::after { display: none; }
+  html[data-aim-local] .al-wk-strip { gap: 6px; }
+  html[data-aim-local] .al-wk-s-name { font-size: 13px !important; }
+}
+
+/* The community library is a local snapshot; publishing still needs the source server. */
+html[data-aim-local] :is(.pw-pub,[data-action="pw-tab-mine"],.pw-tile.is-intro) { display: none !important; }
+html[data-aim-local] [data-role="pw-stage-intro"] > * { display: none !important; }
+html[data-aim-local] [data-role="pw-stage-intro"]::after {
+  content: var(--aim-local-community);
+  white-space: pre-line;
+  display: block;
+  padding: 80px 36px;
+  font-size: 23px;
+  line-height: 1.8;
+  color: var(--h-text);
+}
+html[data-aim-local] :is(.pw-stage,.pw-all,.pw-card,.pw-lock,.pw-tile,.pw-more) {
+  clip-path: none !important;
+  border-radius: 12px !important;
+}
+html[data-aim-local] :is(.pw-lock,.pw-more) {
+  background: var(--local-accent) !important;
+  color: var(--local-accent-ink) !important;
+  box-shadow: none !important;
+}
+html[data-aim-local] .pw-st-title { line-height: 1.4; font-size: 32px; }
+html[data-aim-local] :is(.pw-all,.pw-stage) :is(h1,h2,h3,h4) { font-style: normal !important; }
+html[data-aim-local] .pw-all h3 { font-size: 25px; line-height: 1.5; }
+html[data-aim-local] .pw-card h4 {
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+  white-space: normal !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  min-height: 48px;
+}
+html[data-aim-local] .pw-card-play {
+  opacity: 1 !important;
+  visibility: visible !important;
+  background: var(--local-accent) !important;
+  color: var(--local-accent-ink) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+html[data-aim-local] .al-studio-shell {
+  --h-accent: #65d6b0;
+  --h-accent-mid: #44b48e;
+  --h-accent-deep: #248967;
+  --h-bg: #10171c;
+  --h-panel: #172127;
+  --h-surface: #202c33;
+  --h-chrome: #141b20;
+  --h-chrome-2: #19242b;
+  --h-border: #34434c;
+  --al-studio-go: #65d6b0;
+}
+html[data-aim-local] .al-studio-shell :is([data-action="share-scene"],[data-action="my-cloud-scenes"],
+  [data-action="pw-manage"],.pwb) { display: none !important; }
+html[data-aim-local] .al-studio-shell :is(h1,h2,h3,h4,b,strong) { font-style: normal !important; }
+html[data-aim-local] .al-studio-topbar::after { display: none !important; }
+html[data-aim-local] .al-studio-topbar-lead { background: transparent !important; }
+html[data-aim-local] .al-studio-brand-mark > i {
+  color: var(--local-accent) !important;
+  background: transparent !important;
+  border: 1px solid var(--local-accent);
+  border-radius: 8px;
+  clip-path: none !important;
+}
+html[data-aim-local] :is(.al-studio-play,.al-studio-save) {
+  background: var(--local-accent) !important;
+  color: var(--local-accent-ink) !important;
+  border-color: transparent !important;
+}
+/* The local app has its own community; upstream polls and partner schedules require their private service. */
+[data-action="tab-poll"], [data-action="tab-haojiao"] { display: none !important; }

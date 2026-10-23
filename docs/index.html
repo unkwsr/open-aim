@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>open-aim</title>
+<meta name="description" content="Offline aim training on real VALORANT maps. Pre-aim the routes you actually play, then build your own drills.">
+<style>
+  :root { --bg: #0e1116; --text: #e9e6e0; --muted: #8d949c; --line: #1f252d; --red: #ff4655; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 17px/1.6 "Segoe UI", system-ui, sans-serif; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  img { width: 100%; display: block; border-radius: 6px; }
+  a { color: var(--text); }
+  .top { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; font-size: 15px; }
+  .top b { letter-spacing: .5px; }
+  .top a { color: var(--muted); text-decoration: none; }
+  h1 { font: 700 clamp(34px, 6vw, 56px)/1.1 Bahnschrift, "Segoe UI", sans-serif; letter-spacing: -.5px; margin: 56px 0 16px; max-width: 14ch; }
+  .lead { color: var(--muted); font-size: 19px; max-width: 46ch; margin: 0 0 28px; }
+  .get { display: inline-block; background: var(--red); color: #fff; text-decoration: none; font-weight: 600; padding: 12px 22px; border-radius: 6px; }
+  .note { color: var(--muted); font-size: 14px; margin: 12px 0 48px; }
+  section { padding: 72px 0 0; }
+  h2 { font: 700 26px/1.2 Bahnschrift, "Segoe UI", sans-serif; margin: 0 0 8px; }
+  section > p { color: var(--muted); max-width: 52ch; margin: 0 0 24px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+  .pair p { color: var(--muted); font-size: 15px; margin: 10px 0 0; }
+  .narrow { max-width: 420px; margin: 24px auto 0; }
+  footer { border-top: 1px solid var(--line); margin-top: 96px; padding: 24px 0 40px; color: var(--muted); font-size: 13px; }
+  @media (max-width: 700px) { .pair { grid-template-columns: 1fr; } h1 { margin-top: 32px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><b>open-aim</b><a href="https://github.com/unkwsr/open-aim">GitHub</a></div>
+
+  <h1>Aim training on the maps you actually play.</h1>
+  <p class="lead">99 offline drills on real VALORANT routes, plus a Studio to build your own.</p>
+  <a class="get" href="https://github.com/unkwsr/open-aim/releases/latest/download/AimTrainer-Setup.exe">Download for Windows</a>
+  <p class="note">Windows 10 or 11 · no account · no internet needed</p>
+
+  <img src="images/hero.jpg" alt="Pre-aiming three bots on the stairs in Haven">
+
+  <section>
+    <h2>Build your own drills</h2>
+    <p>Pick a map or an empty range, drop in bots, press play. Check it in 3D before you run it.</p>
+    <img src="images/studio-3d.png" alt="Studio: a Haven drill in 3D with peekers that flash before they swing">
+    <div class="pair">
+      <div><img src="images/studio-map.png" alt="Studio: placing peekers on the Haven map"><p>Lay it out on the real map.</p></div>
+      <div><img src="images/studio-build.png" alt="Studio: building cover with walls, stairs and a floor"><p>Or build your own spot.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Every shot counts</h2>
+    <p>Score, hit rate and a live shooting-error graph that tells aim mistakes from movement mistakes.</p>
+    <img src="images/drill-round.jpg" alt="A custom drill mid-round with score, hit rate and the shooting error graph">
+  </section>
+
+  <section>
+    <h2>Set it up like your game</h2>
+    <p>Video, viewmodel, flashes and outlines, with a live preview. Bring your sens over from other games.</p>
+    <div class="pair">
+      <div><img src="images/settings-video.png" alt="Video settings with a live training preview"><p>Video and latency.</p></div>
+      <div><img src="images/settings-range.png" alt="Training range settings"><p>Viewmodel, flashes, outlines.</p></div>
+    </div>
+    <div class="narrow"><img src="images/sens-tools.png" alt="Sensitivity tools"></div>
+  </section>
+
+  <footer>MIT licensed · by unkwsr · A personal project, not affiliated with or endorsed by Riot Games.</footer>
+</div>
+</body>
+</html>

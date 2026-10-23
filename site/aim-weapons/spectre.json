@@ -1,0 +1,1 @@
+{"source":"GN_MP5_S0_Skelmesh","attach":{"t":[-0.0,-0.2404,0.8989],"q":[0.5,-0.5,0.5,0.5]},"posScale":10,"uvMax":2,"parts":[{"name":"gun","texture":"spectre.gun.png","verts":6389,"tris":8062,"pos":0,"nrm":38336,"uv":76672,"idx":102228},{"name":"magazine","texture":"spectre.gun.png","verts":524,"tris":712,"pos":150600,"nrm":153744,"uv":156888,"idx":158984}]}

@@ -1,0 +1,1 @@
+{"source":"GN_Burst_S0_Skelmesh","attach":{"t":[-0.0,0.8899,3.445],"q":[0.5,-0.5,0.5,0.5]},"posScale":10,"uvMax":2,"parts":[{"name":"gun","texture":"bulldog.gun.png","verts":4112,"tris":4628,"pos":0,"nrm":24672,"uv":49344,"idx":65792},{"name":"magazine","texture":"bulldog.gun.png","verts":584,"tris":805,"pos":93560,"nrm":97064,"uv":100568,"idx":102904}]}

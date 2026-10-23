@@ -1,0 +1,1 @@
+import{a}from'./nORDbMcv.js';const e=[{'id':'DAY','label':'日榜'},{'id':'WEEK','label':'周榜'},{'id':'ALL','label':'总榜'}],o=a;function t(b){return!!b&&b!=='custom';}function l(b,c,d=o){return{'sceneCode':b,'window':c,'limit':d};}function D(b){return!Number['isFinite'](b)||b<=0x0?'—':b<0x400?b+'\x20B':(b/0x400)['toFixed'](0x1)+'\x20KB';}export{e as L,o as a,l as b,D as f,t as i};

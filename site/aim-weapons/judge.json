@@ -1,0 +1,1 @@
+{"source":"GN_AutoShotgun_S0_Skelmesh","attach":{"t":[0.0,-0.8261,0.098],"q":[0.5,-0.5,0.5,0.5]},"posScale":10,"uvMax":2,"parts":[{"name":"gun","texture":"judge.gun.png","verts":5844,"tris":6483,"pos":0,"nrm":35064,"uv":70128,"idx":93504},{"name":"magazine","texture":"judge.gun.png","verts":1674,"tris":1700,"pos":132404,"nrm":142448,"uv":152492,"idx":159188}]}

@@ -1,0 +1,873 @@
+/* Esports broadcast theme, injected on every page by main.js (after ui.css).
+   Near-black surfaces, one broadcast red, white, condensed uppercase headings
+   (Bahnschrift, built into Windows), sharp corners and slanted bars like a
+   tournament overlay.
+   The game themes itself through CSS variables (--h-*, --local-*, --wk-*, --aim-*)
+   set on html[data-aim-local] / .hall-root / .al-studio-shell, and its override
+   sheets use "html[data-aim-local] …" selectors with !important. This file
+   redefines those variables one step more specifically, and prefixes its own rules
+   with "html[data-aim-local]:not(#es) body" so they win. */
+
+:root {
+  --es-bg: #090b0f;
+  --es-panel: #10131a;
+  --es-raised: #171b23;
+  --es-raised-2: #1e232d;
+  --es-line: #272d39;
+  --es-line-2: #343b4a;
+  --es-text: #f4f5f7;
+  --es-soft: #d6d9df;
+  --es-muted: #9aa1ae;
+  --es-dim: #6b7280;
+  --es-red: #ff4655;
+  --es-red-2: #ff6b77;
+  --es-red-d: #c42f3c;
+  --es-red-wash: rgba(255, 70, 85, 0.14);
+  --es-green: #4ade80;
+  --es-head: "Bahnschrift", "Segoe UI", sans-serif;
+  --es-slant: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  --es-slant-sm: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+  --es-cut: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+}
+
+/* ---------- the game's own variables ---------- */
+:root[data-aim-local] {
+  --local-font: var(--es-head);
+  --local-accent: var(--es-red);
+  --local-accent-ink: #ffffff;
+  --aim-radius-sm: 0px;
+  --aim-radius-md: 0px;
+  --aim-radius-lg: 2px;
+  --aim-focus: var(--es-red-2);
+  --aim-difficulty: #ffd23f;
+}
+html[data-aim-local]:not(#es) body :is(.hall-root, .hall-portal, .al-studio-shell),
+html[data-aim-local]:not(#es) body :is(.hall-root, .hall-portal).hall-light {
+  --h-font: var(--es-head);
+  --h-bg: var(--es-bg);
+  --h-panel: var(--es-panel);
+  --h-surface: var(--es-raised);
+  --h-surface-soft: rgba(23, 27, 35, 0.6);
+  --h-chrome: #0c0e13;
+  --h-chrome-2: var(--es-panel);
+  --h-chrome-line: var(--es-line);
+  --h-topnav: #0c0e13;
+  --h-topnav-active: var(--es-red);
+  --h-border: var(--es-line);
+  --h-rule: var(--es-line-2);
+  --h-row-active: var(--es-raised-2);
+  --h-row-hover: var(--es-raised);
+  --h-text: var(--es-text);
+  --h-text-soft: var(--es-soft);
+  --h-text-muted: var(--es-muted);
+  --h-text-author: var(--es-soft);
+  --h-accent: var(--es-red);
+  --h-accent-mid: var(--es-red-d);
+  --h-accent-deep: #8f1f2a;
+  --h-danger: var(--es-red);
+  --h-tone-warm: var(--es-red);
+  --h-tone-cool: #ffffff;
+  --h-tone-deep: var(--es-red-2);
+  --al-studio-go: var(--es-red);
+}
+html[data-aim-local]:not(#es) body [class*="al-wk-"] { --wk-red: var(--es-red); }
+html[data-aim-local]:not(#es) body .al-wkb { --wkb-cyan: #ffffff; --wkb-red: var(--es-red); --wkb-num: var(--es-head); --wkb-hud: var(--es-head); }
+html[data-aim-local]:not(#es) body .al-wkr { --wkr-cyan: #ffffff; --wkr-red: var(--es-red); --wkr-teal: var(--es-green); --wkr-num: var(--es-head); --wkr-hud: var(--es-head); }
+html[data-aim-local]:not(#es) body :is(.pw, .pw-desk) { --pw-red: var(--es-red); --pw-cyan: var(--es-red-2); --pw-num: var(--es-head); --pw-hud: var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-hist-row.is-cy { --pw-tone: var(--es-red-2); }
+html[data-aim-local]:not(#es) body .rov { --rov-up: var(--es-red); --rov-card: var(--es-panel); --rov-line: var(--es-line); --rov-num: var(--es-head); }
+html[data-aim-local]:not(#es) body .al-tn { --al-tn-signal: var(--es-red); --al-tn-void: var(--es-bg); --al-tn-hull: var(--es-panel); --al-tn-plate: var(--es-raised); --al-tn-plate-hi: var(--es-raised-2); --al-tn-num: var(--es-head); --al-tn-cn: var(--es-head); }
+html[data-aim-local]:not(#es) body :is(.al-cloud-lb, .hall-lb) { --lb-num: var(--es-head); }
+
+/* ---------- base type ---------- */
+html[data-aim-local]:not(#es) body,
+html[data-aim-local]:not(#es) body *:not(svg):not(svg *):not(i):not([class*="icon"]):not(code):not(pre):not(kbd) {
+  font-family: var(--es-head) !important;
+}
+html[data-aim-local]:not(#es) body { background: var(--es-bg) !important; }
+::selection { background: var(--es-red); color: #fff; }
+* { scrollbar-color: var(--es-line-2) transparent; }
+
+html[data-aim-local]:not(#es) body :is(h1, h2, h3, .al-wk-hero-word, .al-wk-s-name, .hall-tab, .al-wk-chip, .al-wk-go, .al-wk-split-go, .hall-rail-quick, .hall-rail-cap, .hall-brand) {
+  font-stretch: 75% !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- lobby shell ---------- */
+html[data-aim-local]:not(#es) body .hall-topnav { background: #0c0e13 !important; border-bottom: 2px solid var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .hall-bottombar { background: #0c0e13 !important; border-top: 1px solid var(--es-line) !important; }
+
+html[data-aim-local]:not(#es) body .hall-tab {
+  background: transparent !important;
+  color: var(--es-muted) !important;
+  border-radius: 0 !important;
+  clip-path: var(--es-slant) !important;
+  padding-inline: 20px !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body .hall-tab:hover { background: var(--es-raised) !important; color: var(--es-text) !important; }
+html[data-aim-local]:not(#es) body .hall-tab.is-active { background: var(--es-red) !important; color: #fff !important; }
+
+html[data-aim-local]:not(#es) body :is(.hall-search, .aim-local-actions) { border-radius: 0 !important; }
+
+/* name only in the top-left (no logo), no donate card, no language button */
+html[data-aim-local]:not(#es) body .hall-brand > img { display: none !important; }
+html[data-aim-local]:not(#es) body .hall-brand::before { display: none !important; content: none !important; }
+html[data-aim-local]:not(#es) body :is(.aim-donate, .aim-locale-toggle) { display: none !important; }
+
+/* no left sidebar: its Quick start and items become top-bar buttons (lobby-bar.js) */
+html[data-aim-local]:not(#es) body .hall-rail { display: none !important; }
+html[data-aim-local]:not(#es) body .hall-topnav::after { display: none !important; }
+html[data-aim-local]:not(#es) body .hall-topnav .hall-brand { width: auto !important; padding: 0 22px 0 20px !important; }
+html[data-aim-local]:not(#es) body .es-bar { display: flex !important; align-items: center; gap: 4px; margin: 0 10px 0 auto !important; }
+html[data-aim-local]:not(#es) body .es-bar + .hall-topnav-right { margin-left: 0 !important; }
+html[data-aim-local]:not(#es) body :is(.es-bar-btn, .es-bar-quick) {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 12px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  font: 700 13px/1 var(--es-head) !important;
+  font-stretch: 75% !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body .es-bar-btn { background: transparent !important; color: var(--es-muted) !important; border-bottom: 2px solid transparent !important; }
+html[data-aim-local]:not(#es) body .es-bar-btn:hover { background: var(--es-raised) !important; color: #fff !important; }
+html[data-aim-local]:not(#es) body .es-bar-btn.is-on { color: #fff !important; border-bottom-color: var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .es-bar-btn svg { width: 16px; height: 16px; flex: none; }
+html[data-aim-local]:not(#es) body .es-bar-quick {
+  margin-left: 8px;
+  padding: 0 18px !important;
+  background: var(--es-red) !important;
+  color: #fff !important;
+  clip-path: var(--es-slant) !important;
+  font-weight: 800 !important;
+  font-style: italic;
+}
+html[data-aim-local]:not(#es) body .es-bar-quick:hover { background: var(--es-red-2) !important; }
+html[data-aim-local]:not(#es) body .es-bar-fps.is-on { color: #fff !important; border-bottom-color: var(--es-red) !important; }
+
+/* FPS meter (lobby-bar.js): bottom-right, above everything, never takes clicks */
+.es-fps {
+  position: fixed;
+  right: 14px;
+  bottom: 56px;
+  z-index: 2147483000;
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 6px;
+  align-items: baseline;
+  padding: 6px 12px 7px 10px;
+  pointer-events: none;
+  color: #fff;
+  background: rgba(9, 11, 15, 0.74);
+  backdrop-filter: blur(8px);
+  border-left: 3px solid #4ade80;
+  font-family: "Bahnschrift", "Segoe UI", sans-serif;
+  font-variant-numeric: tabular-nums;
+}
+.es-fps[data-tone="ok"] { border-left-color: #ffb84d; }
+.es-fps[data-tone="bad"] { border-left-color: #ff4655; }
+.es-fps b { font-size: 22px; font-weight: 700; line-height: 1; }
+.es-fps span { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #9aa1ae; }
+.es-fps small { grid-column: 1 / -1; margin-top: 2px; font-size: 11px; color: #c9ced6; white-space: nowrap; }
+/* "Back to Studio" (studio-launch.js): bottom-left of the lobby after playing a Studio drill */
+.es-studio-back {
+  position: fixed;
+  left: 16px;
+  bottom: 60px;
+  z-index: 2147482000;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 16px 0 12px;
+  border: none;
+  border-left: 3px solid #ff4655;
+  color: #fff;
+  background: rgba(9, 11, 15, 0.85);
+  backdrop-filter: blur(8px);
+  font: 700 13px "Bahnschrift", "Segoe UI", sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  animation: es-studio-back-in 0.25s ease-out;
+}
+.es-studio-back:hover { background: #ff4655; }
+@keyframes es-studio-back-in { from { opacity: 0; transform: translateX(-12px); } }
+/* Shooting error graph (shooting-error.js): right side during rounds, never takes clicks */
+.es-shotgraph {
+  position: fixed;
+  right: 16px;
+  top: 120px;
+  z-index: 2147483000;
+  width: 280px;
+  padding: 8px 10px 8px;
+  pointer-events: none;
+  color: #fff;
+  background: rgba(9, 11, 15, 0.74);
+  backdrop-filter: blur(8px);
+  border-left: 3px solid #ff4655;
+  font: 12px "Bahnschrift", "Segoe UI", sans-serif;
+}
+.es-shotgraph > b { display: block; margin-bottom: 4px; font-size: 12px; font-weight: 700; font-stretch: 75%; letter-spacing: 0.1em; text-transform: uppercase; color: #c9ced6; }
+.es-shotgraph canvas { display: block; width: 260px; height: 90px; }
+.es-shotgraph-text { margin-top: 4px; color: #d6d9df; font-variant-numeric: tabular-nums; }
+.es-shotgraph-text:empty { display: none; }
+.es-shotgraph-key { margin-top: 4px; font-size: 11px; color: #9aa1ae; }
+.es-shotgraph-key i { display: inline-block; width: 8px; height: 8px; margin: 0 4px 0 0; vertical-align: -1px; }
+.es-shotgraph-key i.f { background: #4ade80; }
+.es-shotgraph-key i.m { background: #ff4655; margin-left: 10px; }
+/* its row in Settings > Video > Stats */
+.es-shotgraph-setting { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.es-shotgraph-seg { display: flex; flex: none; }
+.es-shotgraph-seg button { height: 34px; padding: 0 12px; border: 1px solid #272d39; background: #171b23; color: #d6d9df; font: 700 13px "Bahnschrift", "Segoe UI", sans-serif; font-stretch: 75%; text-transform: uppercase; cursor: pointer; }
+.es-shotgraph-seg button + button { border-left: none; }
+.es-shotgraph-seg button:hover { color: #fff; background: #1e232d; }
+.es-shotgraph-seg button.is-on { background: #ff4655; border-color: #ff4655; color: #fff; }
+/* narrower windows: icons only (names stay in the tooltip) */
+@media (max-width: 1700px) {
+  html[data-aim-local]:not(#es) body .es-bar-btn span { display: none; }
+  html[data-aim-local]:not(#es) body .es-bar-btn { padding: 0 9px !important; }
+}
+
+/* ---------- hero ---------- */
+html[data-aim-local]:not(#es) body .al-wk-hero-art { border-radius: 0 !important; }
+html[data-aim-local]:not(#es) body .al-wk-hero-word { font-weight: 800 !important; font-style: italic; color: #fff !important; text-shadow: none !important; }
+html[data-aim-local]:not(#es) body .al-wk-hero-copy :is(h1, h2) { font-weight: 800 !important; font-style: italic; }
+html[data-aim-local]:not(#es) body .al-wk-feat {
+  background: rgba(9, 11, 15, 0.88) !important;
+  border-radius: 0 !important;
+  border: none !important;
+  border-left: 4px solid var(--es-red) !important;
+  clip-path: var(--es-cut) !important;
+}
+html[data-aim-local]:not(#es) body .al-wk-feat-why { color: var(--es-red-2) !important; font-weight: 700 !important; text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ---------- toolbar: map strip, filters, sort ---------- */
+html[data-aim-local]:not(#es) body .al-wk-tools { border-radius: 0 !important; border: none !important; border-top: 2px solid var(--es-red) !important; background: var(--es-panel) !important; }
+html[data-aim-local]:not(#es) body .al-wk-slice { border-radius: 0 !important; clip-path: var(--es-slant) !important; border: none !important; box-shadow: none !important; }
+html[data-aim-local]:not(#es) body .al-wk-slice.is-on { box-shadow: inset 0 -4px 0 var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .al-wk-s-name { font-weight: 700 !important; font-size: 17px !important; }
+
+html[data-aim-local]:not(#es) body :is(.al-wk-chip, .al-wk-toggle, .al-wk-paddle, .al-wk-sec-more, .al-wk-split-alt, .aim-vt-difficulty-sort, .al-wk-sort button) {
+  border-radius: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: 700 !important;
+  font-stretch: 75%;
+  text-transform: uppercase;
+}
+html[data-aim-local]:not(#es) body .al-wk-chip { clip-path: var(--es-slant-sm) !important; padding-inline: 14px !important; color: var(--es-muted) !important; }
+html[data-aim-local]:not(#es) body :is(.al-wk-chip.al-wk-on, .al-wk-toggle.is-on, .al-wk-sort button.is-on) { background: var(--es-red) !important; color: #fff !important; }
+html[data-aim-local]:not(#es) body :is(.al-wk-chip.al-wk-on, .al-wk-toggle.is-on, .al-wk-sort button.is-on) * { color: #fff !important; }
+
+html[data-aim-local]:not(#es) body .al-wk-sec-top :is(h2, h3) { font-weight: 800 !important; font-style: italic; }
+
+/* ---------- scenario cards ---------- */
+html[data-aim-local]:not(#es) body .al-wk-card {
+  border-radius: 0 !important;
+  border: 1px solid var(--es-line) !important;
+  border-bottom: 3px solid var(--es-line-2) !important;
+  background: var(--es-panel) !important;
+  clip-path: var(--es-cut) !important;
+  box-shadow: none !important;
+  transition: transform 0.12s, border-color 0.12s;
+}
+html[data-aim-local]:not(#es) body .al-wk-card:hover { transform: translateY(-2px); border-bottom-color: var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .al-wk-card :is(.al-wk-art, img) { border-radius: 0 !important; }
+html[data-aim-local]:not(#es) body .al-wk-card h3 { font-size: 19px !important; font-weight: 800 !important; line-height: 1.1 !important; font-stretch: 75%; text-transform: uppercase; }
+html[data-aim-local]:not(#es) body .al-wk-card-no { font-weight: 700 !important; letter-spacing: 0.08em; color: #fff !important; }
+html[data-aim-local]:not(#es) body .al-wk-tag { background: var(--es-red) !important; clip-path: var(--es-slant-sm) !important; padding-inline: 10px !important; border-radius: 0 !important; }
+html[data-aim-local]:not(#es) body .al-wk-tag * { color: #fff !important; }
+html[data-aim-local]:not(#es) body .al-wk-fav { border-radius: 0 !important; }
+html[data-aim-local]:not(#es) body .al-wk-type { color: var(--es-red-2) !important; font-weight: 700 !important; text-transform: uppercase; letter-spacing: 0.06em; }
+html[data-aim-local]:not(#es) body .aim-vt-card-difficulty { border-radius: 0 !important; clip-path: var(--es-slant-sm) !important; text-transform: uppercase; font-weight: 700 !important; }
+html[data-aim-local]:not(#es) body :is(.al-wk-holo, .al-wk-frame) { display: none !important; }
+
+/* primary actions */
+html[data-aim-local]:not(#es) body :is(.al-wk-go, .al-wk-split-go) {
+  background: var(--es-red) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 0 !important;
+  clip-path: var(--es-slant) !important;
+  padding-inline: 22px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em;
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body :is(.al-wk-go, .al-wk-split-go):hover { background: var(--es-red-2) !important; }
+html[data-aim-local]:not(#es) body :is(.al-wk-go, .al-wk-split-go) * { color: #fff !important; }
+
+/* ---------- every panel, row and control: square corners ---------- */
+html[data-aim-local]:not(#es) body :is(.hall-root, .hall-portal, .al-studio-shell, .pw, .rov, .al-tn, .al-stage-wrap, [class*="al-wk"]) :is(kbd,button, input, select, textarea, summary, .el-button, .el-input__wrapper, .el-select__wrapper,
+  [class*="-card"], [class*="-btn"], [class*="-panel"], [class*="-row"], [class*="-chip"], [class*="-box"], [class*="-tile"], [class*="-pill"], [class*="-badge"],
+  [class*="-field"], [class*="-menu"], [class*="-pop"], [class*="-dialog"], [class*="-modal"], [class*="-block"], [class*="-item"], [class*="-page"], [class*="-desc"],
+  [class*="-empty"], [class*="-guest"], [class*="-seg"], [class*="-stat"], [class*="-plays"], [class*="-switch"], [class*="-choice"], .rcal, .rcal-day, .hall-lb, .p1, .p2, .p3, .hall-sens) {
+  border-radius: 0 !important;
+}
+html[data-aim-local]:not(#es) body :is(.aim-locale-toggle, .aim-performance-button, .aim-account-button, .aim-donate-qr) { border-radius: 0 !important; }
+
+/* other red primary buttons: same slanted bar as Start */
+html[data-aim-local]:not(#es) body :is(.hall-ball-btn-primary, .rov-btn.is-primary, .al-studio-go, .el-button--primary, .el-button--danger) {
+  background: var(--es-red) !important;
+  border-color: var(--es-red) !important;
+  color: #fff !important;
+  border-radius: 0 !important;
+  clip-path: var(--es-slant) !important;
+  padding-inline: 22px !important;
+  font-weight: 800 !important;
+  font-stretch: 75%;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body :is(.hall-ball-btn-primary, .rov-btn.is-primary, .al-studio-go, .el-button--primary, .el-button--danger):hover { background: var(--es-red-2) !important; }
+html[data-aim-local]:not(#es) body :is(.hall-ball-btn-secondary, .rov-btn:not(.is-primary)) { font-stretch: 75%; text-transform: uppercase; font-weight: 700 !important; }
+
+/* section titles on the other tabs */
+html[data-aim-local]:not(#es) body :is(.hall-ball-title, .hall-ball-head h2, .rov h2, .rov h3, .hall-lb-head, .pw h2, .pw h3) {
+  font-stretch: 75% !important;
+  text-transform: uppercase !important;
+  font-weight: 800 !important;
+  font-style: italic;
+}
+html[data-aim-local]:not(#es) body .rov-card:has(.rov-btn.is-primary) { border-left: 4px solid var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .hall-ball-card.is-on { border-color: var(--es-red) !important; box-shadow: inset 0 -3px 0 var(--es-red) !important; }
+
+/* ---------- in round: HUD chips, start cue ---------- */
+html[data-aim-local]:not(#es) body .al-hud-chip {
+  background: rgba(9, 11, 15, 0.82) !important;
+  border: none !important;
+  border-top: 3px solid var(--es-red) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body .al-hud-chip :is(b, strong) { font-weight: 700 !important; font-size: 1.15em; letter-spacing: 0.02em; }
+html[data-aim-local]:not(#es) body .al-hud-chip :is(span, small, em) { text-transform: uppercase; font-stretch: 75%; letter-spacing: 0.06em; color: var(--es-muted) !important; }
+html[data-aim-local]:not(#es) body .al-scene-start-cue :is(h1, h2, strong, b) { font-stretch: 75% !important; text-transform: uppercase !important; font-weight: 800 !important; font-style: italic; letter-spacing: 0.03em; }
+html[data-aim-local]:not(#es) body .al-scene-start-cue :is(button, [class*="chip"], [class*="pill"]) { border-radius: 0 !important; }
+
+/* ---------- pause and Tab menus (overrides ui.css cards) ---------- */
+html[data-aim-local]:not(#es) body :is(.al-pause-lite-body, .al-pause-id, .al-pause-acts) {
+  background: rgba(9, 11, 15, 0.94) !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55) !important;
+}
+html[data-aim-local]:not(#es) body :is(.al-pause-lite-body, .al-pause-id) { border-top: 4px solid var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .al-pause-acts { border-top: 1px solid var(--es-line) !important; clip-path: var(--es-cut) !important; }
+html[data-aim-local]:not(#es) body .al-pause-lite-body { clip-path: var(--es-cut) !important; }
+html[data-aim-local]:not(#es) body .al-pause-lite-body h2 {
+  color: #fff !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  font-style: italic;
+  font-stretch: 75% !important;
+  letter-spacing: 0.04em !important;
+}
+html[data-aim-local]:not(#es) body .al-pause-id h1 { font-size: 20px !important; font-weight: 800 !important; font-stretch: 75% !important; text-transform: uppercase !important; font-style: italic; }
+html[data-aim-local]:not(#es) body .al-pause-act {
+  border-radius: 0 !important;
+  border-left: 3px solid transparent !important;
+  font-weight: 700 !important;
+  font-stretch: 75% !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.03em;
+  font-size: 15px !important;
+}
+html[data-aim-local]:not(#es) body .al-pause-act:not(.is-primary):hover { border-left-color: var(--es-red) !important; background: var(--es-raised) !important; }
+html[data-aim-local]:not(#es) body .al-pause-act.is-primary {
+  border-left: none !important;
+  clip-path: var(--es-slant) !important;
+  box-shadow: none !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  font-style: italic;
+}
+html[data-aim-local]:not(#es) body .al-pause-act.is-exit { border-radius: 0 !important; color: var(--es-red-2) !important; border-top: 1px solid var(--es-line) !important; }
+html[data-aim-local]:not(#es) body :is(.al-pause-act kbd, .al-pause-act-key, .al-pause-timer-state) {
+  border-radius: 0 !important;
+  background: var(--es-raised-2) !important;
+  border: 1px solid var(--es-line-2) !important;
+  font-family: var(--es-head) !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+}
+html[data-aim-local]:not(#es) body .al-pause-sens-field { border-radius: 0 !important; }
+
+/* pre-aim aids sheet and the "back to lobby" button in a round */
+html[data-aim-local]:not(#es) body .al-aim-aids-sheet {
+  background: rgba(9, 11, 15, 0.96) !important;
+  border: none !important;
+  border-top: 4px solid var(--es-red) !important;
+  border-radius: 0 !important;
+  clip-path: var(--es-cut) !important;
+}
+html[data-aim-local]:not(#es) body .al-aim-aids-sheet :is(h2, h3) { font-stretch: 75% !important; text-transform: uppercase !important; font-weight: 800 !important; font-style: italic; font-size: 22px !important; }
+html[data-aim-local]:not(#es) body .al-aim-aids-row { border-radius: 0 !important; border-left: 3px solid transparent !important; }
+html[data-aim-local]:not(#es) body .al-aim-aids-row:hover { border-left-color: var(--es-red) !important; background: var(--es-raised) !important; }
+html[data-aim-local]:not(#es) body .al-aim-aids-done { background: var(--es-red) !important; color: #fff !important; border: none !important; border-radius: 0 !important; clip-path: var(--es-slant) !important; padding-inline: 22px !important; font-weight: 800 !important; text-transform: uppercase; font-stretch: 75%; }
+html[data-aim-local]:not(#es) body .hall-train-exit { border-radius: 0 !important; clip-path: var(--es-slant-sm) !important; border: none !important; border-left: 3px solid var(--es-red) !important; text-transform: uppercase; font-stretch: 75%; font-weight: 700 !important; padding-inline: 16px !important; }
+html[data-aim-local]:not(#es) body .al-aimlab-root { --cyan: var(--es-red-2); --red: var(--es-red); }
+
+/* ---------- round results dialog ---------- */
+html[data-aim-local]:not(#es) body .al-result-modal { border-radius: 0 !important; border-top: 4px solid var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .al-result-modal :is(h1, h2) { font-stretch: 75% !important; text-transform: uppercase !important; font-weight: 800 !important; font-style: italic; }
+html[data-aim-local]:not(#es) body .al-result-verdict > :first-child { border-radius: 0 !important; font-stretch: 75%; text-transform: uppercase; font-style: italic; font-weight: 800 !important; }
+html[data-aim-local]:not(#es) body .al-ps-chip { color: var(--es-red-2) !important; border-color: rgba(255, 70, 85, 0.5) !important; border-radius: 0 !important; }
+html[data-aim-local]:not(#es) body .al-result-modal button:not([class]) { color: var(--es-red-2) !important; border-color: rgba(255, 70, 85, 0.4) !important; border-radius: 0 !important; }
+html[data-aim-local]:not(#es) body .al-run-trend-score { stroke: var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .al-run-trend-best { stroke: rgba(255, 255, 255, 0.45) !important; }
+html[data-aim-local]:not(#es) body .al-run-trend-area-top { stop-color: var(--es-red) !important; }
+html[data-aim-local]:not(#es) body circle.al-run-trend-dot { fill: var(--es-red) !important; }
+html[data-aim-local]:not(#es) body :is(.al-primary-btn, .al-secondary-btn) {
+  border-radius: 0 !important;
+  clip-path: var(--es-slant) !important;
+  padding-inline: 26px !important;
+  font-weight: 800 !important;
+  font-stretch: 75% !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em;
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body .al-primary-btn { background: var(--es-red) !important; color: #fff !important; border: none !important; font-style: italic; }
+html[data-aim-local]:not(#es) body .al-primary-btn:hover { background: var(--es-red-2) !important; }
+html[data-aim-local]:not(#es) body .al-secondary-btn { background: var(--es-raised-2) !important; border: none !important; }
+html[data-aim-local]:not(#es) body :is(.al-wk-new, .al-wk-s-new) { background: var(--es-red) !important; color: #fff !important; border-radius: 0 !important; clip-path: var(--es-slant-sm) !important; padding-inline: 8px !important; }
+
+/* ---------- studio top bar ---------- */
+html[data-aim-local]:not(#es) body .al-studio-play {
+  background: var(--es-red) !important; color: #fff !important; border: none !important; border-radius: 0 !important;
+  clip-path: var(--es-slant) !important; padding-inline: 24px !important; font-weight: 800 !important; font-style: italic;
+  font-stretch: 75% !important; text-transform: uppercase !important; letter-spacing: 0.04em; box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body :is(.al-studio-guide, .aw-launch, .al-studio-save, .al-studio-cbtn, .al-studio-scene-btn, .al-studio-iconbtn, .al-studio-back) {
+  border-radius: 0 !important; box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body :is(.al-studio-guide, .aw-launch) {
+  background: transparent !important; color: var(--es-text) !important; border: 1px solid var(--es-line-2) !important;
+  clip-path: var(--es-slant) !important; padding-inline: 18px !important; font-weight: 700 !important; font-stretch: 75% !important; text-transform: uppercase !important;
+}
+html[data-aim-local]:not(#es) body :is(.al-studio-guide, .aw-launch):hover { background: var(--es-raised) !important; border-color: var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .al-studio-save { background: var(--es-raised-2) !important; color: #fff !important; border: none !important; border-left: 3px solid var(--es-red) !important; font-weight: 700 !important; text-transform: uppercase; font-stretch: 75%; }
+
+/* ---------- guided editor panel ---------- */
+html[data-aim-local]:not(#es) body .gw-panel { background: var(--es-panel) !important; border-radius: 0 !important; border-right: 1px solid var(--es-line) !important; }
+html[data-aim-local]:not(#es) body .gw-head { border-top: 3px solid var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .gw-head :is(b, strong, h2, h3, .gw-brand) { font-stretch: 75% !important; text-transform: uppercase !important; font-weight: 800 !important; font-style: italic; }
+html[data-aim-local]:not(#es) body .gw-tab { border-radius: 0 !important; clip-path: var(--es-slant-sm) !important; padding-inline: 10px !important; font-weight: 700 !important; font-stretch: 75% !important; text-transform: uppercase !important; }
+html[data-aim-local]:not(#es) body .gw-tab.is-on { background: var(--es-red) !important; color: #fff !important; }
+html[data-aim-local]:not(#es) body .gw-tab.is-on * { color: #fff !important; background-color: transparent !important; }
+html[data-aim-local]:not(#es) body .gw-section > :is(h2, h3, h4, b, strong):first-child { font-stretch: 75% !important; text-transform: uppercase !important; font-weight: 800 !important; font-style: italic; letter-spacing: 0.03em; }
+html[data-aim-local]:not(#es) body :is(.gw-card, .gw-item, .gw-look, .gw-input, .gw-pill, .gw-thumb, .gw-status, .gw-pick-banner, .gw-swatch, .gw-color, .gw-toggle, .gw-switch, .gw-tune, .gw-icon) { border-radius: 0 !important; }
+html[data-aim-local]:not(#es) body :is(.gw-card, .gw-item, .gw-look) { border-left: 3px solid transparent !important; }
+html[data-aim-local]:not(#es) body :is(.gw-card, .gw-item, .gw-look):hover { border-left-color: var(--es-red) !important; }
+html[data-aim-local]:not(#es) body :is(.gw-card, .gw-item, .gw-look, .gw-color).is-on { border-color: var(--es-red) !important; box-shadow: inset 0 0 0 1px var(--es-red) !important; background: var(--es-red-wash) !important; }
+html[data-aim-local]:not(#es) body .gw-card-title { font-stretch: 75% !important; text-transform: uppercase !important; font-weight: 800 !important; font-size: 15px !important; }
+html[data-aim-local]:not(#es) body .gw-btn { border-radius: 0 !important; font-weight: 700 !important; font-stretch: 75% !important; text-transform: uppercase !important; letter-spacing: 0.03em; }
+html[data-aim-local]:not(#es) body :is(.gw-btn-primary, .gw-btn-live) { background: var(--es-red) !important; color: #fff !important; border: none !important; clip-path: var(--es-slant) !important; padding-inline: 20px !important; font-weight: 800 !important; font-style: italic; }
+html[data-aim-local]:not(#es) body .gw-btn-ghost { clip-path: var(--es-slant-sm) !important; }
+html[data-aim-local]:not(#es) body .gw-foot { border-top: 1px solid var(--es-line) !important; }
+html[data-aim-local]:not(#es) body .al-studio-step-input { color: var(--es-red-2) !important; }
+
+/* ================= motion and glass ================= */
+:root {
+  --es-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --es-spring: cubic-bezier(0.2, 0.9, 0.2, 1.15);
+  --es-glass: rgba(14, 17, 23, 0.58);
+  --es-glass-edge: rgba(255, 255, 255, 0.12);
+}
+@keyframes es-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes es-pop { from { opacity: 0; transform: translateY(14px) scale(0.96); } to { opacity: 1; transform: none; } }
+
+/* smooth wheel scrolling is done by lobby-bar.js; the paged card rows glide */
+html[data-aim-local]:not(#es) body .al-wk-pages { scroll-behavior: smooth; }
+
+/* glass top bar: the lobby scrolls underneath it */
+html[data-aim-local]:not(#es) body .hall-root { position: relative; }
+html[data-aim-local]:not(#es) body .hall-topnav {
+  position: absolute !important;
+  inset: 0 0 auto 0;
+  background: rgba(12, 14, 19, 0.72) !important;
+  backdrop-filter: blur(22px) saturate(1.5);
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body .hall-body { padding-top: 64px; }
+html[data-aim-local]:not(#es) body .hall-board.is-bleed { margin-top: -64px; }
+html[data-aim-local]:not(#es) body .hall-board.is-bleed > .hall-board-body { padding-top: 64px !important; scroll-padding-top: 64px; }
+
+/* tab pages fade and slide up when they open */
+html[data-aim-local]:not(#es) body .hall-board-body > * { animation: es-rise 0.35s var(--es-ease) both; }
+
+/* top-bar tabs: the red highlight slides between them (lobby-bar.js moves .es-tab-glide) */
+html[data-aim-local]:not(#es) body .hall-tabs { position: relative; }
+html[data-aim-local]:not(#es) body .hall-tabs.has-glide .hall-tab.is-active { background: transparent !important; }
+html[data-aim-local]:not(#es) body .hall-tab { transition: color 0.2s, background-color 0.2s; z-index: 1; }
+html[data-aim-local]:not(#es) body .es-tab-glide {
+  position: absolute;
+  top: 11px;
+  height: 40px;
+  background: var(--es-red);
+  clip-path: var(--es-slant);
+  pointer-events: none;
+  transition: left 0.34s var(--es-spring), width 0.34s var(--es-spring);
+}
+
+/* cards: lift, picture zoom, one light sweep; staggered entrance */
+html[data-aim-local]:not(#es) body :is(.al-wk-card, .hall-ball-card, .pw-card) {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.22s var(--es-ease), border-color 0.2s !important;
+}
+html[data-aim-local]:not(#es) body :is(.al-wk-card, .hall-ball-card, .pw-card):hover { transform: translateY(-4px) !important; }
+html[data-aim-local]:not(#es) body :is(.al-wk-card, .hall-ball-card, .pw-card):active { transform: translateY(-1px) scale(0.985) !important; }
+html[data-aim-local]:not(#es) body :is(.al-wk-card, .pw-card) img { transition: transform 0.45s var(--es-ease) !important; }
+html[data-aim-local]:not(#es) body :is(.al-wk-card, .pw-card):hover img { transform: scale(1.07) !important; }
+html[data-aim-local]:not(#es) body :is(.al-wk-card, .hall-ball-card, .pw-card)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 35%, rgba(255, 255, 255, 0.16) 50%, transparent 65%);
+  transform: translateX(-120%);
+}
+html[data-aim-local]:not(#es) body :is(.al-wk-card, .hall-ball-card, .pw-card):hover::after { transform: translateX(120%); transition: transform 0.65s ease; }
+html[data-aim-local]:not(#es) body .al-wk-grid > .al-wk-card { animation: es-rise 0.4s var(--es-ease) both; }
+html[data-aim-local]:not(#es) body .al-wk-grid > .al-wk-card:nth-child(2) { animation-delay: 40ms; }
+html[data-aim-local]:not(#es) body .al-wk-grid > .al-wk-card:nth-child(3) { animation-delay: 80ms; }
+html[data-aim-local]:not(#es) body .al-wk-grid > .al-wk-card:nth-child(4) { animation-delay: 120ms; }
+html[data-aim-local]:not(#es) body .al-wk-grid > .al-wk-card:nth-child(5) { animation-delay: 160ms; }
+html[data-aim-local]:not(#es) body .al-wk-grid > .al-wk-card:nth-child(6) { animation-delay: 200ms; }
+html[data-aim-local]:not(#es) body .al-wk-grid > .al-wk-card:nth-child(n + 7) { animation-delay: 240ms; }
+
+/* buttons: press feedback and a light sweep on the red ones */
+html[data-aim-local]:not(#es) body :is(button, .el-button, a.hall-rail-item) { transition: background-color 0.18s, color 0.18s, border-color 0.18s, transform 0.12s; }
+html[data-aim-local]:not(#es) body :is(button, .el-button):active { transform: scale(0.97); }
+html[data-aim-local]:not(#es) body :is(.al-wk-go, .al-wk-split-go, .es-bar-quick, .al-primary-btn, .hall-ball-btn-primary, .rov-btn.is-primary, .al-studio-play, .gw-btn-primary) { position: relative; overflow: hidden; }
+html[data-aim-local]:not(#es) body :is(.al-wk-go, .al-wk-split-go, .es-bar-quick, .al-primary-btn, .hall-ball-btn-primary, .rov-btn.is-primary, .al-studio-play, .gw-btn-primary)::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.32) 50%, transparent 70%);
+  transform: translateX(-120%);
+}
+html[data-aim-local]:not(#es) body :is(.al-wk-go, .al-wk-split-go, .es-bar-quick, .al-primary-btn, .hall-ball-btn-primary, .rov-btn.is-primary, .al-studio-play, .gw-btn-primary):hover::after { transform: translateX(120%); transition: transform 0.6s ease; }
+
+/* selected chips, toggles and sort: frosted red glass instead of a flat fill */
+html[data-aim-local]:not(#es) body :is(.al-wk-chip, .al-wk-toggle, .al-wk-sort button, .gw-tab) { transition: background-color 0.25s, color 0.2s, box-shadow 0.25s !important; }
+html[data-aim-local]:not(#es) body :is(.al-wk-chip.al-wk-on, .al-wk-toggle.is-on, .al-wk-sort button.is-on) {
+  background: rgba(255, 70, 85, 0.3) !important;
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 0 1px rgba(255, 107, 119, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+/* glass panels: menus, dialogs, results, pre-aim sheet, guided editor */
+html[data-aim-local]:not(#es) body :is(.al-pause-lite-body, .al-pause-id, .al-pause-acts, .al-aim-aids-sheet, .al-result-modal, .el-dialog, .el-popper, .el-dropdown-menu, .el-select-dropdown) {
+  background: var(--es-glass) !important;
+  backdrop-filter: blur(20px) saturate(1.5) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+html[data-aim-local]:not(#es) body :is(.al-pause-lite-body, .al-pause-id, .al-pause-acts, .al-aim-aids-sheet) { outline: 1px solid var(--es-glass-edge); outline-offset: -1px; }
+html[data-aim-local]:not(#es) body :is(.al-pause-lite-body, .al-pause-id, .al-aim-aids-sheet) { animation: es-pop 0.3s var(--es-spring) both !important; }
+html[data-aim-local]:not(#es) body .al-pause-act { transition: background-color 0.15s, border-color 0.15s, padding-left 0.15s !important; }
+html[data-aim-local]:not(#es) body .al-pause-act:not(.is-primary):hover { padding-left: 16px !important; }
+html[data-aim-local]:not(#es) body .gw-panel { background: rgba(16, 19, 26, 0.78) !important; backdrop-filter: blur(16px) saturate(1.3); }
+
+/* keyboard focus: red ring */
+html[data-aim-local]:not(#es) body :is(button, a, input, select, [tabindex]):focus-visible { outline: 2px solid var(--es-red) !important; outline-offset: 2px; }
+
+
+
+html[data-aim-local]:not(#es) body :is(.al-wk-go, .al-wk-split-go) { white-space: nowrap !important; }
+
+/* ================= end of round: verdict splash, then results ================= */
+/* The game shows a big verdict word over the screen, then brings the results in.
+   Restyled: a slanted broadcast banner that punches in and wipes away, a red
+   flash at the screen edges when you die, then the results glide up. */
+@keyframes es-result-in {
+  from { visibility: hidden; opacity: 0; transform: translateY(26px) scale(0.97); }
+  to { visibility: visible; opacity: 1; transform: none; }
+}
+@keyframes es-splash {
+  0% { opacity: 0; transform: scale(1.5) skewX(-8deg); filter: blur(10px); }
+  14% { opacity: 1; transform: scale(1) skewX(-8deg); filter: blur(0); }
+  70% { opacity: 1; transform: scale(0.98) skewX(-8deg); }
+  100% { visibility: hidden; opacity: 0; transform: translateX(-60px) scale(0.96) skewX(-8deg); }
+}
+@keyframes es-splash-band {
+  0% { transform: scaleX(0); opacity: 1; }
+  18% { transform: scaleX(1); opacity: 1; }
+  72% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1) translateX(30%); opacity: 0; }
+}
+@keyframes es-splash-edge {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  100% { opacity: 0; }
+}
+html[data-aim-local]:not(#es) body .al-result-modal { animation: es-result-in 0.4s var(--es-spring) both !important; }
+html[data-aim-local]:not(#es) body .al-result-modal.has-verdict-splash { animation: es-result-in 0.42s var(--es-spring) 1.15s both !important; }
+html[data-aim-local]:not(#es) body .al-result-verdict-splash.is-died { --verdict: var(--es-red); }
+html[data-aim-local]:not(#es) body .al-result-verdict-splash.is-cleared { --verdict: var(--es-green); }
+html[data-aim-local]:not(#es) body .al-result-verdict-splash.is-time { --verdict: #ffb84d; }
+html[data-aim-local]:not(#es) body .al-result-verdict-splash {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 50 !important;
+  gap: 10px !important;
+  animation: es-splash-edge 1.5s ease-out both !important;
+}
+/* full-width band behind the word */
+html[data-aim-local]:not(#es) body .al-result-verdict-splash::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 190px;
+  margin-top: -110px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--verdict) 26%, rgba(9, 11, 15, 0.85)) 18%, color-mix(in srgb, var(--verdict) 26%, rgba(9, 11, 15, 0.85)) 82%, transparent);
+  border-top: 2px solid var(--verdict);
+  border-bottom: 2px solid var(--verdict);
+  transform-origin: left center;
+  animation: es-splash-band 1.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+/* red pulse at the screen edges when you die */
+html[data-aim-local]:not(#es) body .al-result-verdict-splash.is-died::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 220px 40px rgba(255, 70, 85, 0.5);
+  animation: es-splash-edge 1.2s ease-out both;
+}
+html[data-aim-local]:not(#es) body .al-result-verdict-splash b {
+  position: relative;
+  z-index: 1;
+  padding: 0 !important;
+  font: 800 italic clamp(72px, 9vw, 140px)/1 var(--es-head) !important;
+  font-stretch: 75% !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+  color: #fff !important;
+  text-shadow: 0 0 40px color-mix(in srgb, var(--verdict) 70%, transparent), 0 6px 30px rgba(0, 0, 0, 0.6) !important;
+  animation: es-splash 1.35s cubic-bezier(0.2, 0.8, 0.2, 1) both !important;
+}
+html[data-aim-local]:not(#es) body .al-result-verdict-splash span {
+  position: relative;
+  z-index: 1;
+  font: 700 18px/1.2 var(--es-head) !important;
+  font-stretch: 75% !important;
+  text-transform: uppercase;
+  letter-spacing: 0.12em !important;
+  color: var(--verdict) !important;
+  animation: es-splash 1.35s 0.06s cubic-bezier(0.2, 0.8, 0.2, 1) both !important;
+}
+/* ================= "moment" finale (end of a Scenarios task: win, death or time) =================
+   The original drew a white grid over the whole screen and stamped the verdict with
+   a scale bounce. Here: a smooth dark fade (no grid, no live blur over the 3D view),
+   the verdict slides in on a slanted bar, and everything else fades up in sequence
+   using only transform/opacity so it stays smooth while the game keeps rendering. */
+@keyframes es-mr-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes es-mr-slide { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: none; } }
+@keyframes es-mr-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes es-mr-shade { from { opacity: 0; } to { opacity: 1; } }
+html[data-aim-local]:not(#es) body .al-mr {
+  --mr-teal: var(--es-green);
+  --mr-red: var(--es-red);
+  --mr-gold: #ffcf5a;
+  font-family: var(--es-head) !important;
+}
+html[data-aim-local]:not(#es) body .al-mr-shade {
+  background: linear-gradient(90deg, rgba(9, 11, 15, 0.94) 0%, rgba(9, 11, 15, 0.86) 50%, rgba(9, 11, 15, 0.6) 100%) !important;
+  animation: es-mr-shade 0.35s ease-out both;
+}
+html[data-aim-local]:not(#es) body .al-mr-head { animation: es-mr-in 0.4s var(--es-ease) both; }
+html[data-aim-local]:not(#es) body .al-mr-head p { text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; color: var(--es-red-2) !important; }
+html[data-aim-local]:not(#es) body .al-mr-head h1 { font-weight: 800 !important; font-style: italic; font-stretch: 75% !important; text-transform: uppercase !important; letter-spacing: 0.02em !important; }
+html[data-aim-local]:not(#es) body .al-mr-verdict { animation: es-mr-slide 0.45s 0.08s var(--es-ease) both; }
+html[data-aim-local]:not(#es) body .al-mr-verdict b {
+  position: relative;
+  padding: 6px 22px 8px;
+  font: 800 italic 54px/1 var(--es-head) !important;
+  font-stretch: 75% !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em !important;
+  color: #fff !important;
+  isolation: isolate;
+  animation: none !important;
+}
+html[data-aim-local]:not(#es) body .al-mr-verdict b::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--es-red);
+  clip-path: var(--es-slant);
+  transform-origin: left center;
+  animation: es-mr-bar 0.35s 0.08s var(--es-ease) both;
+}
+html[data-aim-local]:not(#es) body .al-mr.is-pass .al-mr-verdict b::before { background: #1fa463; }
+html[data-aim-local]:not(#es) body .al-mr.is-time .al-mr-verdict b::before { background: #c98a1c; }
+html[data-aim-local]:not(#es) body .al-mr-verdict span { font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; animation: es-mr-in 0.35s 0.2s var(--es-ease) both !important; }
+html[data-aim-local]:not(#es) body .al-mr-clock { animation: es-mr-in 0.45s 0.18s var(--es-ease) both; }
+html[data-aim-local]:not(#es) body .al-mr-big { font: 700 180px/0.86 var(--es-head) !important; font-stretch: 75% !important; font-variant-numeric: tabular-nums; }
+html[data-aim-local]:not(#es) body .al-mr-big small { font: 700 48px var(--es-head) !important; font-stretch: 75% !important; }
+html[data-aim-local]:not(#es) body :is(.al-mr-bar, .al-mr-fill, .al-mr-pips i, .al-mr-chip, .al-mr-hs, .al-mr-tag, .al-mr-rank-say button) { border-radius: 0 !important; }
+html[data-aim-local]:not(#es) body :is(.al-mr-ts, .al-mr-stats b, .al-mr-chip, .al-mr-rank-up) { font-family: var(--es-head) !important; font-variant-numeric: tabular-nums; }
+html[data-aim-local]:not(#es) body .al-mr-stars svg.is-on { animation: es-mr-in 0.4s var(--es-ease) both !important; }
+html[data-aim-local]:not(#es) body .al-mr-stars svg.is-on:nth-child(2) { animation-delay: 0.08s !important; }
+html[data-aim-local]:not(#es) body .al-mr-stars svg.is-on:nth-child(3) { animation-delay: 0.16s !important; }
+html[data-aim-local]:not(#es) body .al-mr-feed { animation: es-mr-in 0.45s 0.26s var(--es-ease) both; }
+html[data-aim-local]:not(#es) body .al-mr-feed h3 { text-transform: uppercase; letter-spacing: 0.1em; }
+html[data-aim-local]:not(#es) body .al-mr-row { animation: es-mr-slide 0.4s var(--es-ease) both !important; }
+html[data-aim-local]:not(#es) body .al-mr-row.is-dead { background: linear-gradient(90deg, rgba(255, 70, 85, 0.85), rgba(255, 70, 85, 0.35)) !important; }
+html[data-aim-local]:not(#es) body .al-mr-stats { border-top-color: var(--es-line-2) !important; animation: es-mr-in 0.45s 0.34s var(--es-ease) both; }
+html[data-aim-local]:not(#es) body .al-mr-stats span { text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px !important; }
+html[data-aim-local]:not(#es) body .al-mr-acts button { border-radius: 0 !important; clip-path: var(--es-slant); font-weight: 800 !important; font-stretch: 75%; text-transform: uppercase; }
+
+/* first ~2 s of a Scenarios ending: "Round won / lost" banner over the game.
+   The original backdrop-blurred the live game (bright halo at the screen edges and
+   a heavy blur every frame) and animated letter-spacing (re-layout every frame).
+   Now: a plain dark tint, and the title punches in with transform/opacity only. */
+@keyframes es-mf-title { from { opacity: 0; transform: translateY(12px) scale(1.12) skewX(-8deg); } to { opacity: 1; transform: skewX(-8deg); } }
+html[data-aim-local]:not(#es) body .al-mf { --mf-c: var(--es-green); }
+html[data-aim-local]:not(#es) body .al-mf.is-loss { --mf-c: var(--es-red); }
+html[data-aim-local]:not(#es) body .al-mf-backdrop {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background: rgba(9, 11, 15, 0.35) !important;
+  transition: background-color 0.35s ease !important;
+}
+html[data-aim-local]:not(#es) body .al-mf.is-result .al-mf-backdrop { background: rgba(9, 11, 15, 0.94) !important; }
+html[data-aim-local]:not(#es) body .al-mf-band {
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--mf-c) 22%, rgba(9, 11, 15, 0.88)) 20% 80%, transparent) !important;
+  border-top: 2px solid color-mix(in srgb, var(--mf-c) 70%, transparent);
+  border-bottom: 2px solid color-mix(in srgb, var(--mf-c) 70%, transparent);
+}
+html[data-aim-local]:not(#es) body .al-mf-title {
+  margin-right: 0 !important;
+  font: 800 italic 92px/1 var(--es-head) !important;
+  font-stretch: 75% !important;
+  text-transform: uppercase;
+  letter-spacing: 0.04em !important;
+  color: #fff !important;
+  text-shadow: 0 0 30px color-mix(in srgb, var(--mf-c) 60%, transparent) !important;
+  animation: es-mf-title 0.4s var(--es-ease) both !important;
+}
+html[data-aim-local]:not(#es) body .al-mf-line { height: 3px !important; }
+html[data-aim-local]:not(#es) body .al-mf-line::after { display: none !important; }
+html[data-aim-local]:not(#es) body .al-mf-sub {
+  font: 700 22px/1 var(--es-head) !important;
+  font-stretch: 75% !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--mf-c) !important;
+}
+/* finale: the bots map card overlapped "My best"; move that line to the empty top-right */
+html[data-aim-local]:not(#es) body .al-mr .al-mr-best { top: 140px !important; }
+/* at round end the game shrinks the 3D view a little; the light-gray container
+   behind it showed as a bright frame around the screen */
+html[data-aim-local]:not(#es) body .al-trainer-shell { background: var(--es-bg) !important; }
+
+/* ================= player tools panels (player-tools.js): Backups, Sens tools ================= */
+@keyframes es-tool-in { from { opacity: 0; transform: translateY(18px) scale(0.97); } to { opacity: 1; transform: none; } }
+.es-tool-shade {
+  position: fixed;
+  inset: 0;
+  z-index: 2147482000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(5, 7, 10, 0.55);
+  animation: es-mr-shade 0.2s ease-out both;
+}
+.es-tool {
+  width: min(620px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow: auto;
+  color: #f4f5f7;
+  background: rgba(14, 17, 23, 0.86);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border-top: 4px solid #ff4655;
+  outline: 1px solid rgba(255, 255, 255, 0.1);
+  outline-offset: -1px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  font-family: "Bahnschrift", "Segoe UI", sans-serif;
+  animation: es-tool-in 0.32s cubic-bezier(0.2, 0.9, 0.2, 1.15) both;
+  scrollbar-width: thin;
+  scrollbar-color: #343b4a transparent;
+}
+.es-tool-head { display: flex; gap: 16px; align-items: flex-start; justify-content: space-between; padding: 18px 20px 10px; }
+.es-tool-head h2 { margin: 0; font-size: 26px; font-weight: 800; font-style: italic; font-stretch: 75%; text-transform: uppercase; letter-spacing: 0.03em; }
+.es-tool-head p { margin: 6px 0 0; font-size: 13px; line-height: 1.5; color: #9aa1ae; }
+.es-tool-x { flex: none; width: 32px; height: 32px; color: #9aa1ae; cursor: pointer; background: transparent; border: 1px solid #343b4a; font-size: 14px; }
+.es-tool-x:hover { color: #fff; border-color: #ff4655; }
+.es-tool-body { padding: 6px 20px 20px; }
+.es-tool-body h3 { margin: 18px 0 8px; font-size: 14px; font-weight: 700; font-stretch: 75%; text-transform: uppercase; letter-spacing: 0.1em; color: #ff6b77; }
+.es-tool-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 4px; }
+.es-tool button:not(.es-tool-x) {
+  height: 34px;
+  padding: 0 14px;
+  color: #f4f5f7;
+  cursor: pointer;
+  background: #1e232d;
+  border: none;
+  border-left: 3px solid transparent;
+  font: 700 13px "Bahnschrift", sans-serif;
+  font-stretch: 75%;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.es-tool button:not(.es-tool-x):hover { background: #272d39; border-left-color: #ff4655; }
+.es-tool button.es-tool-primary { background: #ff4655; border-left: none; clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); padding: 0 20px; font-style: italic; }
+.es-tool button.es-tool-primary:hover { background: #ff6b77; }
+.es-tool-status { min-height: 18px; margin: 8px 0; font-size: 13px; color: #4ade80; }
+.es-tool-status.is-bad { color: #ff6b77; }
+.es-tool-note { margin: 10px 0; font-size: 13px; color: #9aa1ae; }
+.es-tool-list { display: flex; flex-direction: column; gap: 4px; }
+.es-tool-row { display: flex; gap: 8px; align-items: center; padding: 8px 10px; background: rgba(255, 255, 255, 0.03); border-left: 3px solid #343b4a; }
+.es-tool-row:hover { border-left-color: #ff4655; background: rgba(255, 255, 255, 0.05); }
+.es-tool-row > div { flex: 1; min-width: 0; }
+.es-tool-row b { display: block; font-size: 15px; font-weight: 700; }
+.es-tool-row span { display: block; margin-top: 2px; font-size: 12px; color: #9aa1ae; }
+.es-tool-ask { padding: 12px 14px; margin-bottom: 12px; background: rgba(255, 70, 85, 0.12); border-left: 3px solid #ff4655; animation: es-tool-in 0.2s ease-out both; }
+.es-tool-ask p { margin: 0 0 10px; font-size: 14px; line-height: 1.5; }
+.es-tool-ask div { display: flex; gap: 8px; }
+.es-sens-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.es-sens-grid label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #9aa1ae; }
+.es-sens-grid :is(input, select) {
+  height: 36px;
+  padding: 0 10px;
+  color: #fff;
+  background: #10131a;
+  border: 1px solid #343b4a;
+  border-radius: 0;
+  font: 700 16px "Bahnschrift", sans-serif;
+  font-variant-numeric: tabular-nums;
+  outline: none;
+}
+.es-sens-grid :is(input, select):focus { border-color: #ff4655; }
+.es-sens-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0 4px; }
+.es-sens-stats div { padding: 10px 12px; background: rgba(255, 255, 255, 0.04); border-top: 2px solid #ff4655; }
+.es-sens-stats span { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #9aa1ae; }
+.es-sens-stats b { display: block; margin-top: 4px; font-size: 28px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.es-sens-convert { display: flex; gap: 14px; align-items: center; margin-top: 10px; padding: 10px 12px; background: rgba(255, 255, 255, 0.04); }
+.es-sens-convert span { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #9aa1ae; }
+.es-sens-convert b { flex: 1; font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.es-sens-num { flex: none; font-size: 18px !important; font-variant-numeric: tabular-nums; }

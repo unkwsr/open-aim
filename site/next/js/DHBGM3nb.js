@@ -1,0 +1,1 @@
+function r(e,s){if(!e)return null;if(!s||s<=0||e.includes("image_process="))return e;const n=e.includes("?")?"&":"?";return`${e}${n}image_process=resize,w_${s}/format,webp`}function t(e,s){const n=Number(s),i=Number.isFinite(n)&&n>0?n<=56?96:400:void 0;return r(e,i)}export{r as a,t as e};

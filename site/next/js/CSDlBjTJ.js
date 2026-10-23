@@ -1,0 +1,1 @@
+const t="https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js";let n=null;function i(){return typeof window<"u"&&window.WxLogin?Promise.resolve():n||(n=new Promise((o,r)=>{const e=document.createElement("script");e.src=t,e.async=!0,e.onload=()=>o(),e.onerror=()=>{n=null,r(new Error("微信登录组件加载失败"))},document.head.appendChild(e)}),n)}export{i as e};

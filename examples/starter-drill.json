@@ -1,0 +1,34 @@
+{
+  "item": {
+    "createTime": "2026-10-21 12:00:00",
+    "description": "A starter drill to copy: small targets on a grid in an empty arena. Change the name, description and targets to make it yours.",
+    "docBytes": 1137,
+    "featured": false,
+    "mapId": null,
+    "name": "My first drill",
+    "parSeconds": null,
+    "playCount": 0,
+    "sceneKey": "set-d8768633f6adb3db",
+    "shareCode": "d8768633f6adb3db",
+    "sort": 999,
+    "status": 1,
+    "type": "basic",
+    "updateTime": "2026-10-21 12:00:00"
+  },
+  "scene": {
+    "authorNickname": "your-github-name",
+    "authorUid": "your-github-name",
+    "blockCount": 2,
+    "createTime": "2026-10-21 12:00:00",
+    "description": "A starter drill to copy: small targets on a grid in an empty arena. Change the name, description and targets to make it yours.",
+    "docBytes": 1137,
+    "name": "My first drill",
+    "playCount": 0,
+    "sceneHash": "d8768633f6adb3db",
+    "sceneKey": "set-d8768633f6adb3db",
+    "schemaVersion": 2,
+    "shareCode": "d8768633f6adb3db",
+    "updateTime": "2026-10-21 12:00:00",
+    "doc": "{\"schemaVersion\":2,\"meta\":{\"id\":\"set-d8768633f6adb3db\",\"name\":\"My first drill\",\"seed\":222558274,\"createdAt\":0},\"environment\":{\"skyColor\":\"#111820\",\"fogNear\":14,\"fogFar\":33,\"ambientIntensity\":1.55,\"keyLightIntensity\":2.2,\"lightingVersion\":2,\"fogEnabled\":false},\"blocks\":[{\"id\":\"ground\",\"shape\":\"plane\",\"position\":{\"x\":0,\"y\":0,\"z\":0},\"rotationY\":0,\"size\":{\"x\":100,\"y\":0.4,\"z\":100},\"color\":\"#cfd2d4\",\"collidable\":true},{\"id\":\"backdrop\",\"shape\":\"box\",\"position\":{\"x\":0,\"y\":2.5,\"z\":-1.5},\"rotationY\":0,\"size\":{\"x\":8,\"y\":5,\"z\":0.4},\"color\":\"#26303b\",\"collidable\":true}],\"playerSpawn\":{\"position\":{\"x\":0,\"y\":0,\"z\":10},\"yaw\":0},\"spawners\":[{\"id\":\"grid\",\"name\":\"Grid\",\"kind\":\"grid\",\"actorTemplateId\":\"actor-1\",\"position\":{\"x\":0,\"y\":1.6,\"z\":0},\"size\":{\"x\":2.25,\"y\":2.25,\"z\":0},\"columns\":5,\"rows\":5,\"maxAlive\":3,\"spawnDelay\":[0,0]}],\"actors\":[{\"id\":\"actor-1\",\"name\":\"Ball\",\"body\":{\"shape\":\"sphere\",\"headSize\":1,\"bodyWidth\":0,\"bodyHeight\":0,\"radius\":0.1},\"color\":\"#ff4655\",\"behaviors\":[],\"hitSlow\":true}],\"rules\":{\"duration\":60,\"scoring\":\"clicking\",\"weapon\":\"vandal\",\"playerMovable\":false,\"fireMode\":\"single\",\"perfectAccuracy\":true,\"buyMenu\":false}}"
+  }
+}

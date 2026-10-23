@@ -1,0 +1,61 @@
+name: Bug report
+description: Something is broken or doesn't work as expected
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for reporting. The more detail you give, the faster it gets fixed.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      placeholder: The FPS meter shows 0 after I leave a round.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Start any pre-aim drill on Ascent
+        2. Press Esc and leave the round
+        3. Look at the top bar
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Scenarios
+        - Maps or bots
+        - Studio
+        - Theme or menus
+        - FPS meter or Sens tools
+        - Backups
+        - Performance
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      placeholder: "1.0.0"
+  - type: input
+    id: pc
+    attributes:
+      label: PC
+      description: Windows version, GPU, monitor refresh rate
+      placeholder: Windows 11, RTX 3060, 240 Hz
+  - type: textarea
+    id: extra
+    attributes:
+      label: Screenshots or clips
+      description: Drag files here. Don't include backups or personal files.

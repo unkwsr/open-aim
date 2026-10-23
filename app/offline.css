@@ -1,0 +1,51 @@
+/* Offline only: hides everything that needs the website's server, injected by
+   main.js on every page. Accounts and sign-in, leaderboards and online ranks,
+   cloud sync and sharing, and the site's play counts. Training history and
+   personal bests stay; the game keeps them in local storage. */
+
+/* sign in / account */
+:is(.aim-account-button, .aim-account-modal, .aim-account-dialog, .aim-account-panel, .aim-score-account,
+  .hall-profile, .hall-profile--login, .guest-topbar__login) {
+  display: none !important;
+}
+
+/* leaderboards and online ranks */
+:is(.hall-lb, .al-cloud-lb, .aim-result-ranking, .aim-result-ranking-open, .aim-result-ranking-status,
+  .aim-ranking-tabs, .aim-ranking-note, .aim-rank-table, .aim-rank-scroll, .hall-ball-ranking-heading,
+  .hall-ball-ranking-empty, .al-mr-rank, .al-wkb-rank, .al-wk-tag-rank, .hall-record-rank, .al-run-ranked,
+  .al-unranked-tag, .al-replay-verified, .hall-ball-page.is-ranking, .hall-ball-pages-sep) {
+  display: none !important;
+}
+
+/* "not signed in" banners, cloud sync and sharing */
+:is(.rov-guest, .rov-sync, .st-sync, .hall-sync-line, .al-run-guest, .al-run-pw-login, .al-cloud-mine,
+  .al-cloud-scene-share, .al-cloud-replay-share, .al-cloud-replay-unshare) {
+  display: none !important;
+}
+
+/* play counts copied from the website */
+:is(.hall-ball-card-plays, .al-wk-meta, .pw-card-pl, .pw-shelf-note, .al-wk-feat-tags > .al-wk-tchip:not(:has(svg))) {
+  display: none !important;
+}
+
+/* records drawer on a VALORANT Training card: keep "the record on this device",
+   drop the online leaderboard part */
+:is(.al-wkr-kicker, .al-wkr-bar, .al-wkr-board) {
+  display: none !important;
+}
+
+/* performance check: no "send to support" / automatic sending */
+:is(.aim-diagnostics-panel footer > button.is-primary, .aim-diagnostics-consent) {
+  display: none !important;
+}
+
+/* the workshop guide / beginner lessons pages were never saved, so these opened a 404 */
+:is(.al-studio-guide, .al-studio-overview-guide) {
+  display: none !important;
+}
+
+/* the site's lag-report tool is removed (see main.js); its button box goes too.
+   The box also held the language and sign-in buttons, already hidden. */
+:is(.aim-local-actions, .aim-performance-button, .hall-lat-btn, .aim-diagnostics-panel) {
+  display: none !important;
+}

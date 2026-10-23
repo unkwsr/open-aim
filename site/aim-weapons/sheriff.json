@@ -1,0 +1,1 @@
+{"source":"GN_Revolver_S0_Skelmesh","attach":{"t":[0.0,-0.8547,1.7855],"q":[0.5,-0.5,0.5,0.5]},"posScale":10,"uvMax":2,"parts":[{"name":"gun","texture":"sheriff.gun.png","verts":4789,"tris":5376,"pos":0,"nrm":28736,"uv":57472,"idx":76628}]}

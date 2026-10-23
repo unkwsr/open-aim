@@ -1,0 +1,401 @@
+/* open-aim UI polish: high-contrast dark utility, predictable spacing and clear state. */
+html[data-aim-local] {
+  --aim-radius-sm: 8px;
+  --aim-radius-md: 12px;
+  --aim-radius-lg: 16px;
+  --aim-motion-fast: 140ms;
+  --aim-motion-base: 220ms;
+  --aim-focus: #79e6c1;
+  --aim-difficulty: #f2c14e;
+}
+
+html[data-aim-local] body {
+  background: #0b1218;
+  color-scheme: dark;
+}
+
+html[data-aim-local] :is(button,a,input,select,textarea,[role="button"],[role="tab"]) {
+  touch-action: manipulation;
+}
+
+html[data-aim-local] :is(button,[role="button"],[role="tab"],summary) { cursor: pointer; }
+
+html[data-aim-local] :is(button,a,input,select,textarea,summary,[tabindex]):focus-visible {
+  outline: 2px solid var(--aim-focus) !important;
+  outline-offset: 3px !important;
+}
+
+/* Navigation remains compact, but active and hover states are no longer ambiguous. */
+html[data-aim-local] .hall-topnav {
+  border-bottom: 1px solid var(--h-chrome-line);
+  box-shadow: 0 8px 26px rgb(0 0 0 / 18%) !important;
+}
+
+html[data-aim-local] .hall-tab {
+  min-height: 40px;
+  transition: color var(--aim-motion-fast), background-color var(--aim-motion-fast), box-shadow var(--aim-motion-fast);
+}
+
+html[data-aim-local] .hall-tab.is-active {
+  box-shadow: inset 0 -2px var(--h-accent) !important;
+}
+
+html[data-aim-local] .hall-rail-item {
+  min-height: 42px;
+  transition: color var(--aim-motion-fast), background-color var(--aim-motion-fast);
+}
+
+html[data-aim-local] .hall-rail-item:is(:hover,.is-active) {
+  color: var(--h-text);
+  background: color-mix(in srgb,var(--h-accent) 10%,var(--h-surface));
+}
+
+/* Workshop controls read as one tool panel instead of unrelated floating chips. */
+html[data-aim-local] .al-wk-tools {
+  padding: 12px;
+  border: 1px solid var(--h-border);
+  border-radius: var(--aim-radius-md);
+  background: color-mix(in srgb,var(--h-surface) 92%,transparent);
+  box-shadow: 0 12px 30px rgb(0 0 0 / 16%);
+}
+
+html[data-aim-local] :is(.al-wk-chip,.al-wk-toggle,.al-wk-sort button) {
+  min-height: 40px;
+  border-radius: var(--aim-radius-sm) !important;
+  transition: color var(--aim-motion-fast), border-color var(--aim-motion-fast), background-color var(--aim-motion-fast), box-shadow var(--aim-motion-fast);
+}
+
+html[data-aim-local] :is(.al-wk-chip,.al-wk-toggle,.al-wk-sort button):hover {
+  color: var(--h-text) !important;
+  border-color: color-mix(in srgb,var(--h-accent) 55%,var(--h-border)) !important;
+}
+
+html[data-aim-local] :is(.al-wk-chip.al-wk-on,.al-wk-toggle.is-on,.al-wk-sort button.is-on) {
+  color: var(--h-accent) !important;
+  background: color-mix(in srgb,var(--h-accent) 12%,var(--h-surface)) !important;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb,var(--h-accent) 28%,transparent) !important;
+}
+
+/* Community filters scroll with the page, like the VALORANT workshop controls. */
+html[data-aim-local] .pw-filters {
+  position: static !important;
+  top: auto;
+  z-index: auto;
+  display: grid !important;
+  grid-template-columns: auto auto minmax(180px,1fr) auto;
+  gap: 10px 12px !important;
+  align-items: center;
+  padding: 12px !important;
+  margin-top: 22px;
+  border: 1px solid var(--h-border);
+  border-radius: var(--aim-radius-md);
+  background: color-mix(in srgb,var(--h-surface) 92%,transparent);
+  box-shadow: 0 12px 30px rgb(0 0 0 / 16%) !important;
+}
+
+html[data-aim-local] .pw-dchips {
+  display: flex !important;
+  grid-column: 1 / -1;
+  grid-row: 1;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  align-items: center;
+  min-height: 48px;
+  padding: 7px 8px;
+  border: 1px solid color-mix(in srgb,var(--aim-difficulty) 38%,var(--h-border));
+  border-radius: var(--aim-radius-sm);
+  background: color-mix(in srgb,var(--aim-difficulty) 7%,var(--h-surface));
+}
+
+html[data-aim-local] .pw-dchips::before {
+  content: "Độ khó";
+  flex: none;
+  padding: 0 8px 0 4px;
+  color: var(--aim-difficulty);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+html[data-aim-local][lang="en"] .pw-dchips::before { content: "Difficulty"; }
+
+html[data-aim-local] .pw-dchips button {
+  display: inline-flex !important;
+  gap: 8px !important;
+  align-items: center;
+  min-height: 40px !important;
+  padding: 0 14px !important;
+  border: 1px solid var(--h-border) !important;
+  border-radius: 999px !important;
+  background: color-mix(in srgb,var(--h-surface) 92%,transparent) !important;
+  color: var(--h-text-soft) !important;
+  box-shadow: none !important;
+  white-space: nowrap;
+  transition: color var(--aim-motion-fast), border-color var(--aim-motion-fast), background-color var(--aim-motion-fast), box-shadow var(--aim-motion-fast);
+}
+
+html[data-aim-local] .pw-dchips button i {
+  width: 9px !important;
+  height: 9px !important;
+  border-radius: 2px;
+  box-shadow: 0 0 10px color-mix(in srgb,var(--dc,var(--aim-difficulty)) 55%,transparent);
+}
+
+html[data-aim-local] .pw-dchips button:is(:hover,.is-on) {
+  color: var(--h-text) !important;
+  border-color: var(--dc,var(--aim-difficulty)) !important;
+  background: color-mix(in srgb,var(--dc,var(--aim-difficulty)) 14%,var(--h-surface)) !important;
+}
+
+html[data-aim-local] .pw-dchips button.is-on {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb,var(--dc,var(--aim-difficulty)) 42%,transparent),0 0 18px color-mix(in srgb,var(--dc,var(--aim-difficulty)) 14%,transparent) !important;
+}
+
+html[data-aim-local] :is(.pw-seg button,.pw-drop,.pw-find) {
+  min-height: 42px !important;
+  border-radius: var(--aim-radius-sm);
+}
+
+html[data-aim-local] .pw-find {
+  width: min(100%,320px) !important;
+  margin-left: auto;
+}
+
+/* Difficulty meters on every map card stay visible next to their text label. */
+html[data-aim-local] .al-wk-diff {
+  display: inline-flex !important;
+  gap: 5px !important;
+  align-items: center;
+  width: max-content;
+  min-height: 30px;
+  padding: 5px 10px;
+  border: 1px solid color-mix(in srgb,currentColor 36%,transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb,currentColor 8%,transparent);
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+html[data-aim-local] .al-wk-diff i[data-v-4b45edca] {
+  display: block !important;
+  flex: 0 0 16px !important;
+  width: 16px !important;
+  height: 8px !important;
+  border: 1px solid color-mix(in srgb,currentColor 28%,transparent) !important;
+  border-radius: 3px;
+  background: color-mix(in srgb,var(--h-border) 78%,transparent) !important;
+  transform: none !important;
+}
+
+html[data-aim-local] .al-wk-diff i.is-on[data-v-4b45edca] {
+  background: currentColor !important;
+  border-color: currentColor !important;
+  box-shadow: 0 0 8px color-mix(in srgb,currentColor 38%,transparent);
+}
+
+html[data-aim-local] .al-wk-diff span { margin-left: 5px !important; font-weight: 800 !important; }
+
+/* Official VALORANT cards show their iShoutU-style difficulty in the image corner. */
+html[data-aim-local] .al-wk-body > .al-wk-diff { display: none !important; }
+html[data-aim-local] .aim-vt-card-difficulty {
+  --difficulty-tone: #f0b43c;
+  position: absolute;
+  top: 10px;
+  right: 62px;
+  z-index: 5;
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 9px;
+  color: var(--difficulty-tone);
+  pointer-events: none;
+  background: color-mix(in srgb,#081016 88%,var(--difficulty-tone));
+  border: 1px solid color-mix(in srgb,var(--difficulty-tone) 58%,transparent);
+  border-radius: 6px;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 42%);
+  backdrop-filter: blur(7px);
+}
+html[data-aim-local] .aim-vt-card-difficulty.is-l1 { --difficulty-tone: #3ddc97; }
+html[data-aim-local] .aim-vt-card-difficulty.is-l2 { --difficulty-tone: #f0b43c; }
+html[data-aim-local] .aim-vt-card-difficulty.is-l3 { --difficulty-tone: #ff5a67; }
+html[data-aim-local] .aim-vt-card-difficulty i {
+  width: 10px;
+  height: 6px;
+  background: color-mix(in srgb,var(--difficulty-tone) 18%,#26313b);
+  border: 1px solid color-mix(in srgb,var(--difficulty-tone) 42%,transparent);
+  border-radius: 2px;
+}
+html[data-aim-local] .aim-vt-card-difficulty i.is-on { background: var(--difficulty-tone); border-color: var(--difficulty-tone); }
+html[data-aim-local] .aim-vt-card-difficulty span { margin-left: 3px; font-size: 11px; font-weight: 850; white-space: nowrap; }
+
+html[data-aim-local] .al-wk-sort .aim-vt-difficulty-sort {
+  height: 32px;
+  padding: 0 10px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--h-text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+  background: color-mix(in srgb,var(--h-surface) 82%,transparent);
+  border: 0;
+  box-shadow: inset 1px 0 0 var(--h-border);
+}
+html[data-aim-local] .al-wk-sort .aim-vt-difficulty-sort:hover { color: var(--h-text); }
+html[data-aim-local] .al-wk-sort .aim-vt-difficulty-sort.is-on { color: var(--aim-difficulty); box-shadow: inset 0 -2px 0 var(--aim-difficulty),inset 1px 0 0 var(--h-border); }
+html[data-aim-local] .al-wk-sort .aim-vt-difficulty-sort:focus-visible { outline: 2px solid var(--h-accent); outline-offset: 2px; }
+
+html[data-aim-local] .pw-card-dl {
+  display: flex;
+  align-items: center;
+  min-height: 34px;
+  margin-top: 12px;
+}
+
+html[data-aim-local] .pw-card .pw-pips {
+  display: inline-flex !important;
+  gap: 5px !important;
+  align-items: center;
+  min-height: 30px;
+  padding: 5px 9px;
+  border: 1px solid color-mix(in srgb,var(--dc,var(--aim-difficulty)) 34%,transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb,var(--dc,var(--aim-difficulty)) 8%,var(--h-panel));
+}
+
+html[data-aim-local] .pw-card .pw-pips i {
+  display: block !important;
+  flex: 0 0 20px !important;
+  width: 20px !important;
+  height: 8px !important;
+  border: 1px solid color-mix(in srgb,var(--dc,var(--aim-difficulty)) 25%,var(--h-border)) !important;
+  border-radius: 3px;
+  background: color-mix(in srgb,var(--h-border) 78%,transparent) !important;
+}
+
+html[data-aim-local] .pw-card .pw-pips i.on {
+  background: var(--dc,var(--aim-difficulty)) !important;
+  border-color: var(--dc,var(--aim-difficulty)) !important;
+  box-shadow: 0 0 8px color-mix(in srgb,var(--dc,var(--aim-difficulty)) 38%,transparent);
+}
+
+html[data-aim-local] .pw-card .pw-pips em {
+  margin-left: 5px !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  color: var(--dc,var(--aim-difficulty)) !important;
+}
+
+/* Unified card elevation and interaction state across both libraries. */
+html[data-aim-local] :is(.al-wk-card,.pw-card) {
+  border: 1px solid var(--h-border) !important;
+  border-radius: var(--aim-radius-md) !important;
+  background: color-mix(in srgb,var(--h-panel) 96%,#000) !important;
+  box-shadow: 0 10px 28px rgb(0 0 0 / 14%) !important;
+  transition: border-color var(--aim-motion-base), box-shadow var(--aim-motion-base), background-color var(--aim-motion-base) !important;
+}
+
+html[data-aim-local] :is(.al-wk-card,.pw-card):is(:hover,:focus-within,:focus-visible) {
+  border-color: color-mix(in srgb,var(--h-accent) 58%,var(--h-border)) !important;
+  box-shadow: 0 16px 38px rgb(0 0 0 / 28%),0 0 0 1px color-mix(in srgb,var(--h-accent) 18%,transparent) !important;
+}
+
+html[data-aim-local] .pw-cards { gap: 20px !important; }
+html[data-aim-local] .pw-card h4 { text-wrap: balance; }
+html[data-aim-local] :is(.pw-card-desc,.al-wk-body p) { overflow-wrap: anywhere; }
+
+/* Dialogs and account surfaces share the same visual depth and readable edges. */
+html[data-aim-local] :is(.hall-dialog,.aim-account-dialog,.auth-dialog) {
+  border: 1px solid color-mix(in srgb,var(--h-accent) 18%,var(--h-border)) !important;
+  border-radius: var(--aim-radius-lg) !important;
+  box-shadow: 0 28px 80px rgb(0 0 0 / 52%) !important;
+}
+
+html[data-aim-local] :is(input,select,textarea) { caret-color: var(--h-accent); }
+
+@media (max-width: 900px) {
+  html[data-aim-local] .pw-filters {
+    position: relative !important;
+    top: auto;
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+  html[data-aim-local] .pw-dchips { order: -2; width: 100%; }
+  html[data-aim-local] .pw-seg { order: -1; width: 100%; overflow-x: auto; scrollbar-width: thin; }
+  html[data-aim-local] .pw-seg button { flex: 1 0 auto; min-height: 44px; }
+  html[data-aim-local] .pw-drop { flex: 1 1 150px; }
+  html[data-aim-local] .pw-drop select { width: 100%; min-height: 44px; }
+  html[data-aim-local] .pw-find { flex: 1 1 100%; width: 100% !important; min-height: 44px !important; margin-left: 0; }
+  html[data-aim-local] .pw-cards { grid-template-columns: repeat(auto-fit,minmax(min(230px,100%),1fr)) !important; }
+}
+
+@media (max-width: 560px) {
+  html[data-aim-local] .pw-all { padding-inline: 16px !important; }
+  html[data-aim-local] .pw-dchips::before { flex-basis: 100%; padding: 2px 4px; }
+  html[data-aim-local] .pw-dchips button { flex: 1 1 calc(50% - 8px); justify-content: center; min-height: 44px !important; }
+  html[data-aim-local] .pw-card .pw-pips i { flex-basis: 16px !important; width: 16px !important; }
+  html[data-aim-local] .aim-vt-card-difficulty { right: 58px; max-width: calc(100% - 70px); }
+  html[data-aim-local] .al-wk-sort { flex-wrap: wrap; }
+  html[data-aim-local] .al-wk-sort .aim-vt-difficulty-sort { min-height: 44px; }
+  html[data-aim-local] .al-wk-tools { padding: 10px; }
+  html[data-aim-local] :is(.al-wk-chip,.al-wk-toggle,.al-wk-sort button) { min-height: 44px; }
+}
+
+/* Keep the upstream mobile layout and colors; adapt only local controls and text. */
+html[data-aim-local] .am-root {
+  --am-sans: var(--local-font);
+  --am-hud: var(--local-font);
+  --am-num: var(--local-font);
+  width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+html[data-aim-local] .am-bar { flex-wrap: wrap; }
+html[data-aim-local] .am-brand { margin-right: auto; }
+html[data-aim-local] .am-bar > .aim-local-actions.is-mounted {
+  display: flex;
+  flex: 1 1 100%;
+  justify-content: flex-end;
+  height: auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+html[data-aim-local] .am-bar .aim-performance-button { display: none !important; }
+html[data-aim-local] .am-bar .aim-local-actions :is(button,.contact-credit > summary) {
+  min-height: 36px;
+  height: auto;
+  border-radius: 3px;
+  color: var(--am-bone);
+  background: var(--am-raise);
+}
+html[data-aim-local] .am-hand-btns { grid-template-columns: 1fr; }
+html[data-aim-local] .am-sec-head { align-items: flex-start; }
+html[data-aim-local] .am-sec-meta { max-width: 48%; line-height: 1.5; }
+html[data-aim-local] :is(.am-row-title,.am-mo-title,.am-ps-title,.am-ss-title,.am-scene-name) {
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+html[data-aim-local] .am-scene-name { white-space: normal; }
+html[data-aim-local] .am-row > span { min-width: 0; }
+html[data-aim-local] .am-sheet-actions { flex-wrap: wrap; }
+html[data-aim-local] .am-sheet-actions .am-btn-red { min-width: 0; height: auto; padding-block: 10px; white-space: normal; }
+html[data-aim-local] :is(.am-sheet,.am-root) :is(input,select,textarea) { font-size: 16px; }
+/* The local site has no desktop app. Keep the browser interface action available. */
+html[data-aim-local].am-page :is(.desktop-download,.al-desktop-download,.am-download,[data-action="download-desktop"],a[download],a[href$=".exe"],a[href$=".msi"],a[href$=".dmg"]) { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-aim-local] *,
+  html[data-aim-local] *::before,
+  html[data-aim-local] *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

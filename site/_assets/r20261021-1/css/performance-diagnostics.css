@@ -1,0 +1,23 @@
+.aim-performance-button.has-warning,.aim-diagnostics-game-button.has-warning{color:#ffd28a;border-color:#ffd28a88}
+.aim-diagnostics-game-button.has-warning:before{content:"!";margin-right:5px;font-weight:800}
+.aim-performance-button:focus-visible,.aim-diagnostics-game-button:focus-visible,.aim-diagnostics-panel button:focus-visible,.aim-diagnostics-panel summary:focus-visible{outline:2px solid #79e6c1;outline-offset:3px}
+.aim-diagnostics-game-button{min-height:32px;padding:4px 8px;border:1px solid #79e6c155;border-radius:5px;background:#102b28;color:#9af5d2;font:inherit;cursor:pointer;pointer-events:auto}
+.aim-diagnostics-game-button[hidden],.is-pointer-locked .aim-diagnostics-game-button{display:none!important}
+.aim-diagnostics-panel{box-sizing:border-box;width:min(700px,calc(100vw - 24px));max-width:700px;max-height:calc(100dvh - 32px);margin:auto;padding:22px;border:1px solid #526975;border-radius:14px;background:#122029;color:#e0e9ee;font:14px/1.6 Inter,"Segoe UI",Arial,sans-serif;box-shadow:0 20px 80px #0009;overflow:auto;overflow-wrap:anywhere;color-scheme:dark}
+.aim-diagnostics-panel::backdrop{background:#030910bb}
+.aim-diagnostics-panel header{display:flex;align-items:center;justify-content:space-between;gap:16px}.aim-diagnostics-panel h2{margin:0;font-size:21px;line-height:1.4}.aim-diagnostics-panel h3{font-size:15px;margin:20px 0 8px}
+.aim-diagnostics-panel button{min-height:40px;padding:8px 12px;border:1px solid #667e8c;border-radius:8px;background:#223742;color:#edf4f7;font:600 13px/1.4 Inter,"Segoe UI",Arial,sans-serif;cursor:pointer}.aim-diagnostics-panel button:disabled{opacity:.5;cursor:not-allowed}.aim-diagnostics-panel button.is-primary{background:#78e4bc;border-color:#78e4bc;color:#102920}
+.aim-diagnostics-panel p{margin:12px 0}.aim-diagnostics-muted{color:#afc0cb;font-size:12px}.aim-diagnostics-summary{font-weight:700;color:#a3efd1}
+.aim-diagnostics-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0}.aim-diagnostics-metrics>div{padding:12px 8px;border:1px solid #ffffff20;border-radius:8px;background:#192e38;text-align:center}.aim-diagnostics-metrics strong{display:block;font-size:21px;line-height:1.5}.aim-diagnostics-metrics span{font-size:11px;color:#b8cbd5}
+.aim-diagnostics-findings,.aim-diagnostics-events{padding-left:20px}.aim-diagnostics-findings li+li,.aim-diagnostics-events li+li{margin-top:10px}.aim-diagnostics-events{color:#c4d3dd;font-size:12px}
+.aim-diagnostics-panel summary{padding:10px 0;cursor:pointer;color:#a3efd1}.aim-diagnostics-panel textarea{box-sizing:border-box;width:100%;height:220px;padding:12px;border:1px solid #526975;border-radius:8px;background:#09131c;color:#d6e6ef;font:12px/1.6 ui-monospace,monospace;resize:vertical}
+.aim-diagnostics-panel footer{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 12px}
+.aim-diagnostics-consent{display:flex;align-items:flex-start;gap:10px;margin:18px 0 10px;cursor:pointer;font-size:13px}.aim-diagnostics-consent input{flex:none;min-width:20px;min-height:20px;accent-color:#78e4bc}.aim-diagnostics-receipt{padding:10px 12px;border:1px solid #ffffff20;border-radius:8px;background:#09131c;overflow-wrap:anywhere;font:12px/1.6 ui-monospace,monospace}.aim-diagnostics-panel button{min-height:44px}
+html.aim-diagnostics-open :is(.aim-ad-dock,body>iframe.aim-ad-direct-banner,body>iframe.map-ad-unit,.aim-result-ad){visibility:hidden!important;pointer-events:none!important}
+/* Native mobile hall previously hid this control; it now opens diagnostics without a benchmark dependency. */
+html[data-aim-local] .am-bar .aim-local-actions .aim-performance-button{display:flex!important}
+.aim-game-credit .aim-diagnostics-notice{max-width:280px;margin-top:5px;color:#ffd28a;pointer-events:none}
+.aim-diagnostics-notice[hidden]{display:none!important}
+/* Keep the restored control inside the desktop header even with long VN tabs. */
+@media(min-width:1101px) and (max-width:1600px){.hall-topnav .aim-performance-label{font-size:0}.hall-topnav .aim-performance-label:after{content:"FPS";font-size:12px}}
+@media(max-width:650px){.aim-diagnostics-panel{padding:16px}.aim-diagnostics-panel h2{font-size:18px}.aim-diagnostics-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.aim-diagnostics-panel footer>button{flex:1}}

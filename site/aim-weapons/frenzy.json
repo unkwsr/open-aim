@@ -1,0 +1,1 @@
+{"source":"GN_AutoPistol_S0_Skelmesh","attach":{"t":[-0.0,-0.316,1.3236],"q":[0.5,-0.5,0.5,0.5]},"posScale":10,"uvMax":2,"parts":[{"name":"gun","texture":"frenzy.gun.png","verts":4403,"tris":5134,"pos":0,"nrm":26420,"uv":52840,"idx":70452},{"name":"magazine","texture":"frenzy.gun.png","verts":222,"tris":224,"pos":101256,"nrm":102588,"uv":103920,"idx":104808}]}

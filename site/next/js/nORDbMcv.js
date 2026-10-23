@@ -1,0 +1,1 @@
+const n=0x7d0,s=0x64,c=0xa;function e(b,d){return Math['min'](0x64,Math['max'](0x1,Math['ceil'](b/d*0x64)));}export{c as B,n as Q,s as a,e as t};

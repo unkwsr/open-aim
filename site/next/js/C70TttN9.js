@@ -1,0 +1,1 @@
+import{bV as e}from"./index.uPZ7wDgX.js";const o="/api/v1/val/user-coupons",s={getAvailableCoupons(t){return e({url:`${o}/available`,method:"get",params:t!=null?{orderAmount:t}:void 0})},getMyCoupons(){return e({url:`${o}/mine`,method:"get"})},checkAndIssueNewUserCoupon(){return e({url:`${o}/check-new-user`,method:"post"})}};export{s as U};

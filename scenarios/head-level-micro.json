@@ -1,0 +1,34 @@
+{
+  "item": {
+    "createTime": "2026-10-21 12:00:00",
+    "description": "A tight row of bots with small heads; new ones keep popping up next to each other. Stay at head height and make only tiny corrections between heads.",
+    "docBytes": 2288,
+    "featured": false,
+    "mapId": null,
+    "name": "Head-level micro",
+    "parSeconds": null,
+    "playCount": 0,
+    "sceneKey": "set-406d6e47ebc89bc3",
+    "shareCode": "406d6e47ebc89bc3",
+    "sort": 103,
+    "status": 1,
+    "type": "basic",
+    "updateTime": "2026-10-21 12:00:00"
+  },
+  "scene": {
+    "authorNickname": "open-aim",
+    "authorUid": "local",
+    "blockCount": 1,
+    "createTime": "2026-10-21 12:00:00",
+    "description": "A tight row of bots with small heads; new ones keep popping up next to each other. Stay at head height and make only tiny corrections between heads.",
+    "docBytes": 2288,
+    "name": "Head-level micro",
+    "playCount": 0,
+    "sceneHash": "406d6e47ebc89bc3",
+    "sceneKey": "set-406d6e47ebc89bc3",
+    "schemaVersion": 2,
+    "shareCode": "406d6e47ebc89bc3",
+    "updateTime": "2026-10-21 12:00:00",
+    "doc": "{\"schemaVersion\":2,\"meta\":{\"id\":\"set-406d6e47ebc89bc3\",\"name\":\"Head-level micro\",\"seed\":67557092,\"createdAt\":0},\"environment\":{\"skyColor\":\"#111820\",\"fogNear\":14,\"fogFar\":33,\"ambientIntensity\":1.55,\"keyLightIntensity\":2.2,\"lightingVersion\":2,\"fogEnabled\":false},\"blocks\":[{\"id\":\"ground\",\"shape\":\"plane\",\"position\":{\"x\":0,\"y\":0,\"z\":0},\"rotationY\":0,\"size\":{\"x\":100,\"y\":0.4,\"z\":100},\"color\":\"#cfd2d4\",\"collidable\":true}],\"playerSpawn\":{\"position\":{\"x\":0,\"y\":0,\"z\":10},\"yaw\":0},\"spawners\":[{\"id\":\"spawner-1\",\"name\":\"Spot 1\",\"kind\":\"fixed\",\"actorTemplateId\":\"actor-1\",\"faceTarget\":true,\"groundSnap\":true,\"position\":{\"x\":-2.7,\"y\":0,\"z\":-5},\"size\":{\"x\":0,\"y\":0,\"z\":0},\"maxAlive\":1,\"spawnDelay\":[0.5,2.0]},{\"id\":\"spawner-2\",\"name\":\"Spot 2\",\"kind\":\"fixed\",\"actorTemplateId\":\"actor-1\",\"faceTarget\":true,\"groundSnap\":true,\"position\":{\"x\":-1.8,\"y\":0,\"z\":-5},\"size\":{\"x\":0,\"y\":0,\"z\":0},\"maxAlive\":1,\"spawnDelay\":[0.5,2.0]},{\"id\":\"spawner-3\",\"name\":\"Spot 3\",\"kind\":\"fixed\",\"actorTemplateId\":\"actor-1\",\"faceTarget\":true,\"groundSnap\":true,\"position\":{\"x\":-0.9,\"y\":0,\"z\":-5},\"size\":{\"x\":0,\"y\":0,\"z\":0},\"maxAlive\":1,\"spawnDelay\":[0.5,2.0]},{\"id\":\"spawner-4\",\"name\":\"Spot 4\",\"kind\":\"fixed\",\"actorTemplateId\":\"actor-1\",\"faceTarget\":true,\"groundSnap\":true,\"position\":{\"x\":0.0,\"y\":0,\"z\":-5},\"size\":{\"x\":0,\"y\":0,\"z\":0},\"maxAlive\":1,\"spawnDelay\":[0.5,2.0]},{\"id\":\"spawner-5\",\"name\":\"Spot 5\",\"kind\":\"fixed\",\"actorTemplateId\":\"actor-1\",\"faceTarget\":true,\"groundSnap\":true,\"position\":{\"x\":0.9,\"y\":0,\"z\":-5},\"size\":{\"x\":0,\"y\":0,\"z\":0},\"maxAlive\":1,\"spawnDelay\":[0.5,2.0]},{\"id\":\"spawner-6\",\"name\":\"Spot 6\",\"kind\":\"fixed\",\"actorTemplateId\":\"actor-1\",\"faceTarget\":true,\"groundSnap\":true,\"position\":{\"x\":1.8,\"y\":0,\"z\":-5},\"size\":{\"x\":0,\"y\":0,\"z\":0},\"maxAlive\":1,\"spawnDelay\":[0.5,2.0]},{\"id\":\"spawner-7\",\"name\":\"Spot 7\",\"kind\":\"fixed\",\"actorTemplateId\":\"actor-1\",\"faceTarget\":true,\"groundSnap\":true,\"position\":{\"x\":2.7,\"y\":0,\"z\":-5},\"size\":{\"x\":0,\"y\":0,\"z\":0},\"maxAlive\":1,\"spawnDelay\":[0.5,2.0]}],\"actors\":[{\"id\":\"actor-1\",\"name\":\"Bot\",\"body\":{\"shape\":\"humanoid\",\"headSize\":0.8,\"bodyWidth\":0.44,\"bodyHeight\":0,\"look\":\"bot\"},\"color\":\"#ff4655\",\"behaviors\":[],\"hitSlow\":true}],\"rules\":{\"duration\":60,\"scoring\":\"clicking\",\"weapon\":\"vandal\",\"playerMovable\":false,\"fireMode\":\"single\",\"perfectAccuracy\":true,\"buyMenu\":false}}"
+  }
+}
