@@ -1,0 +1,16 @@
+.aim-update-shade { position:fixed; inset:0; z-index:10050; background:#000b; display:grid; place-items:center; padding:24px; color:#edf2f6; font:14px/1.5 system-ui,sans-serif; }
+.aim-update-panel { width:min(640px,100%); max-height:90vh; overflow:auto; padding:24px; border:1px solid #506477; background:#142330; border-radius:8px; box-shadow:0 20px 80px #0008; }
+.aim-update-panel header { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+.aim-update-panel h2 { margin:0; font-size:22px; }
+.aim-update-panel p { margin:14px 0; }
+.aim-update-panel button,.aim-update-toast button { font:inherit; cursor:pointer; border:1px solid #658095; border-radius:4px; background:#243c4e; color:#fff; padding:8px 12px; }
+.aim-update-panel button:focus-visible,.aim-update-toast button:focus-visible { outline:2px solid #72e5d4; outline-offset:3px; }
+.aim-update-panel button:disabled { opacity:.5; cursor:wait; }
+.aim-update-folder { display:flex; gap:10px; align-items:center; margin-top:8px; }
+.aim-update-folder output { flex:1; min-width:0; overflow-wrap:anywhere; padding:8px; background:#0c1822; user-select:text; }
+.aim-update-actions { display:flex; flex-wrap:wrap; gap:10px; }
+.aim-update-panel .aim-update-primary { background:#176758; border-color:#5ad9c1; }
+.aim-update-panel progress { width:100%; accent-color:#5ad9c1; }
+.aim-update-panel [hidden] { display:none; }
+.aim-update-toast { position:fixed; bottom:24px; right:24px; z-index:9000; max-width:min(440px,calc(100vw - 48px)); padding:16px; color:#edf2f6; background:#142330; border:1px solid #5ad9c1; border-radius:6px; box-shadow:0 8px 30px #0008; font:14px/1.5 system-ui,sans-serif; }
+.aim-update-toast p { margin:0 0 12px; }.aim-update-toast button { margin:4px; }

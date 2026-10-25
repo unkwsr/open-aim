@@ -12,7 +12,8 @@
     "prebuild": "node ../scripts/build-scenarios.mjs",
     "build": "electron-builder --win portable nsis",
     "check": "node ../scripts/build-scenarios.mjs --check",
-    "test:import": "node --test ../scripts/test-valorant-import.cjs"
+    "test:import": "node --test ../scripts/test-valorant-import.cjs",
+    "test:updates": "node --test ../scripts/test-release-updates.cjs"
   },
   "build": {
     "appId": "local.aimtrainer.offline",
@@ -31,6 +32,9 @@
       "valorant-import-ui.js",
       "valorant-import-ipc.js",
       "valorant-import.css",
+      "release-updates.js",
+      "release-updates-ui.js",
+      "release-updates.css",
       "backups.js",
       "offline.css",
       "studio-store.js",
@@ -68,7 +72,9 @@
     },
     "nsis": {
       "artifactName": "AimTrainer-Setup.exe",
-      "oneClick": true,
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "include": "build/installer.nsh",
       "perMachine": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,

@@ -68,6 +68,8 @@ const PLAYER_TOOLS_JS = fs.readFileSync(path.join(__dirname, "player-tools.js"),
 const VALORANT_IMPORT_JS = ["valorant-import.js", "valorant-import-ui.js"]
   .map(name => fs.readFileSync(path.join(__dirname, name), "utf-8")).join("\n");
 const VALORANT_IMPORT_CSS = fs.readFileSync(path.join(__dirname, "valorant-import.css"), "utf-8");
+const RELEASE_UPDATES_JS = fs.readFileSync(path.join(__dirname, "release-updates-ui.js"), "utf-8");
+const RELEASE_UPDATES_CSS = fs.readFileSync(path.join(__dirname, "release-updates.css"), "utf-8");
 
 // The Studio (studio/ folder, served at /studio/) replaces the site's own scenario editor:
 // /aim/studio redirects there. studio-launch.js lets the Studio start a drill in the lobby.
@@ -364,6 +366,8 @@ function createWindow(url) {
     win.webContents.insertCSS(THEME_CSS);
     win.webContents.insertCSS(OFFLINE_CSS);
     win.webContents.insertCSS(VALORANT_IMPORT_CSS);
+    win.webContents.insertCSS(RELEASE_UPDATES_CSS);
+    win.webContents.executeJavaScript(RELEASE_UPDATES_JS).catch(err => console.log(`RELEASE UPDATES: ${err}`));
     win.webContents.executeJavaScript(VALORANT_IMPORT_JS).catch((err) => console.log(`VALORANT IMPORT: ${err}`));
     win.webContents.executeJavaScript(PLAYER_TOOLS_JS).catch((err) => console.log(`PLAYER TOOLS: ${err}`));
     win.webContents.executeJavaScript(LOBBY_BAR_JS).catch((err) => console.log(`LOBBY BAR: ${err}`));
@@ -489,6 +493,7 @@ app.whenReady().then(async () => {
     return;
   }
   mainWindow = createWindow(ORIGIN + START_PATH);
+  require("./release-updates").register(() => mainWindow);
   mainWindow.on("closed", () => app.quit());
 });
 

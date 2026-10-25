@@ -5,6 +5,21 @@
 const { contextBridge, ipcRenderer, webFrame } = require("electron");
 
 contextBridge.exposeInMainWorld("__aimDesktop", {
+  updates: {
+    state: () => ipcRenderer.invoke("aim:updates:state"),
+    check: () => ipcRenderer.invoke("aim:updates:check"),
+    skip: () => ipcRenderer.invoke("aim:updates:skip"),
+    snooze: () => ipcRenderer.invoke("aim:updates:snooze"),
+    directory: () => ipcRenderer.invoke("aim:updates:directory"),
+    install: () => ipcRenderer.invoke("aim:updates:install"),
+    cancel: () => ipcRenderer.invoke("aim:updates:cancel"),
+    releases: () => ipcRenderer.invoke("aim:updates:releases"),
+    onState: callback => {
+      const listener = (_event, state) => callback(state);
+      ipcRenderer.on("aim:updates:state", listener);
+      return () => ipcRenderer.removeListener("aim:updates:state", listener);
+    },
+  },
   valorant: {
     choose: () => ipcRenderer.invoke("aim:valorant:choose"),
     setVsync: on => ipcRenderer.invoke("aim:valorant:vsync", on),
