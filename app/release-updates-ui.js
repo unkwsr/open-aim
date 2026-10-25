@@ -73,8 +73,9 @@
   }
   function mount() {
     if (toast && !toast.isConnected) toast = null;
-    const settings = document.querySelector(".sd-searchrow");
-    if (settings && !settings.querySelector(".aim-update-settings")) {
+    // .sd-searchrow is the settings window in a round, .st-searchrow the lobby's Settings page.
+    for (const settings of document.querySelectorAll(".sd-searchrow, .st-searchrow")) {
+      if (settings.querySelector(".aim-update-settings")) continue;
       const el = button("Check for updates", open); el.className = "hall-dialog-btn aim-update-settings"; settings.appendChild(el);
     }
     if (state?.status !== "available" || dismissed || panel) { toast?.remove(); toast = null; return; }
@@ -94,7 +95,7 @@
   let scheduled = false;
   new MutationObserver(records => {
     const relevant = records.some(record => [...record.addedNodes, ...record.removedNodes].some(node => node.nodeType === 1 &&
-      (node.matches('.hall-root, .sd-searchrow, [role="dialog"], .hall-dialog, .es-tool-shade') || node.querySelector('.hall-root, .sd-searchrow'))));
+      (node.matches('.hall-root, .sd-searchrow, .st-searchrow, [role="dialog"], .hall-dialog, .es-tool-shade') || node.querySelector('.hall-root, .sd-searchrow, .st-searchrow'))));
     if (!relevant || scheduled) return;
     scheduled = true; setTimeout(() => { scheduled = false; mount(); }, 100);
   }).observe(document.body, { childList: true, subtree: true });

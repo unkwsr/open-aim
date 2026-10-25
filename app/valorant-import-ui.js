@@ -158,8 +158,9 @@
   const defaultBindings = { moveForward:["KeyW",null],moveBack:["KeyS",null],moveLeft:["KeyA",null],moveRight:["KeyD",null],jump:["Space",null],crouch:["ControlLeft","ControlRight"],walk:["ShiftLeft","ShiftRight"],use:["KeyF",null],fire:["Mouse0",null],ads:["Mouse2",null],reload:["KeyR",null],equipPrimary:["Digit1",null],equipMelee:["Digit3",null],inspect:["KeyY",null],tailwind:["KeyE",null],cloudburst:["KeyC",null],restart:["KeyT",null],bigMap:["KeyM",null],buyMenu:["KeyB",null] };
   window.__aimValorantImporter = { open };
   function mount() {
-    const settings = document.querySelector(".sd-searchrow");
-    if (settings && !settings.querySelector(".valorant-import-button")) {
+    // .sd-searchrow is the settings window in a round, .st-searchrow the lobby's Settings page.
+    for (const settings of document.querySelectorAll(".sd-searchrow, .st-searchrow")) {
+      if (settings.querySelector(".valorant-import-button")) continue;
       const button = document.createElement("button"); button.type = "button"; button.className = "hall-dialog-btn valorant-import-button";
       button.textContent = "Import VALORANT settings"; button.onclick = open; settings.appendChild(button);
     }
@@ -170,7 +171,7 @@
   let scheduled = false;
   new MutationObserver(records => {
     const settingsAdded = records.some(r => [...r.addedNodes].some(n => n.nodeType === 1 &&
-      (n.matches(".sd-searchrow") || n.querySelector(".sd-searchrow"))));
+      (n.matches(".sd-searchrow, .st-searchrow") || n.querySelector(".sd-searchrow, .st-searchrow"))));
     if (scheduled || (startupDone && !settingsAdded)) return;
     scheduled = true;
     setTimeout(() => { scheduled = false; mount(); }, 100);
