@@ -1,7 +1,7 @@
 {
   "name": "aim-trainer",
   "productName": "AimTrainer",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Offline desktop version of the open-aim trainer",
   "main": "main.js",
   "private": true,
