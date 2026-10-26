@@ -15,3 +15,16 @@
 .aim-update-toast { position:fixed; bottom:24px; right:24px; z-index:9000; max-width:min(440px,calc(100vw - 48px)); padding:16px; color:#edf2f6; background:#142330; border:1px solid #5ad9c1; border-radius:6px; box-shadow:0 8px 30px #0008; font:14px/1.5 system-ui,sans-serif; }
 .aim-update-toast p { margin:0 0 12px; }.aim-update-toast button { margin:4px; }
 .aim-update-settings { flex-shrink: 0; white-space: nowrap; }
+
+.aim-update-notes {
+  max-height: 230px; overflow-y: auto; margin: 4px 0 6px;
+  padding: 10px 14px; border: 1px solid rgba(255,255,255,.1); border-radius: 8px;
+  background: rgba(0,0,0,.22); font-size: 13px; line-height: 1.5;
+}
+.aim-update-notes h3 { margin: 0 0 8px; font-size: 14px; }
+.aim-update-notes h4 { margin: 12px 0 4px; font-size: 13px; color: var(--es-red, #ff4655); }
+.aim-update-notes h4:first-child { margin-top: 0; }
+.aim-update-notes ul { margin: 2px 0 6px; padding-left: 18px; }
+.aim-update-notes li { margin: 2px 0; }
+.aim-update-notes p { margin: 4px 0; }
+.aim-update-notes code { padding: 1px 5px; border-radius: 4px; background: rgba(255,255,255,.1); font-size: 12px; }

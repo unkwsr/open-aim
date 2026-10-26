@@ -5,6 +5,22 @@
   const button = (text, action) => {
     const el = document.createElement("button"); el.type = "button"; el.textContent = text; el.onclick = action; return el;
   };
+  const escapeText = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const inline = s => escapeText(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>");
+  // Minimal, safe Markdown: everything is escaped first, then only known tags are added.
+  function renderNotes(md) {
+    const out = []; let inList = false;
+    const close = () => { if (inList) { out.push("</ul>"); inList = false; } };
+    for (const raw of md.split(/\r?\n/)) {
+      const line = raw.trim(); let m;
+      if (!line) { close(); }
+      else if (m = line.match(/^#{1,6}\s+(.*)/)) { close(); out.push("<h4>" + inline(m[1]) + "</h4>"); }
+      else if (m = line.match(/^[-*]\s+(.*)/)) { if (!inList) { out.push("<ul>"); inList = true; } out.push("<li>" + inline(m[1]) + "</li>"); }
+      else { close(); out.push("<p>" + inline(line) + "</p>"); }
+    }
+    close();
+    return out.join("");
+  }
   async function run(action) {
     try { const next = await action(); if (next?.status) receive(next); return true; }
     catch (error) { if (!panel) open(); panel.querySelector("[role=status]").textContent = error.message; return false; }
@@ -22,6 +38,7 @@
     panel.innerHTML = `<section role="dialog" aria-modal="true" aria-labelledby="aim-update-title" class="aim-update-panel">
       <header><h2 id="aim-update-title">AimTrainer updates</h2><button type="button" data-close aria-label="Close">×</button></header>
       <p data-version></p><p data-description></p>
+      <div class="aim-update-notes" data-notes hidden></div>
       <div data-folder><label>Installation folder</label><div class="aim-update-folder"><output></output><button type="button" data-browse>Change folder…</button></div>
       <p>Your current installation is selected by default. Updating replaces the app and keeps your settings and training data.</p></div>
       <progress max="100" value="0" aria-label="Installer download progress" hidden></progress>
@@ -50,6 +67,10 @@
     panel.querySelector("[data-description]").textContent = state.supported
       ? "Updates come from published releases on the official open-aim GitHub repository. Installing closes the app and opens the new version."
       : "Portable and development builds can check for updates here. Download their replacement from the official releases page. In-app installation is available in the installed Windows app.";
+    const notes = panel.querySelector("[data-notes]");
+    const body = state.release && state.release.notes;
+    notes.hidden = !body;
+    if (body && notes.dataset.for !== state.release.version) { notes.dataset.for = state.release.version; notes.innerHTML = `<h3>What's new in ${escapeText(state.release.name || state.release.version)}</h3>` + renderNotes(body); }
     panel.querySelector("[data-folder]").hidden = !state.supported || !state.release;
     panel.querySelector("output").textContent = state.directory;
     panel.querySelector("[data-browse]").disabled = busy;

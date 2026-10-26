@@ -29,7 +29,9 @@ function parseRelease(data, current) {
     throw new Error("This release has no verified Windows installer yet. Try again later or download it from GitHub.");
   }
   return { version: data.tag_name.replace(/^v/, ""), url: asset.browser_download_url,
-    size: asset.size, sha256: asset.digest.slice(7).toLowerCase() };
+    size: asset.size, sha256: asset.digest.slice(7).toLowerCase(),
+    name: typeof data.name === "string" && data.name.trim() ? data.name.trim() : data.tag_name,
+    notes: typeof data.body === "string" ? data.body.slice(0, 8000) : "" };
 }
 
 function createUpdater(options) {
@@ -81,7 +83,7 @@ function createUpdater(options) {
           release = parseRelease(JSON.parse(Buffer.concat(chunks).toString("utf8")), currentVersion);
         }
         const hidden = release && !manual && prefs.ignoredVersion === release.version;
-        return update({ status: release && !hidden ? "available" : "latest", release: release && !hidden ? { version: release.version } : null });
+        return update({ status: release && !hidden ? "available" : "latest", release: release && !hidden ? { version: release.version, name: release.name, notes: release.notes } : null });
       } catch (error) {
         release = null;
         return update({ status: "error", release: null, error: error.message === "fetch failed" ? "Could not reach GitHub. Check your connection and try again." : error.message || "Could not check for updates." });
