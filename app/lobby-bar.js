@@ -144,10 +144,7 @@
     requestAnimationFrame(() => {
       queued = false;
       sync();
-      glideTabs();
     });
   }, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
   sync();
-  glideTabs();
-  addEventListener("resize", glideTabs);
 })();
