@@ -4,49 +4,80 @@ All notable changes to open-aim. Newest first.
 
 ## [1.3.0] - 2026-10-29
 
-### Added
+The biggest update yet: a new map, 15 skins, new aiming and effects, a much bigger Studio and smoother performance. Your settings and training data are kept when you update.
 
-- New map: Sunset, with six pre-aim drills (A Short, A Tube and B Main, each Easy and Hard).
-- Weapon skins in Settings: Vandal RGX Yellow, Gaia Orange and Gaia White, Phantom BlastX,
-  Guardian Prime, Sheriff Singularity, Operator Araxys and Rogue, Ghost Smite. Several
-  have their own firing sounds and kill effects.
-- Melee skins: Black Market Butterfly, Orange Butterfly, Karambit Damascus Steel, Prime
-  Axe, Silkleaf Fan and Half Life Crowbar.
-- New headshot effect.
-- Shooting error graph (Settings > Video > Stats): a thin bar per shot, yellow for spray
-  error and blue for movement error.
-- Advanced bullet tracers with their own look per skin (Settings > Visuals).
-- Sniper scopes for the Marshal, Outlaw and Operator; SMGs and heavies aim down sights
-  like the rifles.
-- Studio: 3D and Detailed map views, arena drills, Copycat bots that repeat a run you
-  recorded, and bots that jump and crouch.
-- Startup screen, and a loading card when a drill needs a moment to start.
+### New map
+- **Sunset**, with six pre-aim drills: A Short, A Tube and B Main, each in **Easy** (bots don't shoot) and **Hard** (bots shoot back).
+- Sunset has its own map art on drill cards, favorites and the loading screen.
+
+### New skins
+- **Vandal:** RGX Yellow, Gaia Orange, Gaia White
+- **Phantom:** BlastX
+- **Guardian:** Prime
+- **Sheriff:** Singularity
+- **Ghost:** Smite
+- **Operator:** Araxys, Rogue
+- **Melee:** Black Market Butterfly, Orange Butterfly, Karambit Damascus Steel, Prime Axe, Silkleaf Fan, Half Life Crowbar
+- Several skins have their own firing sounds, kill sounds and kill effects.
+- Pick skins in **Settings**. New defaults: RGX Vandal, BlastX Phantom, Singularity Sheriff, Rogue Operator and Black Market Butterfly.
+
+### Aiming and weapons
+- **Holo sights** on the Odin, Ares, Spectre, Stinger and Bulldog: the folding reflex sight and aim-in animations the rifles use. Aim speed, zoom and accuracy are unchanged.
+- **Sniper scopes** for the Marshal, Outlaw and Operator, with a smoother opening. Scope timing is unchanged.
+- The gun and hands move together while strafing.
+- Aiming right after pulling out a gun no longer shows the sight off to the side.
+- **No more first-shot freezes:** the worst frame while firing dropped from up to 150 ms to under 4 ms.
+- Every weapon and skin is prepared before a drill starts, so switching weapons doesn't stutter.
+- Phantom, Spectre and Ghost tracers use the same orange as the Vandal.
+
+### Effects and sound
+- **New headshot effect:** sharp, quick splashes on bots.
+- Hitting a dot (Grid Shooting and other target drills) plays a new hit sound, without the impact burst.
+- Studio target dots are white in Dark mode and black in Light mode.
+- **Advanced bullet tracers** (Settings > Visuals), with their own look per skin.
+- Bots use the original weapon sounds.
+
+### HUD and settings
+- **Shooting error graph** (Settings > Video > Stats): a thin bar per shot, yellow for spray error, blue for movement error.
+- **Frame mode** in Video: Unlimited, Match display or Custom (30–1000 FPS, presets 120 / 144 / 165 / 240 / 360).
+- The FPS counter sits under the minimap, only while you play.
+- The **Interface** setting is back (Video > Smoothness): Enhanced, or Performance with no glass blur.
+- Crosshair settings in a match have a bigger preview with the map behind it, the RGX sight and the sniper scope.
+- Crosshair changes apply right away in a drill, without leaving it.
+- **Import VALORANT settings** and the update panel have the esports look. The update panel shows what's new before you install.
+- **Updates** button in the lobby bar, with a red dot when a new version is out.
+
+### Studio
+- **3D** and **Detailed** views: Detailed shows the real game map, and 3D shows clean maps.
+- **Copycat bots:** record a run, and a bot repeats it and shoots at you. Saved runs are kept in a **Runs** library.
+- Bot options: **Unpredictable** movement, **jumps** (0.2–2 m), **occasional crouching** and **slows when hit**.
+- **Arenas** from 12 to 200 m, with walls up to 40 m.
+- Quiet **Dark** and **Light** looks with **Flat** or **Grid** surfaces.
+- Dragging pieces in the editor is much smoother.
+- Bots face the way you set them, and respawn at their own spawn point.
+- Drills started from the Studio return to the Studio when you leave them.
+
+### Lobby and app
+- Opens in **fullscreen** like a real game. F11 switches to a window, and the app remembers your choice.
+- Startup screen while the game loads, and a loading card when a drill needs a moment.
+- Restarting a drill skips the full loading screen.
 - Smooth mouse-wheel scrolling in the lobby and menus.
 - Favorites work offline.
-
-### Changed
-
-- Opens in fullscreen like a game. F11 switches to a window, and the app remembers it.
-- Default skins: Vandal RGX Yellow, Phantom BlastX, Sheriff Singularity, Operator Rogue
-  and the Black Market Butterfly. A skin you picked yourself is kept.
-- Sunset drills show their difficulty: Easy when bots don't shoot, Hard when they do.
-- The Import VALORANT settings and update notices wait until the startup screen is gone.
-- Lobby: card corners have a proper edge, and the filter bar that follows you while
-  scrolling fits on one line.
-- The VALORANT settings import and the update panel use the esports look. The update
-  panel shows "What's new" from the release notes before you install.
-- Updates button in the lobby bar (red dot when a new version is out); it replaces
-  Check for updates in Settings.
-- The Interface setting (Video > Smoothness: Enhanced or Performance) is back.
-- Smoother frames on Sunset, Corrode and drills with many bots.
+- Lobby polish: cleaner card corners, and the filter bar fits on one line while scrolling.
+- The VALORANT import prompt waits until loading is done.
 - Difficulty labels are always in English.
 
-### Fixed
+### Performance
+- Smoother frames on Sunset, Corrode and drills with many bots.
+- Maps and bots draw with less work, without bots popping in late when you peek.
+- Smoother frames with no FPS limit.
+- Faster drills with jumping and crouching bots.
 
+### Fixes
 - Corrode: invisible walls no longer stop bullets in arches and doorways.
+- The game no longer tries to load online pages that aren't there.
 
 ### Removed
-
 - The 1.2.0 headshot effect, replaced by the new one.
 - The "S0pp: no-armor pistol round" drill.
 
