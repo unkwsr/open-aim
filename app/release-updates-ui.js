@@ -94,11 +94,8 @@
   }
   function mount() {
     if (toast && !toast.isConnected) toast = null;
-    // .sd-searchrow is the settings window in a round, .st-searchrow the lobby's Settings page.
-    for (const settings of document.querySelectorAll(".sd-searchrow, .st-searchrow")) {
-      if (settings.querySelector(".aim-update-settings")) continue;
-      const el = button("Check for updates", open); el.className = "hall-dialog-btn aim-update-settings"; settings.appendChild(el);
-    }
+    // The Updates button in the lobby bar (lobby-bar.js) shows a dot while one is available.
+    document.documentElement.toggleAttribute("data-aim-update-available", state?.status === "available");
     if (state?.status !== "available" || dismissed || panel) { toast?.remove(); toast = null; return; }
     const lobby = document.querySelector(".hall-root");
     if (!lobby || !lobby.getClientRects().length || document.pointerLockElement ||

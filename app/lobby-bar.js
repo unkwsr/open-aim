@@ -10,7 +10,8 @@
   const GAUGE = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 18a9 9 0 1 1 16 0"/><path d="M12 14l4-5"/></svg>';
 
   const SENS_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="7"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/></svg>';
-  const BACKUP_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v12H4z"/><path d="M3 4h18v3H3zM10 11h4"/></svg>';
+  const UPDATE_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 19h14"/></svg>';
+  const BACKUP_ICON ='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v12H4z"/><path d="M3 4h18v3H3zM10 11h4"/></svg>';
 
   // The single game-render meter is owned by frame-meter.js.
   function meterOn() { return window.__aimFrameMeter?.enabled() ?? false; }
@@ -117,6 +118,20 @@
       s.textContent = label;
       b.appendChild(s);
       b.addEventListener("click", () => window.__aimTools?.[open]());
+      bar.appendChild(b);
+    }
+
+    // Check for updates (release-updates-ui.js), in the installed and portable apps.
+    if (window.__aimDesktop?.updates) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "es-bar-btn es-bar-updates";
+      b.title = "Check for updates";
+      b.innerHTML = UPDATE_ICON;
+      const s = document.createElement("span");
+      s.textContent = "Updates";
+      b.appendChild(s);
+      b.addEventListener("click", () => window.__aimReleaseUpdates?.open());
       bar.appendChild(b);
     }
 

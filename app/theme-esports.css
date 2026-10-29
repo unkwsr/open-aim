@@ -977,6 +977,10 @@ html[data-aim-local]:not(#es) body .al-trainer-shell { background: var(--es-bg) 
 .es-tool button:not(.es-tool-x):hover { background: #272d39; border-left-color: #ff4655; }
 .es-tool button.es-tool-primary { background: #ff4655; border-left: none; clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%); padding: 0 20px; font-style: italic; }
 .es-tool button.es-tool-primary:hover { background: #ff6b77; }
+/* vi.css (the site's base theme) rounds every button and drops uppercase with !important;
+   dialogs keep the square esports shape and the slanted primary button. */
+html[data-aim-local]:not(#es) body :is(.es-tool, .aim-update-panel, .aim-update-toast) :is(button, [role="button"]) { border-radius: 0 !important; text-transform: uppercase !important; }
+html[data-aim-local]:not(#es) body :is(.es-tool button.es-tool-primary, .aim-update-panel .aim-update-primary, .aim-update-toast button:first-of-type) { clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%) !important; }
 .es-tool-status { min-height: 18px; margin: 8px 0; font-size: 13px; color: #4ade80; }
 .es-tool-status.is-bad { color: #ff6b77; }
 .es-tool-note { margin: 10px 0; font-size: 13px; color: #9aa1ae; }

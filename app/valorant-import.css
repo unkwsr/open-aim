@@ -8,7 +8,9 @@
 .valorant-import details[open] { border-left-color: #ff4655; }
 .valorant-import summary { cursor: pointer; font-weight: 700; font-stretch: 75%; text-transform: uppercase; letter-spacing: 0.08em; color: #f4f5f7; }
 .valorant-import summary::marker { color: #ff4655; }
-.valorant-import ol, .valorant-import ul { padding-left: 20px; }
+html[data-aim-local]:not(#es) body .valorant-import ol { list-style: decimal outside !important; padding-left: 20px !important; }
+html[data-aim-local]:not(#es) body .valorant-import ul { list-style: square outside !important; padding-left: 20px !important; }
+html[data-aim-local]:not(#es) body .valorant-import li { display: list-item !important; list-style: inherit !important; }
 .valorant-import li { margin: 6px 0; line-height: 1.5; }
 .valorant-import li::marker { color: #ff6b77; }
 .valorant-import li b { color: #fff; }
@@ -35,5 +37,19 @@
 .valorant-import button:disabled { opacity: 0.45; cursor: not-allowed; }
 .valorant-import-hide { display: flex; gap: 8px; align-items: center; margin: 16px 0 0; font-size: 13px; color: #9aa1ae; cursor: pointer; }
 .valorant-import-hide input { accent-color: #ff4655; }
-.valorant-import-button { flex-shrink: 0; }
+/* "Import VALORANT settings" next to the Settings search */
+html[data-aim-local]:not(#es) body .valorant-import-button {
+  flex-shrink: 0;
+  padding: 0 16px !important;
+  color: #f4f5f7 !important;
+  background: #171b23 !important;
+  border: 1px solid #272d39 !important;
+  border-left: 3px solid #ff4655 !important;
+  border-radius: 0 !important;
+  font: 700 13px "Bahnschrift", "Segoe UI", sans-serif !important;
+  font-stretch: 75% !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.04em !important;
+}
+html[data-aim-local]:not(#es) body .valorant-import-button:hover { background: #1e232d !important; color: #fff !important; }
 .valorant-import details:not([open]) > :not(summary) { display: none; }

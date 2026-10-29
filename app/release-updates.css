@@ -68,7 +68,9 @@
 }
 .aim-update-toast p { margin: 0 0 10px; font-size: 15px; font-weight: 700; }
 .aim-update-toast button { margin: 4px 6px 0 0; }
-.aim-update-settings { flex-shrink: 0; white-space: nowrap; }
+/* Updates button in the lobby bar (lobby-bar.js): a red dot while an update is available. */
+html[data-aim-update-available] .es-bar-updates { position: relative; color: #fff !important; }
+html[data-aim-update-available] .es-bar-updates::after { content: ""; position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; background: #ff4655; box-shadow: 0 0 0 2px #090b0f; }
 
 /* "What's new": the release's notes from GitHub. Each "## Heading" becomes a section
    under a slanted red bar, e.g. "## New map", "## New skins", "## Fixes". */

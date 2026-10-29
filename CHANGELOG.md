@@ -28,6 +28,8 @@ All notable changes to open-aim. Newest first.
 
 - The VALORANT settings import and the update panel use the esports look. The update
   panel shows "What's new" from the release notes before you install.
+- Updates button in the lobby bar (red dot when a new version is out); it replaces
+  Check for updates in Settings.
 - Check for updates and Import VALORANT settings are on the lobby Settings page too.
 - The Interface setting (Video > Smoothness: Enhanced or Performance) is back.
 - Smoother frames on Sunset, Corrode and drills with many bots.
