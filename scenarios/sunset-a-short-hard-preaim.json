@@ -6,7 +6,7 @@
     "docBytes": 6193,
     "featured": false,
     "mapId": "juliett",
-    "name": "Sunset A Short: hard pre-aim",
+    "name": "困难 - Sunset A Short: pre-aim",
     "parSeconds": null,
     "playCount": 0,
     "sceneKey": "set-377921a685c761aa",
@@ -18,7 +18,7 @@
   "scene": {
     "shareCode": "377921a685c761aa",
     "sceneKey": "set-377921a685c761aa",
-    "name": "Sunset A Short: hard pre-aim",
+    "name": "困难 - Sunset A Short: pre-aim",
     "description": "15 bots at randomized captured positions. Clear A Short into A site, including the defender-side angles and tube. Bots shoot back; dying ends the round.",
     "schemaVersion": 2,
     "sceneHash": "d4305806b8d3e8b1",

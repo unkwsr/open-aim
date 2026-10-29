@@ -6,7 +6,7 @@
     "docBytes": 6655,
     "featured": false,
     "mapId": "juliett",
-    "name": "Sunset A Tube: hard pre-aim",
+    "name": "困难 - Sunset A Tube: pre-aim",
     "parSeconds": null,
     "playCount": 0,
     "sceneKey": "set-382004b0566223b7",
@@ -18,7 +18,7 @@
   "scene": {
     "shareCode": "382004b0566223b7",
     "sceneKey": "set-382004b0566223b7",
-    "name": "Sunset A Tube: hard pre-aim",
+    "name": "困难 - Sunset A Tube: pre-aim",
     "description": "16 bots at randomized captured positions. Clear the route through A Tube into A site. Watch the boxes and deep corners. Bots shoot back; dying ends the round.",
     "schemaVersion": 2,
     "sceneHash": "9a36d1cca1501707",

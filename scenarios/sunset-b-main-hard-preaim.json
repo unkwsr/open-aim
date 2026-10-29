@@ -6,7 +6,7 @@
     "docBytes": 6268,
     "featured": false,
     "mapId": "juliett",
-    "name": "Sunset B Main: hard pre-aim",
+    "name": "困难 - Sunset B Main: pre-aim",
     "parSeconds": null,
     "playCount": 0,
     "sceneKey": "set-03bd24fedb5bcd4c",
@@ -18,7 +18,7 @@
   "scene": {
     "shareCode": "03bd24fedb5bcd4c",
     "sceneKey": "set-03bd24fedb5bcd4c",
-    "name": "Sunset B Main: hard pre-aim",
+    "name": "困难 - Sunset B Main: pre-aim",
     "description": "15 bots at randomized captured positions. Clear B Main into B site, including the shop entrance and hidden corners. Bots shoot back; dying ends the round.",
     "schemaVersion": 2,
     "sceneHash": "0725143d06db202c",

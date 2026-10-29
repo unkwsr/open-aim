@@ -99,7 +99,7 @@
     if (state?.status !== "available" || dismissed || panel) { toast?.remove(); toast = null; return; }
     const lobby = document.querySelector(".hall-root");
     if (!lobby || !lobby.getClientRects().length || document.pointerLockElement ||
-        document.querySelector('[role="dialog"], .hall-dialog, .es-tool-shade')) { toast?.remove(); toast = null; return; }
+        document.querySelector('[role="dialog"], .hall-dialog, .es-tool-shade, .es-startup, .al-wkload, .aim-loading-compact, .al-aimlab-root')) { toast?.remove(); toast = null; return; }
     if (toast) return;
     toast = document.createElement("aside"); toast.className = "aim-update-toast"; toast.setAttribute("aria-label", "Update available");
     const text = document.createElement("p"); text.textContent = `AimTrainer ${state.release.version} is available.`;
@@ -113,7 +113,7 @@
   let scheduled = false;
   new MutationObserver(records => {
     const relevant = records.some(record => [...record.addedNodes, ...record.removedNodes].some(node => node.nodeType === 1 &&
-      (node.matches('.hall-root, .sd-searchrow, .st-searchrow, [role="dialog"], .hall-dialog, .es-tool-shade') || node.querySelector('.hall-root, .sd-searchrow, .st-searchrow'))));
+      (node.matches('.hall-root, .sd-searchrow, .st-searchrow, [role="dialog"], .hall-dialog, .es-tool-shade, .es-startup, .al-wkload, .aim-loading-compact, .al-aimlab-root') || node.querySelector('.hall-root, .sd-searchrow, .st-searchrow'))));
     if (!relevant || scheduled) return;
     scheduled = true; setTimeout(() => { scheduled = false; mount(); }, 100);
   }).observe(document.body, { childList: true, subtree: true });

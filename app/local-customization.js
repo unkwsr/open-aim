@@ -5,11 +5,11 @@
   const SKIN = 'es-vandal-skin';
   if(localStorage.getItem(SKIN)&&!['default-vandal','rgx-vandal-yellow','gaia-vandal-orange','gaia-vandal-white'].includes(localStorage.getItem(SKIN)))localStorage.setItem(SKIN,'default-vandal');
   if(localStorage.getItem('es-melee-skin')==='reaver-karambit')localStorage.setItem('es-melee-skin','damascus-karambit');
-  window.__aimMeleeSkin = localStorage.getItem('es-melee-skin') || 'silkleaf-fan';
+  window.__aimMeleeSkin = localStorage.getItem('es-melee-skin') || 'blackmarket-butterfly';
   if(localStorage.getItem('es-phantom-skin')&&!['default','blastx-phantom'].includes(localStorage.getItem('es-phantom-skin')))localStorage.setItem('es-phantom-skin','default');
   window.__aimPhantomSkin = localStorage.getItem('es-phantom-skin') || 'blastx-phantom';
-  window.__aimSheriffSkin = localStorage.getItem('es-sheriff-skin') === 'singularity-sheriff' ? 'singularity-sheriff' : 'default';
-  window.__aimOperatorSkin = ['araxys-operator','rogue-operator'].includes(localStorage.getItem('es-operator-skin')) ? localStorage.getItem('es-operator-skin') : 'default';
+  window.__aimSheriffSkin = localStorage.getItem('es-sheriff-skin') === 'default' ? 'default' : 'singularity-sheriff';
+  window.__aimOperatorSkin = ['default','araxys-operator','rogue-operator'].includes(localStorage.getItem('es-operator-skin')) ? localStorage.getItem('es-operator-skin') : 'rogue-operator';
   window.__aimGuardianSkin = localStorage.getItem('es-guardian-skin') === 'prime-guardian' ? 'prime-guardian' : 'default';
   localStorage.setItem('es-classic-skin','default');
   window.__aimClassicSkin = 'default';

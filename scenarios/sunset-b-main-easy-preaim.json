@@ -6,7 +6,7 @@
     "docBytes": 5955,
     "featured": false,
     "mapId": "juliett",
-    "name": "Sunset B Main: easy pre-aim",
+    "name": "简单 - Sunset B Main: pre-aim",
     "parSeconds": null,
     "playCount": 0,
     "sceneKey": "set-0bde7807c506db39",
@@ -18,7 +18,7 @@
   "scene": {
     "shareCode": "0bde7807c506db39",
     "sceneKey": "set-0bde7807c506db39",
-    "name": "Sunset B Main: easy pre-aim",
+    "name": "简单 - Sunset B Main: pre-aim",
     "description": "15 bots at randomized captured positions. Clear B Main into B site, including the shop entrance and hidden corners. Bots do not shoot back.",
     "schemaVersion": 2,
     "sceneHash": "5cfce17154c9d49a",

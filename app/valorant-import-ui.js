@@ -164,7 +164,9 @@
       const button = document.createElement("button"); button.type = "button"; button.className = "hall-dialog-btn valorant-import-button";
       button.textContent = "Import VALORANT settings"; button.onclick = open; settings.appendChild(button);
     }
-    if (!startupDone && document.querySelector(".hall-root") && !document.querySelector('[role="dialog"], .hall-dialog, .es-tool-shade')) {
+    // Not over the startup screen, a drill's loading screen or a round.
+    if (!startupDone && document.querySelector(".hall-root") &&
+        !document.querySelector('[role="dialog"], .hall-dialog, .es-tool-shade, .es-startup, .al-wkload, .aim-loading-compact, .al-aimlab-root')) {
       startupDone = true; sessionStorage.setItem(SHOWN, "1"); open();
     }
   }

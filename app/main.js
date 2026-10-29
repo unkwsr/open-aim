@@ -403,6 +403,8 @@ function createWindow(url) {
     webPreferences: { backgroundThrottling: false, preload: path.join(__dirname, "preload.js") },
   });
   win.maximize();
+  // Fullscreen like a game, unless the player left it with F11 last time.
+  if (shellSettings.fullscreen !== false) win.setFullScreen(true);
   // Game pages: show the window once the theme and startup screen are in, so the
   // half-loaded lobby never flashes first. The fallback keeps it from staying hidden.
   let shown = false;
@@ -431,7 +433,14 @@ function createWindow(url) {
   win.webContents.on("before-input-event", (event, input) => {
     if (input.type !== "keyDown") return;
     if (input.key === "F11") {
-      win.setFullScreen(!win.isFullScreen());
+      const on = !win.isFullScreen();
+      win.setFullScreen(on);
+      shellSettings.fullscreen = on;
+      try {
+        fs.writeFileSync(SHELL_FILE, JSON.stringify(shellSettings, null, 2));
+      } catch (err) {
+        console.log(`SHELL SETTINGS: ${err}`);
+      }
       event.preventDefault();
     } else if (input.key === "F12") {
       win.webContents.toggleDevTools();

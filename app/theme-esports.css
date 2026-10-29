@@ -403,6 +403,28 @@ html[data-aim-local]:not(#es) body .al-wk-card {
   transition: transform 0.12s, border-color 0.12s;
 }
 html[data-aim-local]:not(#es) body .al-wk-card:hover { transform: translateY(-2px); border-bottom-color: var(--es-red) !important; }
+/* The cut corner (--es-cut) gets its own edge, so the border doesn't just stop there. */
+html[data-aim-local]:not(#es) body .al-wk-card::before {
+  content: "";
+  position: absolute;
+  right: -1px; /* over the 1px side and 3px bottom borders */
+  bottom: -3px;
+  z-index: 3;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+  background: linear-gradient(to bottom right, transparent calc(50% - 2px), var(--es-card-edge, var(--es-line-2)) calc(50% - 2px), var(--es-card-edge, var(--es-line-2)) 50%, transparent 50%);
+}
+html[data-aim-local]:not(#es) body .al-wk-card:hover { --es-card-edge: var(--es-red); }
+/* The filter bar that sticks to the top while scrolling holds the map strip, filters and
+   sorting on one line, which ran past the window edge: tighter spacing, and narrower
+   windows drop the counts. */
+html[data-aim-local]:not(#es) body .al-wk-dock { gap: 10px !important; }
+html[data-aim-local]:not(#es) body .al-wk-dock .al-wk-dmap button { padding-inline: 8px !important; }
+html[data-aim-local]:not(#es) body .al-wk-dock .al-wk-dchips .al-wk-chip { padding-inline: 9px !important; }
+@media (max-width: 1800px) {
+  html[data-aim-local]:not(#es) body .al-wk-dock :is(.al-wk-dmap button, .al-wk-dchips .al-wk-chip) em { display: none !important; }
+}
 html[data-aim-local]:not(#es) body .al-wk-card :is(.al-wk-art, img) { border-radius: 0 !important; }
 html[data-aim-local]:not(#es) body .al-wk-card h3 { font-size: 19px !important; font-weight: 800 !important; line-height: 1.1 !important; font-stretch: 75%; text-transform: uppercase; }
 html[data-aim-local]:not(#es) body .al-wk-card-no { font-weight: 700 !important; letter-spacing: 0.08em; color: #fff !important; }

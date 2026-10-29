@@ -26,11 +26,17 @@ All notable changes to open-aim. Newest first.
 
 ### Changed
 
+- Opens in fullscreen like a game. F11 switches to a window, and the app remembers it.
+- Default skins: Vandal RGX Yellow, Phantom BlastX, Sheriff Singularity, Operator Rogue
+  and the Black Market Butterfly. A skin you picked yourself is kept.
+- Sunset drills show their difficulty: Easy when bots don't shoot, Hard when they do.
+- The Import VALORANT settings and update notices wait until the startup screen is gone.
+- Lobby: card corners have a proper edge, and the filter bar that follows you while
+  scrolling fits on one line.
 - The VALORANT settings import and the update panel use the esports look. The update
   panel shows "What's new" from the release notes before you install.
 - Updates button in the lobby bar (red dot when a new version is out); it replaces
   Check for updates in Settings.
-- Check for updates and Import VALORANT settings are on the lobby Settings page too.
 - The Interface setting (Video > Smoothness: Enhanced or Performance) is back.
 - Smoother frames on Sunset, Corrode and drills with many bots.
 - Difficulty labels are always in English.
@@ -42,6 +48,7 @@ All notable changes to open-aim. Newest first.
 ### Removed
 
 - The 1.2.0 headshot effect, replaced by the new one.
+- The "S0pp: no-armor pistol round" drill.
 
 ## [1.2.0] - 2026-10-25
 
