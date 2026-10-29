@@ -1,13 +1,39 @@
+/* Import VALORANT settings (valorant-import-ui.js). The panel is an .es-tool dialog
+   (theme-esports.css); this adds the esports look to its own parts. */
 .valorant-import-shade { z-index: 2147483646 !important; }
-.valorant-import { width: min(780px, 100%); background: #111923; backdrop-filter: none; }
-.valorant-import .es-tool-body { font-size: 14px; line-height: 1.5; }
-.valorant-import details { margin: 12px 0; padding: 12px; border: 1px solid #344452; border-radius: 8px; }
-.valorant-import summary { cursor: pointer; font-weight: 600; }
-.valorant-import li { margin: 8px 0; line-height: 1.5; }
-.valorant-import code { overflow-wrap: anywhere; color: #bce9e4; user-select: text; }
-.valorant-import select { max-width: 100%; margin: 8px; padding: 8px; background: #182631; color: #fff; }
-.valorant-import-drop { border: 2px dashed #5c7d8d; border-radius: 8px; text-align: center; padding: 24px; cursor: pointer; margin-top: 16px; }
-.valorant-import-drop.is-over, .valorant-import-drop:focus-visible { border-color: #70e0d1; background: #213c42; }
-.valorant-import-hide { display: flex; gap: 8px; align-items: center; margin: 16px 0; }
+.valorant-import { width: min(780px, 100%); }
+.valorant-import .es-tool-body { font-size: 14px; line-height: 1.5; color: #d6d9df; }
+.valorant-import .es-tool-body p { color: #9aa1ae; font-size: 13px; }
+.valorant-import details { margin: 12px 0; padding: 10px 14px; background: rgba(255, 255, 255, 0.03); border-left: 3px solid #343b4a; }
+.valorant-import details[open] { border-left-color: #ff4655; }
+.valorant-import summary { cursor: pointer; font-weight: 700; font-stretch: 75%; text-transform: uppercase; letter-spacing: 0.08em; color: #f4f5f7; }
+.valorant-import summary::marker { color: #ff4655; }
+.valorant-import ol, .valorant-import ul { padding-left: 20px; }
+.valorant-import li { margin: 6px 0; line-height: 1.5; }
+.valorant-import li::marker { color: #ff6b77; }
+.valorant-import li b { color: #fff; }
+.valorant-import code { overflow-wrap: anywhere; padding: 1px 5px; color: #ff9aa2; background: rgba(255, 70, 85, 0.1); user-select: text; }
+.valorant-import label:has(select) { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #9aa1ae; }
+.valorant-import select { max-width: 100%; height: 34px; padding: 0 10px; color: #fff; background: #10131a; border: 1px solid #343b4a; border-radius: 0; font: 14px "Bahnschrift", "Segoe UI", sans-serif; }
+.valorant-import select:focus { outline: none; border-color: #ff4655; }
+.valorant-import-drop {
+  margin-top: 16px;
+  padding: 26px;
+  text-align: center;
+  cursor: pointer;
+  color: #9aa1ae;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed #343b4a;
+  font-weight: 700;
+  font-stretch: 75%;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+.valorant-import-drop:hover, .valorant-import-drop.is-over, .valorant-import-drop:focus-visible { outline: none; color: #fff; border-color: #ff4655; background: rgba(255, 70, 85, 0.1); }
+.valorant-import [data-preview] > ul { max-height: 260px; overflow: auto; margin: 8px 0; padding: 8px 10px 8px 26px; background: rgba(0, 0, 0, 0.25); scrollbar-width: thin; scrollbar-color: #343b4a transparent; }
+.valorant-import button:disabled { opacity: 0.45; cursor: not-allowed; }
+.valorant-import-hide { display: flex; gap: 8px; align-items: center; margin: 16px 0 0; font-size: 13px; color: #9aa1ae; cursor: pointer; }
+.valorant-import-hide input { accent-color: #ff4655; }
 .valorant-import-button { flex-shrink: 0; }
 .valorant-import details:not([open]) > :not(summary) { display: none; }

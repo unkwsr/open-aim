@@ -2,6 +2,45 @@
 
 All notable changes to open-aim. Newest first.
 
+## [1.3.0] - 2026-10-29
+
+### Added
+
+- New map: Sunset, with six pre-aim drills (A Short, A Tube and B Main, each Easy and Hard).
+- Weapon skins in Settings: Vandal RGX Yellow, Gaia Orange and Gaia White, Phantom BlastX,
+  Guardian Prime, Sheriff Singularity, Operator Araxys and Rogue, Ghost Smite. Several
+  have their own firing sounds and kill effects.
+- Melee skins: Black Market Butterfly, Orange Butterfly, Karambit Damascus Steel, Prime
+  Axe, Silkleaf Fan and Half Life Crowbar.
+- New headshot effect.
+- Shooting error graph (Settings > Video > Stats): a thin bar per shot, yellow for spray
+  error and blue for movement error.
+- Advanced bullet tracers with their own look per skin (Settings > Visuals).
+- Sniper scopes for the Marshal, Outlaw and Operator; SMGs and heavies aim down sights
+  like the rifles.
+- Studio: 3D and Detailed map views, arena drills, Copycat bots that repeat a run you
+  recorded, and bots that jump and crouch.
+- Startup screen, and a loading card when a drill needs a moment to start.
+- Smooth mouse-wheel scrolling in the lobby and menus.
+- Favorites work offline.
+
+### Changed
+
+- The VALORANT settings import and the update panel use the esports look. The update
+  panel shows "What's new" from the release notes before you install.
+- Check for updates and Import VALORANT settings are on the lobby Settings page too.
+- The Interface setting (Video > Smoothness: Enhanced or Performance) is back.
+- Smoother frames on Sunset, Corrode and drills with many bots.
+- Difficulty labels are always in English.
+
+### Fixed
+
+- Corrode: invisible walls no longer stop bullets in arches and doorways.
+
+### Removed
+
+- The 1.2.0 headshot effect, replaced by the new one.
+
 ## [1.2.0] - 2026-10-25
 
 ### Added
