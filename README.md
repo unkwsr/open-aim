@@ -10,20 +10,25 @@
   &nbsp;·&nbsp;
   <a href="#build-your-own-drills">Make a drill</a>
   &nbsp;·&nbsp;
+  <a href="CHANGELOG.md">What's new in 1.3.0</a>
+  &nbsp;·&nbsp;
   <a href="#run-it-from-source">Run from source</a>
 </p>
 
 <p align="center">
-  <img src="docs/images/hero.jpg" alt="Pre-aiming three bots on the stairs in Haven" width="100%">
+  <img src="docs/images/v1.3/hero-sunset.png" alt="Training against bots on Sunset with the RGX Vandal" width="100%">
 </p>
 
 <br>
 
 ## Train where you play
 
-99 drills across Ascent, Split, Haven, Lotus, Bind, Corrode, Abyss, Summit and a training
-range. Walk real routes and clear the angles you'd check in a match. Bots peek, flash and
-shoot back.
+Walk real routes and clear the angles you'd check in a match. Train on Ascent, Split,
+Haven, Lotus, Bind, Corrode, Abyss, Summit and now **Sunset**, or work on your fundamentals
+in the training range. Bots peek, flash and shoot back.
+
+**New in 1.3.0:** six Sunset pre-aim drills across A Short, A Tube and B Main.
+Choose **Easy** to learn the angles or **Hard** to face bots that shoot back.
 
 - **Pre-aim:** walk a route and clear every common angle before anyone shows up.
 - **Angle holding:** hold one spot while bots wide-swing and jiggle-peek.
@@ -34,52 +39,101 @@ shoot back.
 
 ## Build your own drills
 
-Open **Creator** in the top bar. Pick a map or an empty range, drop in bots, press play.
+Pick a real map or build an arena from scratch in **Studio**. Place bots, shape their
+routes, add cover and press play. Switch between 2D, clean 3D and the **Detailed** view
+of the actual game map.
 
 <p align="center">
-  <img src="docs/images/studio-3d.png" alt="Studio: a Haven drill in 3D with peekers that flash before they swing" width="100%">
+  <img src="docs/images/v1.3/studio-sunset.png" alt="Studio Detailed view: placing bots around Sunset's stairs and doorways" width="100%">
 </p>
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/images/studio-map.png" alt="Studio: placing peekers on the Haven map"></td>
-    <td width="50%"><img src="docs/images/studio-build.png" alt="Studio: building cover with walls, stairs and a floor"></td>
+    <td width="50%"><img src="docs/images/v1.3/studio-bot-options.png" alt="Bot controls for jump height, occasional crouching and flashes"></td>
+    <td width="50%"><img src="docs/images/studio-build.png" alt="Building cover with walls, stairs and a floor in Studio"></td>
   </tr>
   <tr>
-    <td>Lay it out on the real map. Holders, strafers, peekers, runners and rushers, each one draggable.</td>
-    <td>Or build your own spot: walls, boxes, stairs, ramps and window walls.</td>
+    <td>Tune jumps, occasional crouching, hit slowdown and flashes.</td>
+    <td>Build your own spot with walls, boxes, stairs, ramps and window walls.</td>
   </tr>
 </table>
 
-Every bot can be tuned: how far it strafes, walk or run, crouch, which agent's flash it
-throws, and which rank it shoots back like, from Iron to Radiant.
+Use holders, strafers, peekers, runners and rushers, with shooting difficulty from
+**Iron to Radiant**. Add unpredictable movement, jumps and occasional crouches to vary
+the duel. Build arenas from **12 to 200 m**, with Dark or Light looks and Flat or Grid
+surfaces. Move, resize and rotate cover with snapping, undo and redo.
+
+### Record yourself. Train against your run.
+
+**Copycat bots** repeat your recorded movement: strafes, stops, crouches and jumps.
+They can fire at the moments you fired or shoot as soon as they see you. Preview the
+route, adjust playback speed, mirror it, and save recordings to your **Runs library**
+for other drills.
+
+<p align="center">
+  <img src="docs/images/v1.3/studio-copycat.png" alt="Copycat bot with a recorded movement path, playback controls and options to save the run" width="100%">
+</p>
+
+<br>
+
+## New sights. More skins.
+
+Rifles, SMGs and heavy weapons have new animated aiming visuals. The gun rises to
+your eye and the sight moves with its sway and recoil. The Marshal, Outlaw and Operator
+have sniper scopes with smoother opening animations. Aim speed, zoom, sensitivity,
+spread and accuracy are unchanged.
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/images/v1.3/rifle-ads.png" alt="Aiming down the RGX Vandal's glowing sight on Sunset"></td>
+    <td width="50%"><img src="docs/images/v1.3/sniper-scope.png" alt="Two Sunset bots viewed through a sniper scope"></td>
+  </tr>
+  <tr>
+    <td>New rifle ADS, with each skin keeping its own look.</td>
+    <td>Sniper scopes for the Marshal, Outlaw and Operator.</td>
+  </tr>
+</table>
+
+**15 new skins** include RGX and Gaia Vandals, BlastX Phantom, Prime Guardian,
+Singularity Sheriff, Smite Ghost, Araxys and Rogue Operators, and six melee skins.
+Several have their own firing sounds, kill sounds and effects. Melee skins have equip,
+attack and **inspect (Y)** animations. Choose yours in **Settings**.
+
+<table>
+  <tr>
+    <td width="33%"><img src="docs/images/v1.3/gaia-white.png" alt="Gaia White Vandal"></td>
+    <td width="33%"><img src="docs/images/v1.3/blastx.png" alt="BlastX Phantom"></td>
+    <td width="33%"><img src="docs/images/v1.3/karambit.png" alt="Inspecting the Damascus Steel Karambit"></td>
+  </tr>
+  <tr>
+    <td>Gaia White Vandal</td>
+    <td>BlastX Phantom</td>
+    <td>Damascus Steel Karambit</td>
+  </tr>
+</table>
 
 <br>
 
 ## Every shot counts
 
-<p align="center">
-  <img src="docs/images/drill-round.jpg" alt="A custom drill mid-round with score, hit rate and the shooting error graph" width="100%">
-</p>
+Track score, time and hit rate while you play. The rebuilt **shooting-error graph**
+shows a thin bar per shot: yellow for spray error and blue for movement error.
+Your training history keeps every run.
 
-Score, time and hit rate up top. On the right, a live shooting-error graph that shows
-whether you missed because of your aim or because you were still moving. Your history
-keeps every run.
+New headshot effects, target-hit audio and optional **advanced bullet tracers** add
+feedback to your shots. Weapons and skins are prepared before a drill starts to reduce
+stutters when firing and switching guns.
 
 <br>
 
 ## Set it up like your game
 
-<table>
-  <tr>
-    <td width="50%"><img src="docs/images/settings-video.png" alt="Video settings with a live training preview"></td>
-    <td width="50%"><img src="docs/images/settings-range.png" alt="Training range settings: viewmodel, flashes, enemy outlines"></td>
-  </tr>
-  <tr>
-    <td>Resolution, stretched 4:3, render scale, frame rate and low-latency mode, with a live preview.</td>
-    <td>Viewmodel FOV, weapon hand, flash brightness and enemy outline color.</td>
-  </tr>
-</table>
+**Import your VALORANT settings**, including sensitivity, ADS and scope multipliers,
+crosshair and keybinds, with a preview, backup and Undo. Or use Sens tools to bring your
+sensitivity over from another game.
+
+Adjust resolution, stretched 4:3, render scale, viewmodel, weapon hand, flashes and
+enemy outlines. Crosshair changes apply immediately in a drill.
 
 <p align="center">
   <img src="docs/images/sens-tools.png" alt="Sensitivity tools: eDPI, cm/360 and a converter from other games" width="420">
@@ -88,7 +142,8 @@ keeps every run.
   <sub>Bring your sensitivity over from CS2, Apex, Overwatch 2, Call of Duty or Destiny 2.</sub>
 </p>
 
-- **Fast.** Runs at your monitor's refresh rate, with a live FPS meter and 1% lows.
+- **Your frame rate.** Unlimited, Match display or a custom 30–1000 FPS cap, with a live FPS meter and 1% lows.
+- **Fullscreen.** Starts fullscreen; F11 switches to a window and remembers your choice.
 - **Offline.** No account, no internet. Your data stays in `%APPDATA%\AimTrainer`.
 - **Backed up.** A backup is made at every start, and you can export to a folder whenever you like.
 
@@ -96,12 +151,15 @@ keeps every run.
 
 ## Get it
 
-1. Download **[AimTrainer-Setup.exe](https://github.com/unkwsr/open-aim/releases/latest/download/AimTrainer-Setup.exe)**
-   (or the [portable exe](https://github.com/unkwsr/open-aim/releases/latest/download/AimTrainer.exe)).
-2. Open **Sens tools**, pick your game, enter your sens and DPI.
-3. Press **Quick start**.
+1. Download and run **[AimTrainer-Setup.exe](https://github.com/unkwsr/open-aim/releases/latest/download/AimTrainer-Setup.exe)**.
+2. Import your VALORANT settings, or enter your sensitivity through **Sens tools**.
+3. Pick a drill or make your own in Studio.
 
 Requires Windows 10 or 11, any GPU with WebGL 2.
+The lobby's **Updates** button shows what's new when a release is available.
+Your settings and training data are kept when you update.
+
+Read the full [1.3.0 changelog](CHANGELOG.md) for all additions and fixes.
 
 <br>
 
