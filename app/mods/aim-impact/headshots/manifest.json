@@ -1,0 +1,52 @@
+{
+  "variants": [
+    {
+      "id": "classic",
+      "file": "classic.png",
+      "frames": 18,
+      "cols": 6,
+      "rows": 3,
+      "cell": 192,
+      "lifeSeconds": 0.18,
+      "contactY": 0.84375,
+      "warmTint": false,
+      "bytes": 212427
+    },
+    {
+      "id": "warm-shards",
+      "file": "warm-shards.png",
+      "frames": 18,
+      "cols": 6,
+      "rows": 3,
+      "cell": 192,
+      "lifeSeconds": 0.18,
+      "contactY": 0.84375,
+      "warmTint": true,
+      "bytes": 113981
+    },
+    {
+      "id": "orange",
+      "file": "orange.png",
+      "frames": 18,
+      "cols": 6,
+      "rows": 3,
+      "cell": 192,
+      "lifeSeconds": 0.18,
+      "contactY": 0.84375,
+      "warmTint": false,
+      "bytes": 157281
+    },
+    {
+      "id": "redgold",
+      "file": "redgold.png",
+      "frames": 18,
+      "cols": 6,
+      "rows": 3,
+      "cell": 192,
+      "lifeSeconds": 0.18,
+      "contactY": 0.84375,
+      "warmTint": false,
+      "bytes": 176457
+    }
+  ]
+}

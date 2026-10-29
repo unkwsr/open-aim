@@ -94,10 +94,11 @@ h1, h2, h3, .brand b, .tray h4, .group > label, .field > label, .btn, .place-til
 .scrim { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: rgba(5, 10, 15, 0.7); animation: fade 0.15s; }
 .dialog { width: min(920px, 100%); max-height: calc(100vh - 40px); overflow: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 22px; animation: rise 0.2s var(--ease); }
 .dialog.small { width: min(440px, 100%); }
+.dialog.medium { width: min(640px, 100%); }
 .dialog h2 { margin: 0 0 4px; font-size: 20px; }
 .dialog .sub { margin: 0 0 18px; color: var(--muted); }
 .dialog h3 { margin: 20px 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-.dialog .foot { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; }
+.dialog .foot { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-top: 20px; }
 @keyframes fade { from { opacity: 0; } }
 @keyframes rise { from { opacity: 0; transform: translateY(10px); } }
 .places { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
@@ -143,10 +144,15 @@ h1, h2, h3, .brand b, .tray h4, .group > label, .field > label, .btn, .place-til
 .view-switch button { height: 34px; padding: 0 16px; border: 1px solid var(--line); background: rgba(16, 19, 26, 0.92); color: var(--muted); font: 800 15px var(--head); font-stretch: 75%; letter-spacing: 0.04em; }
 .view-switch button + button { border-left: none; }
 .view-switch button.on { background: var(--red); border-color: var(--red); color: #fff; }
-.stage .preview-btn { left: 120px; }
+.stage .preview-btn { left: 207px; }
 .stage canvas.view3d { cursor: grab; }
 .stage canvas.view3d.dragging { cursor: grabbing; }
 .stage .labels3d { position: absolute; inset: 0; pointer-events: none; }
+.stage .view3d-status { position: absolute; left: 50%; top: 58px; transform: translateX(-50%); z-index: 2; display: flex; align-items: center; gap: 10px; padding: 9px 16px 9px 12px; background: rgba(16, 19, 26, 0.94); border: 1px solid var(--line); border-top: 2px solid var(--red); color: var(--text); font: 700 13px var(--head); pointer-events: none; }
+/* Transform-only animation runs on the compositor, so it keeps turning while the map loads. */
+.stage .view3d-status::before { content: ""; flex: none; width: 14px; height: 14px; border: 2px solid var(--line); border-top-color: var(--red); border-radius: 50%; animation: view3d-spin 0.8s linear infinite; will-change: transform; }
+@keyframes view3d-spin { to { transform: rotate(360deg); } }
+.stage .view3d-status[hidden] { display: none; }
 .shooters { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; }
 .shooters .btn { border-left: 3px solid var(--amber); }
 
@@ -177,6 +183,7 @@ h1, h2, h3, .brand b, .tray h4, .group > label, .field > label, .btn, .place-til
 .field { margin-bottom: 12px; }
 .field:last-child { margin-bottom: 0; }
 .field .help { margin: 6px 0 0; color: var(--muted); font-size: 12px; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .seg { display: flex; flex-wrap: wrap; gap: 4px; }
 .seg button { flex: 1 1 auto; min-width: 0; height: 32px; padding: 0 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--raised); font-size: 13px; font-weight: 600; transition: background 0.12s, border-color 0.12s; }
 .seg button:hover { border-color: #4a5f72; }
@@ -283,3 +290,24 @@ textarea.text { height: 64px; padding: 8px 10px; resize: vertical; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
 }
+
+/* ---------- run library (saved copycat runs) ---------- */
+.lib-tab { padding: 0 0 6px; border: none; border-bottom: 3px solid transparent; background: none; color: var(--muted); font-family: var(--head); font-size: 26px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+.lib-tab:hover { color: var(--text); }
+.lib-tab.on { color: var(--text); border-bottom-color: var(--red); }
+.lib-tab .muted { margin-left: 8px; font-size: 14px; font-weight: 600; }
+.lib-head:has(.lib-tab) { gap: 24px; }
+.run-art { display: grid; place-items: center; background: #121821; }
+.run-art::after { display: none; }
+.run-art .place { top: 8px; bottom: auto; }
+.run-thumb { display: block; }
+.text-input { width: 100%; height: 38px; padding: 0 12px; border: 1px solid var(--line); background: var(--raised); color: var(--text); font-size: 15px; }
+.text-input:focus { border-color: var(--teal); outline: none; }
+.run-list { display: grid; gap: 8px; }
+.run-row { display: flex; align-items: center; gap: 14px; width: 100%; padding: 8px 10px; border: 1px solid var(--line); background: var(--raised); text-align: left; }
+.run-row:hover { border-color: var(--red); }
+.run-row .run-thumb { flex: none; background: #121821; }
+.run-text { display: grid; gap: 3px; min-width: 0; }
+.run-text b { font-size: 15px; }
+.run-text small { color: var(--muted); font-size: 12px; }
+.run-text small.warn { color: var(--amber); }

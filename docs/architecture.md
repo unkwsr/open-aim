@@ -34,10 +34,13 @@
 | `ui.css` | Compact pause and results menus |
 | `offline.css` | Hides sign-in, leaderboards and other online-only parts |
 | `lobby-bar.js` | Top bar (Favorites, Creator, Quick start), FPS meter, smooth scrolling |
-| `map-culling.js` | Map culling setting in Video settings (off by default, for laptops and integrated graphics): splits the map into 32 m chunks so only the parts in view are drawn (the split itself is in `mods/.../BiMsX6Xn.js`) |
-| `interface-mode.js` | Interface setting in Video settings: Enhanced (default, full theme) or Performance (no glass blur, lobby paused in rounds) |
+| `interface-mode.js` | Interface setting in Video settings: Enhanced (default, full theme) or Performance (no glass blur, no looping animations in rounds) |
+| `startup-screen.js` | Startup screen over the lobby until its training list has loaded (lobby page only, 20 s safety limit); main.js keeps the window hidden until it is in place |
+| `page-watch.js` | One page watcher the UI scripts share; it sleeps while the mouse is locked in a round |
+| `smooth-scroll.js` | Mouse-wheel steps glide (~150 ms) in the lobby and menus instead of jumping; touchpads, zoom and aiming are left alone |
+| `frame-log.js` | Test copy: writes a slow-frame report (frames under 150 FPS and their cause) per round to `test-data/frame-logs/` |
 | `player-tools.js` | Backups and Sens tools panels |
-| `studio/` | The Studio: `studio.js` (editor UI), `drill.js` (turns a layout into a playable drill), `map-data.js` (map outlines), `view3d.js` (3D preview), `vendor/` (three.js, MIT) |
+| `studio/` | The Studio: `studio.js` (editor UI), `drill.js` (turns a layout into a playable drill), `map-data.js` (map outlines), `view3d.js` (3D preview), `detailed-map.js` (Detailed view: the game's real map, rewrapped for the Studio's three.js), `vendor/` (three.js, MIT) |
 | `studio-store.js` | Saves your Studio drills so they show up in the lobby |
 | `studio-launch.js` | Starts a Studio drill in the game and brings you back to the Studio after |
 | `shooting-error.js` | The shooting error graph on the results screen |

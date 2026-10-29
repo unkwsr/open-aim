@@ -1,6 +1,6 @@
 // Interface mode: "Enhanced" (default, the full theme) or "Performance", set in
-// Settings > Video > Smoothness. Performance turns off the glass blur behind panels,
-// pauses the lobby while a round is on screen and stops looping animations in rounds
+// Settings > Video > Smoothness. Performance turns off the glass blur behind panels
+// and stops looping animations in rounds (the lobby is skipped under a round in both modes)
 // (the rules are in theme-esports.css under html[data-es-ui="performance"]). Mostly a
 // look preference: on test PCs it did not change FPS measurably. Saved in
 // localStorage, so it is per PC like the game's own video settings.
@@ -69,13 +69,13 @@
   }
 
   let queued = false;
-  new MutationObserver(() => {
+  window.__aimWatchPage(() => {
     if (queued) return;
     queued = true;
     requestAnimationFrame(() => {
       queued = false;
       addRow();
     });
-  }).observe(document.documentElement, { childList: true, subtree: true });
+  }, { childList: true, subtree: true });
   addRow();
 })();

@@ -4,9 +4,14 @@
 // stand, the round rules and a list of things on the map (bots, target zones, walls,
 // smokes). compile() turns it into the scene file the game plays (schemaVersion 2).
 
+import { arenaSize, arenaBlocks, surfaceFor, darkArena, targetColor } from './arena.js';
+import { wallDepth } from './transform.js';
+import { strafeSettings } from './strafe.js';
+
 export const MAPS = [
   ["ascent", "Ascent"], ["bonsai", "Split"], ["triad", "Haven"], ["plummet", "Summit"],
   ["jam", "Lotus"], ["infinity", "Abyss"], ["rook", "Corrode"], ["duality", "Bind"],
+  ["juliett", "Sunset"],
 ];
 export const mapLabel = (id) => (MAPS.find((m) => m[0] === id) || [id, id])[1];
 
@@ -61,14 +66,21 @@ export const MOVES = {
   peek: { label: "Peeks out, then hides", short: "Peeker", tip: "Swings out from cover, A-D strafes at the peek spot, then goes back behind cover. Again and again." },
   cross: { label: "Runs across", short: "Runner", tip: "Runs from one point to another and disappears, then comes again." },
   patrol: { label: "Walks a route", short: "Rusher", tip: "Walks along a route you draw, stopping where you want." },
+  copycat: { label: "Copies your recorded run", short: "Copycat", tip: "Record yourself moving from its spot (strafes, stops, crouches, jumps); it repeats that run and shoots at you." },
 };
+
+// Copycat recordings: the longest run you can record, and how many samples a second are kept.
+export const RECORD_SECONDS = 30;
+export const TRACK_HZ = 30;
+export const PLAYBACKS = [["loop", "Loop"], ["once", "Once, then stand"], ["pingpong", "Back and forth"]];
 
 export const SPEEDS = { walk: 2.97, run: 5.4 };
 export const ARMOR = [[100, "No armor (100)"], [125, "Light armor (125)"], [150, "Heavy armor (150)"]];
 export const TARGET_SIZES = { small: 0.12, medium: 0.2, large: 0.32 };
 
 // Bumped whenever compile() changes what it writes; the Studio re-saves older drills.
-export const COMPILER = 2;
+export const COMPILER = 15;
+export const DEFAULT_JUMP_HEIGHT = 1.15;
 
 let counter = 0;
 export const newId = (prefix) => `${prefix}-${Date.now().toString(36)}-${(counter++).toString(36)}`;
@@ -80,6 +92,7 @@ export function newDrill(place = "range") {
     note: "",
     place,
     rangeSize: "medium",
+    arenaTheme: "charcoal",
     start: { x: 0, y: 0, z: 8, facing: 0 },
     round: { goal: "score", time: 60, par: 0, weapon: "vandal", auto: true, move: false, die: false, ammo: false, order: "together", atOnce: 1, gap: 1 },
     items: [],
@@ -90,7 +103,9 @@ export function newBot(move, at) {
   const bot = {
     id: newId("bot"), kind: "bot", move, x: at.x, y: at.y, z: at.z,
     look: "phoenix", weapon: "", crouch: false, shoots: "off", hp: 150, back: true, backAfter: 1.5,
-    speed: "run", width: 3, wait: 1.2, delay: 0, peekStrafe: true, coverWait: 1,
+    speed: "run", width: 3, wait: 1.2, delay: 0, peekStrafe: true, coverWait: 1, unpredictable: false,
+    hitSlow: false, jump: false, jumpHeight: DEFAULT_JUMP_HEIGHT, jumpMin: 1.5, jumpMax: 3,
+    crouchRandom: false, crouchMin: 0.5, crouchMax: 1.2, crouchGapMin: 2, crouchGapMax: 4,
     facing: null, // null: turns to face you; a number: always faces that way (game yaw, degrees)
     flash: { on: false, agent: "phoenix", curve: "right", wait: 1, height: 2.2, at: 1, target: null },
   };
@@ -98,15 +113,35 @@ export function newBot(move, at) {
   if (move === "cross") bot.route = [{ x: at.x - 4, y: at.y, z: at.z, wait: 0 }, { x: at.x + 4, y: at.y, z: at.z, wait: 0 }];
   if (move === "patrol") bot.route = [{ x: at.x, y: at.y, z: at.z, wait: 0 }, { x: at.x, y: at.y, z: at.z + 5, wait: 1 }];
   if (move === "peek" || move === "cross" || move === "patrol") Object.assign(bot, { x: bot.route[0].x, y: bot.route[0].y, z: bot.route[0].z });
+  // track: the recorded run (see trackFromTake), null until you record one.
+  // fireWhen "mine": shoots only in the moments you fired while recording, without stopping;
+  // "sees": stops and shoots as soon as it sees you, like the other bots.
+  Object.assign(bot, { track: null, playback: "loop", replaySpeed: 1, mirror: false, randomStart: false, fireWhen: "mine" });
+  if (move === "copycat") bot.shoots = "gold";
   return bot;
 }
 
 // Fills in settings added after a drill was saved, so older drills open with every option.
 export function normalize(drill) {
+  // Older dark presets used Plain to hide a heavy tile pattern. Replace their
+  // bright helper overlay once; newly chosen Plain remains genuinely plain.
+  if ((drill.compiled || 0) < 6 && drill.arenaTheme !== 'original' && drill.floorSurface === 'plain') drill.floorSurface = 'tile';
+  // Retain old flat/grid choices, collapse decorative surfaces to the grid,
+  // and let the chosen mode supply all building colors.
+  if (drill.arenaTheme === 'original') {
+    drill.floorSurface ||= 'plain'; drill.wallSurface ||= 'plain';
+  }
+  drill.arenaTheme = darkArena(drill) ? 'charcoal' : 'light';
+  for (const key of ['floorSurface', 'wallSurface']) if (drill[key] === 'stone') drill[key] = 'tile';
+  for (const item of drill.items) if (item.kind === 'wall' || item.kind === 'block') {
+    if (item.surface === 'stone') item.surface = 'tile';
+    delete item.surfaceColor;
+  }
   for (const it of drill.items) {
     if (it.kind !== "bot") continue;
     const fresh = newBot(it.move, it);
-    for (const k of ["peekStrafe", "coverWait", "flash"]) if (it[k] === undefined) it[k] = fresh[k];
+    for (const k of ["peekStrafe", "coverWait", "flash", "unpredictable", "hitSlow", "jump", "jumpHeight", "jumpMin", "jumpMax", "crouchRandom", "crouchMin", "crouchMax", "crouchGapMin", "crouchGapMax",
+      "track", "playback", "replaySpeed", "mirror", "randomStart", "fireWhen"]) if (it[k] === undefined) it[k] = fresh[k];
   }
   return drill;
 }
@@ -197,6 +232,10 @@ export function problems(drill, floorAt) {
   for (const item of drill.items) {
     const name = itemName(drill, item);
     if (item.kind === "bot" && item.route && item.route.length < 2) out.push({ id: item.id, text: `${name} needs at least 2 route points.` });
+    if (item.kind === "bot" && item.move === "copycat") {
+      if (!item.track) out.push({ id: item.id, text: `${name} has no run yet. Select it and press "Record my movement".` });
+      else if (trackBlocked(drill, item)) out.push({ id: item.id, text: `${name}'s run goes through a wall or box. Move it or record again.`, soft: true });
+    }
     if (floorAt && floorAt(item.x, item.z) === null) out.push({ id: item.id, text: `${name} is off the floor. Drag it onto the floor.` });
     if (floorAt && item.route) item.route.forEach((p, i) => {
       if (i > 0 && floorAt(p.x, p.z) === null) out.push({ id: item.id, text: `${name}: route point ${i + 1} is off the floor.` });
@@ -221,9 +260,6 @@ const pos = (x, y, z) => ({ x: r2(x), y: r2(y), z: r2(z) });
 // Game yaw for "looking from a toward b": yaw 0 looks down -z, positive turns left.
 const yawTo = (a, b) => Math.atan2(-(b.x - a.x), -(b.z - a.z));
 
-function rangeBlocks(size) {
-  return [{ id: "ground", shape: "box", position: pos(0, -0.2, 0), rotationY: 0, size: pos(size, 0.4, size), color: "#3a4049", collidable: true }];
-}
 
 function shooter(rank) {
   const r = (RANKS.find((x) => x[0] === rank) || RANKS[0])[2];
@@ -237,7 +273,7 @@ function shooter(rank) {
 function humanoid(bot) {
   const body = { shape: "humanoid", headSize: 1, bodyWidth: 0.44, bodyHeight: 0 };
   if (bot.look && bot.look !== "phoenix") body.look = bot.look;
-  if (bot.crouch) body.motion = "crouch";
+  if (bot.crouch && !bot.crouchRandom && bot.move !== "copycat") body.motion = "crouch";
   if (bot.weapon) Object.assign(body, { weapon: bot.weapon, dropWeapon: true });
   return body;
 }
@@ -293,14 +329,132 @@ export function flashTarget(bot, start) {
   return toward(from, start, bot.move === "peek" ? 2.5 : 4);
 }
 
+// ---------- copycat runs ----------
+// A run is kept around the bot's spot, turned so "toward" points from the bot to your start
+// spot; moving or turning the bot (or your start) takes the whole run with it.
+// track: { hz, secs, p: [side, up, toward, crouch, fired, in the air, ...] }, hz samples a second.
+const TRACK_STRIDE = 6;
+const round2 = (n) => Math.round(n * 100) / 100;
+
+function trackAxes(bot, start) {
+  const dx = start.x - bot.x, dz = start.z - bot.z, len = Math.hypot(dx, dz) || 1;
+  const toward = { x: dx / len, z: dz / len };
+  return { toward, side: { x: -toward.z, z: toward.x } };
+}
+
+// The scene for recording a copycat's run: you start on the bot's spot, facing your usual
+// start spot, where a still bot stands to aim at. Walls and buildings stay; other bots don't.
+export function recordingDrill(drill, bot) {
+  const d = JSON.parse(JSON.stringify(drill));
+  d.name = `Recording: ${itemName(drill, bot)}`;
+  d.items = d.items.filter((i) => i.kind === "wall" || i.kind === "block");
+  d.items.push(Object.assign(newBot("still", drill.start), { look: "bot", shoots: "off", back: true, backAfter: 0.5 }));
+  d.start = { x: bot.x, y: bot.y, z: bot.z, facing: (yawTo(bot, drill.start) * 180) / Math.PI };
+  d.round = { ...d.round, goal: "score", time: RECORD_SECONDS, move: true, die: false, ammo: false, order: "together", par: 0 };
+  return d;
+}
+export function compileRecording(drill, bot, floorAt) {
+  const { doc } = compile(recordingDrill(drill, bot), floorAt);
+  doc.rules.studioRecord = true; // the game keeps your movement (studio-replay-record)
+  return doc;
+}
+
+// take: what the game kept while recording (globalThis.__aimStudioTake):
+// ticks[tick] = [x, y, z, crouch, firing, in the air], dt seconds apart. The first tick is
+// the bot's spot. Standing still before the first move is cut to a quarter second.
+export function trackFromTake(take, bot, start) {
+  if (!take || !Array.isArray(take.ticks) || !(take.dt > 0)) return null;
+  const ticks = take.ticks.slice(0, (take.last || take.ticks.length - 1) + 1).filter(Array.isArray);
+  if (ticks.length < 2) return null;
+  const dt = take.dt, o = ticks[0];
+  let first = ticks.findIndex((k) => Math.hypot(k[0] - o[0], k[2] - o[2]) > 0.02 || k[3] > 0 || k[4] || k[5]);
+  if (first < 0) return null; // never moved
+  first = Math.max(0, first - Math.round(0.25 / dt));
+  const used = ticks.slice(first, first + Math.round(RECORD_SECONDS / dt) + 1);
+  const { toward, side } = trackAxes(bot, start);
+  const n = Math.floor((used.length - 1) * dt * TRACK_HZ) + 1, last = used.length - 1, p = [];
+  // A shot counts for a little while around it, so a copycat that fires "when I shot"
+  // still gets its own reaction time to find you.
+  const window = Math.round(0.12 / dt);
+  for (let j = 0; j < n; j++) {
+    const k = j / TRACK_HZ / dt, a = Math.min(last, Math.floor(k)), b = Math.min(last, a + 1), w = k - a;
+    const at = (i) => used[a][i] + (used[b][i] - used[a][i]) * w;
+    const dx = at(0) - o[0], dz = at(2) - o[2];
+    let fired = 0;
+    for (let i = Math.max(0, a - window); i <= Math.min(last, b + window); i++) if (used[i][4]) { fired = 1; break; }
+    p.push(round2(dx * side.x + dz * side.z), round2(at(1) - o[1]), round2(dx * toward.x + dz * toward.z), round2(at(3)), fired, used[Math.min(last, Math.round(k))][5] ? 1 : 0);
+  }
+  return { hz: TRACK_HZ, secs: round2((n - 1) / TRACK_HZ), p };
+}
+
+// The run in world positions, as the game plays it: [x, y, z, crouch, fired, in the air, ...].
+export function copycatFrames(bot, start) {
+  const t = bot.track;
+  if (!t || !Array.isArray(t.p) || t.p.length < TRACK_STRIDE) return null;
+  const { toward, side } = trackAxes(bot, start), flip = bot.mirror ? -1 : 1, out = [];
+  for (let i = 0; i + TRACK_STRIDE <= t.p.length; i += TRACK_STRIDE) {
+    const s = t.p[i] * flip, u = t.p[i + 1], w = t.p[i + 2];
+    out.push(round2(bot.x + side.x * s + toward.x * w), round2((bot.y || 0) + u), round2(bot.z + side.z * s + toward.z * w), t.p[i + 3], t.p[i + 4], t.p[i + 5]);
+  }
+  return out;
+}
+
+// Where a copycat is `seconds` into the round (the Studio's preview), timed like the game.
+export function copycatAt(bot, start, seconds, frames = copycatFrames(bot, start)) {
+  if (!frames) return null;
+  const count = frames.length / TRACK_STRIDE, hz = bot.track.hz, length = (count - 1) / hz;
+  let time = Math.max(0, seconds) * Math.max(0.75, Math.min(1.25, bot.replaySpeed || 1));
+  if (length <= 0) time = 0;
+  else if (bot.playback === "pingpong") { const p = time % (2 * length); time = p > length ? 2 * length - p : p; }
+  else if (bot.playback === "once") time = Math.min(time, length);
+  else time %= length;
+  const k = time * hz, a = Math.min(count - 1, Math.floor(k)), b = Math.min(count - 1, a + 1), w = k - a;
+  const at = (i) => frames[a * TRACK_STRIDE + i] + (frames[b * TRACK_STRIDE + i] - frames[a * TRACK_STRIDE + i]) * w;
+  return { x: at(0), y: at(1), z: at(2), crouch: at(3), fired: frames[a * TRACK_STRIDE + 4] === 1 };
+}
+
+// True when the run passes through a wall, box, pillar or window wall (standing on top of a
+// box is fine; doorways are open).
+export function trackBlocked(drill, bot) {
+  const frames = copycatFrames(bot, drill.start);
+  if (!frames) return false;
+  const solids = drill.items.filter((i) => i.kind === "wall" || (i.kind === "block" && ["box", "pillar", "window"].includes(i.shape)));
+  for (let i = 0; i < frames.length; i += TRACK_STRIDE * 3) {
+    const x = frames[i], y = frames[i + 1], z = frames[i + 2];
+    for (const s of solids) {
+      const a = rad(s.turn || 0), c = Math.cos(a), sn = Math.sin(a), dx = x - s.x, dz = z - s.z;
+      const lx = dx * c - dz * sn, lz = dx * sn + dz * c, wall = s.kind === "wall";
+      const w = wall ? s.length : s.w, d = wall ? wallDepth(s) : s.d, h = wall ? s.height : s.h;
+      const bottom = (s.y || 0) + (wall ? 0 : s.lift || 0);
+      const inside = s.shape === "pillar" ? Math.hypot(lx, lz) < w / 2 : Math.abs(lx) < w / 2 && Math.abs(lz) < d / 2;
+      if (inside && y < bottom + h - 0.3 && y + 1.6 > bottom) return true;
+    }
+  }
+  return false;
+}
+
 function botTemplate(bot, drill, id, name, start, once) {
   const clear = drill.round.goal === "clear";
   const back = bot.back && !clear;
   const speed = SPEEDS[bot.speed] || SPEEDS.run;
   const behaviors = [];
+  const run = bot.move === "copycat" ? copycatFrames(bot, start) : null;
+  if (bot.jump === true && bot.move !== "copycat") {
+    const bounded = (v, fallback, min, max) => Math.max(min, Math.min(max, Number.isFinite(v) ? v : fallback));
+    const min = r2(bounded(bot.jumpMin, 1.5, 0.5, 10));
+    const max = r2(bounded(bot.jumpMax, 3, 0.5, 10));
+    behaviors.push({ kind: "jump", interval: [Math.min(min, max), Math.max(min, max)], height: r2(bounded(bot.jumpHeight, DEFAULT_JUMP_HEIGHT, 0.2, 2)), playerGravity: true });
+  }
   if (bot.move === "strafe") {
-    const w = Math.max(0.4, bot.width);
-    behaviors.push({ kind: "strafe", speed: [speed, speed], dwell: [0.15, 0.6], travel: [r2(w * 0.6), r2(w)], counterStrafe: true });
+    behaviors.push({ kind: "strafe", ...strafeSettings(bot), counterStrafe: true });
+  }
+  const mine = bot.fireWhen !== "sees";
+  if (run) {
+    behaviors.push({
+      kind: "replay", hz: bot.track.hz, frames: run, playback: bot.playback || "loop",
+      speed: r2(Math.max(0.75, Math.min(1.25, bot.replaySpeed || 1))), randomStart: bot.randomStart === true,
+      fireWhen: mine ? "mine" : "sees", hold: mine ? "move" : "stop",
+    });
   }
   const p = plan(bot, start, once);
   if (p) {
@@ -330,12 +484,25 @@ function botTemplate(bot, drill, id, name, start, once) {
     }
   }
   const s = shooter(bot.shoots);
+  // A copycat that fires when you fired keeps running its route while it shoots.
+  if (s && run && mine) s.engage = "move";
   if (s) behaviors.push(s);
   // Bots that disappear come back through their route; everyone else needs a respawn rule.
   if (!p || p.loop) {
-    behaviors.push(back ? { kind: "respawn", delay: [r2(bot.backAfter), r2(bot.backAfter + 0.3)], mode: "inPlace" } : { kind: "respawn", delay: [0.4, 0.9], mode: "never" });
+    // Relocate moving bots through their original spawner so home and movement
+    // state reset instead of continuing from the position where they died.
+    behaviors.push(back ? { kind: "respawn", delay: [r2(bot.backAfter), r2(bot.backAfter + 0.3)], mode: bot.move === 'strafe' || bot.move === 'peek' || bot.move === 'copycat' ? 'reSpawner' : 'inPlace' } : { kind: "respawn", delay: [0.4, 0.9], mode: "never" });
   }
-  return { id, name, body: humanoid(bot), color: "#ff4655", behaviors, health: bot.hp || 150 };
+  const actor = { id, name, body: humanoid(bot), color: "#ff4655", behaviors, health: bot.hp || 150, ...(bot.hitSlow === true ? { hitSlow: true } : {}) };
+  if (bot.crouchRandom === true) {
+    const range = (a, b, first, last) => {
+      const bounded = (v, fallback) => r2(Math.max(0.3, Math.min(10, Number.isFinite(v) ? v : fallback)));
+      const lo = bounded(a, first), hi = bounded(b, last);
+      return [Math.min(lo, hi), Math.max(lo, hi)];
+    };
+    actor.studioCrouch = { duration: range(bot.crouchMin, bot.crouchMax, 0.5, 1.2), interval: range(bot.crouchGapMin, bot.crouchGapMax, 2, 4) };
+  }
+  return actor;
 }
 
 function targetTemplate(zone, drill, id) {
@@ -346,7 +513,7 @@ function targetTemplate(zone, drill, id) {
   if (zone.vanish > 0) behaviors.push({ kind: "decay", lifetime: r2(zone.vanish), growTime: 0.08, minScale: 0.55 });
   behaviors.push(clear ? { kind: "respawn", delay: [0.4, 0.9], mode: "never" } : { kind: "respawn", delay: [0.05, 0.15], mode: "reSpawner" });
   const radius = TARGET_SIZES[zone.size] || TARGET_SIZES.medium;
-  return { id, name: itemName(drill, zone), body: { shape: "sphere", headSize: radius, radius }, color: zone.color || "#2fe0c8", behaviors };
+  return { id, name: itemName(drill, zone), body: { shape: "sphere", headSize: radius, radius }, color: targetColor(drill), studioTargetContrast: true, behaviors };
 }
 
 // floorAt(x, z, nearY) -> floor height or null, or no floorAt to use the heights stored on
@@ -363,10 +530,10 @@ export function compile(drill, floorAt) {
     environment: onMap
       ? { skyColor: "#111820", fogNear: 14, fogFar: 33, ambientIntensity: 2, keyLightIntensity: 3, fogEnabled: false, map: drill.place }
       : {
-        skyColor: "#14171c", fogNear: 30, fogFar: 90, ambientIntensity: 1, keyLightIntensity: 1, lightingVersion: 2, fogEnabled: false,
-        grid: { size: RANGE[drill.rangeSize] || 40, divisions: (RANGE[drill.rangeSize] || 40) / 2, centerColor: "#ff4655", gridColor: "#6b7280", position: pos(0, 0.02, 0) },
+        skyColor: darkArena(drill) ? "#14171c" : "#c1c5cb", fogNear: 30, fogFar: 90, ambientIntensity: 1, keyLightIntensity: 1, lightingVersion: 2, fogEnabled: false,
+        studioArenaSize: arenaSize(drill),
       },
-    blocks: onMap ? [] : rangeBlocks(RANGE[drill.rangeSize] || 40),
+    blocks: onMap ? [] : arenaBlocks(drill),
     playerSpawn: { position: pos(start.x, start.y, start.z), yaw: r2(rad(drill.start.facing || 0)) },
     spawners: [],
     actors: [],
@@ -397,12 +564,12 @@ export function compile(drill, floorAt) {
       const y = ground(item.x, item.z, item.y);
       doc.blocks.push({
         id: `wall-${n}`, shape: "box", position: pos(item.x, y + item.height / 2, item.z), rotationY: r2(rad(item.turn || 0)),
-        size: pos(Math.max(0.2, item.length), Math.max(0.2, item.height), 0.3), color: "#59606b", collidable: true,
+        size: pos(Math.max(0.2, item.length), Math.max(0.2, item.height), wallDepth(item)), color: "#59606b", collidable: true,
         // The game's "air wall": solid to walk into, but see-through and bullets pass.
-        ...(item.invisible ? { bulletCollidable: false, transparent: true } : {}),
+        ...(item.invisible ? { bulletCollidable: false, transparent: true } : surfaceFor(drill, item)),
       });
     } else if (item.kind === "block") {
-      doc.blocks.push(gameBlock(item, `block-${n}`, ground(item.x, item.z, item.y)));
+      doc.blocks.push({ ...gameBlock(item, `block-${n}`, ground(item.x, item.z, item.y)), ...surfaceFor(drill, item, item.shape === "floor") });
     } else if (item.kind === "smoke") {
       (doc.props ||= []).push({ kind: "smoke", id: `smoke-${n}`, position: pos(item.x, ground(item.x, item.z, item.y), item.z), agent: item.agent, at: Math.max(0, item.at || 0) });
     } else if (item.kind === "targets") {
@@ -419,13 +586,16 @@ export function compile(drill, floorAt) {
       const id = `actor-${n}`;
       const bot = withFloors(item, ground);
       // Rushers walking a loop can't take turns; they start with the round.
-      const turnTaker = oneByOne && !(bot.move === "patrol" && !(bot.flash && bot.flash.on));
+      // Copycats run their recording from the round start too.
+      const turnTaker = oneByOne && !(bot.move === "patrol" && !(bot.flash && bot.flash.on)) && bot.move !== "copycat";
       const tpl = botTemplate(bot, drill, id, itemName(drill, item), start, turnTaker);
       doc.actors.push(tpl);
-      const first = bot.route ? bot.route[0] : bot;
+      const run = tpl.behaviors.find((b) => b.kind === "replay");
+      const first = run ? { x: run.frames[0], y: run.frames[1] - 0.3, z: run.frames[2] } : bot.route ? bot.route[0] : bot;
       // Faces you (and keeps turning to you), or a fixed direction set in the Studio.
       const fixed = typeof bot.facing === "number" && (bot.move === "still" || bot.move === "strafe");
-      const facing = fixed ? rad(bot.facing) : yawTo(first, start);
+      // Studio/player markers face local -Z; native humanoids face local +Z.
+      const facing = (fixed ? rad(bot.facing) : yawTo(first, start)) + Math.PI;
       if (turnTaker) {
         const route = { templateId: id, streak: [1, 1] };
         if (bot.move === "still" || bot.move === "strafe") Object.assign(route, { at: pos(bot.x, bot.y, bot.z), rotationY: r2(facing) });
@@ -436,7 +606,8 @@ export function compile(drill, floorAt) {
         // A little above the floor: the game drops the bot onto whatever is there (a box, a step).
         doc.spawners.push({
           id: `spawner-${n}`, name: itemName(drill, item), kind: "area", actorTemplateId: id, position: pos(first.x, first.y + 0.3, first.z),
-          size: pos(0, 0, 0), rotationY: r2(facing), faceTarget: !fixed, groundSnap: true, maxAlive: 1,
+          // A copycat's height comes from its recording (jumps, stairs), not from the floor.
+          size: pos(0, 0, 0), rotationY: r2(facing), faceTarget: !fixed, groundSnap: !run, maxAlive: 1,
           spawnDelay: [r2(Math.max(0.05, item.delay || 0)), r2(Math.max(0.05, item.delay || 0))],
         });
       }
@@ -461,7 +632,6 @@ export function compile(drill, floorAt) {
   return { doc, type };
 }
 
-const RANGE = { small: 24, medium: 40, large: 70 };
 
 function withFloors(bot, ground) {
   const b = { ...bot, y: ground(bot.x, bot.z, bot.y) };

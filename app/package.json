@@ -25,7 +25,8 @@
       "ui.css",
       "theme-esports.css",
       "lobby-bar.js",
-      "map-culling.js",
+      "frame-meter.js",
+      "video-settings.js",
       "interface-mode.js",
       "player-tools.js",
       "backups.js",
@@ -38,7 +39,11 @@
       "translations.js",
       "english-fixes.js",
       "build/icon.ico",
-      "package.json"
+      "package.json",
+      "local-customization.js",
+      "fan-audio.js",
+      "sniper-scopes.js",
+      "advanced-tracers.js"
     ],
     "extraResources": [
       {
@@ -55,7 +60,10 @@
       }
     ],
     "win": {
-      "target": ["portable", "nsis"],
+      "target": [
+        "portable",
+        "nsis"
+      ],
       "icon": "build/icon.ico"
     },
     "portable": {

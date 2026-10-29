@@ -21,19 +21,24 @@ contextBridge.exposeInMainWorld("__aimDesktop", {
     get: (code) => ipcRenderer.invoke("aim:studio:get", code),
     save: (payload) => ipcRenderer.invoke("aim:studio:save", payload),
     remove: (code) => ipcRenderer.invoke("aim:studio:remove", code),
+    record: (payload) => ipcRenderer.invoke("aim:studio:record", payload),
+    clearRecording: () => ipcRenderer.invoke("aim:studio:clearRecording"),
+    // Run library (copycat runs to reuse).
+    runs: () => ipcRenderer.invoke("aim:studio:runs"),
+    saveRun: (payload) => ipcRenderer.invoke("aim:studio:saveRun", payload),
+    renameRun: (payload) => ipcRenderer.invoke("aim:studio:renameRun", payload),
+    removeRun: (id) => ipcRenderer.invoke("aim:studio:removeRun", id),
   },
   // Desktop frame settings (window.aimDesktop below); see main.js.
   setVsync: (on) => ipcRenderer.send("aim:shell:vsync", on === true),
+  // Slow-frame report for the round that just ended (frame-log.js).
+  frameLog: (report) => ipcRenderer.send("aim:frame-log", report),
   restart: () => ipcRenderer.send("aim:shell:restart"),
 });
 
 const shellInfo = ipcRenderer.sendSync("aim:shell:info");
 
 webFrame.executeJavaScript(`(() => {
-  // Map culling (map-culling.js): chunk size in metres for the map batching in
-  // mods/.../BiMsX6Xn.js, set before any map loads. 0 keeps the original batching.
-  try { globalThis.__aimChunk = localStorage.getItem("es-map-culling") === "on" ? 32 : 0; } catch { globalThis.__aimChunk = 0; }
-
   const request = function () { window.__aimDesktop.fullscreen(); return Promise.resolve(); };
   Element.prototype.requestFullscreen = request;
   if (Element.prototype.webkitRequestFullscreen) Element.prototype.webkitRequestFullscreen = request;

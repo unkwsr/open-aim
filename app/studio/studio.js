@@ -6,15 +6,18 @@
 import {
   MAPS, mapLabel, WEAPONS, weaponLabel, LOOKS, SMOKE_AGENTS, RANKS, MOVES, ARMOR,
   newDrill, newBot, newTargets, newWall, newBarrier, newSmoke, itemName, problems, compile,
-  FLASH_AGENTS, FLASH_FUSE, plan, flashTarget, normalize, COMPILER,
-  BLOCK_SHAPES, BLOCK_COLORS, newBlock, structureTops, gameBlock,
+  FLASH_AGENTS, FLASH_FUSE, plan, flashTarget, normalize, COMPILER, DEFAULT_JUMP_HEIGHT,
+  BLOCK_SHAPES, newBlock, structureTops, gameBlock,
+  PLAYBACKS, RECORD_SECONDS, copycatFrames, copycatAt, trackFromTake, compileRecording,
 } from "./drill.js";
+import { arenaSize, arenaWallHeight, surfaceFor, darkArena, targetColor, arenaSurface, setArenaSurface, SURFACES } from "./arena.js";
+import { resizePiece, wallDepth } from './transform.js';
+import { unpredictableOffset } from './strafe.js';
 import { loadMap } from "./map-data.js";
 import { createView3D } from "./view3d.js";
 
 const api = window.__aimDesktop && window.__aimDesktop.studio;
 const app = document.getElementById("app");
-const RANGE_SIZE = { small: 24, medium: 40, large: 70 };
 const COACH_KEY = "studio-coach-done";
 
 // The game's own scene checker, so a saved drill is always one the game accepts.
@@ -52,6 +55,8 @@ const ICON = {
   peek: '<path d="M3 3v18h7V3z" fill="currentColor" fill-opacity=".25"/><circle cx="16" cy="6" r="2.4"/><path d="M16 9v6M16 15l-2 5M16 15l2 5M13 11h6"/>',
   cross: '<circle cx="8" cy="5" r="2.4"/><path d="M8 8v6M8 14l-2 6M8 14l3 5M5 10h6M14 12h8M19 9l3 3-3 3"/>',
   patrol: '<circle cx="5" cy="19" r="2"/><circle cx="19" cy="5" r="2"/><path d="M7 19h5a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h8" stroke-dasharray="2 2.5"/>',
+  copycat: '<circle cx="7" cy="5" r="2.2"/><path d="M7 8v6M7 14l-2 6M7 14l2 6M4 10h6"/><circle cx="17" cy="5" r="2.2" stroke-dasharray="1.5 1.5"/><path d="M17 8v6M17 14l-2 6M17 14l2 6M14 10h6" stroke-dasharray="1.5 1.5"/>',
+  rec: '<circle cx="12" cy="12" r="6" fill="currentColor" stroke="none"/>',
   targets: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/>',
   wall: '<rect x="3" y="7" width="18" height="10" rx="1"/><path d="M3 12h18M9 7v5M15 12v5"/>',
   barrier: '<rect x="3" y="5" width="18" height="14" stroke-dasharray="3 3"/><path d="M9 12h6"/>',
@@ -93,11 +98,12 @@ function toast(text, bad = false) {
   setTimeout(() => t.remove(), bad ? 5200 : 2600);
 }
 
-function confirmBox(title, text, buttons) {
+// wide: room for more than three buttons in one row.
+function confirmBox(title, text, buttons, { wide = false } = {}) {
   return new Promise((resolve) => {
     const close = (v) => { scrim.remove(); resolve(v); };
     const scrim = h("div", { class: "scrim", onclick: (e) => e.target === scrim && close(null) },
-      h("div", { class: "dialog small", role: "dialog", "aria-modal": "true" },
+      h("div", { class: `dialog ${wide ? "medium" : "small"}`, role: "dialog", "aria-modal": "true" },
         h("h2", {}, title), h("p", { class: "sub" }, text),
         h("div", { class: "foot" }, buttons.map(([label, value, cls]) => h("button", { class: `btn ${cls || ""}`, onclick: () => close(value) }, label)))));
     document.body.append(scrim);
@@ -114,6 +120,8 @@ const S = {
   sel: null, // item id, "start", or null (drill settings)
   tool: null, // what the next map click places: { kind, move? }
   addPoint: false, // clicking the map adds route points to the selected bot
+  scrub: null, // { id, t }: the selected copycat shown t seconds into its run
+  libTab: "drills", // library: "drills" or "runs" (saved copycat runs)
   hist: [], fut: [], histKey: null, histAt: 0,
   map: null, img: null, mapLoading: false,
   view: null, preview: false,
@@ -122,6 +130,16 @@ window.__studio = S; // for checking the editor from DevTools
 const dirty = () => S.drill && JSON.stringify(S.drill) !== S.saved;
 const selItem = () => (S.drill && S.sel && S.sel !== "start" ? S.drill.items.find((i) => i.id === S.sel) || null : null);
 const onMap = () => S.drill && S.drill.place !== "range";
+const DRAFT_KEY = 'studio-active-draft-v1';
+let draftTimer = 0, draftSuppressed = false;
+function rememberEditor() {
+  clearTimeout(draftTimer); draftTimer = 0;
+  if (draftSuppressed || S.screen !== 'editor' || !S.drill) return;
+  try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify({ drill: S.drill, saved: S.saved, sel: S.sel })); } catch {}
+}
+function queueDraft() { clearTimeout(draftTimer); draftTimer = setTimeout(rememberEditor, 300); }
+function forgetEditor() { clearTimeout(draftTimer); draftTimer = 0; draftSuppressed = true; try { sessionStorage.removeItem(DRAFT_KEY); } catch {} }
+addEventListener('beforeunload', rememberEditor);
 
 // Floor height at (x, z) on the current map, nearest to nearY; null when there is no floor.
 // Everything you can stand on at (x, z), lowest first: the map's floors (or the range floor)
@@ -142,7 +160,7 @@ function floorAt(x, z, nearY, skipId) {
 function floorCheck() {
   if (!S.drill) return null;
   if (!onMap()) {
-    const half = (RANGE_SIZE[S.drill.rangeSize] || 40) / 2;
+    const half = arenaSize(S.drill) / 2;
     return (x, z) => (Math.abs(x) <= half && Math.abs(z) <= half ? 0 : null);
   }
   return S.map ? (x, z) => floorAt(x, z) : null;
@@ -160,6 +178,7 @@ function edit(fn, { key = null, quiet = false } = {}) {
   S.histKey = key;
   S.histAt = now;
   fn(S.drill);
+  queueDraft();
   if (!quiet) renderSide();
   updateTop();
   draw();
@@ -169,6 +188,7 @@ function undo() {
   S.fut.push(JSON.stringify(S.drill));
   S.drill = JSON.parse(S.hist.pop());
   S.histKey = null;
+  queueDraft();
   if (S.sel && S.sel !== "start" && !selItem()) S.sel = null;
   renderSide(); updateTop(); draw();
 }
@@ -177,6 +197,7 @@ function redo() {
   S.hist.push(JSON.stringify(S.drill));
   S.drill = JSON.parse(S.fut.pop());
   S.histKey = null;
+  queueDraft();
   if (S.sel && S.sel !== "start" && !selItem()) S.sel = null;
   renderSide(); updateTop(); draw();
 }
@@ -214,11 +235,24 @@ function summary(d) {
   return parts.join(" · ");
 }
 
-async function showLibrary() {
+let screenRevision = 0;
+async function showLibrary({ fromEditor = false } = {}) {
+  // Only the editor's explicit Drills action may replace an active editing view.
+  if (S.screen === 'editor' && !fromEditor) { rememberEditor(); return; }
+  forgetEditor();
+  const revision = ++screenRevision;
   S.screen = "library";
   S.drill = null;
   stopLoop();
+  view3d?.dispose(); view3d = null;
   await refreshDrills();
+  let runs = [];
+  if (S.libTab === "runs") try { runs = await api.runs(); } catch {}
+  if (revision !== screenRevision || S.screen !== 'library') return;
+  const tab = (id, label, count) => h("button", {
+    class: "lib-tab" + (S.libTab === id ? " on" : ""), role: "tab", "aria-selected": String(S.libTab === id),
+    onclick: () => { if (S.libTab !== id) { S.libTab = id; showLibrary(); } },
+  }, label, count ? h("span", { class: "muted" }, count) : null);
   app.textContent = "";
   app.append(
     h("header", { class: "top" },
@@ -231,11 +265,39 @@ async function showLibrary() {
         h("div", { class: "step" }, h("i", {}, "1"), h("div", {}, h("b", {}, "Pick a place"), h("span", {}, "The training range or any map."))),
         h("div", { class: "step" }, h("i", {}, "2"), h("div", {}, h("b", {}, "Drop in bots"), h("span", {}, "Choose what they do, drag them where you want."))),
         h("div", { class: "step" }, h("i", {}, "3"), h("div", {}, h("b", {}, "Press Play"), h("span", {}, "It saves and starts. Results go in your history.")))),
-      h("div", { class: "lib-head" }, h("h2", {}, "My drills"), h("span", { class: "muted" }, S.drills.length ? `${S.drills.length}` : "")),
-      h("div", { class: "cards" },
-        h("button", { class: "card new-card", onclick: newDrillDialog }, h("span", {}, ic("plus"), "New drill")),
-        S.drills.map(drillCard)),
-      S.drills.length ? null : h("p", { class: "empty-note" }, "No drills yet. Your drills also show up first in VALORANT Training in the lobby.")));
+      h("div", { class: "lib-head", role: "tablist" }, tab("drills", "My drills", S.drills.length), tab("runs", "Runs", S.libTab === "runs" ? runs.length : 0)),
+      S.libTab === "runs" ? [
+        h("div", { class: "cards" }, runs.map(runCard)),
+        runs.length ? null : h("p", { class: "empty-note" }, "No saved runs yet. Record a Copycat bot's run, then press Save to library to reuse it on other copycats."),
+      ] : [
+        h("div", { class: "cards" },
+          h("button", { class: "card new-card", onclick: newDrillDialog }, h("span", {}, ic("plus"), "New drill")),
+          S.drills.map(drillCard)),
+        S.drills.length ? null : h("p", { class: "empty-note" }, "No drills yet. Your drills also show up first in VALORANT Training in the lobby."),
+      ]));
+}
+
+// A saved copycat run in the library: its path, rename and delete.
+function runCard(run) {
+  return h("article", { class: "card run-card" },
+    h("div", { class: "art run-art" }, runThumb(run.track, 220, 96), h("span", { class: "place" }, placeLabel(run.place))),
+    h("div", { class: "body" }, h("h3", {}, run.name), h("p", {}, runSummary(run.track))),
+    h("div", { class: "actions" },
+      h("button", { class: "btn small", onclick: () => renameRun(run) }, ic("edit"), "Rename"),
+      h("div", { class: "grow" }),
+      h("button", { class: "btn small icon danger", title: "Delete", "aria-label": `Delete ${run.name}`, onclick: () => deleteRun(run) }, ic("trash"))));
+}
+async function renameRun(run) {
+  const name = await askName("Rename run", "Drills already using this run keep their copy.", run.name, "Rename");
+  if (name === null || name === run.name) return;
+  try { await api.renameRun({ id: run.id, name }); } catch (err) { toast(`Couldn't rename: ${err && err.message}`, true); }
+  showLibrary();
+}
+async function deleteRun(run) {
+  const ok = await confirmBox(`Delete "${run.name}"?`, "Copycats already using it keep their copy of the run.", [["Cancel", null], ["Delete", true, "primary"]]);
+  if (!ok) return;
+  try { await api.removeRun(run.id); } catch (err) { toast(`Couldn't delete: ${err && err.message}`, true); }
+  showLibrary();
 }
 
 function drillCard(entry) {
@@ -254,18 +316,23 @@ function drillCard(entry) {
 }
 
 async function copyDrill(d) {
+  const revision = screenRevision;
   const copy = JSON.parse(JSON.stringify(d));
   delete copy.code;
   copy.name = `${d.name} (copy)`.slice(0, 60);
   await saveDrill(copy, { quietOk: true });
+  if (revision !== screenRevision || S.screen !== 'library') return;
   toast("Copied.");
   showLibrary();
 }
 
 async function deleteDrill(entry) {
+  const revision = screenRevision;
   const ok = await confirmBox("Delete this drill?", `"${entry.name}" and its place in the training list will be removed. Your past results stay in your history.`, [["Cancel", false], ["Delete", true, "primary"]]);
   if (!ok) return;
+  if (revision !== screenRevision || S.screen !== 'library') return;
   await api.remove(entry.code);
+  if (revision !== screenRevision || S.screen !== 'library') return;
   toast("Deleted.");
   showLibrary();
 }
@@ -364,6 +431,8 @@ function newDrillDialog() {
 let canvas, ctx, stage, hintEl, side, topState, undoBtn, redoBtn;
 
 async function openDrill(drill, fresh = false) {
+  draftSuppressed = false;
+  const revision = ++screenRevision;
   S.screen = "editor";
   S.drill = normalize(JSON.parse(JSON.stringify(drill)));
   S.saved = fresh ? "" : JSON.stringify(S.drill);
@@ -371,8 +440,10 @@ async function openDrill(drill, fresh = false) {
   S.hist = []; S.fut = []; S.histKey = null;
   S.preview = false;
   S.map = null; S.img = null; S.view = null;
+  rememberEditor();
   buildEditor();
   if (onMap()) await loadPlace();
+  if (revision !== screenRevision || S.screen !== 'editor') return;
   fitView();
   // On a map, put the start on a real floor once the floors are known.
   if (onMap() && S.map && fresh) {
@@ -385,6 +456,7 @@ async function openDrill(drill, fresh = false) {
 }
 
 async function loadPlace() {
+  const revision = screenRevision;
   S.mapLoading = true;
   draw();
   const id = S.drill.place;
@@ -393,14 +465,15 @@ async function loadPlace() {
       loadMap(id, (u) => fetch(u).then((r) => r.json())),
       new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = `/aim-maps/${id}.minimap.png`; }),
     ]);
-    if (S.drill && S.drill.place === id) { S.map = map; S.img = img; }
+    if (revision === screenRevision && S.drill && S.drill.place === id) { S.map = map; S.img = img; }
   } catch {
-    toast("This map's picture couldn't be loaded.", true);
+    if (revision === screenRevision) toast("This map's picture couldn't be loaded.", true);
   }
-  S.mapLoading = false;
+  if (revision === screenRevision) S.mapLoading = false;
 }
 
 function buildEditor() {
+  view3d?.dispose(); view3d = null;
   app.textContent = "";
   const nameInput = h("input", {
     class: "name-input", value: S.drill.name, maxlength: 60, "aria-label": "Drill name", spellcheck: "false",
@@ -448,7 +521,8 @@ function buildEditor() {
     previewBtn, hintEl,
     h("div", { class: "view-switch", role: "radiogroup", "aria-label": "View" },
       h("button", { "data-view": "2d", onclick: () => setView(false) }, "2D"),
-      h("button", { "data-view": "3d", onclick: () => setView(true) }, "3D")));
+      h("button", { "data-view": "3d", onclick: () => setView(true) }, "3D"),
+      h("button", { "data-view": "detailed", title: "The real map with textures and lighting. Loads the full map", onclick: () => setView(true, false, true) }, "Detailed")));
   side = h("aside", { class: "inspector", "data-coach": "side", "aria-label": "Settings" });
   app.append(h("div", { class: "editor" }, tray, stage, side));
 
@@ -469,12 +543,14 @@ function updateTop() {
 }
 
 async function leaveEditor() {
+  const revision = screenRevision;
   if (dirty()) {
     const pick = await confirmBox("Save your changes?", "You changed this drill since it was last saved.", [["Cancel", null], ["Don't save", "drop"], ["Save", "save", "primary"]]);
     if (!pick) return;
     if (pick === "save" && !(await saveCurrent())) return;
   }
-  showLibrary();
+  if (revision !== screenRevision || S.screen !== 'editor') return;
+  showLibrary({ fromEditor: true });
 }
 
 // ---------- saving and playing ----------
@@ -509,16 +585,24 @@ async function saveDrill(drill, { quietOk = false } = {}) {
 }
 
 async function saveCurrent(thenPlay = false) {
-  const res = await saveDrill(S.drill, { quietOk: thenPlay });
+  const revision = screenRevision, drill = S.drill;
+  if (!drill || S.screen !== 'editor') return false;
+  const pendingSave = saveDrill(drill, { quietOk: thenPlay });
+  const savedSnapshot = JSON.stringify(drill);
+  const res = await pendingSave;
   if (!res) return false;
+  if (revision !== screenRevision || S.screen !== 'editor' || S.drill !== drill) return false;
   S.drill.code = res.code;
-  S.saved = JSON.stringify(S.drill);
+  S.saved = JSON.stringify({ ...JSON.parse(savedSnapshot), code: res.code });
   updateTop();
+  rememberEditor();
+  if (thenPlay && dirty()) { toast('Saved. Your newer edits are still open; save them before playing.'); return false; }
   if (thenPlay) play(res.code);
   return true;
 }
 
 function play(code) {
+  forgetEditor();
   location.assign(`/aim#studio-play=${code}`);
 }
 
@@ -553,7 +637,7 @@ function worldBounds() {
     const a = S.map.fromUV(0, 0), b = S.map.fromUV(1, 1);
     return { x0: a.x, z0: a.z, x1: b.x, z1: b.z };
   }
-  const half = (RANGE_SIZE[S.drill.rangeSize] || 40) / 2;
+  const half = arenaSize(S.drill) / 2;
   return { x0: -half, z0: -half, x1: half, z1: half };
 }
 
@@ -598,9 +682,17 @@ function wallEnds(w) {
 
 // Where a bot is at time t in the preview (seconds).
 function previewPos(b, t) {
+  if (b.move === "copycat") {
+    const wait = b.delay || 0, at = copycatAt(b, S.drill.start, t - wait);
+    return at ? { x: at.x, y: at.y, z: at.z, shown: t >= wait } : { x: b.x, z: b.z, shown: true };
+  }
   const speed = b.speed === "walk" ? 2.97 : 5.4;
   if (b.move === "strafe") {
     const a = across(b);
+    if (b.unpredictable === true) {
+      const offset = unpredictableOffset(b, t);
+      return { x: b.x + a.x * offset, z: b.z + a.z * offset, shown: true };
+    }
     const half = b.width / 2;
     const period = (2 * b.width) / speed + 1;
     const p = (t % period) / period;
@@ -638,8 +730,15 @@ function previewPos(b, t) {
   return { x: pts[0].x, z: pts[0].z, shown: true };
 }
 
+// Dragging "Preview the run" on a copycat's panel shows it at that moment of its run.
+function scrubPos(b) {
+  if (!S.scrub || S.scrub.id !== b.id || S.sel !== b.id) return null;
+  const at = copycatAt(b, S.drill.start, S.scrub.t);
+  return at && { x: at.x, y: at.y, z: at.z, shown: true };
+}
+
 // Bots take turns (so a peeker peeks once and hides).
-const takingTurns = () => S.drill.round.order !== "together" && S.drill.round.goal !== "track";
+const takingTurns =() => S.drill.round.order !== "together" && S.drill.round.goal !== "track";
 
 // Draws a bot's flash: the throw path to where it pops and, in the preview, the flash
 // flying (FLASH_FUSE seconds) and popping.
@@ -700,13 +799,15 @@ function stopLoop() { cancelAnimationFrame(raf); raf = 0; }
 
 // ---------- 3D view ----------
 let view3d = null;
-try { S.mode3d = localStorage.getItem("studio-view") === "3d"; } catch { S.mode3d = false; }
+try { const v = localStorage.getItem("studio-view"); S.mode3d = v === "3d" || v === "detailed"; S.detailed = v === "detailed"; } catch { S.mode3d = S.detailed = false; }
 
-function setView(on, first = false) {
+// Detailed is the 3D view with the real game map in place of the floor blockout.
+function setView(on, first = false, detailed = on && first ? S.detailed : false) {
   S.mode3d = on;
-  try { localStorage.setItem("studio-view", on ? "3d" : "2d"); } catch {}
+  S.detailed = on && detailed;
+  try { localStorage.setItem("studio-view", S.detailed ? "detailed" : on ? "3d" : "2d"); } catch {}
   if (on && !view3d) {
-    view3d = createView3D(stage);
+    view3d = createView3D(stage, { redraw: () => draw() });
     bind3D(view3d);
     view3d.resize();
     const st = S.drill.start;
@@ -715,7 +816,9 @@ function setView(on, first = false) {
   canvas.style.display = on ? "none" : "";
   if (view3d) { view3d.canvas.style.display = on ? "" : "none"; view3d.labels.style.display = on ? "" : "none"; }
   stage.querySelector(".zoom").style.display = on ? "none" : "";
-  for (const b of stage.querySelectorAll(".view-switch button")) b.classList.toggle("on", (b.dataset.view === "3d") === on);
+  if (view3d) view3d.status.style.display = on ? "" : "none";
+  const current = S.detailed ? "detailed" : on ? "3d" : "2d";
+  for (const b of stage.querySelectorAll(".view-switch button")) b.classList.toggle("on", b.dataset.view === current);
   if (!first) draw();
 }
 
@@ -731,6 +834,8 @@ const helpers3d = {
   wallEnds: (it) => wallEnds(it),
   dir: (deg) => dirOf(deg),
   previewPos: (it, t) => previewPos(it, t),
+  stillPos: (it) => scrubPos(it),
+  runFrames: (it) => (it.move === "copycat" ? copycatFrames(it, S.drill.start) : null),
   FUSE: FLASH_FUSE,
   // Throw path of a bot's flash: curve on the ground plan, heights at both ends.
   flashPath(it) {
@@ -745,7 +850,7 @@ const helpers3d = {
 };
 
 function paint3d(t) {
-  view3d.setWorld(onMap() ? S.map : null, RANGE_SIZE[S.drill.rangeSize] || 40);
+  view3d.setWorld(onMap() ? S.map : null, arenaSize(S.drill), S.drill, S.detailed);
   view3d.sync(S.drill, S.sel, helpers3d, S.preview);
   if (S.preview) view3d.animate(t, helpers3d); else view3d.still(helpers3d);
   view3d.render();
@@ -764,6 +869,7 @@ function bind3D(v) {
     return item ? { ...d, item } : null;
   };
   c.addEventListener("pointerdown", (e) => {
+    flushMove();
     c.setPointerCapture(e.pointerId);
     const [px, py] = local(e);
     last = { x: e.clientX, y: e.clientY };
@@ -783,13 +889,20 @@ function bind3D(v) {
     const target = hit.item ? hit.item.id : "start";
     if (target !== S.sel) { S.sel = target; S.addPoint = false; renderSide(); }
     const obj = hit.item || S.drill.start;
-    const planeY = floorAt(obj.x, obj.z, obj.y, obj.kind === "block" ? obj.id : undefined) ?? obj.y ?? 0;
+    if (hit.type === 'transform') {
+      const gesture = v.beginTransform(hit, px, py);
+      if (!gesture) { mode = null; return; }
+      drag = { ...hit, key: `transform-${Date.now()}`, original: structuredClone(obj), gesture, moved: false };
+      mode = 'transform';
+      draw(); return;
+    }
+    const planeY = (hit.type === "botTurn" ? 1.5 : 0) + (floorAt(obj.x, obj.z, obj.y, obj.kind === "block" ? obj.id : undefined) ?? obj.y ?? 0);
     const at = v.planePoint(px, py, planeY) || { x: obj.x, z: obj.z };
     drag = { ...hit, key: `drag-${Date.now()}`, dx: obj.x - at.x, dz: obj.z - at.z, moved: false, planeY };
     mode = "drag";
     draw();
   });
-  c.addEventListener("pointermove", (e) => {
+  const move = (e) => {
     const [px, py] = local(e);
     pointer.x = px; pointer.y = py; pointer.inside = true;
     if (!mode) { c.style.cursor = S.tool || S.addPoint ? "crosshair" : v.pick(px, py) ? "pointer" : ""; return; }
@@ -798,19 +911,53 @@ function bind3D(v) {
     travel += Math.abs(dx) + Math.abs(dy);
     if (mode === "orbit") v.orbitBy(dx, dy);
     else if (mode === "pan") v.panBy(dx, dy);
+    else if (mode === 'transform' && drag) {
+      if (travel < 3) return;
+      const { original, gesture } = drag;
+      const delta = drag.action === 'rotate' ? v.rotationDelta(gesture, original, px, py) : v.transformDelta(gesture, px, py);
+      if (delta === null || !Number.isFinite(delta)) return;
+      // Every movement in this pointer gesture belongs to one undo entry.
+      if (S.histKey === drag.key) S.histAt = performance.now();
+      edit(d => {
+        const item = d.items.find(i => i.id === original.id);
+        if (!item) return;
+        if (drag.action === 'rotate') {
+          const value = (original.turn || 0) + delta;
+          item.turn = ((e.altKey ? value : Math.round(value / 5) * 5) % 360 + 360) % 360;
+        } else resizePiece(item, original, drag.dimension, drag.sign, delta, e.altKey);
+      }, { key: drag.key, quiet: true });
+      drag.moved = true;
+    }
     else if (mode === "drag" && drag) {
       // Things you move follow the surface under the mouse, so dragging a bot onto a built
       // floor puts it on top; handles (widths, turns, the flash star) stay at their height.
       const onSurface = drag.type === "item" || drag.type === "start" || drag.type === "point";
-      const at = onSurface ? v.surfacePoint(px, py, drag.item && drag.item.kind === "block" ? drag.item.id : undefined) : v.planePoint(px, py, drag.planeY);
+      const at = onSurface ? v.surfacePoint(px, py, drag.item && ["block", "wall"].includes(drag.item.kind) ? drag.item.id : undefined) : v.planePoint(px, py, drag.planeY);
       if (at) dragMove(e, at);
     }
     draw();
+  };
+  let pendingMove = null, moveFrame = 0;
+  const flushMove = () => {
+    if (moveFrame) cancelAnimationFrame(moveFrame);
+    moveFrame = 0;
+    const event = pendingMove; pendingMove = null;
+    if (event) move(event);
+  };
+  c.addEventListener("pointermove", e => {
+    pendingMove = e;
+    if (!moveFrame) moveFrame = requestAnimationFrame(() => {
+      flushMove();
+      if (raf) { cancelAnimationFrame(raf); raf = 0; frame(performance.now()); }
+    });
   });
+
   const end = () => {
+    flushMove();
     // A click on empty space (no camera turn) clears the selection, like in 2D.
     if (mode === "orbit" && travel < 4 && S.sel !== null) { S.sel = null; S.addPoint = false; renderSide(); }
     if (drag && drag.moved) renderSide();
+    if (mode === 'transform') S.histKey = null;
     drag = null; mode = null;
     draw();
   };
@@ -818,7 +965,9 @@ function bind3D(v) {
   c.addEventListener("pointercancel", end);
   c.addEventListener("contextmenu", (e) => e.preventDefault());
   c.addEventListener("wheel", (e) => { e.preventDefault(); v.zoomBy(Math.exp(-e.deltaY * 0.0015)); draw(); }, { passive: false });
-  new ResizeObserver(() => { v.resize(); draw(); }).observe(stage);
+  const observer = new ResizeObserver(() => { v.resize(); draw(); }); observer.observe(stage);
+  const disposeView = v.dispose;
+  v.dispose = () => { observer.disconnect(); if (moveFrame) cancelAnimationFrame(moveFrame); pendingMove = null; disposeView(); };
 }
 function frame(now) {
   raf = 0;
@@ -858,7 +1007,7 @@ function paint(t) {
       ctx.fillText("Loading the map…", W / 2, H / 2);
     }
   } else {
-    const half = (RANGE_SIZE[d.rangeSize] || 40) / 2;
+    const half = arenaSize(d) / 2;
     const [x0, y0] = pt(-half, -half);
     ctx.fillStyle = "#12161d";
     ctx.fillRect(x0, y0, half * 2 * k, half * 2 * k);
@@ -926,7 +1075,7 @@ function paint(t) {
     const a = across(it);
     const half = Math.max(0.3, it.width / 2);
     const p1 = { x: it.x - a.x * half, z: it.z - a.z * half }, p2 = { x: it.x + a.x * half, z: it.z + a.z * half };
-    ctx.strokeStyle = it.color || COLORS.target;
+    ctx.strokeStyle = targetColor(d);
     ctx.lineWidth = it.id === sel ? 4 : 3;
     ctx.setLineDash([6, 4]);
     line(p1.x, p1.z, p2.x, p2.z);
@@ -936,7 +1085,7 @@ function paint(t) {
       const f = n === 1 ? 0.5 : i / (n - 1);
       const wob = S.preview && it.motion !== "still" ? Math.sin(t * (it.motion === "fast" ? 5 : 2.2) + i) * (it.motion === "fast" ? 1.2 : 0.5) : 0;
       const px = p1.x + (p2.x - p1.x) * f + a.x * wob, pz = p1.z + (p2.z - p1.z) * f + a.z * wob;
-      ctx.fillStyle = it.color || COLORS.target;
+      ctx.fillStyle = targetColor(d);
       ctx.beginPath(); ctx.arc(...pt(px, pz), Math.max(4, 0.25 * k), 0, Math.PI * 2); ctx.fill();
     }
     if (it.id === sel) { handle(p1.x, p1.z, "#fff"); handle(p2.x, p2.z, "#fff"); }
@@ -992,7 +1141,8 @@ function paint(t) {
       line(p1.x, p1.z, p2.x, p2.z);
       arrow(s, p1, ctx.strokeStyle); arrow(s, p2, ctx.strokeStyle);
     }
-    const at = S.preview ? previewPos(it, t) : { x: it.x, z: it.z, shown: true };
+    if (it.move === "copycat") drawRun(it, isSel);
+    const at = S.preview ? previewPos(it, t) : scrubPos(it) || { x: it.x, z: it.z, shown: true };
     if (it.flash && it.flash.on) drawFlash(it, isSel, S.preview ? at.flashAge : undefined);
     if (at.shown) body(it, at, isSel, bad(it.x, it.z));
     label(it, at, Math.max(12, 0.45 * k) + 6, isSel);
@@ -1014,6 +1164,25 @@ function paint(t) {
   handle(tip.x, tip.z, COLORS.start);
 
   if (S.tool && pointer.inside) ghost();
+}
+
+// A copycat's recorded run: the path, white dots where it jumps, red dots where you fired.
+function drawRun(it, isSel) {
+  const f = copycatFrames(it, S.drill.start);
+  if (!f) return;
+  const color = isSel ? COLORS.route : "rgba(255,181,71,.55)";
+  ctx.strokeStyle = color;
+  ctx.lineWidth = isSel ? 2.5 : 1.6;
+  ctx.beginPath();
+  for (let i = 0; i < f.length; i += 6) (i ? ctx.lineTo(...pt(f[i], f[i + 2])) : ctx.moveTo(...pt(f[i], f[i + 2])));
+  ctx.stroke();
+  for (let i = 6; i < f.length; i += 6) {
+    const jump = f[i + 5] && !f[i - 1], shot = f[i + 4] && !f[i - 2];
+    if (!jump && !shot) continue;
+    ctx.fillStyle = jump ? "#ffffff" : "#ff4655";
+    ctx.beginPath(); ctx.arc(...pt(f[i], f[i + 2]), isSel ? 4 : 3, 0, Math.PI * 2); ctx.fill();
+  }
+  if (f.length >= 12 && it.playback !== "loop") arrow({ x: f[f.length - 12], z: f[f.length - 10] }, { x: f[f.length - 6], z: f[f.length - 4] }, color);
 }
 
 function body(it, at, isSel, isBad) {
@@ -1062,7 +1231,7 @@ function drawBlock(b, isSel, isBad) {
   const corners = [[-hw, -hd], [hw, -hd], [hw, hd], [-hw, hd]].map(([lx, lz]) => pt(...Object.values(blockToWorld(b, lx, lz))));
   const path = () => { ctx.beginPath(); corners.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y))); ctx.closePath(); };
   ctx.globalAlpha = b.shape === "floor" ? 0.75 : 0.9;
-  ctx.fillStyle = b.color || "#6b7280";
+  ctx.fillStyle = surfaceFor(S.drill,b,b.shape==='floor').color;
   if (b.shape === "pillar") { ctx.beginPath(); ctx.arc(...pt(b.x, b.z), (b.w / 2) * S.view.k, 0, Math.PI * 2); ctx.fill(); }
   else if (b.shape !== "room") { path(); ctx.fill(); }
   ctx.globalAlpha = 1;
@@ -1085,7 +1254,7 @@ function drawBlock(b, isSel, isBad) {
     L(-g, 0, g, 0);
   }
   if (b.shape === "room") {
-    ctx.strokeStyle = b.color || "#6b7280"; ctx.lineWidth = Math.max(4, 0.3 * S.view.k);
+    ctx.strokeStyle = surfaceFor(S.drill,b,b.shape==='floor').color; ctx.lineWidth = Math.max(4, 0.3 * S.view.k);
     const sides = { back: [-hw, -hd, hw, -hd], right: [hw, -hd, hw, hd], front: [hw, hd, -hw, hd], left: [-hw, hd, -hw, -hd] };
     for (const [side, seg4] of Object.entries(sides)) if (side !== b.open) L(...seg4);
     if (isSel) { ctx.strokeStyle = "#fff"; ctx.lineWidth = 1; path(); ctx.stroke(); }
@@ -1147,6 +1316,8 @@ function updateHint() {
     html = `Click the map to add route points to <b>${itemName(S.drill, it)}</b> · <span class="kbd">Esc</span> when done`;
   } else if (it && it.route) {
     html = "Drag the numbered points to shape the route · right-click a point to remove it";
+  } else if (it && S.mode3d && (it.kind === 'block' || it.kind === 'wall')) {
+    html = 'White circles resize · drag the arrow to rotate · drag the piece to move · <span class="kbd">Alt</span> free adjustment';
   } else if (it) {
     html = "Drag to move · <span class=\"kbd\">Del</span> remove · <span class=\"kbd\">Ctrl</span>+<span class=\"kbd\">D</span> copy";
   } else if (S.sel === "start") {
@@ -1551,6 +1722,18 @@ function drillPanel() {
   return [
     ...head("gear", "", "Drill settings", "Click anything on the map to change it. These settings are for the whole drill."),
     checksBox(),
+    h("div", { class: "group" },
+      h("label", {}, "Place"),
+      onMap()
+        ? h("p", { class: "help" }, `${mapLabel(d.place)}. To use another map, make a new drill.`)
+        : h("div", {},
+          field("Arena preset", seg([["small", "Small · 24 m"], ["medium", "Medium · 40 m"], ["large", "Large · 70 m"]], d.arenaSize ? null : d.rangeSize, (v) => { edit(dd => { dd.rangeSize = v; delete dd.arenaSize; }); fitView(); draw(); })),
+          field("Arena size", slider(12, 200, 1, arenaSize(d), v => `${v} × ${v} m`, (dd,v) => {dd.arenaSize=v;fitView();}), "Square arena. Enlarge it without moving your targets."),
+          field("Boundary wall height", slider(0, 40, .5, arenaWallHeight(d), v => v ? metres(v) : "No walls", (dd,v) => {dd.arenaWallHeight=v;}), "Adds four solid walls around the empty area."),
+        ),
+      field("Mode", seg([["charcoal", "Dark"], ["light", "Light"]], darkArena(d) ? "charcoal" : "light", v => edit(dd => { dd.arenaTheme = v; }))),
+      field("Surface", seg(SURFACES, arenaSurface(d), v => edit(dd => setArenaSurface(dd, v)))),
+      arenaSurface(d) === 'tile' ? field("Grid size", slider(.25,8,.05,d.floorTileScale ?? 2.4,metres,(dd,v)=>{dd.floorTileScale=dd.wallTileScale=v;for(const it of dd.items)delete it.surfaceScale;})) : null),
     shootersBox(),
     h("div", { class: "group" },
       field("Goal", seg([["score", "Score kills", "Kill as many as you can before time runs out"], ["clear", "Clear them all", "Kill every bot as fast as you can"], ["track", "Tracking", "Keep your crosshair on the target"]], r.goal, set((o, v) => (o.goal = v))),
@@ -1573,11 +1756,6 @@ function drillPanel() {
         oneByOne ? "On its turn each bot does its thing once (a peeker peeks once). Rushers without a flash walk all round." : null),
       oneByOne ? field("How many at a time", slider(1, 5, 1, r.atOnce || 1, (v) => `${v}`, (dd, v) => (dd.round.atOnce = v))) : null,
       oneByOne ? field("Pause before the next one", slider(0, 5, 0.1, r.gap ?? 1, secs, (dd, v) => (dd.round.gap = v))) : null) : null,
-    h("div", { class: "group" },
-      h("label", {}, "Place"),
-      onMap()
-        ? h("p", { class: "help" }, `${mapLabel(d.place)}. To use another map, make a new drill.`)
-        : field(null, seg([["small", "Small"], ["medium", "Medium"], ["large", "Large"]], d.rangeSize, (v) => { edit((dd) => (dd.rangeSize = v)); fitView(); draw(); }), "Size of the range floor.")),
     h("div", { class: "group" },
       field("Description", h("textarea", { class: "text", maxlength: 300, placeholder: "Shown on the card in the lobby.", oninput: (e) => edit((dd) => (dd.note = e.target.value), { key: "note", quiet: true }) }, d.note || ""))),
   ];
@@ -1623,6 +1801,7 @@ function botPanel(b) {
   const speed = field("Speed", seg([["walk", "Walk"], ["run", "Run"]], b.speed, set((it, v) => (it.speed = v))));
   if (b.move === "strafe") {
     moveGroup.append(
+      field("Movement", seg([[false, "Predictable"], [true, "Unpredictable"]], b.unpredictable === true, set((it, v) => (it.unpredictable = v))), "Unpredictable varies distances, pauses and speed, including short reversals, within the movement width."),
       field("How wide", slider(0.4, 12, 0.1, b.width, metres, (dd, v) => mod((it) => (it.width = v))(dd)), "Or drag the orange end dots on the map."),
       speed);
   } else if (b.move === "peek") {
@@ -1635,11 +1814,16 @@ function botPanel(b) {
     ].filter(Boolean));
   } else if (b.move === "cross" || b.move === "patrol") {
     moveGroup.append(speed, field(b.move === "cross" || (b.flash && b.flash.on) ? "Route (appears at 1, disappears at the last point)" : "Route (loops back to 1)", routeList(b)));
+  } else if (b.move === "copycat") {
+    moveGroup.append(...copycatControls(b));
   } else {
     moveGroup.append(h("p", { class: "help" }, "Stands on its spot, facing your start."));
   }
+  if (b.move === "still" || b.move === "strafe" || b.move === "peek") {
+    moveGroup.append(field("Pose", seg([[false, "Standing"], [true, "Crouching"]], b.crouch, set((it, v) => { it.crouch = v; it.crouchRandom = false; })),
+      b.move === "peek" ? "Crouching stays low for the peek and return. Movement speed still follows Walk / Run." : null));
+  }
   if (b.move === "still" || b.move === "strafe") {
-    moveGroup.append(field("Pose", seg([[false, "Standing"], [true, "Crouching"]], b.crouch, set((it, v) => (it.crouch = v)))));
     const fixed = typeof b.facing === "number";
     moveGroup.append(field("Faces", seg([[false, "Always faces you"], [true, "A direction I pick"]], fixed,
       (v) => edit(mod((it) => (it.facing = v ? Math.round(yawDeg(it, S.drill.start)) : null)))),
@@ -1647,6 +1831,26 @@ function botPanel(b) {
     if (fixed) moveGroup.append(slider(0, 359, 1, b.facing, (v) => `${v}°`, (dd, v) => mod((it) => (it.facing = v))(dd)));
   }
   out.push(moveGroup);
+  // A copycat jumps and crouches when you did; the timed options don't apply.
+  const copycat = b.move === "copycat";
+  out.push(h("div", { class: "group" },
+    field(null, toggle(b.hitSlow === true, "Slows when hit", "Surviving bullet hits briefly slow this bot's movement.", (dd, v) => mod((it) => (it.hitSlow = v))(dd))),
+    copycat ? null : field(null, toggle(b.jump === true, "Jumps", "Jumps during Play while keeping its selected movement and route.", (dd, v) => mod((it) => (it.jump = v))(dd))),
+    ...(b.jump && !copycat ? [
+      field("Jump height", h("div", {},
+        slider(0.2, 2, 0.05, b.jumpHeight ?? DEFAULT_JUMP_HEIGHT, (v) => `${v.toFixed(2)} m`, (dd, v) => mod((it) => (it.jumpHeight = v))(dd)),
+        h("button", { class: "btn small", onclick: () => edit(mod((it) => (it.jumpHeight = DEFAULT_JUMP_HEIGHT))) }, "Reset to 1.15 m")), "Default: 1.15 m (your normal jump)."),
+      field("Minimum wait between jumps", slider(0.5, 10, 0.1, b.jumpMin ?? 1.5, secs, (dd, v) => mod((it) => { it.jumpMin = v; it.jumpMax = Math.max(v, it.jumpMax ?? 3); })(dd))),
+      field("Maximum wait between jumps", slider(0.5, 10, 0.1, b.jumpMax ?? 3, secs, (dd, v) => mod((it) => { it.jumpMax = v; it.jumpMin = Math.min(v, it.jumpMin ?? 1.5); })(dd)), "The bot waits this long after landing before its next jump."),
+    ] : [])));
+  if (!copycat) out.push(h("div", { class: "group" },
+    field(null, toggle(b.crouchRandom === true, "Occasional crouching", "Randomly crouches and stands during Play. Uses the player's crouch transition; waits for jumping to finish.", (dd, v) => mod((it) => { it.crouchRandom = v; if (v) it.crouch = false; })(dd))),
+    ...(b.crouchRandom ? [
+      field("Minimum crouch hold", slider(0.3, 10, 0.1, b.crouchMin ?? 0.5, secs, (dd, v) => mod((it) => { it.crouchMin = v; it.crouchMax = Math.max(v, it.crouchMax ?? 1.2); })(dd))),
+      field("Maximum crouch hold", slider(0.3, 10, 0.1, b.crouchMax ?? 1.2, secs, (dd, v) => mod((it) => { it.crouchMax = v; it.crouchMin = Math.min(v, it.crouchMin ?? 0.5); })(dd)), "Time fully crouched before standing up."),
+      field("Minimum wait between crouches", slider(0.3, 10, 0.1, b.crouchGapMin ?? 2, secs, (dd, v) => mod((it) => { it.crouchGapMin = v; it.crouchGapMax = Math.max(v, it.crouchGapMax ?? 4); })(dd))),
+      field("Maximum wait between crouches", slider(0.3, 10, 0.1, b.crouchGapMax ?? 4, secs, (dd, v) => mod((it) => { it.crouchGapMax = v; it.crouchGapMin = Math.min(v, it.crouchGapMin ?? 2); })(dd)), "Time standing before the next crouch."),
+    ] : [])));
   if (b.route) out.push(flashGroup(b));
 
   out.push(h("div", { class: "group" },
@@ -1718,6 +1922,194 @@ function changeMove(b, move) {
   S.addPoint = false;
 }
 
+// ---------- copycat runs ----------
+const RECORDING_KEY = "studio-recording", TAKE_KEY = "studio-take";
+
+// A recorded run in words: length, distance, jumps, crouches, bursts fired.
+function runSummary(track) {
+  const p = track.p;
+  let metres = 0, jumps = 0, crouches = 0, bursts = 0;
+  for (let i = 6; i < p.length; i += 6) {
+    metres += Math.hypot(p[i] - p[i - 6], p[i + 2] - p[i - 4]);
+    if (p[i + 5] && !p[i - 1]) jumps++;
+    if (p[i + 3] > 0.5 && p[i - 3] <= 0.5) crouches++;
+    if (p[i + 4] && !p[i - 2]) bursts++;
+  }
+  const n = (v, one, many) => `${v} ${v === 1 ? one : many}`;
+  return `${secs(track.secs)}, ${metres.toFixed(1)} m moved, ${n(jumps, "jump", "jumps")}, ${n(crouches, "crouch", "crouches")}, fired ${n(bursts, "time", "times")}`;
+}
+
+// ---------- run library (saved copycat runs, studio-store.js) ----------
+const placeLabel = (place) => (place && place !== "range" ? mapLabel(place) : "Training range");
+
+// A small drawing of a run seen from above, "toward you" pointing up: big dot where it
+// starts, white dots where it jumps, red dots where you fired.
+function runThumb(track, w = 132, hgt = 84) {
+  const c = h("canvas", { class: "run-thumb", width: w * 2, height: hgt * 2, style: `width:${w}px;height:${hgt}px` });
+  const g = c.getContext("2d"), p = track.p;
+  let x0 = 0, x1 = 0, z0 = 0, z1 = 0;
+  for (let i = 0; i < p.length; i += 6) { x0 = Math.min(x0, p[i]); x1 = Math.max(x1, p[i]); z0 = Math.min(z0, p[i + 2]); z1 = Math.max(z1, p[i + 2]); }
+  const k = Math.min((w * 2 - 28) / Math.max(1, x1 - x0), (hgt * 2 - 28) / Math.max(1, z1 - z0));
+  const at = (i) => [w + (p[i] - (x0 + x1) / 2) * k, hgt - (p[i + 2] - (z0 + z1) / 2) * k];
+  const dot = (i, r, fill) => { g.fillStyle = fill; g.beginPath(); g.arc(...at(i), r, 0, Math.PI * 2); g.fill(); };
+  g.strokeStyle = COLORS.route; g.lineWidth = 3; g.lineJoin = "round";
+  g.beginPath();
+  for (let i = 0; i < p.length; i += 6) (i ? g.lineTo(...at(i)) : g.moveTo(...at(i)));
+  g.stroke();
+  dot(0, 8, "#ffffff"); dot(0, 6, COLORS.bot);
+  for (let i = 6; i < p.length; i += 6) {
+    if (p[i + 5] && !p[i - 1]) dot(i, 5, "#ffffff");
+    else if (p[i + 4] && !p[i - 2]) dot(i, 4, COLORS.bot);
+  }
+  return c;
+}
+
+// A text box in a dialog: the trimmed name, or null when cancelled.
+function askName(title, text, value, okLabel) {
+  return new Promise((resolve) => {
+    const close = (v) => { scrim.remove(); resolve(v); };
+    const input = h("input", {
+      class: "text-input", value, maxlength: 40, "aria-label": "Name", spellcheck: "false",
+      onkeydown: (e) => { if (e.key === "Enter") close(input.value.trim() || value); if (e.key === "Escape") close(null); },
+    });
+    const scrim = h("div", { class: "scrim", onclick: (e) => e.target === scrim && close(null) },
+      h("div", { class: "dialog small", role: "dialog", "aria-modal": "true" },
+        h("h2", {}, title), h("p", { class: "sub" }, text), input,
+        h("div", { class: "foot" },
+          h("button", { class: "btn", onclick: () => close(null) }, "Cancel"),
+          h("button", { class: "btn primary", onclick: () => close(input.value.trim() || value) }, okLabel))));
+    document.body.append(scrim);
+    input.focus(); input.select();
+  });
+}
+
+// Saves a copy of a run to the library; returns the saved run, or null.
+async function saveRunToLibrary(track) {
+  const name = await askName("Save to run library", "Give it a name you'll recognise, for example \"wide swing\" or \"jiggle peek\".", track.name || "My run", "Save");
+  if (name === null) return null;
+  try {
+    const run = await api.saveRun({ name, place: S.drill.place, track });
+    toast(`Saved "${run.name}" to your runs.`);
+    return run;
+  } catch (err) {
+    toast(`Couldn't save the run: ${err && err.message}`, true);
+    return null;
+  }
+}
+
+// Gives the copycat a copy of a saved run, so the drill never depends on the library.
+async function useSavedRun(b) {
+  let runs = [];
+  try { runs = await api.runs(); } catch {}
+  if (!runs.length) { toast("No saved runs yet. Record a run and press Save to library."); return; }
+  const here = S.drill.place;
+  const pick = await new Promise((resolve) => {
+    const close = (v) => { scrim.remove(); resolve(v); };
+    const scrim = h("div", { class: "scrim", onclick: (e) => e.target === scrim && close(null) },
+      h("div", { class: "dialog", role: "dialog", "aria-modal": "true" },
+        h("h2", {}, "Use a saved run"),
+        h("p", { class: "sub" }, `${itemName(S.drill, b)} gets its own copy. Renaming or deleting the saved run later doesn't change this drill.`),
+        h("div", { class: "run-list" }, runs.map((r) => h("button", { class: "run-row", onclick: () => close(r) },
+          runThumb(r.track),
+          h("span", { class: "run-text" },
+            h("b", {}, r.name), h("small", {}, runSummary(r.track)),
+            h("small", { class: r.place === here ? "" : "warn" }, r.place === here ? `Recorded on ${placeLabel(r.place)}` : `Recorded on ${placeLabel(r.place)}: check it doesn't run through walls here`))))),
+        h("div", { class: "foot" }, h("button", { class: "btn", onclick: () => close(null) }, "Cancel"))));
+    document.body.append(scrim);
+  });
+  if (!pick) return;
+  S.scrub = null;
+  edit(mod((it) => (it.track = { hz: pick.track.hz, secs: pick.track.secs, p: [...pick.track.p], name: pick.name })));
+}
+
+function copycatControls(b) {
+  const set = (fn) => (v) => edit(mod((it) => fn(it, v)));
+  const t = b.track;
+  const out = [field("Your run", h("div", {},
+    h("p", { class: "help" }, t ? `${t.name ? `"${t.name}": ` : ""}${runSummary(t)}` : `Plays the drill from this bot's spot, facing your start. Move however you like (up to ${RECORD_SECONDS} s), then press Esc and leave the round to come back here. Or use a run you saved.`),
+    h("div", { class: "btn-row" },
+      h("button", { class: "btn small" + (t ? "" : " primary"), onclick: () => recordRun(b) }, ic("rec"), t ? "Record again" : "Record my movement"),
+      h("button", { class: "btn small", onclick: () => useSavedRun(b) }, ic("copy"), "Use a saved run"),
+      t ? h("button", {
+        class: "btn small", onclick: async () => {
+          const run = await saveRunToLibrary(t);
+          if (run && S.drill && S.drill.items.some((i) => i.id === b.id && i.track)) edit((d) => (d.items.find((i) => i.id === b.id).track.name = run.name));
+        },
+      }, ic("plus"), "Save to library") : null,
+      t ? h("button", { class: "btn small", onclick: () => { S.scrub = null; edit(mod((it) => (it.track = null))); } }, ic("trash"), "Remove run") : null)))];
+  if (!t) return out;
+  out.push(
+    field("Preview the run", scrubber(b), "Drag to see where it is at each moment. Preview moves plays it."),
+    field("Playback", seg(PLAYBACKS, b.playback || "loop", set((it, v) => (it.playback = v)))),
+    field("Speed", slider(0.75, 1.25, 0.05, b.replaySpeed || 1, (v) => `${v.toFixed(2)}×`, (dd, v) => mod((it) => (it.replaySpeed = v))(dd)), "1× is exactly your speed."),
+    field(null, toggle(b.mirror === true, "Mirror left and right", "Swaps its left and right: one recording, two different bots.", (dd, v) => mod((it) => (it.mirror = v))(dd))),
+    field(null, toggle(b.randomStart === true, "Start anywhere on the run", "Each time it appears it starts from a random moment of the run, so it is harder to learn.", (dd, v) => mod((it) => (it.randomStart = v))(dd))),
+    field("When it shoots", seg([["mine", "When I shot"], ["sees", "As soon as it sees you"]], b.fireWhen === "sees" ? "sees" : "mine", set((it, v) => (it.fireWhen = v))),
+      b.fireWhen === "sees" ? "Stops its run to shoot when it sees you, like the other bots, then carries on." : "Fires only in the moments you fired while recording, and keeps moving. How well it shoots is set under Shoots back."));
+  return out;
+}
+
+// Not an edit: only moves the selected copycat along its run on the map.
+function scrubber(b) {
+  const value = S.scrub && S.scrub.id === b.id ? S.scrub.t : 0;
+  const out = h("output", {}, secs(value));
+  const input = h("input", {
+    type: "range", min: 0, max: b.track.secs, step: 0.05, value,
+    oninput: (e) => { S.scrub = { id: b.id, t: +e.target.value }; out.textContent = secs(S.scrub.t); draw(); },
+  });
+  return h("div", { class: "slider" }, input, out);
+}
+
+// Recording: the game plays a scene that starts you on the bot's spot (compileRecording) and
+// keeps your movement. Leaving the round brings you back here (studio-launch.js) with it.
+async function recordRun(b) {
+  if (!api.record) { toast("Recording needs the updated app. Close the game and start it again.", true); return; }
+  const doc = compileRecording(S.drill, b, S.map ? (x, z, y) => floorAt(x, z, y) : null);
+  if (gameCheck) {
+    try {
+      gameCheck(JSON.stringify(doc));
+    } catch (err) {
+      console.warn("Recording scene check:", err && err.message, doc);
+      toast("The game couldn't read the recording scene.", true);
+      return;
+    }
+  }
+  try {
+    const { code } = await api.record({ doc });
+    try { sessionStorage.setItem(RECORDING_KEY, JSON.stringify({ bot: b.id })); } catch {}
+    rememberEditor();
+    location.assign(`/aim#studio-record=${code}`);
+  } catch (err) {
+    toast(`Couldn't start recording: ${err && err.message}`, true);
+  }
+}
+
+// Back from recording: offer to keep what the game kept as the copycat's run.
+async function takeRecording() {
+  let pending = null, take = null;
+  try {
+    pending = JSON.parse(sessionStorage.getItem(RECORDING_KEY) || "null");
+    take = JSON.parse(sessionStorage.getItem(TAKE_KEY) || "null");
+    sessionStorage.removeItem(RECORDING_KEY);
+    sessionStorage.removeItem(TAKE_KEY);
+  } catch {}
+  if (!pending) return;
+  api.clearRecording?.().catch(() => {});
+  const bot = S.drill && S.drill.items.find((i) => i.id === pending.bot);
+  if (!bot) return;
+  S.sel = bot.id;
+  renderSide(); draw(); focusOn(bot.id);
+  const track = trackFromTake(take, bot, S.drill.start);
+  if (!track) { toast("Nothing was recorded: you didn't move. Press Record my movement to try again.", true); return; }
+  const pick = await confirmBox("Keep this run?", `${itemName(S.drill, bot)}: ${runSummary(track)}.`, [["Discard", null], ["Record again", "again"], ["Keep and save to library", "save"], ["Keep", "keep", "primary"]], { wide: true });
+  if (pick === "keep" || pick === "save") { S.scrub = null; edit(mod((it) => (it.track = track))); }
+  if (pick === "save") {
+    const run = await saveRunToLibrary(track);
+    if (run && S.drill.items.some((i) => i.id === bot.id && i.track)) edit((d) => (d.items.find((i) => i.id === bot.id).track.name = run.name));
+  }
+  if (pick === "again") recordRun(bot);
+}
+
 function routeList(b) {
   const box = h("div", { class: "points" });
   b.route.forEach((p, i) => {
@@ -1760,7 +2152,7 @@ function targetsPanel(t) {
       field("Area width", slider(0, 30, 0.5, t.width, metres, (dd, v) => mod((it) => (it.width = v))(dd)), "Or drag the end dots on the map."),
       field("Area height", slider(0, 8, 0.1, t.height, metres, (dd, v) => mod((it) => (it.height = v))(dd))),
       field("Middle of the area above the floor", slider(0.3, 8, 0.1, t.lift, metres, (dd, v) => mod((it) => (it.lift = v))(dd)), "1.6 m is head height.")),
-    h("div", { class: "group" }, field("Color", seg([["#2fe0c8", "Teal"], ["#ffb547", "Amber"], ["#ff4655", "Red"], ["#a974ff", "Purple"], ["#f2f4f5", "White"]], t.color, set((it, v) => (it.color = v))))),
+    h("p", { class: "help" }, "Dot color follows the mode: white in Dark, black in Light."),
     floorPicker(t, (dd, y) => mod((it) => (it.y = y))(dd)),
     actions(),
   ];
@@ -1773,13 +2165,21 @@ function wallPanel(w) {
       : "Solid cover. Bullets and bots can't go through."),
     h("div", { class: "group" },
       field("Type", seg([[false, "Solid wall"], [true, "Invisible wall"]], !!w.invisible, (v) => edit(mod((it) => (it.invisible = v))))),
-      field("Height", seg(w.invisible ? [[2, "2 m"], [4, "4 m (can't jump over)"], [8, "8 m"]] : [[1, "Crouch cover"], [1.5, "Chest"], [2.5, "Full"], [4, "Tall"]], w.height, (v) => edit(mod((it) => (it.height = v))))),
-      field("Length", slider(0.5, 40, 0.1, w.length, metres, (dd, v) => mod((it) => (it.length = v))(dd)), "Or drag the end dots on the map."),
+      field("Height", slider(.2,40,.1,w.height,metres,(dd,v)=>mod(it=>{it.height=v;})(dd))),
+      field("Depth", slider(.1,40,.1,wallDepth(w),metres,(dd,v)=>mod(it=>{it.depth=v;})(dd)), 'Or drag the white circle on the side in 3D.'),
+      field("Length", slider(0.5, 200, 0.1, w.length, metres, (dd, v) => mod((it) => (it.length = v))(dd)), "Or drag the end dots on the map."),
       field("Turn", slider(0, 179, 1, w.turn % 180, (v) => `${v}°`, (dd, v) => mod((it) => (it.turn = v))(dd))),
       h("button", { class: "btn small", onclick: () => edit(mod((it) => (it.turn = Math.round(yawDeg(it, S.drill.start)) % 180))) }, "Square to my view")),
+    ...(!w.invisible ? surfacePanel(w) : []),
     floorPicker(w, (dd, y) => mod((it) => (it.y = y))(dd)),
     actions(),
   ];
+}
+
+function surfacePanel(item) {
+  const appearance = surfaceFor(S.drill, item, item.shape === 'floor');
+  return [h("div", { class: "group" },
+    field("Surface", seg(SURFACES, appearance.surface ? 'tile' : 'plain', v => edit(mod(it => { it.surface = v; })))) )];
 }
 
 function blockPanel(b) {
@@ -1797,8 +2197,8 @@ function blockPanel(b) {
       b.shape === "pillar"
         ? num("w", 0.3, 4, 0.1, "Thickness")
         : num("w", 0.5, 40, 0.1, b.shape === "window" || b.shape === "door" ? "Length" : "Width"),
-      b.shape === "pillar" || b.shape === "window" || b.shape === "door" ? null : num("d", 0.5, 40, 0.1, b.shape === "ramp" || b.shape === "stairs" ? "Length (up the slope)" : "Depth"),
-      num("h", b.shape === "floor" ? 0.1 : 0.3, 12, 0.1, b.shape === "ramp" || b.shape === "stairs" ? "How high it goes" : b.shape === "floor" ? "Thickness" : "Height"),
+      b.shape === "pillar" ? null : num("d", 0.1, 40, 0.1, b.shape === "ramp" || b.shape === "stairs" ? "Length (up the slope)" : "Depth"),
+      num("h", b.shape === "floor" ? 0.1 : 0.3, 40, 0.1, b.shape === "ramp" || b.shape === "stairs" ? "How high it goes" : b.shape === "floor" ? "Thickness" : "Height"),
       b.shape === "floor" || b.shape === "box" ? num("lift", 0, 12, 0.1, "Raised off the floor", b.shape === "floor" ? "Match a ramp's or stairs' height so you can walk up onto it." : "0 sits on the floor.") : null,
       b.shape === "room" ? field("Open side", seg([["front", "Front"], ["back", "Back"], ["left", "Left"], ["right", "Right"], ["none", "None"]], b.open || "front", (v) => edit(mod((it) => (it.open = v))))) : null),
     h("div", { class: "group" },
@@ -1808,7 +2208,7 @@ function blockPanel(b) {
         h("button", { class: "btn small", onclick: () => turnBy(-90) }, "↺ 90°"),
         h("button", { class: "btn small", onclick: () => turnBy(90) }, "↻ 90°"),
         h("button", { class: "btn small", onclick: () => edit(mod((it) => (it.turn = Math.round((yawDeg(it, S.drill.start) + 180) % 360)))) }, "Face me"))),
-    h("div", { class: "group" }, field("Color", seg(BLOCK_COLORS, b.color, (v) => edit(mod((it) => (it.color = v)))))),
+    ...surfacePanel(b),
     floorPicker(b, (dd, y) => mod((it) => (it.y = y))(dd)),
     actions(),
   ];
@@ -1874,6 +2274,16 @@ function maybeCoach() {
     history.replaceState(null, "", location.pathname);
     const drill = await api.get(wanted).catch(() => null);
     if (drill) return openDrill(drill);
+  }
+  let draft;
+  try { draft = JSON.parse(sessionStorage.getItem(DRAFT_KEY) || 'null'); } catch {}
+  if (draft?.drill && Array.isArray(draft.drill.items) && draft.drill.round && typeof draft.drill.place === 'string') {
+    await openDrill(draft.drill);
+    S.saved = typeof draft.saved === 'string' ? draft.saved : '';
+    S.sel = draft.sel === 'start' || S.drill.items.some(i => i.id === draft.sel) ? draft.sel : null;
+    renderSide(); updateTop(); draw(); rememberEditor();
+    await takeRecording();
+    return;
   }
   showLibrary();
 })();

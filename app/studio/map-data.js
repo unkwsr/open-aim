@@ -74,6 +74,175 @@ function buildFloors(collision) {
   return { nav: nav.up.length ? bucket(nav) : null, solid: bucket(solid) };
 }
 
+// What the 3D view draws: the walkable floor and a few low pieces, not every prop.
+// The "greybox" set holds props (cars, snow banks, trees, block walls) that bury the floor
+// on some maps, so it only shapes placement, not the picture. A map without a navigation
+// mesh gets a floor built like one: a grid over the minimap's playable area, each cell at the
+// floor height bots stand on there, with slab edges where the floor ends or steps down.
+// Without the minimap picture (Node), upward faces of player collision stand in.
+const BAND = 30; // metres of playable height above the lowest floor
+const ROOF = 4.5; // higher than this above the floor below is a roof, not a ledge
+const GRID = 0.6; // floor cell size, metres
+const SLAB = 1.2; // depth of the slab edge drawn under a floor's outline
+const ISLAND = 16; // floor patches smaller than this many cells are props, not floors
+
+function lowestFloor({ tris, up }, inside) {
+  const area = new Map(); // height (whole metres) -> floor area
+  for (let t = 0; t < up.length; t++) {
+    if (!up[t]) continue;
+    const o = t * 9;
+    const x = (tris[o] + tris[o + 3] + tris[o + 6]) / 3, z = (tris[o + 2] + tris[o + 5] + tris[o + 8]) / 3;
+    if (!inside(x, z)) continue;
+    const ux = tris[o + 3] - tris[o], uz = tris[o + 5] - tris[o + 2], vx = tris[o + 6] - tris[o], vz = tris[o + 8] - tris[o + 2];
+    const a = Math.abs(ux * vz - uz * vx) / 2;
+    if (a > 2000) continue; // slabs and caps far bigger than any floor
+    const y = Math.floor((tris[o + 1] + tris[o + 4] + tris[o + 7]) / 3);
+    area.set(y, (area.get(y) || 0) + a);
+  }
+  return Math.min(...[...area].filter(([, a]) => a > 100).map(([y]) => y));
+}
+
+function gridFloor(floors, mask, lowest) {
+  const { x0, z0, x1, z1 } = mask.bounds;
+  const nx = Math.ceil((x1 - x0) / GRID), nz = Math.ceil((z1 - z0) / GRID);
+  const H = new Float32Array(nx * nz).fill(NaN);
+  for (let j = 0; j < nz; j++) for (let i = 0; i < nx; i++) {
+    const x = x0 + (i + 0.5) * GRID, z = z0 + (j + 0.5) * GRID;
+    if (!mask.at(x, z)) continue;
+    const y = levelsAt(floors, x, z).find((l) => l >= lowest - 1 && l <= lowest + BAND);
+    if (y !== undefined) H[j * nx + i] = y;
+  }
+  // Tiny islands (box tops, pillars, stray ledges): take the floor around them, or drop them.
+  const seen = new Uint8Array(nx * nz);
+  for (let start = 0; start < H.length; start++) {
+    if (seen[start] || Number.isNaN(H[start])) continue;
+    const cells = [start], border = [];
+    seen[start] = 1;
+    for (let q = 0; q < cells.length; q++) {
+      const c = cells[q], ci = c % nx, cj = (c - ci) / nx;
+      for (const [di, dj] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        const i = ci + di, j = cj + dj;
+        if (i < 0 || j < 0 || i >= nx || j >= nz) continue;
+        const n = j * nx + i;
+        if (Number.isNaN(H[n])) continue;
+        if (Math.abs(H[n] - H[c]) > 0.6) { border.push(H[n]); continue; }
+        if (!seen[n]) { seen[n] = 1; cells.push(n); }
+      }
+    }
+    if (cells.length >= ISLAND) continue;
+    const fill = border.length ? Math.min(...border) : NaN;
+    for (const c of cells) H[c] = fill;
+  }
+  const out = [];
+  const quad = (a, b, c, d) => out.push(...a, ...b, ...c, ...a, ...c, ...d);
+  const h = (i, j) => (i < 0 || j < 0 || i >= nx || j >= nz ? NaN : H[j * nx + i]);
+  for (let j = 0; j < nz; j++) {
+    const za = z0 + j * GRID, zb = za + GRID;
+    for (let i = 0; i < nx; ) {
+      const y = h(i, j);
+      if (Number.isNaN(y)) { i++; continue; }
+      let e = i + 1; // one top quad for a run of cells at the same height
+      while (e < nx && Math.abs(h(e, j) - y) < 0.01) e++;
+      const xa = x0 + i * GRID, xb = x0 + e * GRID;
+      quad([xa, y, za], [xb, y, za], [xb, y, zb], [xa, y, zb]);
+      for (let k = i; k < e; k++) {
+        const ka = x0 + k * GRID, kb = ka + GRID;
+        for (const [ni, nj, a, b] of [[k, j - 1, [ka, za], [kb, za]], [k, j + 1, [ka, zb], [kb, zb]], [k - 1, j, [ka, za], [ka, zb]], [k + 1, j, [kb, za], [kb, zb]]]) {
+          const n = h(ni, nj);
+          if (!Number.isNaN(n) && n > y - 0.3) continue;
+          const low = Number.isNaN(n) ? y - SLAB : Math.max(n, y - SLAB);
+          quad([a[0], y, a[1]], [b[0], y, b[1]], [b[0], low, b[1]], [a[0], low, a[1]]);
+        }
+      }
+      i = e;
+    }
+  }
+  return out;
+}
+
+function displayMeshes(collision, floors, inside, mask) {
+  if (floors.nav) {
+    const { tris } = triangles(collision, collision.walkSets || ["pawn"], (prim) => !/volume/i.test(prim.name));
+    return { nav: floors.nav.tris, solid: tris };
+  }
+  const lowest = lowestFloor(floors.solid, inside);
+  if (mask) return { nav: gridFloor(floors, mask, lowest), solid: [] };
+  const { tris, up } = floors.solid;
+  const out = [];
+  for (let t = 0; t < up.length; t++) {
+    if (!up[t]) continue;
+    const o = t * 9;
+    const x = (tris[o] + tris[o + 3] + tris[o + 6]) / 3, y = (tris[o + 1] + tris[o + 4] + tris[o + 7]) / 3, z = (tris[o + 2] + tris[o + 5] + tris[o + 8]) / 3;
+    if (!inside(x, z) || y < lowest - 1 || y > lowest + BAND) continue;
+    // Roofs: far above the lowest floor straight below them.
+    const ground = surfacesAt(floors.solid, x, z).find((s) => s.floor && s.y >= lowest - 1);
+    if (ground && y - ground.y > ROOF) continue;
+    for (let k = 0; k < 9; k++) out.push(tris[o + k]);
+  }
+  return { nav: out, solid: [] };
+}
+
+const FAR = 4; // metres outside the map's outline where the backdrop starts
+// The minimap picture's opaque pixels are the playable area. Browser only; null elsewhere.
+async function readMask(url, t) {
+  if (typeof document === "undefined") return null;
+  const img = new Image();
+  img.src = url;
+  try { await img.decode(); } catch { return null; }
+  const w = img.naturalWidth, hgt = img.naturalHeight;
+  const c = document.createElement("canvas");
+  c.width = w; c.height = hgt;
+  const g = c.getContext("2d", { willReadFrequently: true });
+  g.drawImage(img, 0, 0);
+  const rgba = g.getImageData(0, 0, w, hgt).data;
+  const solid = new Uint8Array(w * hgt);
+  for (let p = 0; p < solid.length; p++) solid[p] = rgba[p * 4 + 3] > 40 ? 1 : 0;
+  // Outside the map: non-playable pixels reachable from the picture's edge. Buildings in the
+  // middle of the map are enclosed by playable floor, so they are not outside.
+  const out = new Uint8Array(w * hgt), stack = [];
+  const seed = (p) => { if (!solid[p] && !out[p]) { out[p] = 1; stack.push(p); } };
+  for (let u = 0; u < w; u++) { seed(u); seed((hgt - 1) * w + u); }
+  for (let v = 0; v < hgt; v++) { seed(v * w); seed(v * w + w - 1); }
+  while (stack.length) {
+    const p = stack.pop(), u = p % w;
+    if (u > 0) seed(p - 1);
+    if (u < w - 1) seed(p + 1);
+    if (p >= w) seed(p - w);
+    if (p < (hgt - 1) * w) seed(p + w);
+  }
+  // Far outside: outside pixels more than FAR metres from the map (chamfer distance, in pixels).
+  const reach = FAR * Math.abs(t.scaleU) * w, dist = new Float32Array(w * hgt);
+  for (let p = 0; p < dist.length; p++) dist[p] = out[p] ? 1e9 : 0;
+  for (let v = 0; v < hgt; v++) for (let u = 0; u < w; u++) {
+    const p = v * w + u;
+    if (u > 0) dist[p] = Math.min(dist[p], dist[p - 1] + 1);
+    if (v > 0) dist[p] = Math.min(dist[p], dist[p - w] + 1, u > 0 ? dist[p - w - 1] + 1.414 : 1e9, u < w - 1 ? dist[p - w + 1] + 1.414 : 1e9);
+  }
+  for (let v = hgt - 1; v >= 0; v--) for (let u = w - 1; u >= 0; u--) {
+    const p = v * w + u;
+    if (u < w - 1) dist[p] = Math.min(dist[p], dist[p + 1] + 1);
+    if (v < hgt - 1) dist[p] = Math.min(dist[p], dist[p + w] + 1, u < w - 1 ? dist[p + w + 1] + 1.414 : 1e9, u > 0 ? dist[p + w - 1] + 1.414 : 1e9);
+  }
+  const px = (x, z) => [Math.floor((x * t.scaleU + t.offsetU) * w), Math.floor((z * t.scaleV + t.offsetV) * hgt)];
+  const a = { x: -t.offsetU / t.scaleU, z: -t.offsetV / t.scaleV }, b = { x: (1 - t.offsetU) / t.scaleU, z: (1 - t.offsetV) / t.scaleV };
+  return {
+    bounds: { x0: Math.min(a.x, b.x), z0: Math.min(a.z, b.z), x1: Math.max(a.x, b.x), z1: Math.max(a.z, b.z) },
+    at(x, z) { const [u, v] = px(x, z); return u >= 0 && v >= 0 && u < w && v < hgt && solid[v * w + u] === 1; },
+    // More than FAR metres outside the map (off the picture counts as far).
+    far(x, z) { const [u, v] = px(x, z); return u < 0 || v < 0 || u >= w || v >= hgt || dist[v * w + u] > reach; },
+    // Share (0..1) of a world rectangle that lies outside the map; off the picture counts too.
+    outsideShare(xa, za, xb, zb) {
+      let n = 0, o = 0;
+      for (let a = 0; a <= 8; a++) for (let b = 0; b <= 8; b++) {
+        const [u, v] = px(xa + (xb - xa) * a / 8, za + (zb - za) * b / 8);
+        n++;
+        if (u < 0 || v < 0 || u >= w || v >= hgt || out[v * w + u]) o++;
+      }
+      return o / n;
+    },
+  };
+}
+
 // Heights of every surface straight above/below (x, z), lowest first.
 function surfacesAt(floors, x, z) {
   const list = floors.grid.get(Math.floor(x / CELL) * 100003 + Math.floor(z / CELL)) || [];
@@ -139,6 +308,7 @@ export async function loadMap(id, load) {
   const [mini, collision] = await Promise.all([load(`/aim-maps/${id}.minimap.json`), load(`/aim-maps/${id}.collision.json`)]);
   const floors = buildFloors(collision);
   const t = mini.transform;
+  const mask = await readMask(`/aim-maps/${mini.image}`, t);
   return {
     id,
     image: `/aim-maps/${mini.image}`,
@@ -146,7 +316,12 @@ export async function loadMap(id, load) {
     toUV: (x, z) => ({ u: x * t.scaleU + t.offsetU, v: z * t.scaleV + t.offsetV }),
     fromUV: (u, v) => ({ x: (u - t.offsetU) / t.scaleU, z: (v - t.offsetV) / t.scaleV }),
     levelsAt: (x, z) => levelsAt(floors, x, z),
-    // Triangles for the 3D view: walkable floors and solid collision (flat x,y,z lists).
-    meshes: { nav: floors.nav ? floors.nav.tris : null, solid: floors.solid.tris },
+    // Triangles for the 3D view: walkable floors and a few solid pieces (flat x,y,z lists).
+    meshes: displayMeshes(collision, floors, (x, z) => {
+      const u = x * t.scaleU + t.offsetU, v = z * t.scaleV + t.offsetV;
+      return u >= 0 && u <= 1 && v >= 0 && v <= 1;
+    }, mask),
+    // Playable area from the minimap picture (null outside the browser).
+    mask,
   };
 }

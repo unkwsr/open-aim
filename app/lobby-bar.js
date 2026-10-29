@@ -12,95 +12,12 @@
   const SENS_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="7"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/></svg>';
   const BACKUP_ICON = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v12H4z"/><path d="M3 4h18v3H3zM10 11h4"/></svg>';
 
-  // ---------- FPS meter ----------
-  // A small readout in the bottom-right: frames per second, average frame time and
-  // 1% low (the frame rate of the slowest 1% of frames over the last 5 seconds).
-  // Stays on in rounds, where it counts the frames the game draws; elsewhere it
-  // counts requestAnimationFrame.
-  const METER_KEY = "es-fps-meter";
-  let meter = null;
-  let meterRaf = 0;
-
-  function meterOn() {
-    try { return localStorage.getItem(METER_KEY) === "1"; } catch { return false; }
-  }
-
-  function setMeter(on) {
-    try { localStorage.setItem(METER_KEY, on ? "1" : "0"); } catch {}
-    if (on) startMeter();
-    else stopMeter();
-    for (const b of document.querySelectorAll(".es-bar-fps")) b.classList.toggle("is-on", on);
-  }
-
-  function startMeter() {
-    if (meter) return;
-    meter = document.createElement("div");
-    meter.className = "es-fps";
-    meter.innerHTML = '<b>–</b><span>FPS</span><small>– ms · 1% low –</small><small hidden></small>';
-    document.body.appendChild(meter);
-    const [fpsEl, , detailEl, cpuEl] = meter.children;
-    // In rounds, the game's own CPU time per frame: simulation ticks + drawing. When
-    // it is well below the frame time, the GPU is the limit.
-    const work = []; // [time, tick ms, render ms]
-    window.__aimGameWork = (tickMs, renderMs) => work.push([performance.now(), tickMs, renderMs]);
-    const frames = []; // [time, frame duration]
-    let last = performance.now();
-    let shown = 0;
-    // In rounds, count the frames the game draws (reported by the modded
-    // performance-diagnostics.mjs): with "No frame limit" it draws on its own loop,
-    // faster or slower than requestAnimationFrame, which follows the monitor.
-    let gameLast = 0;
-    let gameSeen = -Infinity;
-    window.__aimGameFrame = (at) => {
-      const now = performance.now();
-      if (now - gameSeen > 1000) frames.length = 0;
-      if (gameLast && now - gameSeen <= 1000) frames.push([now, now - gameLast]);
-      gameLast = now;
-      gameSeen = now;
-    };
-    const tick = (now) => {
-      if (now - gameSeen > 1000) {
-        if (gameLast) {
-          frames.length = 0;
-          gameLast = 0;
-        } else frames.push([now, now - last]);
-      }
-      last = now;
-      while (frames.length && now - frames[0][0] > 5000) frames.shift();
-      if (now - shown > 250 && frames.length >= 3) {
-        shown = now;
-        const second = frames.filter((f) => now - f[0] <= 1000);
-        const avg = second.reduce((s, f) => s + f[1], 0) / second.length;
-        const sorted = frames.map((f) => f[1]).sort((a, b) => a - b);
-        const p99 = sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * 0.99))];
-        const fpsNow = Math.round(1000 / avg);
-        const low = Math.round(1000 / p99);
-        fpsEl.textContent = fpsNow;
-        detailEl.textContent = `${avg.toFixed(1)} ms · 1% low ${low}`;
-        while (work.length && now - work[0][0] > 1000) work.shift();
-        const inRound = now - gameSeen <= 1000 && work.length > 0;
-        cpuEl.hidden = !inRound;
-        if (inRound) {
-          const sim = work.reduce((s, w) => s + w[1], 0) / work.length;
-          const draw = work.reduce((s, w) => s + w[2], 0) / work.length;
-          cpuEl.textContent = `CPU ${(sim + draw).toFixed(1)} ms · sim ${sim.toFixed(1)} · draw ${draw.toFixed(1)}`;
-        }
-        meter.dataset.tone = low >= fpsNow * 0.7 ? "good" : low >= fpsNow * 0.4 ? "ok" : "bad";
-      }
-      meterRaf = requestAnimationFrame(tick);
-    };
-    meterRaf = requestAnimationFrame(tick);
-  }
-
-  function stopMeter() {
-    cancelAnimationFrame(meterRaf);
-    window.__aimGameFrame = null;
-    window.__aimGameWork = null;
-    meter?.remove();
-    meter = null;
-  }
-
-  if (meterOn()) startMeter();
+  // The single game-render meter is owned by frame-meter.js.
+  function meterOn() { return window.__aimFrameMeter?.enabled() ?? false; }
+  function setMeter(on) { window.__aimFrameMeter?.setEnabled(on); }
+  addEventListener('aim-frame-meter-change', () => {
+    for (const button of document.querySelectorAll('.es-bar-fps')) button.classList.toggle('is-on', meterOn());
+  });
 
   const PLAY = '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path fill="currentColor" d="M7 4.5v15l13-7.5z"/></svg>';
 
@@ -126,7 +43,21 @@
     return bar;
   }
 
+  function syncDiscordContact() {
+    if (!document.querySelector(".hall-bottombar") || document.querySelector(".es-discord-panel")) return;
+    const link = document.createElement("a");
+    link.className = "es-discord-panel";
+    link.href = "https://discord.com/users/1248403329554321480";
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.title = "Report an issue or send feedback to @xwvu on Discord";
+    link.setAttribute("aria-label", "Report an issue or send feedback to @xwvu on Discord");
+    link.innerHTML = '<span class="es-discord-panel-head"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 6.5A16 16 0 0 1 9 5l.5 1a12 12 0 0 1 5 0L15 5a16 16 0 0 1 4 1.5c1.4 2.3 2 5.5 1.7 8.5A15 15 0 0 1 16 18l-.8-1.3c.8-.3 1.4-.7 2-1.1-3.4 1.6-7 1.6-10.4 0 .6.4 1.2.8 2 1.1L8 18a15 15 0 0 1-4.7-3C3 12 3.6 8.8 5 6.5Z"/><path d="M8.5 11.5h.01M15.5 11.5h.01" stroke-width="2.8" stroke-linecap="round"/></svg><span>DISCORD SUPPORT</span></span><strong>Report an issue<br>or share feedback</strong><span class="es-discord-panel-action">MESSAGE @xwvu <span aria-hidden="true">↗</span></span>';
+    document.body.appendChild(link);
+  }
+
   function sync() {
+    syncDiscordContact();
     const right = document.querySelector(".hall-topnav > .hall-topnav-right");
     if (!right) return;
     const prev = right.previousElementSibling;
@@ -204,85 +135,10 @@
     }
   }
 
-  // Sliding red highlight under the active top-bar tab (styled in theme-esports.css).
-  function glideTabs() {
-    const tabs = document.querySelector(".hall-topnav .hall-tabs");
-    const active = tabs && tabs.querySelector(".hall-tab.is-active");
-    if (!active) return;
-    let glide = tabs.querySelector(":scope > .es-tab-glide");
-    if (!glide) {
-      glide = document.createElement("span");
-      glide.className = "es-tab-glide";
-      glide.style.transition = "none";
-      tabs.prepend(glide);
-      requestAnimationFrame(() => requestAnimationFrame(() => (glide.style.transition = "")));
-    }
-    tabs.classList.add("has-glide");
-    const left = active.offsetLeft + "px";
-    const width = active.offsetWidth + "px";
-    if (glide.style.left !== left) glide.style.left = left;
-    if (glide.style.width !== width) glide.style.width = width;
-  }
-
-  // Smooth mouse-wheel scrolling for the menus. Chromium jumps a whole wheel step
-  // (120 px) in one frame here; instead each step eases the nearest vertical
-  // scroller to its new position over ~150 ms, updating every frame. Not active
-  // while the mouse is locked (in a round) or when the game handles the wheel itself.
-  const glides = new Map();
-
-  function verticalScroller(el) {
-    for (; el && el !== document.documentElement; el = el.parentElement) {
-      if (el.scrollHeight <= el.clientHeight + 1) continue;
-      if (/(auto|scroll)/.test(getComputedStyle(el).overflowY)) return el;
-    }
-    return null;
-  }
-
-  function step(el) {
-    const g = glides.get(el);
-    const now = performance.now();
-    const dt = Math.min(50, now - g.last);
-    g.last = now;
-    // Track the position as a float (scrollTop rounds to whole pixels); stop if
-    // something else moved the scroller (scrollbar drag, the game itself).
-    const moved = Math.abs(el.scrollTop - g.set) > 2;
-    const diff = g.target - g.pos;
-    if (moved || Math.abs(diff) < 0.5) {
-      if (!moved) el.scrollTop = g.target;
-      el.style.scrollBehavior = g.behavior;
-      glides.delete(el);
-      return;
-    }
-    g.pos += diff * (1 - Math.exp(-dt / 50));
-    el.scrollTop = g.pos;
-    g.set = el.scrollTop;
-    requestAnimationFrame(() => step(el));
-  }
-
-  addEventListener(
-    "wheel",
-    (e) => {
-      if (e.defaultPrevented || e.ctrlKey || e.shiftKey || document.pointerLockElement) return;
-      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
-      const el = verticalScroller(e.target);
-      if (!el) return;
-      const delta = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? el.clientHeight : 1);
-      const max = el.scrollHeight - el.clientHeight;
-      let g = glides.get(el);
-      if (!g) {
-        g = { target: el.scrollTop, pos: el.scrollTop, set: el.scrollTop, last: performance.now(), behavior: el.style.scrollBehavior };
-        el.style.scrollBehavior = "auto";
-        glides.set(el, g);
-        requestAnimationFrame(() => step(el));
-      }
-      g.target = Math.max(0, Math.min(max, g.target + delta));
-      e.preventDefault();
-    },
-    { passive: false }
-  );
+  // Use native wheel scrolling and the active tab fill for direct feedback.
 
   let queued = false;
-  new MutationObserver(() => {
+  window.__aimWatchPage(() => {
     if (queued) return;
     queued = true;
     requestAnimationFrame(() => {
@@ -290,7 +146,7 @@
       sync();
       glideTabs();
     });
-  }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+  }, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
   sync();
   glideTabs();
   addEventListener("resize", glideTabs);

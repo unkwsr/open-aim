@@ -68,6 +68,86 @@ function save({ drill, doc, type, keepTime }) {
   return { code, drill: saved };
 }
 
+// The scene for recording a copycat's run (Studio "Record my movement"). There is one at a
+// time, kept outside the drill files; main.js lists it in VALORANT Training only while it
+// exists, so the lobby starts it like any drill. The Studio removes it when you come back.
+const RECORD_CODE = "00000000000000c0";
+const recordFile = () => path.join(dir(), "recording", "scene.json");
+
+function record({ doc }) {
+  if (!doc || doc.schemaVersion !== 2 || !doc.meta || !doc.rules || doc.rules.studioRecord !== true) throw new Error("Not a recording scene.");
+  doc.meta.id = `studio-${RECORD_CODE}`;
+  const time = now(), text = JSON.stringify(doc), name = String(doc.meta.name || "Recording").slice(0, 60);
+  const item = {
+    createTime: time, description: "Studio recording", docBytes: text.length, featured: false,
+    mapId: doc.environment && doc.environment.map ? doc.environment.map : null, name, parSeconds: null,
+    playCount: 0, sceneKey: doc.meta.id, shareCode: RECORD_CODE, sort: 90, status: 1, type: "basic", updateTime: time,
+  };
+  const scene = {
+    authorNickname: "You", authorUid: "local", blockCount: (doc.blocks || []).length, createTime: time, description: item.description,
+    docBytes: text.length, name, playCount: 0, sceneHash: crypto.createHash("sha1").update(text).digest("hex").slice(0, 16),
+    sceneKey: item.sceneKey, schemaVersion: 2, shareCode: RECORD_CODE, updateTime: time, doc: text,
+  };
+  fs.mkdirSync(path.dirname(recordFile()), { recursive: true });
+  fs.writeFileSync(recordFile(), JSON.stringify({ item, scene }));
+  return { code: RECORD_CODE };
+}
+
+function recording() {
+  try {
+    const entry = JSON.parse(fs.readFileSync(recordFile(), "utf-8"));
+    return entry && entry.item && entry.scene ? entry : null;
+  } catch {
+    return null;
+  }
+}
+
+function clearRecording() {
+  if (fs.existsSync(recordFile())) fs.rmSync(recordFile());
+}
+
+// Run library: copycat runs saved to reuse on any copycat, one JSON file each in
+// "<userData>/studio-runs". Using a run copies it into the drill, so drills never depend
+// on these files.
+const runsDir = () => path.join(app.getPath("userData"), "studio-runs");
+const runFile = (id) => path.join(runsDir(), `${String(id).replace(/[^0-9a-f]/gi, "")}.json`);
+const runName = (name) => String(name || "").trim().slice(0, 40) || "My run";
+
+function validTrack(t) {
+  return t && Number.isFinite(t.hz) && t.hz > 0 && Number.isFinite(t.secs) && Array.isArray(t.p) && t.p.length >= 6 && t.p.length % 6 === 0 && t.p.every(Number.isFinite);
+}
+
+function runList() {
+  if (!fs.existsSync(runsDir())) return [];
+  return fs.readdirSync(runsDir())
+    .filter((name) => name.endsWith(".json"))
+    .map((name) => { try { return JSON.parse(fs.readFileSync(path.join(runsDir(), name), "utf-8")); } catch { return null; } })
+    .filter((r) => r && r.id && validTrack(r.track))
+    .sort((a, b) => String(b.created).localeCompare(String(a.created)));
+}
+
+function runSave({ name, place, track }) {
+  if (!validTrack(track)) throw new Error("That isn't a recorded run.");
+  const run = { id: crypto.randomBytes(8).toString("hex"), name: runName(name), place: String(place || "range"), created: now(), track: { hz: track.hz, secs: track.secs, p: track.p } };
+  fs.mkdirSync(runsDir(), { recursive: true });
+  fs.writeFileSync(runFile(run.id), JSON.stringify(run));
+  return run;
+}
+
+function runRename({ id, name }) {
+  const file = runFile(id);
+  const run = JSON.parse(fs.readFileSync(file, "utf-8"));
+  run.name = runName(name);
+  fs.writeFileSync(file + ".tmp", JSON.stringify(run));
+  fs.renameSync(file + ".tmp", file);
+  return run;
+}
+
+function runRemove(id) {
+  const file = runFile(id);
+  if (fs.existsSync(file)) fs.rmSync(file);
+}
+
 function list() {
   return all().map((e) => ({ code: e.item.shareCode, name: e.item.name, note: e.item.description, mapId: e.item.mapId, type: e.item.type, updated: e.item.updateTime, drill: e.drill }));
 }
@@ -87,6 +167,12 @@ function register(ipcMain) {
   ipcMain.handle("aim:studio:get", (_e, code) => get(code));
   ipcMain.handle("aim:studio:save", (_e, payload) => save(payload || {}));
   ipcMain.handle("aim:studio:remove", (_e, code) => remove(code));
+  ipcMain.handle("aim:studio:record", (_e, payload) => record(payload || {}));
+  ipcMain.handle("aim:studio:clearRecording", () => clearRecording());
+  ipcMain.handle("aim:studio:runs", () => runList());
+  ipcMain.handle("aim:studio:saveRun", (_e, payload) => runSave(payload || {}));
+  ipcMain.handle("aim:studio:renameRun", (_e, payload) => runRename(payload || {}));
+  ipcMain.handle("aim:studio:removeRun", (_e, id) => runRemove(id));
 }
 
-module.exports = { all, register };
+module.exports = { all, recording, register };

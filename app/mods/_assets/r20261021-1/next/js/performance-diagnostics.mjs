@@ -180,12 +180,14 @@ export const performanceDiagnostics = createPerformanceDiagnostics();
 // open-aim: also report each drawn frame to the app's FPS meter (lobby-bar.js). With
 // "No frame limit" the game draws on its own loop, so requestAnimationFrame only
 // shows the monitor's refresh rate.
-export function recordGameFrame(at, running, cap, nth) { globalThis.__aimGameFrame?.(at); performanceDiagnostics.recordFrame(at, running, cap, nth); }
+export function recordGameFrame(at, running, cap, nth) { performanceDiagnostics.recordFrame(at, running, cap, nth); }
 export function stopGameFrames() { performanceDiagnostics.stop(); }
 // open-aim: also report the CPU time of each frame (simulation ticks and drawing) to
 // the FPS meter, so it can tell CPU-bound frames from GPU-bound ones.
-export function recordGameWork(at, tickMs, renderMs, ticks, gpuWaits, counters) { globalThis.__aimGameWork?.(tickMs, renderMs);
+export function recordGameWork(at, tickMs, renderMs, ticks, gpuWaits, counters) {
   performanceDiagnostics.recordWork('tick', tickMs, at, ticks);
   performanceDiagnostics.recordWork('render', renderMs, at, 1, { ...counters, gpuWaits });
+  // open-aim test copy: the same numbers for the slow-frame recorder (frame-log.js).
+  globalThis.__aimFrameWork?.(tickMs, renderMs, gpuWaits, counters);
 }
 export function recordHudWork(at, duration, count) { performanceDiagnostics.recordWork('hud', duration, at, count); }

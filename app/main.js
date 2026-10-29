@@ -1,4 +1,4 @@
-﻿// Desktop wrapper for the offline open-aim game.
+// Desktop wrapper for the offline open-aim game.
 // Serves the site folder on 127.0.0.1:8000 exactly like aim_offline.py and
 // opens http://localhost:8000/aim in a window.
 const { app, BrowserWindow, Menu, dialog, ipcMain, screen, session, shell } = require("electron");
@@ -7,6 +7,11 @@ const http = require("http");
 const path = require("path");
 const backups = require("./backups");
 const studio = require("./studio-store");
+
+// Test copy: always keep player data and backups separate from the main game.
+const TEST_ROOT = app.isPackaged ? path.dirname(process.execPath) : path.join(__dirname, "..");
+process.env.AIM_PROFILE = path.join(TEST_ROOT, "test-data");
+process.env.AIM_PORT = "8137";
 
 // Testing only: AIM_PROFILE=<folder> keeps all player data and backups in that folder,
 // so test runs never touch the real save.
@@ -62,11 +67,22 @@ const THEME_CSS = fs.readFileSync(path.join(__dirname, "theme-esports.css"), "ut
 const OFFLINE_CSS = fs.readFileSync(path.join(__dirname, "offline.css"), "utf-8");
 // Moves the lobby sidebar (Quick start, Favorites, Creator, Manual) into the top bar.
 const LOBBY_BAR_JS = fs.readFileSync(path.join(__dirname, "lobby-bar.js"), "utf-8");
-// Map culling setting (Settings > Video > Smoothness); see map-culling.js.
-const MAP_CULLING_JS = fs.readFileSync(path.join(__dirname, "map-culling.js"), "utf-8");
+const FRAME_METER_JS = fs.readFileSync(path.join(__dirname, "frame-meter.js"), "utf-8");
+// Slow-frame recorder: one report per round in test-data/frame-logs/.
+const FRAME_LOG_JS = fs.readFileSync(path.join(__dirname, "frame-log.js"), "utf-8");
+// Startup screen over the half-loaded lobby until its training list is in.
+const STARTUP_SCREEN_JS = fs.readFileSync(path.join(__dirname, "startup-screen.js"), "utf-8");
+// Shared page watcher for the UI scripts below; sleeps while the mouse is locked in a round.
+const PAGE_WATCH_JS = fs.readFileSync(path.join(__dirname, "page-watch.js"), "utf-8");
+const SMOOTH_SCROLL_JS = fs.readFileSync(path.join(__dirname, "smooth-scroll.js"), "utf-8");
+const VIDEO_SETTINGS_JS = fs.readFileSync(path.join(__dirname, "video-settings.js"), "utf-8");
 // Interface: Performance / Enhanced (Settings > Video > Smoothness).
 const INTERFACE_MODE_JS = fs.readFileSync(path.join(__dirname, "interface-mode.js"), "utf-8");
 // Backups and sensitivity panels opened from the top bar.
+const SNIPER_SCOPES_JS = fs.readFileSync(path.join(__dirname,"sniper-scopes.js"),"utf-8");
+const FAN_AUDIO_JS = fs.readFileSync(path.join(__dirname,"fan-audio.js"),"utf-8");
+const ADVANCED_TRACERS_JS = fs.readFileSync(path.join(__dirname, "advanced-tracers.js"), "utf-8");
+const LOCAL_CUSTOMIZATION_JS = fs.readFileSync(path.join(__dirname, "local-customization.js"), "utf-8");
 const PLAYER_TOOLS_JS = fs.readFileSync(path.join(__dirname, "player-tools.js"), "utf-8");
 
 // The Studio (studio/ folder, served at /studio/) replaces the site's own scenario editor:
@@ -78,6 +94,32 @@ const STUDIO_LAUNCH_JS = fs.readFileSync(path.join(__dirname, "studio-launch.js"
 // Shooting error graph (shooting-error.js). The game's frame loop is served with one extra
 // call that hands every shot (its total spread and the spray part) to the graph.
 const SHOT_GRAPH_JS = fs.readFileSync(path.join(__dirname, "shooting-error.js"), "utf-8");
+// One executeJavaScript call avoids Electron registering a did-stop-loading
+// listener for each UI script while the page is still loading.
+const UI_SCRIPTS = [
+  ["PAGE WATCH", PAGE_WATCH_JS],
+  ["SMOOTH SCROLL", SMOOTH_SCROLL_JS],
+  ["SNIPER SCOPES", SNIPER_SCOPES_JS],
+  ["FAN AUDIO", FAN_AUDIO_JS],
+  ["ADVANCED TRACERS", ADVANCED_TRACERS_JS],
+  ["LOCAL CUSTOMIZATION", LOCAL_CUSTOMIZATION_JS],
+  ["PLAYER TOOLS", PLAYER_TOOLS_JS],
+  ["INTERFACE MODE", INTERFACE_MODE_JS],
+  // AIM_FRAME_LOG=0 (Start Test Game - no recorder.cmd) leaves the recorder out entirely.
+  ...(process.env.AIM_FRAME_LOG === "0" ? [] : [["FRAME LOG", FRAME_LOG_JS]]),
+  ["FRAME METER", FRAME_METER_JS],
+  ["VIDEO SETTINGS", VIDEO_SETTINGS_JS],
+  ["LOBBY BAR", LOBBY_BAR_JS],
+  ["STUDIO LAUNCH", STUDIO_LAUNCH_JS],
+  ["SHOT GRAPH", SHOT_GRAPH_JS],
+];
+// The startup screen goes in on its own, straight away (see createWindow).
+const STARTUP_SCREEN_RUN = `try {
+${STARTUP_SCREEN_JS}
+} catch (err) { console.error("STARTUP SCREEN:", err); }`;
+const UI_SCRIPT_BATCH = UI_SCRIPTS.map(([name, source]) =>
+  `try {\n${source}\n} catch (err) { console.error(${JSON.stringify(name)} + ":", err); }`
+).join("\n");
 const SHOT_LOOP_FILE = "/next/js/OkAdunfX.js";
 const SHOT_LOOP_FROM = 'xe.kind==="shot"&&(Kt.push(xe.tick*ve)';
 const SHOT_LOOP_TO = 'xe.kind==="shot"&&(window.__aimShot?.(xe),Kt.push(xe.tick*ve)';
@@ -219,6 +261,11 @@ function handle(req, res) {
   }
   const url = new URL(req.url, ORIGIN);
   const requested = decode(url.pathname);
+  // Polls are an online lobby feature; the offline game has no active polls.
+  if (requested === "/prod-api/api/v1/public/val/aimlab/polls") {
+    sendJson(req, res, { code: "00000", data: { running: [], ended: [] }, msg: "", local: true });
+    return;
+  }
   // Offline only: no leaderboards (the captured rankings were other players' online
   // scores) and no account; local history is kept by the game in its own storage.
   if (requested.startsWith("/api/local/ranking")) {
@@ -257,8 +304,10 @@ function handle(req, res) {
     res.end(req.method === "HEAD" ? undefined : body);
     return;
   }
-  // The training list also carries the player's Studio drills (studio-store.js), newest first.
-  const mine = studio.all();
+  // The training list also carries the player's Studio drills (studio-store.js), newest first,
+  // and while you record a copycat's run, the recording scene.
+  const rec = studio.recording();
+  const mine = rec ? [rec, ...studio.all()] : studio.all();
   if (requested === WORKSHOP_LIST && (trainingSet.items.length || mine.length)) {
     const [, listFile] = resolve(requested);
     try {
@@ -279,7 +328,8 @@ function handle(req, res) {
     }
   }
   if (requested.endsWith(SHOT_LOOP_FILE)) {
-    const [, file] = resolve(requested);
+    const override = path.join(MODS, ...requested.split("/").filter(Boolean));
+    const file = isFile(override) ? override : resolve(requested)[1];
     if (file) {
       const source = fs.readFileSync(file, "utf-8");
       if (!source.includes(SHOT_LOOP_FROM)) console.log("SHOT GRAPH: frame loop changed, graph gets no shots");
@@ -355,20 +405,27 @@ function createWindow(url) {
     webPreferences: { backgroundThrottling: false, preload: path.join(__dirname, "preload.js") },
   });
   win.maximize();
-  win.once("ready-to-show", () => win.show());
+  // Game pages: show the window once the theme and startup screen are in, so the
+  // half-loaded lobby never flashes first. The fallback keeps it from staying hidden.
+  let shown = false;
+  const show = () => {
+    if (!shown && !win.isDestroyed()) { shown = true; win.show(); }
+  };
+  win.once("ready-to-show", () => setTimeout(show, new URL(url).pathname.startsWith(STUDIO_PATH) ? 0 : 3000));
   win.webContents.on("dom-ready", () => {
     // The Studio is a page of its own with its own look.
-    if (new URL(win.webContents.getURL()).pathname.startsWith(STUDIO_PATH)) return;
-    win.webContents.insertCSS(HIDE_CSS);
-    win.webContents.insertCSS(UI_CSS);
-    win.webContents.insertCSS(THEME_CSS);
-    win.webContents.insertCSS(OFFLINE_CSS);
-    win.webContents.executeJavaScript(PLAYER_TOOLS_JS).catch((err) => console.log(`PLAYER TOOLS: ${err}`));
-    win.webContents.executeJavaScript(MAP_CULLING_JS).catch((err) => console.log(`MAP CULLING: ${err}`));
-    win.webContents.executeJavaScript(INTERFACE_MODE_JS).catch((err) => console.log(`INTERFACE MODE: ${err}`));
-    win.webContents.executeJavaScript(LOBBY_BAR_JS).catch((err) => console.log(`LOBBY BAR: ${err}`));
-    win.webContents.executeJavaScript(STUDIO_LAUNCH_JS).catch((err) => console.log(`STUDIO LAUNCH: ${err}`));
-    win.webContents.executeJavaScript(SHOT_GRAPH_JS).catch((err) => console.log(`SHOT GRAPH: ${err}`));
+    if (new URL(win.webContents.getURL()).pathname.startsWith(STUDIO_PATH)) return show();
+    // webContents.executeJavaScript waits until the whole page has stopped loading (every
+    // image and late module), seconds after this. The startup screen is run on the main
+    // frame instead, which runs now, so the window opens on it rather than a blank page.
+    Promise.all([
+      win.webContents.insertCSS(HIDE_CSS),
+      win.webContents.insertCSS(UI_CSS),
+      win.webContents.insertCSS(THEME_CSS),
+      win.webContents.insertCSS(OFFLINE_CSS),
+      win.webContents.mainFrame.executeJavaScript(STARTUP_SCREEN_RUN).catch((err) => console.log(`STARTUP SCREEN: ${err}`)),
+    ]).catch(() => {}).finally(show);
+    win.webContents.executeJavaScript(UI_SCRIPT_BATCH).catch((err) => console.log(`UI SCRIPTS: ${err}`));
   });
 
   win.webContents.on("before-input-event", (event, input) => {
@@ -432,6 +489,17 @@ ipcMain.on("aim:shell:vsync", (_event, on) => {
     fs.writeFileSync(SHELL_FILE, JSON.stringify(shellSettings, null, 2));
   } catch (err) {
     console.log(`SHELL SETTINGS: ${err}`);
+  }
+});
+// Slow-frame reports from frame-log.js, one file per round.
+const FRAME_LOG_DIR = path.join(process.env.AIM_PROFILE, "frame-logs");
+ipcMain.on("aim:frame-log", (_event, report) => {
+  try {
+    fs.mkdirSync(FRAME_LOG_DIR, { recursive: true });
+    const name = String(report?.startedAt || new Date().toISOString()).replace(/[:.]/g, "-");
+    fs.writeFileSync(path.join(FRAME_LOG_DIR, `${name}.json`), JSON.stringify(report, null, 1));
+  } catch (err) {
+    console.log(`FRAME LOG: ${err}`);
   }
 });
 // The portable build runs from a temporary copy, so relaunch the .exe itself. Settings
