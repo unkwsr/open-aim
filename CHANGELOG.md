@@ -12,18 +12,6 @@ Your settings and training data are kept when you update.
 - **Sunset**, with six pre-aim drills: A Short, A Tube and B Main, each in **Easy** (bots don't shoot) and **Hard** (bots shoot back).
 - Sunset has its own map art on drill cards, favorites and the loading screen.
 
-### New skins
-- **Vandal:** RGX Yellow, Gaia Orange, Gaia White
-- **Phantom:** BlastX
-- **Guardian:** Prime
-- **Sheriff:** Singularity
-- **Ghost:** Smite
-- **Operator:** Araxys, Rogue
-- **Melee:** Black Market Butterfly, Orange Butterfly, Karambit Damascus Steel, Prime Axe, Silkleaf Fan, Half Life Crowbar
-- Several skins have their own firing sounds, kill sounds and kill effects.
-- Melee skins have their own equip, attack and **inspect (Y)** animations.
-- Pick skins in **Settings**. New defaults: RGX Vandal, BlastX Phantom, Singularity Sheriff, Rogue Operator and Black Market Butterfly.
-
 ### Aiming and weapons
 - **New aim down sights (ADS)** for the Vandal, Phantom and Guardian: real first-person animations, the gun rises to your eye, a folding reflex sight flips open, and the gun and sight sway and kick together.
 - **The same ADS on more guns:** Odin, Ares, Spectre, Stinger and Bulldog now aim like the rifles, with the holo sight.
@@ -36,6 +24,30 @@ Your settings and training data are kept when you update.
 - **No more first-shot freezes:** the worst frame while firing dropped from up to 150 ms to under 4 ms.
 - Every weapon and skin is prepared before a drill starts, so switching weapons doesn't stutter.
 - Phantom, Spectre and Ghost tracers use the same orange as the Vandal.
+
+### Studio
+- **3D** and **Detailed** views: Detailed shows the real game map, and 3D shows clean maps.
+- **Copycat bots:** record a run, and a bot repeats it and shoots at you. Saved runs are kept in a **Runs** library.
+- Bot options: **Unpredictable** movement, **jumps** (0.2–2 m), **occasional crouching** and **slows when hit**.
+- Bots jump with the same gravity as you, with a 1.15 m default jump height.
+- **Arenas** from 12 to 200 m, with walls up to 40 m; walls up to 200 m long.
+- Quiet **Dark** and **Light** looks with **Flat** or **Grid** surfaces; target dots are white in Dark mode and black in Light mode.
+- Simpler editing: drag a wall's ends, white circles to resize, one arrow to rotate. Pieces snap to 0.1 m and 5° (hold Alt for free), with undo and redo.
+- Dragging pieces in the editor is much smoother.
+- Bots face the way you set them, and respawn at their own spawn point.
+- Drills started from the Studio return to the Studio when you leave them.
+
+### New skins
+- **Vandal:** RGX Yellow, Gaia Orange, Gaia White
+- **Phantom:** BlastX
+- **Guardian:** Prime
+- **Sheriff:** Singularity
+- **Ghost:** Smite
+- **Operator:** Araxys, Rogue
+- **Melee:** Black Market Butterfly, Orange Butterfly, Karambit Damascus Steel, Prime Axe, Silkleaf Fan, Half Life Crowbar
+- Several skins have their own firing sounds, kill sounds and kill effects.
+- Melee skins have their own equip, attack and **inspect (Y)** animations.
+- Pick skins in **Settings**. New defaults: RGX Vandal, BlastX Phantom, Singularity Sheriff, Rogue Operator and Black Market Butterfly.
 
 ### Effects and sound
 - **New headshot effect:** sharp, quick splashes on bots.
@@ -52,18 +64,6 @@ Your settings and training data are kept when you update.
 - Crosshair changes apply right away in a drill, without leaving it.
 - **Import VALORANT settings**, the update panel, Backups and Sens tools all have the square esports look. The update panel shows what's new before you install.
 - **Updates** button in the lobby bar, with a red dot when a new version is out.
-
-### Studio
-- **3D** and **Detailed** views: Detailed shows the real game map, and 3D shows clean maps.
-- **Copycat bots:** record a run, and a bot repeats it and shoots at you. Saved runs are kept in a **Runs** library.
-- Bot options: **Unpredictable** movement, **jumps** (0.2–2 m), **occasional crouching** and **slows when hit**.
-- Bots jump with the same gravity as you, with a 1.15 m default jump height.
-- **Arenas** from 12 to 200 m, with walls up to 40 m; walls up to 200 m long.
-- Quiet **Dark** and **Light** looks with **Flat** or **Grid** surfaces; target dots are white in Dark mode and black in Light mode.
-- Simpler editing: drag a wall's ends, white circles to resize, one arrow to rotate. Pieces snap to 0.1 m and 5° (hold Alt for free), with undo and redo.
-- Dragging pieces in the editor is much smoother.
-- Bots face the way you set them, and respawn at their own spawn point.
-- Drills started from the Studio return to the Studio when you leave them.
 
 ### Lobby and app
 - Opens in **fullscreen** like a real game. F11 switches to a window, and the app remembers your choice.
@@ -86,10 +86,6 @@ Your settings and training data are kept when you update.
 - Corrode: invisible walls no longer stop bullets in arches and doorways.
 - The game no longer tries to load online pages that aren't there.
 - Fixed an error in the lobby bar that repeated on every page change.
-
-### Removed
-- The 1.2.0 headshot effect, replaced by the new one.
-- The "S0pp: no-armor pistol round" drill.
 
 ## [1.2.0] - 2026-10-25
 
