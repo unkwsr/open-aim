@@ -19,10 +19,15 @@ The biggest update yet: a new map, 15 skins, new aiming and effects, a much bigg
 - **Operator:** Araxys, Rogue
 - **Melee:** Black Market Butterfly, Orange Butterfly, Karambit Damascus Steel, Prime Axe, Silkleaf Fan, Half Life Crowbar
 - Several skins have their own firing sounds, kill sounds and kill effects.
+- Melee skins have their own equip, attack and **inspect (Y)** animations.
 - Pick skins in **Settings**. New defaults: RGX Vandal, BlastX Phantom, Singularity Sheriff, Rogue Operator and Black Market Butterfly.
 
 ### Aiming and weapons
-- **Holo sights** on the Odin, Ares, Spectre, Stinger and Bulldog: the folding reflex sight and aim-in animations the rifles use. Aim speed, zoom and accuracy are unchanged.
+- **New aim down sights (ADS)** for the Vandal, Phantom and Guardian: real first-person animations, the gun rises to your eye, a folding reflex sight flips open, and the gun and sight sway and kick together.
+- **The same ADS on more guns:** Odin, Ares, Spectre, Stinger and Bulldog now aim like the rifles, with the holo sight.
+- Recoil shows on the gun while aiming, even in perfect-accuracy drills.
+- Skins keep their own look while aiming: the sight's housing is hidden and the holo dot stays.
+- Aim speed, zoom, sensitivity, spread and accuracy are all unchanged; only the look and feel are new.
 - **Sniper scopes** for the Marshal, Outlaw and Operator, with a smoother opening. Scope timing is unchanged.
 - The gun and hands move together while strafing.
 - Aiming right after pulling out a gun no longer shows the sight off to the side.
@@ -51,6 +56,7 @@ The biggest update yet: a new map, 15 skins, new aiming and effects, a much bigg
 - **3D** and **Detailed** views: Detailed shows the real game map, and 3D shows clean maps.
 - **Copycat bots:** record a run, and a bot repeats it and shoots at you. Saved runs are kept in a **Runs** library.
 - Bot options: **Unpredictable** movement, **jumps** (0.2–2 m), **occasional crouching** and **slows when hit**.
+- Bots jump with the same gravity as you, with a 1.15 m default jump height.
 - **Arenas** from 12 to 200 m, with walls up to 40 m.
 - Quiet **Dark** and **Light** looks with **Flat** or **Grid** surfaces.
 - Dragging pieces in the editor is much smoother.
