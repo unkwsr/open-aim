@@ -4,7 +4,9 @@ All notable changes to open-aim. Newest first.
 
 ## [1.3.0] - 2026-10-29
 
-The biggest update yet: a new map, 15 skins, new aiming and effects, a much bigger Studio and smoother performance. Your settings and training data are kept when you update.
+**The biggest update yet: a new map, 15 skins, new aiming and effects, a much bigger Studio and smoother performance.**
+
+Your settings and training data are kept when you update.
 
 ### New map
 - **Sunset**, with six pre-aim drills: A Short, A Tube and B Main, each in **Easy** (bots don't shoot) and **Hard** (bots shoot back).
@@ -25,10 +27,10 @@ The biggest update yet: a new map, 15 skins, new aiming and effects, a much bigg
 ### Aiming and weapons
 - **New aim down sights (ADS)** for the Vandal, Phantom and Guardian: real first-person animations, the gun rises to your eye, a folding reflex sight flips open, and the gun and sight sway and kick together.
 - **The same ADS on more guns:** Odin, Ares, Spectre, Stinger and Bulldog now aim like the rifles, with the holo sight.
+- **Sniper scopes** for the Marshal, Outlaw and Operator, with a smoother opening.
 - Recoil shows on the gun while aiming, even in perfect-accuracy drills.
 - Skins keep their own look while aiming: the sight's housing is hidden and the holo dot stays.
 - Aim speed, zoom, sensitivity, spread and accuracy are all unchanged; only the look and feel are new.
-- **Sniper scopes** for the Marshal, Outlaw and Operator, with a smoother opening. Scope timing is unchanged.
 - The gun and hands move together while strafing.
 - Aiming right after pulling out a gun no longer shows the sight off to the side.
 - **No more first-shot freezes:** the worst frame while firing dropped from up to 150 ms to under 4 ms.
@@ -38,18 +40,17 @@ The biggest update yet: a new map, 15 skins, new aiming and effects, a much bigg
 ### Effects and sound
 - **New headshot effect:** sharp, quick splashes on bots.
 - Hitting a dot (Grid Shooting and other target drills) plays a new hit sound, without the impact burst.
-- Studio target dots are white in Dark mode and black in Light mode.
 - **Advanced bullet tracers** (Settings > Visuals), with their own look per skin.
 - Bots use the original weapon sounds.
 
 ### HUD and settings
-- **Shooting error graph** (Settings > Video > Stats): a thin bar per shot, yellow for spray error, blue for movement error.
+- **Shooting error graph rebuilt** (Settings > Video > Stats): smaller and more precise, with a thin bar per shot, yellow for spray error and blue for movement error, and lighter on performance.
 - **Frame mode** in Video: Unlimited, Match display or Custom (30–1000 FPS, presets 120 / 144 / 165 / 240 / 360).
 - The FPS counter sits under the minimap, only while you play.
 - The **Interface** setting is back (Video > Smoothness): Enhanced, or Performance with no glass blur.
 - Crosshair settings in a match have a bigger preview with the map behind it, the RGX sight and the sniper scope.
 - Crosshair changes apply right away in a drill, without leaving it.
-- **Import VALORANT settings** and the update panel have the esports look. The update panel shows what's new before you install.
+- **Import VALORANT settings**, the update panel, Backups and Sens tools all have the square esports look. The update panel shows what's new before you install.
 - **Updates** button in the lobby bar, with a red dot when a new version is out.
 
 ### Studio
@@ -57,8 +58,9 @@ The biggest update yet: a new map, 15 skins, new aiming and effects, a much bigg
 - **Copycat bots:** record a run, and a bot repeats it and shoots at you. Saved runs are kept in a **Runs** library.
 - Bot options: **Unpredictable** movement, **jumps** (0.2–2 m), **occasional crouching** and **slows when hit**.
 - Bots jump with the same gravity as you, with a 1.15 m default jump height.
-- **Arenas** from 12 to 200 m, with walls up to 40 m.
-- Quiet **Dark** and **Light** looks with **Flat** or **Grid** surfaces.
+- **Arenas** from 12 to 200 m, with walls up to 40 m; walls up to 200 m long.
+- Quiet **Dark** and **Light** looks with **Flat** or **Grid** surfaces; target dots are white in Dark mode and black in Light mode.
+- Simpler editing: drag a wall's ends, white circles to resize, one arrow to rotate. Pieces snap to 0.1 m and 5° (hold Alt for free), with undo and redo.
 - Dragging pieces in the editor is much smoother.
 - Bots face the way you set them, and respawn at their own spawn point.
 - Drills started from the Studio return to the Studio when you leave them.
@@ -68,8 +70,9 @@ The biggest update yet: a new map, 15 skins, new aiming and effects, a much bigg
 - Startup screen while the game loads, and a loading card when a drill needs a moment.
 - Restarting a drill skips the full loading screen.
 - Smooth mouse-wheel scrolling in the lobby and menus.
+- A calmer lobby: no glossy sweeps or zooming images, and quick page changes.
+- Cleaner card corners, and the filter bar fits on one line while scrolling.
 - Favorites work offline.
-- Lobby polish: cleaner card corners, and the filter bar fits on one line while scrolling.
 - The VALORANT import prompt waits until loading is done.
 - Difficulty labels are always in English.
 
@@ -82,6 +85,7 @@ The biggest update yet: a new map, 15 skins, new aiming and effects, a much bigg
 ### Fixes
 - Corrode: invisible walls no longer stop bullets in arches and doorways.
 - The game no longer tries to load online pages that aren't there.
+- Fixed an error in the lobby bar that repeated on every page change.
 
 ### Removed
 - The 1.2.0 headshot effect, replaced by the new one.
