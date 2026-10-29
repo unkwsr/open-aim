@@ -38,7 +38,6 @@
 | `startup-screen.js` | Startup screen over the lobby until its training list has loaded (lobby page only, 20 s safety limit); main.js keeps the window hidden until it is in place |
 | `page-watch.js` | One page watcher the UI scripts share; it sleeps while the mouse is locked in a round |
 | `smooth-scroll.js` | Mouse-wheel steps glide (~150 ms) in the lobby and menus instead of jumping; touchpads, zoom and aiming are left alone |
-| `frame-log.js` | Test copy: writes a slow-frame report (frames under 150 FPS and their cause) per round to `test-data/frame-logs/` |
 | `player-tools.js` | Backups and Sens tools panels |
 | `studio/` | The Studio: `studio.js` (editor UI), `drill.js` (turns a layout into a playable drill), `map-data.js` (map outlines), `view3d.js` (3D preview), `detailed-map.js` (Detailed view: the game's real map, rewrapped for the Studio's three.js), `vendor/` (three.js, MIT) |
 | `studio-store.js` | Saves your Studio drills so they show up in the lobby |

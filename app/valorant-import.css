@@ -1,0 +1,13 @@
+.valorant-import-shade { z-index: 2147483646 !important; }
+.valorant-import { width: min(780px, 100%); background: #111923; backdrop-filter: none; }
+.valorant-import .es-tool-body { font-size: 14px; line-height: 1.5; }
+.valorant-import details { margin: 12px 0; padding: 12px; border: 1px solid #344452; border-radius: 8px; }
+.valorant-import summary { cursor: pointer; font-weight: 600; }
+.valorant-import li { margin: 8px 0; line-height: 1.5; }
+.valorant-import code { overflow-wrap: anywhere; color: #bce9e4; user-select: text; }
+.valorant-import select { max-width: 100%; margin: 8px; padding: 8px; background: #182631; color: #fff; }
+.valorant-import-drop { border: 2px dashed #5c7d8d; border-radius: 8px; text-align: center; padding: 24px; cursor: pointer; margin-top: 16px; }
+.valorant-import-drop.is-over, .valorant-import-drop:focus-visible { border-color: #70e0d1; background: #213c42; }
+.valorant-import-hide { display: flex; gap: 8px; align-items: center; margin: 16px 0; }
+.valorant-import-button { flex-shrink: 0; }
+.valorant-import details:not([open]) > :not(summary) { display: none; }

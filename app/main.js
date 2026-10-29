@@ -8,11 +8,6 @@ const path = require("path");
 const backups = require("./backups");
 const studio = require("./studio-store");
 
-// Test copy: always keep player data and backups separate from the main game.
-const TEST_ROOT = app.isPackaged ? path.dirname(process.execPath) : path.join(__dirname, "..");
-process.env.AIM_PROFILE = path.join(TEST_ROOT, "test-data");
-process.env.AIM_PORT = "8137";
-
 // Testing only: AIM_PROFILE=<folder> keeps all player data and backups in that folder,
 // so test runs never touch the real save.
 if (process.env.AIM_PROFILE) {
@@ -68,8 +63,6 @@ const OFFLINE_CSS = fs.readFileSync(path.join(__dirname, "offline.css"), "utf-8"
 // Moves the lobby sidebar (Quick start, Favorites, Creator, Manual) into the top bar.
 const LOBBY_BAR_JS = fs.readFileSync(path.join(__dirname, "lobby-bar.js"), "utf-8");
 const FRAME_METER_JS = fs.readFileSync(path.join(__dirname, "frame-meter.js"), "utf-8");
-// Slow-frame recorder: one report per round in test-data/frame-logs/.
-const FRAME_LOG_JS = fs.readFileSync(path.join(__dirname, "frame-log.js"), "utf-8");
 // Startup screen over the half-loaded lobby until its training list is in.
 const STARTUP_SCREEN_JS = fs.readFileSync(path.join(__dirname, "startup-screen.js"), "utf-8");
 // Shared page watcher for the UI scripts below; sleeps while the mouse is locked in a round.
@@ -84,6 +77,11 @@ const FAN_AUDIO_JS = fs.readFileSync(path.join(__dirname,"fan-audio.js"),"utf-8"
 const ADVANCED_TRACERS_JS = fs.readFileSync(path.join(__dirname, "advanced-tracers.js"), "utf-8");
 const LOCAL_CUSTOMIZATION_JS = fs.readFileSync(path.join(__dirname, "local-customization.js"), "utf-8");
 const PLAYER_TOOLS_JS = fs.readFileSync(path.join(__dirname, "player-tools.js"), "utf-8");
+const VALORANT_IMPORT_JS = ["valorant-import.js", "valorant-import-ui.js"]
+  .map(name => fs.readFileSync(path.join(__dirname, name), "utf-8")).join("\n");
+const VALORANT_IMPORT_CSS = fs.readFileSync(path.join(__dirname, "valorant-import.css"), "utf-8");
+const RELEASE_UPDATES_JS = fs.readFileSync(path.join(__dirname, "release-updates-ui.js"), "utf-8");
+const RELEASE_UPDATES_CSS = fs.readFileSync(path.join(__dirname, "release-updates.css"), "utf-8");
 
 // The Studio (studio/ folder, served at /studio/) replaces the site's own scenario editor:
 // /aim/studio redirects there. studio-launch.js lets the Studio start a drill in the lobby.
@@ -105,13 +103,13 @@ const UI_SCRIPTS = [
   ["LOCAL CUSTOMIZATION", LOCAL_CUSTOMIZATION_JS],
   ["PLAYER TOOLS", PLAYER_TOOLS_JS],
   ["INTERFACE MODE", INTERFACE_MODE_JS],
-  // AIM_FRAME_LOG=0 (Start Test Game - no recorder.cmd) leaves the recorder out entirely.
-  ...(process.env.AIM_FRAME_LOG === "0" ? [] : [["FRAME LOG", FRAME_LOG_JS]]),
   ["FRAME METER", FRAME_METER_JS],
   ["VIDEO SETTINGS", VIDEO_SETTINGS_JS],
   ["LOBBY BAR", LOBBY_BAR_JS],
   ["STUDIO LAUNCH", STUDIO_LAUNCH_JS],
   ["SHOT GRAPH", SHOT_GRAPH_JS],
+  ["RELEASE UPDATES", RELEASE_UPDATES_JS],
+  ["VALORANT IMPORT", VALORANT_IMPORT_JS],
 ];
 // The startup screen goes in on its own, straight away (see createWindow).
 const STARTUP_SCREEN_RUN = `try {
@@ -423,6 +421,8 @@ function createWindow(url) {
       win.webContents.insertCSS(UI_CSS),
       win.webContents.insertCSS(THEME_CSS),
       win.webContents.insertCSS(OFFLINE_CSS),
+      win.webContents.insertCSS(VALORANT_IMPORT_CSS),
+      win.webContents.insertCSS(RELEASE_UPDATES_CSS),
       win.webContents.mainFrame.executeJavaScript(STARTUP_SCREEN_RUN).catch((err) => console.log(`STARTUP SCREEN: ${err}`)),
     ]).catch(() => {}).finally(show);
     win.webContents.executeJavaScript(UI_SCRIPT_BATCH).catch((err) => console.log(`UI SCRIPTS: ${err}`));
@@ -491,17 +491,6 @@ ipcMain.on("aim:shell:vsync", (_event, on) => {
     console.log(`SHELL SETTINGS: ${err}`);
   }
 });
-// Slow-frame reports from frame-log.js, one file per round.
-const FRAME_LOG_DIR = path.join(process.env.AIM_PROFILE, "frame-logs");
-ipcMain.on("aim:frame-log", (_event, report) => {
-  try {
-    fs.mkdirSync(FRAME_LOG_DIR, { recursive: true });
-    const name = String(report?.startedAt || new Date().toISOString()).replace(/[:.]/g, "-");
-    fs.writeFileSync(path.join(FRAME_LOG_DIR, `${name}.json`), JSON.stringify(report, null, 1));
-  } catch (err) {
-    console.log(`FRAME LOG: ${err}`);
-  }
-});
 // The portable build runs from a temporary copy, so relaunch the .exe itself. Settings
 // saved in the page's localStorage just before (map culling) are flushed first, since
 // app.exit skips Chromium's normal shutdown.
@@ -520,6 +509,11 @@ app.on("second-instance", () => {
 
 // Player data backups (backups.js): restore a scheduled backup, then back up, before the window opens.
 backups.register(ipcMain, () => mainWindow);
+require("./valorant-import-ipc").register(() => mainWindow, on => {
+  const next = { ...shellSettings, vsync: on };
+  fs.writeFileSync(SHELL_FILE, JSON.stringify(next, null, 2));
+  shellSettings.vsync = on;
+});
 studio.register(ipcMain);
 
 app.whenReady().then(async () => {
@@ -555,6 +549,7 @@ app.whenReady().then(async () => {
     return;
   }
   mainWindow = createWindow(ORIGIN + START_PATH);
+  require("./release-updates").register(() => mainWindow);
   mainWindow.on("closed", () => app.quit());
 });
 

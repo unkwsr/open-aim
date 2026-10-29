@@ -49,3 +49,11 @@
 :is(.aim-local-actions, .aim-performance-button, .hall-lat-btn, .aim-diagnostics-panel) {
   display: none !important;
 }
+
+/* the original site's community groups (KOOK, QQ), its beta-feedback note, WeChat QR
+   sign-in and the language toggle */
+:is(.hall-community-wrap, .hall-community, .hall-other-groups, .hall-qq-groups, .hall-qq-group,
+  .hall-promo, .wechat-qr-scan, .wx-qr-container, .aim-locale-toggle,
+  [data-role="kook-server"], [data-role*="qq-group"], [data-action*="kook"], [data-action*="qq-group"]) {
+  display: none !important;
+}

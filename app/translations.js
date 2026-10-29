@@ -24,12 +24,8 @@ module.exports = {
   "Mỗi tài khoản chỉ lấy kết quả tốt nhất trên map đã chọn.": "Only each account's best result on the selected map counts.",
   "Đang tải BXH toàn cầu…": "Loading global leaderboard…",
   "Đang tải BXH map…": "Loading map leaderboard…",
-  "Đang tạo mã thanh toán…": "Creating payment code…",
   "Điểm global được cộng từ thứ hạng tốt nhất trên từng map: hạng 1 = 100 điểm, hạng 2 = 99 điểm, giảm dần.":
     "Global points come from your best rank on each map: rank 1 = 100 points, rank 2 = 99 points, and so on.",
-  "Gỡ quảng cáo · 20.000đ": "Remove ads · 20,000 VND",
-  "VietQR · 20.000đ": "VietQR · 20,000 VND",
-  "QR thanh toán 20.000 đồng": "Payment QR · 20,000 VND",
   "lượt đã lưu trên server. Xác minh email để tự đưa các kết quả hợp lệ lên BXH; không cần chơi lại.":
     "results saved on the server. Verify your email to post valid results to the leaderboard automatically; no need to replay.",
   "đã lưu trên server. Xác minh email để tự đưa kết quả hợp lệ lên BXH, không cần chơi lại.":

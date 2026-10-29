@@ -2,9 +2,7 @@
   let sortMode = 'default';
   let scheduled = false;
 
-  const language = () => document.documentElement.lang === 'en'
-    ? { easy: 'Easy', medium: 'Medium', hard: 'Hard', difficulty: 'Difficulty', easyFirst: 'Easy → Hard', hardFirst: 'Hard → Easy', sortLabel: 'Sort by difficulty' }
-    : { easy: 'Dễ', medium: 'Trung bình', hard: 'Khó', difficulty: 'Độ khó', easyFirst: 'Dễ → Khó', hardFirst: 'Khó → Dễ', sortLabel: 'Sắp xếp theo độ khó' };
+  const language = () => ({ easy: 'Easy', medium: 'Medium', hard: 'Hard', difficulty: 'Difficulty', easyFirst: 'Easy → Hard', hardFirst: 'Hard → Easy', sortLabel: 'Sort by difficulty' });
 
   const makeMeter = (level, label) => {
     const badge = document.createElement('span');

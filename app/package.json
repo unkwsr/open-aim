@@ -1,7 +1,7 @@
 {
   "name": "aim-trainer",
   "productName": "AimTrainer",
-  "version": "1.1.0",
+  "version": "1.3.0",
   "description": "Offline desktop version of the open-aim trainer",
   "main": "main.js",
   "private": true,
@@ -11,7 +11,9 @@
     "start": "electron .",
     "prebuild": "node ../scripts/build-scenarios.mjs",
     "build": "electron-builder --win portable nsis",
-    "check": "node ../scripts/build-scenarios.mjs --check"
+    "check": "node ../scripts/build-scenarios.mjs --check",
+    "test:import": "node --test ../scripts/test-valorant-import.cjs",
+    "test:updates": "node --test ../scripts/test-release-updates.cjs"
   },
   "build": {
     "appId": "local.aimtrainer.offline",
@@ -28,7 +30,17 @@
       "frame-meter.js",
       "video-settings.js",
       "interface-mode.js",
+      "startup-screen.js",
+      "page-watch.js",
+      "smooth-scroll.js",
       "player-tools.js",
+      "valorant-import.js",
+      "valorant-import-ui.js",
+      "valorant-import-ipc.js",
+      "valorant-import.css",
+      "release-updates.js",
+      "release-updates-ui.js",
+      "release-updates.css",
       "backups.js",
       "offline.css",
       "studio-store.js",
@@ -71,7 +83,9 @@
     },
     "nsis": {
       "artifactName": "AimTrainer-Setup.exe",
-      "oneClick": true,
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "include": "build/installer.nsh",
       "perMachine": false,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
