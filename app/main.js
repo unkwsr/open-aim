@@ -192,6 +192,43 @@ function playableOnly(body) {
   return body;
 }
 
+// The community page's list query (category, map, difficulty, q, sort, pageNum, pageSize),
+// answered like the online site: the counts are over the cards the other filters keep, and
+// the list is one page of the sorted result.
+const PW_SORTS = {
+  LATEST: (a, b) => String(b.publishedTime || "").localeCompare(String(a.publishedTime || "")),
+  WEEK_HOT: (a, b) => (b.playersWeek || 0) - (a.playersWeek || 0),
+  RATING: (a, b) => (b.rating || 0) - (a.rating || 0) || (b.ratingCount || 0) - (a.ratingCount || 0),
+  FAVORITES: (a, b) => (b.favorites || 0) - (a.favorites || 0),
+  HOT: (a, b) => (b.plays || 0) - (a.plays || 0),
+};
+
+function pwQuery(body, params) {
+  const data = body && body.data;
+  if (!data || !Array.isArray(data.list)) return body;
+  const category = params.get("category") || "";
+  const map = params.get("map") || "";
+  const difficulty = params.get("difficulty") || "";
+  const q = (params.get("q") || "").trim().toLowerCase();
+  const keep = (x) =>
+    (!difficulty || x.difficulty === difficulty) &&
+    (!q || [x.title, x.authorName, x.code, x.description].some((v) => typeof v === "string" && v.toLowerCase().includes(q)));
+  const others = data.list.filter(keep);
+  data.countAll = others.length;
+  data.countMap = others.filter((x) => x.category === "map").length;
+  data.countBall = others.length - data.countMap;
+  data.countByMap = {};
+  for (const x of others) if (x.mapId && x.category === "map") data.countByMap[x.mapId] = (data.countByMap[x.mapId] || 0) + 1;
+  let list = others.filter((x) => (!category || x.category === category) && (!map || x.mapId === map));
+  const sort = PW_SORTS[params.get("sort")];
+  if (sort) list = [...list].sort(sort);
+  data.total = list.length;
+  const size = Math.max(1, Math.min(200, Number(params.get("pageSize")) || list.length || 1));
+  const page = Math.max(1, Number(params.get("pageNum")) || 1);
+  data.list = list.slice((page - 1) * size, page * size);
+  return body;
+}
+
 const REMOVED_SCRIPTS = new Set([
   "/_assets/r20261021-1/js/performance-access.js",
   "/_assets/r20261021-1/js/performance-diagnostics-ui.mjs",
@@ -362,7 +399,8 @@ function handle(req, res) {
     const [, file] = resolve(requested);
     if (file) {
       try {
-        sendJson(req, res, playableOnly(JSON.parse(fs.readFileSync(file, "utf-8"))));
+        const body = playableOnly(JSON.parse(fs.readFileSync(file, "utf-8")));
+        sendJson(req, res, requested === PW_ITEMS ? pwQuery(body, url.searchParams) : body);
         return;
       } catch {}
     }

@@ -12,6 +12,7 @@ All notable changes to open-aim. Newest first.
 - 58 community drills opened to "not found": their scenes had never been captured. They are now in `site/`.
 - The community lists only offer drills whose scene is in `site/`, so a card can no longer open to "not found".
 - The favorites and recently played rows of the community page work for any set of drills, not only the sets that were captured.
+- Search, the category, map and difficulty filters, sorting and "load more" on the community page: the list query was ignored, so every request got the same page.
 
 ## [1.3.0] - 2026-10-29
 
