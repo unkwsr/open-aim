@@ -159,6 +159,39 @@ try {
   trainingSet = JSON.parse(fs.readFileSync(path.join(__dirname, "training-set.json"), "utf-8"));
 } catch {}
 
+// Community drills (the player workshop, "pw"). Its lists only offer drills whose scene file
+// is in site/, so a card never opens to "not found"; a batch (the favorites and recently
+// played rows) is answered from the full list for any set of codes, not only the sets that
+// were captured.
+const PW_ITEMS = "/prod-api/api/v1/public/val/aimlab/pw/items";
+const SCENE_DIR = path.join(OUT, ...SCENE_PREFIX.split("/").filter(Boolean));
+
+function hasScene(code) {
+  return typeof code === "string" && /^[0-9a-f]{16}$/.test(code) && isFile(path.join(SCENE_DIR, code));
+}
+
+function pwCode(card) {
+  return card && typeof card === "object" ? (card.item && card.item.code) || card.code : undefined;
+}
+
+function playableOnly(body) {
+  const data = body && body.data;
+  if (!data || typeof data !== "object" || Array.isArray(data)) return body;
+  for (const [key, value] of Object.entries(data)) {
+    if (Array.isArray(value) && value.some(pwCode)) data[key] = value.filter((x) => hasScene(pwCode(x)));
+  }
+  if (Array.isArray(data.fresh) && "freshTotal" in data) data.freshTotal = data.fresh.length;
+  if (Array.isArray(data.list) && "total" in data) {
+    const list = data.list;
+    data.total = data.countAll = list.length;
+    data.countMap = list.filter((x) => x.category === "map").length;
+    data.countBall = list.length - data.countMap;
+    data.countByMap = {};
+    for (const x of list) if (x.mapId) data.countByMap[x.mapId] = (data.countByMap[x.mapId] || 0) + 1;
+  }
+  return body;
+}
+
 const REMOVED_SCRIPTS = new Set([
   "/_assets/r20261021-1/js/performance-access.js",
   "/_assets/r20261021-1/js/performance-diagnostics-ui.mjs",
@@ -323,6 +356,27 @@ function handle(req, res) {
     if (scene) {
       sendJson(req, res, { code: "00000", data: scene, msg: "", local: true });
       return;
+    }
+  }
+  if (requested === PW_ITEMS || requested === PW_ITEMS + "/home") {
+    const [, file] = resolve(requested);
+    if (file) {
+      try {
+        sendJson(req, res, playableOnly(JSON.parse(fs.readFileSync(file, "utf-8"))));
+        return;
+      } catch {}
+    }
+  }
+  if (requested.startsWith(PW_ITEMS + "/batch/")) {
+    const codes = requested.slice(PW_ITEMS.length + "/batch/".length).split(",");
+    const [, file] = resolve(PW_ITEMS);
+    if (file) {
+      try {
+        const byCode = new Map(JSON.parse(fs.readFileSync(file, "utf-8")).data.list.map((x) => [x.code, x]));
+        const data = codes.map((c) => byCode.get(c)).filter((x) => x && hasScene(x.code));
+        sendJson(req, res, { code: "00000", data, msg: "", local: true });
+        return;
+      } catch {}
     }
   }
   if (requested.endsWith(SHOT_LOOP_FILE)) {

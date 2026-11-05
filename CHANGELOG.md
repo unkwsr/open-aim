@@ -2,6 +2,17 @@
 
 All notable changes to open-aim. Newest first.
 
+## [Unreleased]
+
+### Added
+- 49 more community drills (155 in all, up from 106), with their covers.
+- 15 official drills from the live training list: Bind B Long and B from upstairs, Summit mid to A, Haven A retake, C retake via Garage and C retake from CT (easy and hard), Lotus C hold (hard), and two pro moments (s0pp's no-armour pistol play, Weijia's Sentinel).
+
+### Fixed
+- 58 community drills opened to "not found": their scenes had never been captured. They are now in `site/`.
+- The community lists only offer drills whose scene is in `site/`, so a card can no longer open to "not found".
+- The favorites and recently played rows of the community page work for any set of drills, not only the sets that were captured.
+
 ## [1.3.0] - 2026-10-29
 
 **The biggest update yet: a new map, 15 skins, new aiming and effects, a much bigger Studio and smoother performance.**
