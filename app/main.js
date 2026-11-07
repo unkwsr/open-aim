@@ -15,8 +15,17 @@ if (process.env.AIM_PROFILE) {
   app.setPath("userData", path.join(process.env.AIM_PROFILE, "AimTrainer"));
 }
 
-// Testing only: AIM_PORT lets a test copy run while the real app is open.
-const PORT = Number(process.env.AIM_PORT) || 8000;
+// The game is served on port 8000. If another program uses it, start the app with
+// --port=<number> (add it to the shortcut's Target) or set AIM_PORT. Settings and
+// training history are saved per port, so keep using the same one. AIM_PORT also lets
+// a test copy run while the real app is open.
+const DEFAULT_PORT = 8000;
+function pickPort() {
+  const arg = process.argv.find((a) => a.startsWith("--port="));
+  const port = Number(arg ? arg.slice("--port=".length) : process.env.AIM_PORT);
+  return Number.isInteger(port) && port >= 1024 && port <= 65535 ? port : DEFAULT_PORT;
+}
+const PORT = pickPort();
 const HOST = "127.0.0.1";
 const ORIGIN = `http://localhost:${PORT}`;
 const START_PATH = "/aim";
@@ -551,7 +560,7 @@ app.whenReady().then(async () => {
     await startServer();
   } catch (err) {
     const msg = err && err.code === "EADDRINUSE"
-      ? `Port ${PORT} is already in use by another program.\n\nClose it (for example a running aim_offline.py) and start AimTrainer again.`
+      ? `Port ${PORT} is already in use by another program.\n\nClose it (for example a running aim_offline.py) and start AimTrainer again, or start it on another port with --port=<number> (for example --port=8001). Settings and training history are saved per port.`
       : `Could not start the local game server on port ${PORT}:\n${err && err.message}`;
     dialog.showErrorBox("AimTrainer", msg);
     app.quit();

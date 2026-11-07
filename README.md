@@ -156,6 +156,10 @@ enemy outlines. Crosshair changes apply immediately in a drill.
 3. Pick a drill or make your own in Studio.
 
 Requires Windows 10 or 11, any GPU with WebGL 2.
+The game runs a small local server on port 8000. If another program already uses that port,
+start AimTrainer with `--port=8001` (or any port from 1024 to 65535), for example by adding it
+to the end of the shortcut's **Target**. You can also set the `AIM_PORT` environment variable.
+Settings and training history are saved per port, so use the same port every time.
 The lobby's **Updates** button shows what's new when a release is available.
 Your settings and training data are kept when you update.
 
