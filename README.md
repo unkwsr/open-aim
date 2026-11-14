@@ -186,8 +186,8 @@ Want to add a drill to the built-in list? See [docs/scenario-format.md](docs/sce
 
 ## Credits
 
-The 3D maps come from the [ishoutu aim trainer](https://ishoutu.cn/aim). They are not my
-work and are not covered by this project's MIT license.
+Credit to the [ishoutu aim trainer](https://ishoutu.cn/aim) for the original idea and for the
+map compression methods openVaim builds on.
 
 <br>
 

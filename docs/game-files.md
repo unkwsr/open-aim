@@ -28,7 +28,7 @@ Before 1.4.0 these folders were called `app/mods/` and `site/`.
 This repository keeps `app/site/`, `base/` and `site_meta.json` in git so the app runs straight
 after a clone.
 
-- **Credit:** the original maps were taken from the [ishoutu aim trainer](https://ishoutu.cn/aim).
+- **Credit:** the [ishoutu aim trainer](https://ishoutu.cn/aim), for the original idea and the map compression methods.
 - **Size:** `base/` is about 110 MB and `app/site/` about 1.3 GB, mostly 3D maps and textures.
 
 ## The long-term goal

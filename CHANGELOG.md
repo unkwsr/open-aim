@@ -104,7 +104,7 @@ Your settings and training data are kept when you update.
 
 ### Changed
 
-- The original site's community links (KOOK, QQ), WeChat QR sign-in and language
+- The original site's community links, QR sign-in and language
   button are hidden, and the app uses the open-aim icon everywhere.
 
 ## [1.1.1] - 2026-10-24

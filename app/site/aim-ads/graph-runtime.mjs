@@ -1,5 +1,5 @@
 import {quaternionLength4 as __aimQuaternionLength4} from '/local/quaternion-length.mjs';
-// ADS animation controller and graph sampler adapted from ishoutu.har (offline capture).
+// ADS animation controller and graph sampler adapted from an offline capture of the original web trainer.
 // Original simulation, sensitivity, accuracy, recoil and ADS duration rules stay in the engine.
 import {be as g,cY as o,bw as r,bz as p,c5 as s,cu as t,e8 as l,bK as m,e9 as n,by as getGun,Y as getStats,F as defaultFov} from '/_assets/r20261021-1/next/js/BiMsX6Xn.js';
 const q=0;
