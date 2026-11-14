@@ -39,7 +39,7 @@ git config --global user.email "you@example.com"
 ## 3. Your first commit (all local)
 
 ```bash
-cd C:\Users\hate\Desktop\Hello\open-aim
+cd C:\Users\you\Desktop\Hello\open-aim
 ```
 
 ```bash
@@ -50,7 +50,7 @@ git init -b main
 git status
 ```
 
-`git status` lists the files git sees. Notice that `site/` and `app/training-set.json` are
+`git status` lists the files git sees. Notice that `base/` and `app/training-set.json` are
 **not** listed: that's `.gitignore` working.
 
 ```bash

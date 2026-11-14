@@ -88,7 +88,7 @@ test('offline, rate limit, missing release, invalid preferences and unsupported 
 });
 test('rejects unrelated nonempty folders and does not alter their contents', t => {
   const f = fixture(t), folder = path.join(f.target, 'documents'); fs.mkdirSync(folder); fs.writeFileSync(path.join(folder, 'important.txt'), 'keep');
-  assert.throws(() => f.updater.selectDirectory(folder), /existing AimTrainer/);
+  assert.throws(() => f.updater.selectDirectory(folder), /existing openVaim/);
   assert.throws(() => f.updater.selectDirectory(path.parse(f.target).root), /root/);
   assert.equal(fs.readFileSync(path.join(folder, 'important.txt'), 'utf8'), 'keep');
 });
@@ -128,4 +128,21 @@ test('a locked failed download does not leave the UI stuck or start the installe
   });
   const state = await f.updater.install();
   assert.equal(state.status, 'available'); assert.match(state.error, /verification failed/); assert(!f.launched);
+});
+// openVaim rename (14 Nov 2026): either installer name is accepted, openVaim-Setup.exe preferred;
+// a folder with openVaim.exe or AimTrainer.exe counts as an existing install.
+test('openVaim installer and install folder names', t => {
+  const named = (names, tag = 'v1.4.0') => {
+    const r = release(tag); const base = r.assets[0];
+    r.assets = names.map(name => ({ ...base, name, browser_download_url: base.browser_download_url.replace('AimTrainer-Setup.exe', name) }));
+    return r;
+  };
+  assert.match(parseRelease(named(['openVaim-Setup.exe']), '1.3.0').url, /openVaim-Setup\.exe$/);
+  assert.match(parseRelease(named(['AimTrainer-Setup.exe']), '1.3.0').url, /AimTrainer-Setup\.exe$/);
+  assert.match(parseRelease(named(['AimTrainer-Setup.exe', 'openVaim-Setup.exe']), '1.3.0').url, /openVaim-Setup\.exe$/);
+  assert.throws(() => parseRelease(named(['Other-Setup.exe']), '1.3.0'), /no verified Windows installer/);
+  assert.equal(parseRelease(named(['openVaim-Setup.exe'], 'v1.3.0'), '1.4.0'), null, 'an older release is never offered');
+  const f = fixture(t);
+  fs.rmSync(path.join(f.target, 'AimTrainer.exe')); fs.writeFileSync(path.join(f.target, 'openVaim.exe'), 'new app');
+  assert.equal(f.updater.selectDirectory(f.target).directory, f.target);
 });

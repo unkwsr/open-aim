@@ -1,0 +1,48 @@
+{
+  "code": "00000",
+  "data": [
+    {
+      "authorCode": "G8HAK0Z",
+      "authorName": "Xiao Niu (Mou Mou Mou)",
+      "authorWorks": 3,
+      "category": "ball",
+      "code": "8070ed74ecfb9cd3",
+      "coverCode": "6d20f59f5688a0c9",
+      "description": "Targets keep building up if you shoot too slowly.",
+      "difficulty": "extreme",
+      "facts": {
+        "balls": 157,
+        "bots": 0,
+        "deathEndsRound": true,
+        "duration": 60,
+        "movable": false,
+        "scoring": "clicking",
+        "shoots": false,
+        "spawnX": -0.5,
+        "spawnZ": 9.8,
+        "weapon": "vandal"
+      },
+      "favorites": 23,
+      "featured": false,
+      "fresh": true,
+      "mapId": null,
+      "official": false,
+      "officialEdit": false,
+      "playersWeek": 616,
+      "plays": 797,
+      "publishedAgoSeconds": 60577,
+      "publishedTime": "2026-10-19 16:51:30",
+      "rating": null,
+      "ratingCount": 1,
+      "title": "Advanced — Clear targets with recoil",
+      "updatedTime": null,
+      "version": 1,
+      "ratingAverage": null,
+      "feedbackCount": 0,
+      "updatedAt": 1792493829356,
+      "ratingOrigin": "local"
+    }
+  ],
+  "msg": "",
+  "local": true
+}

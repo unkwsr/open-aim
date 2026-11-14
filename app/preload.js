@@ -4,7 +4,31 @@
 // out of fullscreen.
 const { contextBridge, ipcRenderer, webFrame } = require("electron");
 
+// new-player-defaults-v1 (14 Nov 2026): a brand-new player (nothing saved yet for the game's address)
+// starts with Kuronami melee, Champions 2021 Vandal, Recon Phantom and every pre-aim aid off. Runs before
+// any page script; a player with saved data (e.g. updating from 1.3.0) is left exactly as they were.
+try {
+  if (/^https?:$/.test(location.protocol) && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
+      && localStorage.length === 0) {
+    const aidsOff = { headLines: false, killOrder: false, aimLine: false, minimapBots: false };
+    localStorage.setItem("al-aim-aids-v1", JSON.stringify({ easy: aidsOff, other: aidsOff }));
+    localStorage.setItem("al-preaim-assist-v1", JSON.stringify({ line: false, easyLine: false, spots: false }));
+  }
+  // skin-defaults-v1 (14 Nov 2026): once per player, new AND updating (e.g. from 1.3.0): Kuronami melee,
+  // Champions 2021 Vandal, Recon Phantom (red), Arcane Sheriff. The flag stops it running again, so a skin the
+  // player picks afterwards stays.
+  if (/^https?:$/.test(location.protocol) && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)
+      && !localStorage.getItem("ov-skin-defaults-v1")) {
+    localStorage.setItem("es-melee-skin", "kuronami");
+    localStorage.setItem("es-vandal-skin", "champions-vandal");
+    localStorage.setItem("es-phantom-skin", "recon-phantom-red");
+    localStorage.setItem("es-sheriff-skin", "arcane-sheriff");
+    localStorage.setItem("ov-skin-defaults-v1", "1");
+  }
+} catch (error) { console.warn("New player defaults:", error); }
+
 contextBridge.exposeInMainWorld("__aimDesktop", {
+  // From release 1.3.0: in-app updater (release-updates.js) and VALORANT settings import (valorant-import-ipc.js).
   updates: {
     state: () => ipcRenderer.invoke("aim:updates:state"),
     check: () => ipcRenderer.invoke("aim:updates:check"),
@@ -47,9 +71,55 @@ contextBridge.exposeInMainWorld("__aimDesktop", {
     saveRun: (payload) => ipcRenderer.invoke("aim:studio:saveRun", payload),
     renameRun: (payload) => ipcRenderer.invoke("aim:studio:renameRun", payload),
     removeRun: (id) => ipcRenderer.invoke("aim:studio:removeRun", id),
+    // Bot library: saved bot settings, by bot type (studio-store.js).
+    bots: () => ipcRenderer.invoke("aim:studio:bots"),
+    saveBot: (payload) => ipcRenderer.invoke("aim:studio:saveBot", payload),
+    renameBot: (payload) => ipcRenderer.invoke("aim:studio:renameBot", payload),
+    removeBot: (id) => ipcRenderer.invoke("aim:studio:removeBot", id),
+  },
+  hitSound: {
+    pick: () => ipcRenderer.invoke("aim:hitsound:pick"),
+    read: () => ipcRenderer.invoke("aim:hitsound:read"),
+  },
+  workshop: {
+    login: () => ipcRenderer.invoke("aim:workshop:login"),
+    status: () => ipcRenderer.invoke("aim:workshop:status"),
+    logout: () => ipcRenderer.invoke("aim:workshop:logout"),
+    avatar: () => ipcRenderer.invoke("aim:workshop:avatar"),
+    like: (code, on) => ipcRenderer.invoke("aim:workshop:like", code, on),
+    likeState: (code) => ipcRenderer.invoke("aim:workshop:likeState", code),
+    scores: (code) => ipcRenderer.invoke("aim:workshop:scores", code),
+    refresh: () => ipcRenderer.invoke("aim:workshop:refresh"),
+    submitScore: (code, round) => ipcRenderer.invoke("aim:workshop:submitScore", code, round),
+    setCover: (code, image, type) => ipcRenderer.invoke("aim:workshop:cover", code, image, type),
+    publish: (code) => ipcRenderer.invoke("aim:workshop:publish", code),
+    pending: () => ipcRenderer.invoke("aim:workshop:pending"),
+    moderate: (code, action) => ipcRenderer.invoke("aim:workshop:moderate", code, action),
+    published: () => ipcRenderer.invoke("aim:workshop:published"),
+    banned: () => ipcRenderer.invoke("aim:workshop:banned"),
+    unban: (accountId) => ipcRenderer.invoke("aim:workshop:unban", accountId),
+    preview: (code) => ipcRenderer.invoke("aim:workshop:preview", code),
+    onAuth: (callback) => {
+      const listener = (_event, result) => callback(result);
+      ipcRenderer.on("aim:workshop:auth", listener);
+      return () => ipcRenderer.removeListener("aim:workshop:auth", listener);
+    },
   },
   // Desktop frame settings (window.aimDesktop below); see main.js.
   setVsync: (on) => ipcRenderer.send("aim:shell:vsync", on === true),
+  // Slow-frame report for the round that just ended (frame-log.js).
+  frameLog: (report) => ipcRenderer.send("aim:frame-log", report),
+  logPreparationError: (report) => ipcRenderer.invoke("aim:preparation:error", report),
+  performance: {
+    start: (description) => ipcRenderer.invoke("aim:performance:start", description),
+    append: (packet) => ipcRenderer.invoke("aim:performance:append", packet),
+    last: (packet) => ipcRenderer.send("aim:performance:last", packet),
+    stop: () => ipcRenderer.invoke("aim:performance:stop"),
+    profile: (request) => ipcRenderer.invoke("aim:performance:profile", request),
+    onFlush: (callback) => ipcRenderer.on("aim:performance:flush", () => {
+      Promise.resolve().then(callback).finally(() => ipcRenderer.send("aim:performance:flushed")).catch(() => {});
+    }),
+  },
   restart: () => ipcRenderer.send("aim:shell:restart"),
 });
 

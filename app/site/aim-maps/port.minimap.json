@@ -1,0 +1,162 @@
+{
+  "map": "port",
+  "image": "port.minimap.png",
+  "transform": {
+    "scaleU": 0.0072,
+    "scaleV": 0.0072,
+    "offsetU": 0.460214,
+    "offsetV": 0.304687
+  },
+  "callouts": [
+    {
+      "id": "port:garage",
+      "name": "Garage",
+      "x": -14.25,
+      "z": 12.5
+    },
+    {
+      "id": "port:belt",
+      "name": "Belt",
+      "x": -8.5,
+      "z": 72
+    },
+    {
+      "id": "port:nest",
+      "name": "Nest",
+      "x": 9,
+      "z": 66.5
+    },
+    {
+      "id": "port:pipes",
+      "name": "Pipes",
+      "x": 4.5,
+      "z": 61.5
+    },
+    {
+      "id": "port:rafters",
+      "name": "Rafters",
+      "x": 42.5,
+      "z": 64.5
+    },
+    {
+      "id": "port:screen",
+      "name": "Screen",
+      "x": 33.25,
+      "z": 51
+    },
+    {
+      "id": "port:site",
+      "name": "Site",
+      "x": 32,
+      "z": 64
+    },
+    {
+      "id": "port:spawn",
+      "name": "Spawn",
+      "x": -44.5,
+      "z": 39.25
+    },
+    {
+      "id": "port:yellow",
+      "name": "Yellow",
+      "x": -0.25,
+      "z": -20.5
+    },
+    {
+      "id": "port:back",
+      "name": "Back",
+      "x": 42.69,
+      "z": -2.51
+    },
+    {
+      "id": "port:cubby",
+      "name": "Cubby",
+      "x": -9.75,
+      "z": -10.5
+    },
+    {
+      "id": "port:green",
+      "name": "Green",
+      "x": -7,
+      "z": 4.5
+    },
+    {
+      "id": "port:hall",
+      "name": "Hall",
+      "x": 30.5,
+      "z": -3
+    },
+    {
+      "id": "port:hut",
+      "name": "Hut",
+      "x": 44,
+      "z": 14.25
+    },
+    {
+      "id": "port:kitchen",
+      "name": "Kitchen",
+      "x": 34.04,
+      "z": 22.21
+    },
+    {
+      "id": "port:orange",
+      "name": "Orange",
+      "x": 17,
+      "z": 6.32
+    },
+    {
+      "id": "port:site-2",
+      "name": "Site",
+      "x": 25.75,
+      "z": -17.25
+    },
+    {
+      "id": "port:snowman",
+      "name": "Snowman",
+      "x": 39.6,
+      "z": -22.5
+    },
+    {
+      "id": "port:snow-pile",
+      "name": "Snow Pile",
+      "x": 25,
+      "z": 17.75
+    },
+    {
+      "id": "port:tube",
+      "name": "Tube",
+      "x": 12.75,
+      "z": 23
+    },
+    {
+      "id": "port:spawn-2",
+      "name": "Spawn",
+      "x": 70.75,
+      "z": 37.5
+    },
+    {
+      "id": "port:blue",
+      "name": "Blue",
+      "x": 9.75,
+      "z": 28.25
+    },
+    {
+      "id": "port:boiler",
+      "name": "Boiler",
+      "x": 29.25,
+      "z": 33.75
+    },
+    {
+      "id": "port:pallet",
+      "name": "Pallet",
+      "x": 17.75,
+      "z": 44.5
+    },
+    {
+      "id": "port:fence",
+      "name": "Fence",
+      "x": 35.95,
+      "z": -3.63
+    }
+  ]
+}

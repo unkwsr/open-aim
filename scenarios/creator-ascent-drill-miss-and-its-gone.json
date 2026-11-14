@@ -1,0 +1,1513 @@
+{
+ "item": {
+  "createTime": "2026-11-13 14:04:06",
+  "description": "4 bots, each one once. Bots don't shoot.",
+  "docBytes": 12861,
+  "featured": false,
+  "mapId": "ascent",
+  "name": "Ascent drill miss and its gone",
+  "parSeconds": null,
+  "playCount": 0,
+  "sceneKey": "set-a3739c3c564e4f59",
+  "shareCode": "a3739c3c564e4f59",
+  "sort": 1,
+  "status": 1,
+  "type": "aim",
+  "updateTime": "2026-11-14 07:09:27"
+ },
+ "scene": {
+  "authorNickname": "openVaim",
+  "authorUid": "creator",
+  "blockCount": 0,
+  "createTime": "2026-11-13 14:04:06",
+  "description": "4 bots, each one once. Bots don't shoot.",
+  "docBytes": 12861,
+  "name": "Ascent drill miss and its gone",
+  "playCount": 0,
+  "sceneHash": "797322603acbf4d2",
+  "sceneKey": "set-a3739c3c564e4f59",
+  "schemaVersion": 2,
+  "shareCode": "a3739c3c564e4f59",
+  "updateTime": "2026-11-14 07:09:27",
+  "aimShuffle": {
+   "groups": [
+    {
+     "actors": [
+      "actor-1",
+      "actor-1-spot2",
+      "actor-1-spot3",
+      "actor-1-spot4",
+      "actor-1-spot5",
+      "actor-1-spot6"
+     ]
+    },
+    {
+     "actors": [
+      "actor-2",
+      "actor-2-spot2",
+      "actor-2-spot3",
+      "actor-2-spot4",
+      "actor-2-spot5",
+      "actor-2-spot6",
+      "actor-2-spot7"
+     ]
+    },
+    {
+     "actors": [
+      "actor-3",
+      "actor-3-spot2",
+      "actor-3-spot3",
+      "actor-3-spot4",
+      "actor-3-spot5",
+      "actor-3-spot6",
+      "actor-3-spot7"
+     ]
+    },
+    {
+     "actors": [
+      "actor-4",
+      "actor-4-spot2",
+      "actor-4-spot3",
+      "actor-4-spot4",
+      "actor-4-spot5",
+      "actor-4-spot6",
+      "actor-4-spot7"
+     ]
+    }
+   ]
+  },
+  "doc": {
+   "schemaVersion": 2,
+   "meta": {
+    "id": "studio-610d45638620d226",
+    "name": "Ascent drill miss and its gone",
+    "seed": 1140546520,
+    "createdAt": 0
+   },
+   "environment": {
+    "skyColor": "#111820",
+    "fogNear": 14,
+    "fogFar": 33,
+    "ambientIntensity": 2,
+    "keyLightIntensity": 3,
+    "fogEnabled": false,
+    "map": "ascent"
+   },
+   "blocks": [],
+   "playerSpawn": {
+    "position": {
+     "x": -78.9,
+     "y": 3,
+     "z": -11.7
+    },
+    "yaw": 4.695
+   },
+   "spawners": [],
+   "actors": [
+    {
+     "id": "actor-1",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "harbor"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -61.9,
+         "y": 2,
+         "z": -6.1
+        },
+        {
+         "x": -61.9,
+         "y": 2,
+         "z": -10.1
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot2",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "harbor"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -61.1,
+         "y": 2,
+         "z": -5.8
+        },
+        {
+         "x": -61.1,
+         "y": 2,
+         "z": -10.5
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot3",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "harbor"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -60.4,
+         "y": 2,
+         "z": -5.7
+        },
+        {
+         "x": -60.5,
+         "y": 2,
+         "z": -10
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot4",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "harbor"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -59.9,
+         "y": 2,
+         "z": -5.3
+        },
+        {
+         "x": -59.6,
+         "y": 2,
+         "z": -10.8
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot5",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "harbor"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -59.4,
+         "y": 2,
+         "z": -5
+        },
+        {
+         "x": -59.1,
+         "y": 2,
+         "z": -10.2
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot6",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "harbor"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -58.8,
+         "y": 2,
+         "z": -4.8
+        },
+        {
+         "x": -58.8,
+         "y": 2,
+         "z": -8.8
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-2",
+     "name": "Runner 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -62,
+         "y": 2.14,
+         "z": -16.7
+        },
+        {
+         "x": -62,
+         "y": 2.07,
+         "z": -12.5
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-2-spot2",
+     "name": "Runner 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -61.3,
+         "y": 2.15,
+         "z": -16.8
+        },
+        {
+         "x": -61.3,
+         "y": 2.04,
+         "z": -13.2
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-2-spot3",
+     "name": "Runner 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -60.7,
+         "y": 2.15,
+         "z": -16.9
+        },
+        {
+         "x": -60.6,
+         "y": 2.07,
+         "z": -14
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-2-spot4",
+     "name": "Runner 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -60.2,
+         "y": 2.15,
+         "z": -17
+        },
+        {
+         "x": -60.3,
+         "y": 2.01,
+         "z": -12
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-2-spot5",
+     "name": "Runner 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -59.8,
+         "y": 2.15,
+         "z": -17.1
+        },
+        {
+         "x": -59.9,
+         "y": 2.01,
+         "z": -12.2
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-2-spot6",
+     "name": "Runner 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -59,
+         "y": 2.14,
+         "z": -17.2
+        },
+        {
+         "x": -59,
+         "y": 2.05,
+         "z": -13.6
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-2-spot7",
+     "name": "Runner 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -58.4,
+         "y": 2.12,
+         "z": -17.2
+        },
+        {
+         "x": -58.3,
+         "y": 2,
+         "z": -12.1
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-3",
+     "name": "Runner 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "killjoy"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -51.6,
+         "y": 2,
+         "z": -6.9
+        },
+        {
+         "x": -51.6,
+         "y": 2,
+         "z": -10.4
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-3-spot2",
+     "name": "Runner 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "killjoy"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -51,
+         "y": 2,
+         "z": -6.9
+        },
+        {
+         "x": -51,
+         "y": 2,
+         "z": -9.8
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-3-spot3",
+     "name": "Runner 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "killjoy"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -50.5,
+         "y": 2,
+         "z": -7.1
+        },
+        {
+         "x": -50.6,
+         "y": 2,
+         "z": -11.1
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-3-spot4",
+     "name": "Runner 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "killjoy"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -49.9,
+         "y": 2,
+         "z": -6.9
+        },
+        {
+         "x": -49.9,
+         "y": 2,
+         "z": -10
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-3-spot5",
+     "name": "Runner 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "killjoy"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -49.2,
+         "y": 2,
+         "z": -6.9
+        },
+        {
+         "x": -49.1,
+         "y": 2,
+         "z": -11.5
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-3-spot6",
+     "name": "Runner 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "killjoy"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -48.4,
+         "y": 2,
+         "z": -6.8
+        },
+        {
+         "x": -48.4,
+         "y": 2,
+         "z": -9.1
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-3-spot7",
+     "name": "Runner 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "killjoy"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -48,
+         "y": 2,
+         "z": -6.8
+        },
+        {
+         "x": -48,
+         "y": 2,
+         "z": -10.2
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-4",
+     "name": "Runner 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "jett"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -53.3,
+         "y": 2,
+         "z": -14.1
+        },
+        {
+         "x": -53.3,
+         "y": 2,
+         "z": -11.1
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-4-spot2",
+     "name": "Runner 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "jett"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -52.5,
+         "y": 2,
+         "z": -14.1
+        },
+        {
+         "x": -52.5,
+         "y": 2,
+         "z": -10.3
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-4-spot3",
+     "name": "Runner 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "jett"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -51.7,
+         "y": 2,
+         "z": -14.2
+        },
+        {
+         "x": -51.6,
+         "y": 2,
+         "z": -11.7
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-4-spot4",
+     "name": "Runner 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "jett"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -50.3,
+         "y": 2,
+         "z": -14.2
+        },
+        {
+         "x": -50.4,
+         "y": 2,
+         "z": -11.8
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-4-spot5",
+     "name": "Runner 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "jett"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -49.8,
+         "y": 2,
+         "z": -14.2
+        },
+        {
+         "x": -49.8,
+         "y": 2,
+         "z": -11.2
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-4-spot6",
+     "name": "Runner 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "jett"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -50.9,
+         "y": 2,
+         "z": -14.4
+        },
+        {
+         "x": -50.9,
+         "y": 2,
+         "z": -10.4
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-4-spot7",
+     "name": "Runner 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "jett"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -49.1,
+         "y": 2,
+         "z": -14.4
+        },
+        {
+         "x": -49,
+         "y": 2,
+         "z": -9.9
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 0.5
+        }
+       ]
+      }
+     ],
+     "health": 150
+    }
+   ],
+   "rules": {
+    "duration": 90,
+    "scoring": "clicking",
+    "weapon": "operator",
+    "playerMovable": true,
+    "fireMode": "hold"
+   },
+   "dispatchers": [
+    {
+     "id": "dispatcher-1",
+     "name": "One at a time",
+     "routes": [
+      {
+       "templateId": "actor-1",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1v4vb-4"
+      },
+      {
+       "templateId": "actor-1-spot2",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1v4vb-4"
+      },
+      {
+       "templateId": "actor-1-spot3",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1v4vb-4"
+      },
+      {
+       "templateId": "actor-1-spot4",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1v4vb-4"
+      },
+      {
+       "templateId": "actor-1-spot5",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1v4vb-4"
+      },
+      {
+       "templateId": "actor-1-spot6",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1v4vb-4"
+      },
+      {
+       "templateId": "actor-2",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vncu-5"
+      },
+      {
+       "templateId": "actor-2-spot2",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vncu-5"
+      },
+      {
+       "templateId": "actor-2-spot3",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vncu-5"
+      },
+      {
+       "templateId": "actor-2-spot4",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vncu-5"
+      },
+      {
+       "templateId": "actor-2-spot5",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vncu-5"
+      },
+      {
+       "templateId": "actor-2-spot6",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vncu-5"
+      },
+      {
+       "templateId": "actor-2-spot7",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vncu-5"
+      },
+      {
+       "templateId": "actor-3",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vyb4-6"
+      },
+      {
+       "templateId": "actor-3-spot2",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vyb4-6"
+      },
+      {
+       "templateId": "actor-3-spot3",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vyb4-6"
+      },
+      {
+       "templateId": "actor-3-spot4",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vyb4-6"
+      },
+      {
+       "templateId": "actor-3-spot5",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vyb4-6"
+      },
+      {
+       "templateId": "actor-3-spot6",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vyb4-6"
+      },
+      {
+       "templateId": "actor-3-spot7",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1vyb4-6"
+      },
+      {
+       "templateId": "actor-4",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1w2p9-7"
+      },
+      {
+       "templateId": "actor-4-spot2",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1w2p9-7"
+      },
+      {
+       "templateId": "actor-4-spot3",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1w2p9-7"
+      },
+      {
+       "templateId": "actor-4-spot4",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1w2p9-7"
+      },
+      {
+       "templateId": "actor-4-spot5",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1w2p9-7"
+      },
+      {
+       "templateId": "actor-4-spot6",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1w2p9-7"
+      },
+      {
+       "templateId": "actor-4-spot7",
+       "streak": [
+        1,
+        1
+       ],
+       "group": "bot-bot-mwf1w2p9-7"
+      }
+     ],
+     "order": "shuffle",
+     "maxAlive": 1,
+     "interval": [
+      1,
+      1.5
+     ],
+     "faceTarget": true,
+     "total": 4
+    }
+   ]
+  }
+ }
+}

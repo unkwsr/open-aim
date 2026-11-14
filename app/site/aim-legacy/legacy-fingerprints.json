@@ -1,0 +1,845 @@
+{
+ "about": "LEGACY COMPATIBILITY. Fingerprints (app/mods/aim-ui/fingerprint.mjs) of the original values that existing saves, records and Studio drills contain, each mapped to a stable id of app/mods/aim-ui/scene-ids.json. The values themselves are not stored. Read only by app/mods/aim-ui/data-labels.mjs. Built by tools/zero-chinese/fingerprint-legacy.mjs.",
+ "version": 2,
+ "actorIds": {
+  "ws-mvcnxyfd-1gew8i9": {
+   "2eeb59f5c0b94253": "ball"
+  },
+  "ws-muu1px3r-1f5cl52": {
+   "755835a8aaf0792f": "actor-1"
+  },
+  "ws-mvfjag0y-123k0eg": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "ws-munorksa-18xmtn": {
+   "b0a2383906588156": "actor-1"
+  },
+  "pw-755018942": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2",
+   "868083b6a8eab948": "actor-3",
+   "1303837bb6877269": "actor-4"
+  },
+  "pw-869627996": {
+   "3efe7a422b5ee393": "actor-1",
+   "94953a69abab9380": "actor-2"
+  },
+  "pw-2019555611": {
+   "3efe7a422b5ee393": "actor-1"
+  },
+  "pw-1182012703": {
+   "3efe7a422b5ee393": "actor-1",
+   "94953a69abab9380": "actor-2",
+   "0a7a1d33bb4f9812": "actor-3",
+   "47fe456cbc066b2b": "actor-4",
+   "ec26f3f71afedbd8": "actor-5"
+  },
+  "ws-muu3bc2y-r1fqef": {
+   "fd186fe638724f5a": "actor-1"
+  },
+  "pw-899183131": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2",
+   "868083b6a8eab948": "actor-3",
+   "1303837bb6877269": "actor-4",
+   "18adbaac1f8eff5f": "actor-5",
+   "e0c16903fe60bcd6": "actor-6"
+  },
+  "ws-mvcxh01v-1odat6j": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "ws-mv15zrap-134f28f": {
+   "054e1304611ed586": "actor-1",
+   "9faa3c45df8fe6e2": "actor-2"
+  },
+  "pw-424fd9d76f201fd9": {
+   "3efe7a422b5ee393": "actor-1"
+  },
+  "ws-mva6mf8n-170i77m": {
+   "054e1304611ed586": "actor-1",
+   "9faa3c45df8fe6e2": "actor-2"
+  },
+  "pw-1508660061": {
+   "3efe7a422b5ee393": "actor-1"
+  },
+  "pw-1752112722": {
+   "868083b6a8eab948": "actor-3"
+  },
+  "ws-mutrp3yc-1hzr16v": {
+   "be6585d4d88721d1": "actor-1"
+  },
+  "ws-mv9ppmmk-1usp51e": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "ws-mv8i87bq-jges3m": {
+   "58da6f809aad8763": "actor-1",
+   "b15c93a8800aefca": "actor-2",
+   "e21f62e22a3deda8": "actor-3"
+  },
+  "scene-463988257": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2"
+  },
+  "ws-mvfft52w-1ozl5cm": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "scene-769102058": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2"
+  },
+  "pw-1756620947": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2",
+   "0a7a1d33bb4f9812": "actor-4",
+   "aff2c5b799e5ddc7": "actor-3",
+   "868083b6a8eab948": "actor-5"
+  },
+  "ws-mugq2hu1-1we5yz3": {
+   "ae8c16f689229be3": "actor-1",
+   "7e16575f74f58ecf": "actor-2",
+   "eb5e7ce074c3dcb8": "actor-3",
+   "e2bc250beb802f12": "actor-4",
+   "fb3e0c1adf7d1ee7": "actor-5",
+   "cdedadeceb436aa3": "actor-6",
+   "16ec7418412a4336": "actor-7",
+   "f4a23e942d9d7017": "actor-8",
+   "f0350e6e03cb4534": "actor-9"
+  },
+  "pw-1873679696": {
+   "3efe7a422b5ee393": "actor-1"
+  },
+  "pw-1688156956": {
+   "3efe7a422b5ee393": "actor-1"
+  },
+  "ws-muu3aee1-1n17v93": {
+   "7ce27480b945bb0c": "actor-1"
+  },
+  "ws-muxsvcvz-12g70k7": {
+   "3efe7a422b5ee393": "actor-1",
+   "94953a69abab9380": "actor-2"
+  },
+  "pw-775944537": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2",
+   "868083b6a8eab948": "actor-3",
+   "05394051193286eb": "actor-5",
+   "1303837bb6877269": "actor-4"
+  },
+  "ws-mv9esh0t-142yps3": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "pw-1627613241": {
+   "3efe7a422b5ee393": "actor-1"
+  },
+  "pw-1260999893": {
+   "4d84c0cf5fa286ca": "actor-1"
+  },
+  "ws-mv9eu3kx-m0kwj7": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "ws-mvfj9xxl-1rg5o23": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "ws-muwqvg40-4ynsov": {
+   "b0a2383906588156": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2",
+   "87cde588a36508dc": "actor-3"
+  },
+  "ws-mv0tcdkq-axlntw": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2",
+   "e127c73cadca74b8": "actor-3"
+  },
+  "pw-959308223": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2",
+   "868083b6a8eab948": "actor-3",
+   "1303837bb6877269": "actor-4",
+   "18adbaac1f8eff5f": "actor-5",
+   "e0c16903fe60bcd6": "actor-6",
+   "2a0b61efc88c060e": "actor-7",
+   "f9ac29d511d53031": "actor-8",
+   "ba9dd73a2243e752": "actor-9",
+   "4b9b80472fa96868": "actor-10",
+   "d2378b5e37ec6f9d": "actor-11",
+   "3d512c2541aa64a3": "actor-12",
+   "baece9f575bd9c75": "actor-13",
+   "6e1d849ad89f50fe": "actor-14",
+   "6bd223fb2c57c5a6": "actor-15",
+   "a41edd2b17a216d5": "actor-16",
+   "0ed472a7b316c82f": "actor-17",
+   "ebcc523597c797de": "actor-18",
+   "c0172e91ef177193": "actor-19",
+   "33e588eba5adbe25": "actor-20",
+   "7d9a7c20dc20048a": "actor-21",
+   "c2b60387474177d8": "actor-22",
+   "9a071e7cc53b5afb": "actor-23",
+   "8d3de2b30d012466": "actor-24",
+   "4b3babc0bee60da8": "actor-25"
+  },
+  "ws-mugpqqk4-cjciq3": {
+   "02f315c34a36118a": "actor-1",
+   "248e3b89ce986f84": "actor-2",
+   "b7eb711229f98edc": "actor-3",
+   "5374e9f911872541": "actor-4",
+   "b1699c5a03c5582b": "actor-5",
+   "f9163e3ada953c52": "actor-6",
+   "a178ec1e4d671f3a": "actor-7",
+   "ab59d3c0d8af1461": "actor-8",
+   "3a6b4064fb980a93": "actor-9",
+   "34702719e0398efe": "actor-10",
+   "133236c4607f022e": "actor-11",
+   "d2dc2e9d71749eb6": "actor-12",
+   "debe61f108498b18": "actor-13",
+   "50eb7eed272c4b00": "actor-14",
+   "fd0fc65d5a126a54": "actor-15",
+   "db5ec3026037269c": "actor-16",
+   "711b34593fbcd0c9": "actor-17"
+  },
+  "pw-643392342": {
+   "032bfaadd4c95c20": "actor-1",
+   "924130f39a9dc77a": "actor-2",
+   "9f4243886d9a5972": "actor-3",
+   "321fe8f6da810e6d": "actor-4",
+   "433fccc10b2f1d63": "actor-5",
+   "2dd034e24c86501f": "actor-6"
+  },
+  "pw-2142183629": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2",
+   "868083b6a8eab948": "actor-3",
+   "1303837bb6877269": "actor-4",
+   "18adbaac1f8eff5f": "actor-5"
+  },
+  "ws-mva3kkn2-sk3aho": {
+   "054e1304611ed586": "actor-1",
+   "9faa3c45df8fe6e2": "actor-2"
+  },
+  "ws-munoqqfi-1hge385": {
+   "b0a2383906588156": "actor-1"
+  },
+  "pw-692362090": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2"
+  },
+  "pw-921046545": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2",
+   "7bb8f87916fc7b79": "actor-3",
+   "1303837bb6877269": "actor-4",
+   "94bde1d510bb402d": "actor-5",
+   "868083b6a8eab948": "actor-6"
+  },
+  "pw-1298006260": {
+   "3efe7a422b5ee393": "actor-1"
+  },
+  "ws-mur5hmk9-1m45dgv": {
+   "62435c0d62ddab00": "actor-1"
+  },
+  "ws-mve6b7o8-13i304l": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "ws-mv8i74mo-1vtq24j": {
+   "58da6f809aad8763": "actor-1",
+   "b15c93a8800aefca": "actor-2"
+  },
+  "pw-1222324257": {
+   "032bfaadd4c95c20": "actor-1",
+   "fc02b576cd581b59": "actor-2",
+   "5e2cde22f19d4189": "actor-3",
+   "321fe8f6da810e6d": "actor-4",
+   "2b83dc135481e419": "actor-5"
+  },
+  "ws-mvejdnk3-xf47rx": {
+   "2eeb59f5c0b94253": "ball"
+  },
+  "pw-1682923661": {
+   "a992a5f338f3c6de": "actor-1",
+   "d6f8a24eeec2ae2b": "actor-6",
+   "a9dc937dd1661ba6": "actor-2",
+   "2dd034e24c86501f": "actor-3",
+   "2b83dc135481e419": "actor-4"
+  },
+  "ws-mv8jpoyn-d9jxyn": {
+   "58da6f809aad8763": "actor-1",
+   "b15c93a8800aefca": "actor-2"
+  },
+  "ws-muxsursn-iw6qvu": {
+   "3efe7a422b5ee393": "actor-1",
+   "94953a69abab9380": "actor-2"
+  },
+  "ws-mv5ek7vw-1ecerpw": {
+   "7c67742ffc2857c3": "actor-1",
+   "b15c93a8800aefca": "actor-2"
+  },
+  "pw-2043264989": {
+   "3efe7a422b5ee393": "actor-1",
+   "94953a69abab9380": "actor-3"
+  },
+  "pw-1809194210": {
+   "3efe7a422b5ee393": "actor-1"
+  },
+  "ws-munofixe-1qygwcm": {
+   "8dbda5ea6994053f": "actor-1"
+  },
+  "ws-muu1p8cn-x5flf2": {
+   "b0a2383906588156": "actor-1"
+  },
+  "ws-mvcxhp55-75wfve": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "ws-munyg1t1-14rl4re": {
+   "032bfaadd4c95c20": "actor-1",
+   "2dd034e24c86501f": "actor-2",
+   "eb6ae21ae768f82e": "actor-3",
+   "0acde824aa792327": "actor-4",
+   "2b83dc135481e419": "actor-5"
+  },
+  "ws-muvaza0j-19rkfhj": {
+   "7ce27480b945bb0c": "actor-1",
+   "34c9786c1bbc8a97": "actor-2",
+   "b15c93a8800aefca": "actor-3"
+  },
+  "pw-1910264600": {
+   "3efe7a422b5ee393": "actor-1",
+   "94953a69abab9380": "actor-3",
+   "0a7a1d33bb4f9812": "actor-4"
+  },
+  "ws-muqvtair-1o8n7fs": {
+   "dba9b029e6a83147": "actor-1",
+   "c5f51d690e62fc17": "actor-2"
+  },
+  "ws-muuavo7p-1ux6g8o": {
+   "7ce27480b945bb0c": "actor-1",
+   "a3ba8bd606841352": "actor-2",
+   "db68b90bda8d9162": "actor-3"
+  },
+  "ws-mvdr4tmz-r4i5k6": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "pw-1615171942": {
+   "3efe7a422b5ee393": "actor-1",
+   "94953a69abab9380": "actor-2",
+   "0a7a1d33bb4f9812": "actor-5",
+   "47fe456cbc066b2b": "actor-6"
+  },
+  "ws-mv9pqdgx-n9guwo": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "pw-808093881": {
+   "8ec332e5ab5100dd": "ball"
+  },
+  "ws-mva3lbcw-qrnxxm": {
+   "054e1304611ed586": "actor-1",
+   "9faa3c45df8fe6e2": "actor-2"
+  },
+  "ws-muwqrmao-1yhtz4q": {
+   "b0a2383906588156": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2",
+   "87cde588a36508dc": "actor-3"
+  },
+  "pw-1653953919": {
+   "0ecbe24fcec43a4b": "actor-1",
+   "3ed8ea958e4d4b41": "actor-2",
+   "82d3422b61621810": "actor-3",
+   "420de816e02b8bef": "actor-4",
+   "2b83dc135481e419": "actor-5",
+   "191106290c9e99f8": "actor-6",
+   "3af6f4eb724cfb00": "actor-7",
+   "15c6dfaaf19c5d4d": "actor-8",
+   "9270f9eb5bb6e1e3": "actor-9",
+   "79a3577d0d2043a1": "actor-10",
+   "b3f5ee22f90473ef": "actor-11",
+   "709112376cdc9d6c": "actor-12",
+   "4b451c9a85779188": "actor-13",
+   "270fd827433fa97e": "actor-14",
+   "de90104c1c96a673": "actor-15",
+   "3fddacda0d179484": "actor-16"
+  },
+  "ws-mugpzo5b-1v7s6mt": {
+   "2eb2dbc85d38edac": "actor-1"
+  },
+  "ws-mugpz2un-1vonzom": {
+   "b209a96f557350dd": "actor-1"
+  },
+  "ws-muren0u9-ju78jn": {
+   "420de816e02b8bef": "actor-1",
+   "2b83dc135481e419": "actor-2",
+   "22dffa9bad07ee20": "actor-3",
+   "4b451c9a85779188": "actor-4",
+   "256d6efdbc8614ef": "actor-5"
+  },
+  "ws-mvdr42ap-18tvd5r": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "ws-murzzj1d-aflqu2": {
+   "62435c0d62ddab00": "actor-1"
+  },
+  "pw-319713089": {
+   "3efe7a422b5ee393": "actor-1"
+  },
+  "pw-1969455606": {
+   "d6f8a24eeec2ae2b": "actor-1",
+   "5b7dc954c49c6df9": "actor-2",
+   "c538fa69853fdf66": "actor-3"
+  },
+  "ws-muvezuw0-13uo6xy": {
+   "ff488bb2def63ffd": "actor-1",
+   "329ef1210ee05e36": "actor-2",
+   "cb4e4bdaed65b85f": "actor-3",
+   "79ca63e4efe9cb41": "actor-4"
+  },
+  "ws-mve6c011-movdit": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "ws-mvfipy68-jptk45": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "ws-munog3n1-p61dwj": {
+   "3030a539687e2824": "actor-1"
+  },
+  "ws-mvfiqxzz-1fhvh7s": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "pw-1564860881": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2",
+   "868083b6a8eab948": "actor-3"
+  },
+  "pw-549816817": {
+   "f6cae940d481c956": "actor-1",
+   "3efe7a422b5ee393": "actor-2"
+  },
+  "ws-mva6nh9c-x27flv": {
+   "054e1304611ed586": "actor-1",
+   "9faa3c45df8fe6e2": "actor-2"
+  },
+  "ws-mur5j295-jdqdsi": {
+   "62435c0d62ddab00": "actor-1"
+  },
+  "ws-muv4fwkq-acg1z2": {
+   "b0a2383906588156": "actor-1",
+   "e879b05719750c14": "actor-2",
+   "2f39f5f3e0bc5657": "actor-3"
+  },
+  "pw-1869282508": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2"
+  },
+  "ws-muvb0cp4-g517tu": {
+   "7ce27480b945bb0c": "actor-1",
+   "34c9786c1bbc8a97": "actor-2",
+   "b15c93a8800aefca": "actor-3"
+  },
+  "ws-mugq1wfj-ui0iwr": {
+   "ae8c16f689229be3": "actor-1",
+   "7e16575f74f58ecf": "actor-2",
+   "eb5e7ce074c3dcb8": "actor-3",
+   "e2bc250beb802f12": "actor-4",
+   "fb3e0c1adf7d1ee7": "actor-5",
+   "cdedadeceb436aa3": "actor-6",
+   "16ec7418412a4336": "actor-7",
+   "f4a23e942d9d7017": "actor-8",
+   "f0350e6e03cb4534": "actor-9"
+  },
+  "ws-muv4h48o-1j7cqpj": {
+   "755835a8aaf0792f": "actor-1",
+   "e879b05719750c14": "actor-2",
+   "2f39f5f3e0bc5657": "actor-3"
+  },
+  "ws-mva8cx8h-4byro8": {
+   "2b83dc135481e419": "actor-3"
+  },
+  "ws-mv0tdetx-g3bfs": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2",
+   "e127c73cadca74b8": "actor-3"
+  },
+  "pw-943640846": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2"
+  },
+  "ws-mv160gkx-ms265c": {
+   "054e1304611ed586": "actor-1",
+   "9faa3c45df8fe6e2": "actor-2"
+  },
+  "ws-mv5eivt2-17yp4xw": {
+   "7c67742ffc2857c3": "actor-1",
+   "b15c93a8800aefca": "actor-2"
+  },
+  "ws-mv8jqt5w-1n4vs8z": {
+   "58da6f809aad8763": "actor-1",
+   "b15c93a8800aefca": "actor-2"
+  },
+  "ws-mutiibpl-b10r1h": {
+   "709756c5a7883a29": "actor-1",
+   "1c3ca2b4e2d94530": "actor-2",
+   "804d27691531197a": "actor-3",
+   "4e545762ecfdd434": "actor-4",
+   "9608ca909c9226c9": "actor-5",
+   "b53dd20d1cbcce66": "actor-6",
+   "b7f3117c06681a54": "actor-7"
+  },
+  "ws-muwsyjzm-14awhff": {
+   "b0a2383906588156": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "pw-536888356": {
+   "3efe7a422b5ee393": "actor-1"
+  },
+  "pw-1628593417": {
+   "3efe7a422b5ee393": "actor-1",
+   "94953a69abab9380": "actor-3"
+  },
+  "ws-mv8mn7bm-1jb66v5": {
+   "e29313db61a0b1be": "actor-1",
+   "08e2557fecdd6662": "actor-2",
+   "7192ef37175ee6ef": "actor-3",
+   "a68d7414aa21d3c5": "actor-4"
+  },
+  "pw-1596180776": {
+   "3efe7a422b5ee393": "actor-1",
+   "94953a69abab9380": "actor-21"
+  },
+  "ws-muwszjzo-1qn1gmw": {
+   "755835a8aaf0792f": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "ws-mugps7y1-hda9n2": {
+   "02f315c34a36118a": "actor-1",
+   "248e3b89ce986f84": "actor-2",
+   "b7eb711229f98edc": "actor-3",
+   "5374e9f911872541": "actor-4",
+   "b1699c5a03c5582b": "actor-5",
+   "f9163e3ada953c52": "actor-6",
+   "a178ec1e4d671f3a": "actor-7",
+   "ab59d3c0d8af1461": "actor-8",
+   "3a6b4064fb980a93": "actor-9",
+   "34702719e0398efe": "actor-10",
+   "133236c4607f022e": "actor-11",
+   "d2dc2e9d71749eb6": "actor-12",
+   "debe61f108498b18": "actor-13",
+   "50eb7eed272c4b00": "actor-14",
+   "fd0fc65d5a126a54": "actor-15",
+   "db5ec3026037269c": "actor-16",
+   "711b34593fbcd0c9": "actor-17"
+  },
+  "ws-muuawknr-1j9e6yh": {
+   "fd186fe638724f5a": "actor-1",
+   "c918da0c197d5e7d": "actor-2",
+   "1a0706a844a923f4": "actor-3"
+  },
+  "pw-1924996597": {
+   "321fe8f6da810e6d": "actor-1",
+   "3ed8ea958e4d4b41": "actor-2",
+   "0787a12c57bd9a63": "actor-3"
+  },
+  "ws-munobp38-s1yre4": {
+   "933869fcab8cea70": "actor-1"
+  },
+  "ws-mvekhx2o-14y1h7x": {
+   "3efe7a422b5ee393": "actor-1"
+  },
+  "ws-munoarzu-16vsajh": {
+   "e8486bcc3f035e17": "actor-1"
+  },
+  "pw-430657352": {
+   "e9759c637231692b": "actor-1",
+   "a932a0bd53a79b82": "actor-2"
+  },
+  "pw-1635559922": {
+   "e0c688cc8e0d4f11": "actor-1"
+  },
+  "pw-971599870": {
+   "3efe7a422b5ee393": "actor-1",
+   "94953a69abab9380": "actor-21",
+   "0a7a1d33bb4f9812": "actor-8",
+   "47fe456cbc066b2b": "actor-30",
+   "ec26f3f71afedbd8": "actor-22",
+   "cf36587fa0fe8b9b": "actor-29",
+   "19b5f6f59fc97eca": "actor-16"
+  },
+  "pw-2055529178": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2",
+   "868083b6a8eab948": "actor-3"
+  },
+  "pw-9ae9f9241c859360": {
+   "3efe7a422b5ee393": "actor-1",
+   "94953a69abab9380": "actor-2",
+   "26c482b64cd2f090": "actor-3"
+  },
+  "ws-mutrpqkk-1faarzo": {
+   "d53f0f940983cf10": "actor-1"
+  },
+  "ws-mvfftyaw-1b5jaq2": {
+   "054e1304611ed586": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "pw-169544635": {
+   "868083b6a8eab948": "actor-3",
+   "3efe7a422b5ee393": "actor-5",
+   "26c482b64cd2f090": "actor-7"
+  },
+  "pw-2053794313": {
+   "a992a5f338f3c6de": "actor-1",
+   "3ed8ea958e4d4b41": "actor-3",
+   "4861924820816095": "actor-4",
+   "d314cb9d6e376ae6": "actor-5",
+   "d6f8a24eeec2ae2b": "actor-2"
+  },
+  "ws-muvhpu2c-1tldn9v": {
+   "58da6f809aad8763": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2",
+   "3a503961c4d919d1": "actor-3"
+  },
+  "ws-muvhqle0-fje1x0": {
+   "58da6f809aad8763": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2",
+   "3a503961c4d919d1": "actor-3"
+  },
+  "pw-2086442423": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2",
+   "868083b6a8eab948": "actor-3",
+   "05394051193286eb": "actor-4",
+   "6614d8401bfb46b4": "actor-5"
+  },
+  "set-302e62f3a8d1d437": {
+   "3efe7a422b5ee393": "actor-1",
+   "26c482b64cd2f090": "actor-2",
+   "868083b6a8eab948": "actor-3",
+   "05394051193286eb": "actor-4",
+   "6614d8401bfb46b4": "actor-5"
+  },
+  "set-2095160b573015ec": {
+   "e29313db61a0b1be": "actor-1",
+   "08e2557fecdd6662": "actor-2",
+   "7192ef37175ee6ef": "actor-3",
+   "a68d7414aa21d3c5": "actor-4"
+  },
+  "set-abf3e47e87da2b0b": {
+   "a992a5f338f3c6de": "actor-1",
+   "3ed8ea958e4d4b41": "actor-3",
+   "4861924820816095": "actor-4",
+   "d314cb9d6e376ae6": "actor-5",
+   "d6f8a24eeec2ae2b": "actor-2"
+  },
+  "set-112bc51af7b16caf": {
+   "d6f8a24eeec2ae2b": "actor-1",
+   "5b7dc954c49c6df9": "actor-2",
+   "c538fa69853fdf66": "actor-3"
+  },
+  "set-2dac73f7516ac452": {
+   "ff488bb2def63ffd": "actor-1",
+   "329ef1210ee05e36": "actor-2",
+   "cb4e4bdaed65b85f": "actor-3",
+   "79ca63e4efe9cb41": "actor-4"
+  },
+  "set-f87519dadb098fa5": {
+   "709756c5a7883a29": "actor-1",
+   "1c3ca2b4e2d94530": "actor-2",
+   "804d27691531197a": "actor-3",
+   "4e545762ecfdd434": "actor-4",
+   "9608ca909c9226c9": "actor-5",
+   "b53dd20d1cbcce66": "actor-6",
+   "b7f3117c06681a54": "actor-7"
+  },
+  "set-b6d26bc36aab936c": {
+   "054e1304611ed586": "actor-1",
+   "9faa3c45df8fe6e2": "actor-2"
+  },
+  "set-377921a685c761aa": {
+   "054e1304611ed586": "actor-1",
+   "9faa3c45df8fe6e2": "actor-2"
+  },
+  "set-4bbed18893e7142f": {
+   "054e1304611ed586": "actor-1",
+   "9faa3c45df8fe6e2": "actor-2"
+  },
+  "set-382004b0566223b7": {
+   "054e1304611ed586": "actor-1",
+   "9faa3c45df8fe6e2": "actor-2"
+  },
+  "set-0bde7807c506db39": {
+   "7c67742ffc2857c3": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  },
+  "set-03bd24fedb5bcd4c": {
+   "7c67742ffc2857c3": "actor-1",
+   "2f39f5f3e0bc5657": "actor-2"
+  }
+ },
+ "tunableDefaults": {
+  "radius": "c139806c8a07d85a",
+  "distance": "d524834046ec12e9",
+  "maxAlive": "788c78866cfdd5f7",
+  "spacing": "175b430b86c67aeb",
+  "spacingX": "a55f229ab3264ad7",
+  "spacingY": "091139daf25d8df0",
+  "width": "0ab9832474a3b43a",
+  "height": "16d18cbc69490507",
+  "spawnDelay": "8b1af3242d3f380c",
+  "duration": "bcee90626e46d0a2",
+  "sway.frequency": "728ed597d475a42d",
+  "jump.height": "2ab7a026ac97b095",
+  "jump.interval": "c89704e6715ac779",
+  "decay.lifetime": "385721d173b41623",
+  "strafe.speed": "46ca77f783ec2238",
+  "strafe.travel": "461cd9caa1fb8152",
+  "dispatcher.stay": "0bdbad8c5882d8be",
+  "dispatcher.maxAlive": "788c78866cfdd5f7",
+  "dispatcher.total": "282709e3b58642a3"
+ },
+ "botKinds": {
+  "f6cae940d481c956": "bot",
+  "054e1304611ed586": "static-bot",
+  "ceb6561cae0ca91e": "moving-bot",
+  "34c9786c1bbc8a97": "moving-bot",
+  "2f39f5f3e0bc5657": "crouching-bot",
+  "755835a8aaf0792f": "static-shooting-bot",
+  "b0a2383906588156": "static-non-shooting-bot",
+  "67b7b46c36749424": "non-respawning-shooting-bot",
+  "e4e766300d71ae42": "non-respawning-non-shooting-bot",
+  "da6b920d160b2ef0": "non-respawning-shooting-bot",
+  "f4daf670fe77824a": "non-respawning-non-shooting-bot",
+  "0aade5d18a1de1ab": "non-respawning-shooting-bot",
+  "f16acd90c662a846": "non-respawning-static-bot",
+  "44023fee17009c77": "strafing-bot",
+  "87cde588a36508dc": "strafe-shooting-bot",
+  "e21f62e22a3deda8": "jiggle-strafe-shooting-bot",
+  "e879b05719750c14": "peeking-bot",
+  "0ce8f4d3a18c4255": "static-shooting-bot-jumping",
+  "5c9a1a1200cea461": "static-shooting-bot-crouching",
+  "4e94c1cdaa02df47": "static-non-shooting-bot-jumping",
+  "d2595af38dcedc1b": "static-non-shooting-bot-crouching",
+  "efe7918c086ca8ee": "a-main-flash-bot",
+  "b234322cb4ea223d": "a-short-flash-bot",
+  "b809ec0954b406d2": "a-main-tracking-bot",
+  "6f8271b974d212ec": "a-short-tracking-bot",
+  "7192ef37175ee6ef": "site-bot",
+  "a68d7414aa21d3c5": "site-bot-2",
+  "2eeb59f5c0b94253": "red-target",
+  "8ec332e5ab5100dd": "green-target",
+  "4d84c0cf5fa286ca": "target",
+  "924130f39a9dc77a": "camera",
+  "a992a5f338f3c6de": "entry",
+  "7bb8f87916fc7b79": "slow-left-peek",
+  "94bde1d510bb402d": "jump-peek-right",
+  "dba9b029e6a83147": "left-1",
+  "c5f51d690e62fc17": "right-1",
+  "709756c5a7883a29": "left-1-wide-swing",
+  "1c3ca2b4e2d94530": "left-1-tight-swing",
+  "804d27691531197a": "iso-crouch-swing",
+  "9608ca909c9226c9": "phoenix-flash",
+  "b53dd20d1cbcce66": "reyna-flash-swing",
+  "032bfaadd4c95c20": "cypher",
+  "4e545762ecfdd434": "sage-re-swing",
+  "b7f3117c06681a54": "chamber-jump-swing",
+  "4861924820816095": "initiator",
+  "d314cb9d6e376ae6": "sentry",
+  "e29313db61a0b1be": "bot-1",
+  "3f3b4b1d73f0f0be": "bot-2",
+  "5b7dc954c49c6df9": "bot-2",
+  "e0c688cc8e0d4f11": "bot-1",
+  "50eb7eed272c4b00": "bot-14",
+  "db5ec3026037269c": "bot-16",
+  "711b34593fbcd0c9": "bot-17"
+ },
+ "agents": {
+  "c293f0c6fb507ba5": "astra",
+  "0ecbe24fcec43a4b": "breach",
+  "df7ad38d094faa84": "brimstone",
+  "7fb16c01f4b96039": "chamber",
+  "420de816e02b8bef": "chamber",
+  "433fccc10b2f1d63": "clove",
+  "22dffa9bad07ee20": "cypher",
+  "177fe75c33384b63": "deadlock",
+  "0acde824aa792327": "deadlock",
+  "5e2cde22f19d4189": "fade",
+  "9f4243886d9a5972": "gekko",
+  "365469198099fd45": "harbor",
+  "a5365e09f46a852d": "iso",
+  "321fe8f6da810e6d": "jett",
+  "e9759c637231692b": "killjoy",
+  "908407c275c705b0": "miks",
+  "4b451c9a85779188": "neon",
+  "2b83dc135481e419": "omen",
+  "82d3422b61621810": "phoenix",
+  "d6f8a24eeec2ae2b": "phoenix",
+  "13eec23271fefc6b": "raze",
+  "a932a0bd53a79b82": "raze",
+  "3ed8ea958e4d4b41": "reyna",
+  "c538fa69853fdf66": "reyna",
+  "0787a12c57bd9a63": "sage",
+  "256d6efdbc8614ef": "skye",
+  "2dd034e24c86501f": "sova",
+  "42fcfcc66e998155": "tejo",
+  "d681fec1681b64e7": "veto",
+  "94997102348b8dd8": "viper",
+  "a9dc937dd1661ba6": "vyse",
+  "40b4a1a80cbe6168": "waylay",
+  "eb6ae21ae768f82e": "yoru"
+ },
+ "places": {
+  "3f022ecbc4d9a5ce": "a-short",
+  "3309d0333aeff496": "a-lobby",
+  "f7e8db17f1808c52": "a-main",
+  "eb650a0f3448d53b": "mid",
+  "a43f0f99e2d68386": "market",
+  "36128b8f7e6657b2": "ct-spawn",
+  "8ea738c0a29f315e": "dock"
+ },
+ "template": {
+  "prefixLength": 5,
+  "prefix": "39368d8a2c8387b7",
+  "copySuffixLength": 3,
+  "copySuffix": "705571c23e00a457"
+ },
+ "difficultyPrefix": {
+  "about": "Old record / scene names start with a difficulty word and a separator; see data-labels.mjs difficultyPrefix().",
+  "labels": [
+   {
+    "length": 2,
+    "word": "99c49f2547eb1ed4",
+    "id": "easy"
+   },
+   {
+    "length": 2,
+    "word": "22fd6cb159f6c125",
+    "id": "medium"
+   },
+   {
+    "length": 2,
+    "word": "1b0738d6cf8a05ed",
+    "id": "medium"
+   },
+   {
+    "length": 2,
+    "word": "d8f5ac8e74c6f37b",
+    "id": "hard"
+   }
+  ],
+  "separators": [
+   "587bb4aaf2c66c32",
+   "a0163174ca550d0b",
+   "3604db9f92663e38",
+   "0bea70585d8c0713"
+  ]
+ }
+}

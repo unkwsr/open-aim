@@ -6,8 +6,9 @@ import { arenaBlocks, surfaceFor, darkArena, targetColor } from './arena.js';
 import { dimensions, wallDepth } from './transform.js';
 import { aimApplySurface, aimSurfaceSpec } from '/_assets/r20261021-1/next/js/CnrSARj_.js';
 import { loadDetailedMap } from './detailed-map.js';
+import { agentModel, agentModelNow } from './agent-models.js';
 
-const RED = 0xe0646f, RED_SHOOT = 0xff4655, GREEN = 0x4ade80, ORANGE = 0xffb547, TEAL = 0x2fe0c8, AIR = 0x7fd8ff;
+const RED = 0xe0646f, RED_SHOOT = 0xff4655, GREEN = 0x4ade80, ORANGE = 0xffb547, TEAL = 0x2fe0c8, AIR = 0x7fd8ff, SPOT = 0xb98cff;
 const rad = (d) => (d * Math.PI) / 180;
 
 export function createView3D(container, { redraw = () => {} } = {}) {
@@ -37,6 +38,15 @@ export function createView3D(container, { redraw = () => {} } = {}) {
 
   const orbit = { target: new THREE.Vector3(), dist: 30, yaw: 0, pitch: rad(50) };
   let W = 1, H = 1, key = "", worldKey = "";
+  // The detailed map this view shows. The map is shared between views (detailed-map.js caches
+  // it), so the view on screen takes it back when it draws.
+  let shownMap = null;
+  // Detailed view: bots show the game's character model instead of the red pill.
+  let showModels = false;
+  // Map box, pillar and ledge tops: clicked onto (never drawn) so things can go on top of them.
+  let tops = null;
+  const HIDDEN = new THREE.MeshBasicMaterial({ colorWrite: false, depthWrite: false });
+  HIDDEN.userData.studioShared = true;
   const pickables = []; // meshes with userData.hit
   const surfaces = []; // meshes you can place things on
   let bots = new Map(); // id -> { group, y } for the preview
@@ -124,6 +134,16 @@ export function createView3D(container, { redraw = () => {} } = {}) {
     if (k === worldKey) return;
     worldKey = k;
     detail.clear();
+    shownMap = null;
+    if (showModels !== !!(map && detailed)) { showModels = !!(map && detailed); key = ""; }
+    if (tops) { tops.geometry.dispose(); tops = null; }
+    if (map && map.topTris && map.topTris.length) {
+      const g = new THREE.BufferGeometry();
+      g.setAttribute("position", new THREE.BufferAttribute(map.topTris, 3));
+      g.computeBoundingSphere();
+      tops = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }));
+      tops.updateMatrixWorld(true);
+    }
     // The game's map shaders expect the game's own fog; the editor fog would black them out.
     scene.fog = map && detailed ? null : editorFog;
     status.hidden = true;
@@ -137,7 +157,7 @@ export function createView3D(container, { redraw = () => {} } = {}) {
         if (block.id !== 'ground') { material.transparent = true; material.opacity = .3; material.depthWrite = false; }
         const mesh = new THREE.Mesh(new THREE.BoxGeometry(block.size.x, block.size.y, block.size.z), material);
         mesh.position.set(block.position.x, block.position.y, block.position.z);
-        mesh.userData.surface = true;
+        mesh.userData.surface = true; mesh.userData.aimHit = true;
         world.add(mesh); if (block.id === 'ground') surfaces.push(mesh);
       }
       return;
@@ -149,6 +169,7 @@ export function createView3D(container, { redraw = () => {} } = {}) {
       g.setAttribute("position", new THREE.BufferAttribute(arr, 3));
       g.computeVertexNormals();
       const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ color, roughness: 1, side: THREE.DoubleSide, flatShading: true, ...(seeThrough ? { transparent: true, opacity: 0.35, depthWrite: false } : {}) }));
+      m.userData.aimHit = true; // walls/floors a Yoru flash can be aimed at (hitPoint)
       world.add(m);
       return m;
     };
@@ -168,7 +189,8 @@ export function createView3D(container, { redraw = () => {} } = {}) {
       try { await compileShaders(group, live); } catch (error) { console.warn("Detailed map shaders:", error); }
       if (!live()) return;
       step("Uploading map to the GPU…");
-      if (!(await warmUp(group, live))) return;
+      if (!(await warmUp(group, live))) { if (group.parent === detail) detail.remove(group); return; }
+      shownMap = group;
       for (const m of world.children) m.material.visible = false;
       status.hidden = true;
       redraw();
@@ -232,7 +254,7 @@ export function createView3D(container, { redraw = () => {} } = {}) {
   function surfaceMaterial(spec, extra = {}) {
     return sharedMaterial('surface:' + JSON.stringify([spec, extra]), () => {
       const material = new THREE.MeshStandardMaterial({ color: spec.color, roughness: .8, ...extra });
-      if (spec.surface) aimApplySurface(material, aimSurfaceSpec(spec.color, { pattern: spec.surface, seam: spec.surfaceSeam, scale: spec.surfaceScale, simple: spec.surfaceStyle === 'squares' }));
+      if (spec.surface) aimApplySurface(material, aimSurfaceSpec(spec.color, { pattern: spec.surface, seam: spec.surfaceSeam, scale: spec.surfaceScale, simple: spec.surfaceStyle === 'squares', industrial: spec.surfaceStyle?.startsWith('industrial'), industrialGrid: spec.surfaceStyle === 'industrial-grid' }));
       return material;
     });
   }
@@ -245,16 +267,44 @@ export function createView3D(container, { redraw = () => {} } = {}) {
     things.add(m);
     return m;
   }
+  // studio-arrow-handles: a resize handle is an arrow (shaft + head) pointing the way it grows the thing.
+  // Both meshes answer the same hit; the group carries it too, so moveSelected() shifts its origin.
+  const ARROW_SHAFT = () => new THREE.CylinderGeometry(.055, .055, .5, 8).translate(0, .25, 0);
+  const ARROW_HEAD = () => new THREE.ConeGeometry(.19, .42, 14).translate(0, .71, 0);
+  function arrowHandle(x, y, z, dir, color, hit, scale = 1, centered = false) {
+    const material = sharedMaterial('arrow:' + color, () => new THREE.MeshBasicMaterial({ color, depthTest: false, depthWrite: false }));
+    const group = new THREE.Group();
+    group.add(pickable(new THREE.Mesh(sharedGeometry('arrow-shaft', ARROW_SHAFT), material), hit));
+    group.add(pickable(new THREE.Mesh(sharedGeometry('arrow-head', ARROW_HEAD), material), hit));
+    for (const m of group.children) { m.renderOrder = 10; if (centered) m.position.y = -.46; } // centered: the middle sits on (x, y, z)
+    group.userData.hit = hit;
+    group.userData.arrow = scale; // render() scales it with the camera distance
+    group.position.set(x, y, z);
+    group.scale.setScalar(scale);
+    group.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), new THREE.Vector3(dir.x, dir.y || 0, dir.z).normalize());
+    things.add(group);
+    return group;
+  }
+  // An arrow centered on an end point (handles whose drag puts the end where the mouse is).
+  function endArrow(p, y, dir, color, hit) {
+    const l = Math.hypot(dir.x, dir.z) || 1, ux = dir.x / l, uz = dir.z / l;
+    return arrowHandle(p.x, y, p.z, { x: ux, y: 0, z: uz }, color, hit, 1, true);
+  }
   function resizeHandles(it, base) {
     const dims = dimensions(it), a = rad(it.turn || 0);
     const point = (x, y, z) => ({ x: it.x + Math.cos(a) * x + Math.sin(a) * z, y, z: it.z - Math.sin(a) * x + Math.cos(a) * z });
-    const add = (pos, dimension, axis) => handle(pos.x, pos.y, pos.z, 0xffffff,
-      { type: 'transform', id: it.id, action: 'resize', dimension, sign: 1, origin: pos, axis }, .25);
-    // A few white circles on the selected piece, matching the original wall ends.
-    // Wall length retains its existing endpoint interaction instead of an axis gizmo.
-    if (it.kind !== 'wall') add(point(dims.w / 2, base + dims.h / 2, 0), 'w', { x: Math.cos(a), y: 0, z: -Math.sin(a) });
-    if (it.shape !== 'pillar') add(point(0, base + dims.h / 2, dims.d / 2 + .1), 'd', { x: Math.sin(a), y: 0, z: Math.cos(a) });
-    add(point(0, base + dims.h + .1, 0), 'h', { x: 0, y: 1, z: 0 });
+    const u = { x: Math.cos(a), y: 0, z: -Math.sin(a) }, v = { x: Math.sin(a), y: 0, z: Math.cos(a) };
+    const add = (pos, dimension, axis, sign) => {
+      const dir = { x: axis.x * sign, y: axis.y * sign, z: axis.z * sign };
+      arrowHandle(pos.x, pos.y, pos.z, dir, 0xffffff, { type: 'transform', id: it.id, action: 'resize', dimension, sign, origin: pos, axis: dir });
+    };
+    // Arrows on both sides of each axis: pull either face (the opposite one stays). Wall length keeps
+    // its end arrows (wallEnd), which also turn the wall.
+    for (const s of [-1, 1]) {
+      if (it.kind !== 'wall') add(point(s * (dims.w / 2 + .05), base + dims.h / 2, 0), 'w', u, s);
+      if (it.shape !== 'pillar') add(point(0, base + dims.h / 2, s * (dims.d / 2 + .05)), 'd', v, s);
+    }
+    add(point(0, base + dims.h + .05, 0), 'h', { x: 0, y: 1, z: 0 }, 1);
     rotationArrow(it, base, dims, point);
   }
   function rotationArrow(it, base, dims, point) {
@@ -336,13 +386,29 @@ export function createView3D(container, { redraw = () => {} } = {}) {
     g.rotation.y = rad(h.facingOf(it));
     things.add(g);
     bots.set(it.id, { group: g, y, item: it });
+    if (showModels) {
+      const wear = (model) => {
+        g.add(new THREE.Mesh(model.geometry, model.material));
+        // The pill stays as the invisible thing you click and drag.
+        body.material = HIDDEN; nose.visible = false;
+      };
+      // studio-placement: a model that is already loaded goes on at once. Waiting for the promise showed the
+      // red pill for one frame after every rebuild, so a bot flickered pill/model all the way through a drag.
+      const crouched = it.crouch && it.move !== "copycat", ready = agentModelNow(it.look, crouched);
+      if (ready) wear(ready);
+      else if (ready === undefined) agentModel(it.look, crouched).then((model) => {
+        if (!model || g.parent !== things) return; // no model for this look, or redrawn since
+        wear(model);
+        redraw();
+      });
+    }
     labelList.push({ text: h.label(it), pos: new THREE.Vector3(it.x, y + tall + 0.35, it.z), strong: selected, follow: it.id });
   }
 
   // ---------- rebuild everything from the drill ----------
   // h: helpers from studio.js (floorAt, plan, flashTarget, gameBlock, blockParts, label, facingOf, across, wallEnds, startDir)
   function sync(drill, sel, h, previewing) {
-    const k = JSON.stringify(drill) + "|" + sel + "|" + previewing;
+    const k = JSON.stringify(drill) + "|" + sel + "|" + previewing + "|" + (h.groupKey ? h.groupKey() : "");
     if (k === key) return;
     key = k;
     if (moveSelected(drill, sel, h, previewing)) return;
@@ -357,7 +423,7 @@ export function createView3D(container, { redraw = () => {} } = {}) {
       const isSel = it.id === sel;
       if (it.kind === "block") {
         const block = h.gameBlock(it, it.id, Y(it.x, it.z, it.y));
-        const m = surfaceMaterial(surfaceFor(drill, it, it.shape === 'floor'), { emissive: isSel ? 0x333333 : 0x000000 });
+        const m = it.invisible ? glow(AIR, isSel ? 0.35 : 0.18) : surfaceMaterial(surfaceFor(drill, it, it.shape === 'floor'), { emissive: isSel ? 0x333333 : 0x000000 }); // studio-air-floor
         addBlock(block, h.blockParts(block), m, { type: "item", id: it.id });
         if (isSel && !previewing) resizeHandles(it, block.position.y - it.h / 2);
         labelList.push({ ownerId: it.id, text: h.label(it), pos: new THREE.Vector3(it.x, block.position.y + it.h / 2 + 0.4, it.z), strong: isSel });
@@ -367,16 +433,20 @@ export function createView3D(container, { redraw = () => {} } = {}) {
         const m = it.invisible ? glow(AIR, isSel ? 0.35 : 0.18) : surfaceMaterial(surfaceFor(drill, it), { emissive: isSel ? 0x222222 : 0x000000 });
         addBlock(block, [{ shape: "box", center: { x: 0, y: 0, z: 0 }, half: { x: it.length / 2, y: it.height / 2, z: wallDepth(it) / 2 } }], m, { type: "item", id: it.id });
         if (isSel && !previewing) {
-          for (const [i, p] of h.wallEnds(it).entries()) handle(p.x, y + .1, p.z, 0xffffff, { type: 'wallEnd', id: it.id, end: i });
+          for (const [i, p] of h.wallEnds(it).entries()) endArrow(p, y + .25, { x: p.x - it.x, z: p.z - it.z }, 0xffffff, { type: 'wallEnd', id: it.id, end: i }); // studio-arrow-handles
           resizeHandles(it, y);
         }
         labelList.push({ ownerId: it.id, text: h.label(it), pos: new THREE.Vector3(it.x, y + it.height + 0.4, it.z), strong: isSel });
       } else if (it.kind === "smoke") {
-        const y = Y(it.x, it.z, it.y);
-        const s = pickable(new THREE.Mesh(new THREE.SphereGeometry(4.5, 24, 16, 0, Math.PI * 2, 0, Math.PI / 1.7), glow(0xa974ff, isSel ? 0.4 : 0.25)), { type: "item", id: it.id });
-        s.position.set(it.x, y, it.z);
+        // The ball the game blocks sight with: its radius around the cloud's middle (floor + height + the agent's lift).
+        const y = Y(it.x, it.z, it.y), spec = h.smokeSpec(it), lift = it.height || 0, cy = y + lift + spec.lift;
+        const s = pickable(new THREE.Mesh(sharedGeometry('smoke:' + spec.radius, () => new THREE.SphereGeometry(spec.radius, 24, 16)), glow(0xa974ff, isSel ? 0.3 : 0.18)), { type: "item", id: it.id });
+        s.position.set(it.x, cy, it.z);
         things.add(s);
-        labelList.push({ text: h.label(it), pos: new THREE.Vector3(it.x, y + 4.8, it.z), strong: isSel });
+        if (lift > 0) polyline([{ x: it.x, y: y + 0.02, z: it.z }, { x: it.x, y: cy - spec.radius, z: it.z }], 0xa974ff, true);
+        // Height: a white dot on top, dragged straight up or down.
+        if (isSel) arrowHandle(it.x, cy + spec.radius + 0.2, it.z, { x: 0, y: 1, z: 0 }, 0xffffff, { type: 'transform', id: it.id, action: 'resize', dimension: 'height', sign: 1, origin: { x: it.x, y: cy + spec.radius + 0.2, z: it.z }, axis: { x: 0, y: 1, z: 0 } }, 1.2);
+        labelList.push({ text: h.label(it) + (lift ? ` · ${lift.toFixed(1)} m up` : ""), pos: new THREE.Vector3(it.x, cy + spec.radius + 0.7, it.z), strong: isSel });
       } else if (it.kind === "targets") {
         const y = Y(it.x, it.z, it.y) + (it.lift ?? 1.6);
         const zone = pickable(new THREE.Mesh(new THREE.PlaneGeometry(Math.max(0.6, it.width), Math.max(0.6, it.height)), glow(new THREE.Color(targetColor(drill)).getHex(), isSel ? 0.3 : 0.15)), { type: "item", id: it.id });
@@ -390,11 +460,19 @@ export function createView3D(container, { redraw = () => {} } = {}) {
           ball.position.set(it.x + a.x * f * it.width, y, it.z + a.z * f * it.width);
           things.add(ball);
         }
-        if (isSel) for (const s of [-1, 1]) handle(it.x + a.x * s * it.width / 2, y, it.z + a.z * s * it.width / 2, 0xffffff, { type: "width", id: it.id });
+        if (isSel) for (const s of [-1, 1]) endArrow({ x: it.x + a.x * s * it.width / 2, z: it.z + a.z * s * it.width / 2 }, y, { x: a.x * s, z: a.z * s }, 0xffffff, { type: "width", id: it.id });
         labelList.push({ text: h.label(it), pos: new THREE.Vector3(it.x, y + it.height / 2 + 0.4, it.z), strong: isSel });
       }
     }
 
+    // Things selected together: a white ring on the floor around each one.
+    if (h.inGroup) for (const it of drill.items) {
+      if (!h.inGroup(it.id)) continue;
+      const m = it.kind === "bot" ? 0.7 : it.kind === "smoke" ? 4.6 : it.kind === "wall" ? (it.length || 4) / 2 : it.kind === "targets" ? (it.width || 6) / 2 : Math.max(it.w || 1, it.d || 1) / 2 + 0.3;
+      const rr = Math.round(m * 10) / 10;
+      const ring = new THREE.Mesh(sharedGeometry('group-ring:' + rr, () => new THREE.RingGeometry(rr, rr + 0.12, 48).rotateX(-Math.PI / 2)), glow(0xffffff, 0.9));
+      ring.position.set(it.x, Y(it.x, it.z, it.y) + 0.06, it.z); ring.renderOrder = 9; things.add(ring);
+    }
     // bots, their routes, strafe lines and flashes
     for (const it of drill.items.filter((i) => i.kind === "bot")) {
       const isSel = it.id === sel;
@@ -404,6 +482,26 @@ export function createView3D(container, { redraw = () => {} } = {}) {
         polyline(it.move === "patrol" && pts.length > 2 ? [...pts, pts[0]] : pts, isSel ? ORANGE : 0x8a6a3a, true);
         if (isSel) pts.forEach((p, i) => handle(p.x, p.y + 0.15, p.z, i === 0 ? GREEN : i === pts.length - 1 && it.move !== "patrol" ? RED_SHOOT : ORANGE, { type: "point", id: it.id, index: i }, 0.3));
       }
+      // Extra random spots: a purple ring and see-through body where it can show up, its route dashed.
+      // Drag the ring/body (or point 1) to move the whole spot; points 2+ move on their own.
+      if (Array.isArray(it.spots)) it.spots.forEach((s, j) => {
+        const sy = Y(s.x, s.z, s.y), move = { type: "spotMove", id: it.id, spot: j, index: s.route ? 0 : -1 };
+        const ring = pickable(new THREE.Mesh(sharedGeometry('spot-ring', () => new THREE.RingGeometry(0.45, 0.62, 32).rotateX(-Math.PI / 2)), glow(SPOT, isSel ? 0.85 : 0.45)), move);
+        ring.position.set(s.x, sy + 0.05, s.z); things.add(ring);
+        const ghost = pickable(new THREE.Mesh(sharedGeometry('spot-body', () => new THREE.CylinderGeometry(0.3, 0.3, 1.75, 16).translate(0, 0.875, 0)), glow(SPOT, isSel ? 0.22 : 0.1)), move);
+        ghost.position.set(s.x, sy, s.z); things.add(ghost);
+        if (s.route) {
+          const pts = s.route.map((p) => ({ x: p.x, y: Y(p.x, p.z, p.y) + 0.08, z: p.z }));
+          polyline(it.move === "patrol" && pts.length > 2 ? [...pts, pts[0]] : pts, SPOT, true);
+          if (isSel) pts.forEach((p, i) => handle(p.x, p.y + 0.15, p.z, SPOT, i === 0 ? move : { type: "spotPoint", id: it.id, spot: j, index: i }, 0.28));
+        } else if (isSel) handle(s.x, sy + 0.15, s.z, SPOT, move, 0.28);
+        // A peeker's A-D strafe at this spot's peek point; drag an end for this spot's own width.
+        if (it.move === "peek" && it.peekStrafe && s.route && s.route[1]) {
+          const sp = s.route[1], a = h.across(sp), half = h.spotPeekWidth(it, s) / 2, py = Y(sp.x, sp.z, sp.y);
+          polyline([{ x: sp.x - a.x * half, y: py + 0.1, z: sp.z - a.z * half }, { x: sp.x + a.x * half, y: py + 0.1, z: sp.z + a.z * half }], SPOT, it.peekStrafe === "random");
+          if (isSel) for (const k of [-1, 1]) endArrow({ x: sp.x + a.x * half * k, z: sp.z + a.z * half * k }, py + 0.15, { x: a.x * k, z: a.z * k }, ORANGE, { type: "spotPeekWidth", id: it.id, spot: j });
+        }
+      });
       const run = h.runFrames(it);
       if (run) {
         const pts = [];
@@ -413,7 +511,13 @@ export function createView3D(container, { redraw = () => {} } = {}) {
       if (it.move === "strafe") {
         const a = h.across(it), half = it.width / 2;
         polyline([{ x: it.x - a.x * half, y: y + 0.08, z: it.z - a.z * half }, { x: it.x + a.x * half, y: y + 0.08, z: it.z + a.z * half }], isSel ? ORANGE : 0x8a6a3a);
-        if (isSel) for (const s of [-1, 1]) handle(it.x + a.x * half * s, y + 0.15, it.z + a.z * half * s, ORANGE, { type: "width", id: it.id });
+        if (isSel) for (const s of [-1, 1]) endArrow({ x: it.x + a.x * half * s, z: it.z + a.z * half * s }, y + 0.15, { x: a.x * s, z: a.z * s }, ORANGE, { type: "width", id: it.id });
+      }
+      // A peeker's A-D strafe at its peek spot (point 2); drag an end to set how wide.
+      if (it.move === "peek" && it.peekStrafe && it.route && it.route[1]) {
+        const sp = it.route[1], a = h.across(sp), half = h.peekWidth(it) / 2, sy = Y(sp.x, sp.z, sp.y);
+        polyline([{ x: sp.x - a.x * half, y: sy + 0.1, z: sp.z - a.z * half }, { x: sp.x + a.x * half, y: sy + 0.1, z: sp.z + a.z * half }], isSel ? ORANGE : 0x8a6a3a, it.peekStrafe === "random");
+        if (isSel) for (const s of [-1, 1]) endArrow({ x: sp.x + a.x * half * s, z: sp.z + a.z * half * s }, sy + 0.15, { x: a.x * s, z: a.z * s }, ORANGE, { type: "peekWidth", id: it.id });
       }
       if (isSel && h.fixedFacing(it)) {
         const f = h.dir(it.facing);
@@ -422,15 +526,21 @@ export function createView3D(container, { redraw = () => {} } = {}) {
       const fl = h.flashPath(it);
       if (fl) {
         const pts = [];
-        for (let i = 0; i <= 24; i++) { const q = fl.curve(i / 24); pts.push({ x: q.x, y: fl.fromY + 1.5 + (fl.toY - fl.fromY - 1.5) * (i / 24) + Math.sin((Math.PI * i) / 24) * 0.8, z: q.z }); }
+        // fl.flight: the agent's own flight (Reyna straight with its reach, KAY/O lob, others curve).
+        for (let i = 0; i <= 24; i++) {
+          if (fl.flight) { const q = fl.flight.point(i / 24); pts.push({ x: q.x, y: q.y, z: q.z }); continue; }
+          const q = fl.curve(i / 24); pts.push({ x: q.x, y: fl.fromY + 1.5 + (fl.toY - fl.fromY - 1.5) * (i / 24) + Math.sin((Math.PI * i) / 24) * 0.8, z: q.z });
+        }
         polyline(pts, 0xffffff, true);
+        if (fl.flight && fl.flight.short) polyline([fl.flight.at, { x: fl.target.x, y: fl.toY, z: fl.target.z }], 0xff4655, true);
         const star = handle(fl.target.x, fl.toY, fl.target.z, 0xffffff, { type: "flash", id: it.id }, 0.28);
         star.geometry = sharedGeometry('flash-star', () => new THREE.OctahedronGeometry(0.3));
         const ball = new THREE.Mesh(new THREE.SphereGeometry(0.15, 12, 8), new THREE.MeshBasicMaterial({ color: 0xffffff }));
         const burst = new THREE.Mesh(new THREE.SphereGeometry(1, 20, 14), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0, depthWrite: false }));
         ball.visible = false; burst.visible = false;
         things.add(ball, burst);
-        flashes.push({ id: it.id, pts, ball, burst, at: new THREE.Vector3(fl.target.x, fl.toY, fl.target.z) });
+        const pop = fl.flight ? fl.flight.at : { x: fl.target.x, y: fl.toY, z: fl.target.z };
+        flashes.push({ id: it.id, pts, ball, burst, at: new THREE.Vector3(pop.x, pop.y, pop.z), fly: fl.flight?.fly, glow: fl.flight?.glow });
       }
       addBot(it, y, isSel, h);
     }
@@ -447,6 +557,15 @@ export function createView3D(container, { redraw = () => {} } = {}) {
     polyline([{ x: st.x, y: sy + 1.6, z: st.z }, { x: st.x + d.x * 4, y: sy + 1.6, z: st.z + d.z * 4 }], GREEN);
     handle(st.x + d.x * 4, sy + 1.6, st.z + d.z * 4, GREEN, { type: "turn" });
     labelList.push({ text: "YOU", pos: new THREE.Vector3(st.x, sy + 2.2, st.z), strong: sel === "start", you: true });
+    // Extra places you can start (one is picked each round): see-through green bodies with where they look.
+    if (Array.isArray(st.spots)) st.spots.forEach((s, j) => {
+      const y2 = Y(s.x, s.z, s.y), f = h.dir(s.facing ?? st.facing);
+      const ghost = pickable(new THREE.Mesh(sharedGeometry('start-ghost', () => new THREE.CapsuleGeometry(0.32, 1.1, 4, 12).translate(0, 0.87, 0)), glow(GREEN, sel === "start" ? 0.45 : 0.25)), { type: "startSpot", index: j });
+      ghost.position.set(s.x, y2, s.z); things.add(ghost);
+      polyline([{ x: s.x, y: y2 + 1.6, z: s.z }, { x: s.x + f.x * 4, y: y2 + 1.6, z: s.z + f.z * 4 }], GREEN, true);
+      if (sel === "start") handle(s.x + f.x * 4, y2 + 1.6, s.z + f.z * 4, GREEN, { type: "startSpotTurn", index: j });
+      labelList.push({ text: `START ${j + 2}`, pos: new THREE.Vector3(s.x, y2 + 2.2, s.z), strong: sel === "start" });
+    });
     pruneMaterials();
   }
 
@@ -461,11 +580,11 @@ export function createView3D(container, { redraw = () => {} } = {}) {
       if (lab) lab.pos.set(at.x, b.group.position.y + 2.1, at.z);
       const fl = flashes.find((f) => f.id === id);
       if (fl) {
-        const age = at.flashAge;
-        fl.ball.visible = age !== undefined && age < h.FUSE;
-        fl.burst.visible = age !== undefined && age >= h.FUSE;
-        if (fl.ball.visible) { const p = fl.pts[Math.min(fl.pts.length - 1, Math.floor((age / h.FUSE) * (fl.pts.length - 1)))]; fl.ball.position.set(p.x, p.y, p.z); }
-        if (fl.burst.visible) { const k = (age - h.FUSE) / 0.6; fl.burst.position.copy(fl.at); fl.burst.scale.setScalar(0.5 + k * 4); fl.burst.material.opacity = 0.9 * (1 - k); }
+        const age = at.flashAge, fly = fl.fly ?? h.FUSE, glow = fl.glow ?? 0.6;
+        fl.ball.visible = age !== undefined && age < fly;
+        fl.burst.visible = age !== undefined && age >= fly && age < fly + glow;
+        if (fl.ball.visible) { const p = fl.pts[Math.min(fl.pts.length - 1, Math.floor((age / fly) * (fl.pts.length - 1)))]; fl.ball.position.set(p.x, p.y, p.z); }
+        if (fl.burst.visible) { const k = (age - fly) / glow; fl.burst.position.copy(fl.at); fl.burst.scale.setScalar(0.5 + k * 4); fl.burst.material.opacity = 0.9 * (1 - k); }
       }
     }
   }
@@ -480,7 +599,10 @@ export function createView3D(container, { redraw = () => {} } = {}) {
   }
 
   function render() {
+    if (shownMap && shownMap.parent !== detail) detail.add(shownMap);
     placeCamera();
+    // studio-arrow-handles: arrows keep about the same size on screen (never smaller than 1 m).
+    for (const o of things.children) if (o.userData.arrow) { const s = Math.max(1, camera.position.distanceTo(o.position) * .045) * o.userData.arrow; if (o.scale.x !== s) { o.scale.setScalar(s); o.updateMatrixWorld(true); } }
     renderer.render(scene, camera);
     const g = labels.getContext("2d");
     const dpr = window.devicePixelRatio || 1;
@@ -512,13 +634,108 @@ export function createView3D(container, { redraw = () => {} } = {}) {
     const top = hits.find((x) => x.object.renderOrder === 10) || hits[0];
     return top ? top.object.userData.hit : null;
   }
-  // The floor, map or structure top under the mouse (skipId: leave out a structure being dragged).
-  function surfacePoint(px, py, skipId) {
+  // studio-placement: the point of the real (Detailed) map under the mouse, read from the graphics card:
+  // the map is drawn into a 3x3 pixel picture around the mouse with a material that writes how far away
+  // each pixel is and which way its surface faces. So a click lands on exactly what you see: walls and
+  // roofs block it, invisible collision does not, and anything visible under a roof can be reached.
+  const pickTarget = new THREE.WebGLRenderTarget(3, 3, { type: THREE.FloatType, format: THREE.RGBAFormat, minFilter: THREE.NearestFilter, magFilter: THREE.NearestFilter, depthBuffer: true });
+  const pickMaterials = new Map(), pickPixel = new Float32Array(4), clearWas = new THREE.Color();
+  let pickBroken = false;
+  function pickMaterial(source) {
+    const side = source.side ?? THREE.FrontSide, shown = source.visible !== false;
+    const k = side + "|" + shown;
+    if (!pickMaterials.has(k)) pickMaterials.set(k, new THREE.ShaderMaterial({
+      side, visible: shown, fog: false, toneMapped: false,
+      vertexShader: `varying vec3 vWorld;
+        void main() {
+          vec4 p = vec4(position, 1.0);
+          #ifdef USE_INSTANCING
+            p = instanceMatrix * p;
+          #endif
+          vec4 w = modelMatrix * p;
+          vWorld = w.xyz;
+          gl_Position = projectionMatrix * viewMatrix * w;
+        }`,
+      fragmentShader: `varying vec3 vWorld;
+        void main() {
+          vec3 n = normalize(cross(dFdx(vWorld), dFdy(vWorld)));
+          vec3 toEye = cameraPosition - vWorld;
+          if (dot(n, toEye) < 0.0) n = -n;
+          gl_FragColor = vec4(n, length(toEye));
+        }`,
+    }));
+    return pickMaterials.get(k);
+  }
+  function mapPoint(px, py) {
+    if (!shownMap || shownMap.parent !== detail || pickBroken) return null;
+    placeCamera();
+    camera.updateMatrixWorld(true);
+    const meshes = shownMap.children, was = meshes.map((m) => m.material);
+    const worldShown = world.visible, thingsShown = things.visible, alpha = renderer.getClearAlpha();
+    renderer.getClearColor(clearWas);
+    pickPixel.fill(0);
+    try {
+      for (const m of meshes) m.material = Array.isArray(m.material) ? m.material.map(pickMaterial) : pickMaterial(m.material);
+      world.visible = things.visible = false;
+      camera.setViewOffset(W, H, px - 1.5, py - 1.5, 3, 3);
+      renderer.setRenderTarget(pickTarget);
+      renderer.setClearColor(0x000000, 0);
+      renderer.clear();
+      renderer.render(scene, camera);
+      renderer.readRenderTargetPixels(pickTarget, 1, 1, 1, 1, pickPixel);
+    } catch (error) {
+      console.warn("Studio map picking unavailable:", error);
+      pickBroken = true;
+    } finally {
+      meshes.forEach((m, i) => { m.material = was[i]; });
+      world.visible = worldShown; things.visible = thingsShown;
+      camera.clearViewOffset();
+      renderer.setRenderTarget(null);
+      renderer.setClearColor(clearWas, alpha);
+    }
+    const far = pickPixel[3];
+    if (!(far > 0) || !Number.isFinite(far)) return null;
     ray.setFromCamera(ndc(px, py), camera);
-    const list = skipId ? surfaces.filter((m) => !m.userData.hit || m.userData.hit.id !== skipId) : surfaces;
+    const at = ray.ray.origin.clone().addScaledVector(ray.ray.direction, far);
+    return { x: at.x, y: at.y, z: at.z, distance: far, normal: { x: pickPixel[0], y: pickPixel[1], z: pickPixel[2] }, seen: true, map: true };
+  }
+  const cpuHit = (hit) => {
+    const n = hit.face ? hit.face.normal.clone().transformDirection(hit.object.matrixWorld) : new THREE.Vector3(0, 1, 0);
+    if (n.dot(ray.ray.direction) > 0) n.negate();
+    return { x: hit.point.x, y: hit.point.y, z: hit.point.z, distance: hit.distance, normal: { x: n.x, y: n.y, z: n.z }, seen: true };
+  };
+  // What is under the mouse to put things on: { x, y, z, normal (facing you), seen } (skipId: leave out a
+  // structure being dragged). seen: the point is on something drawn (not a guess). Detailed view: the real
+  // map as drawn, or a built structure in front of it. Other views: the floor, built structures and the
+  // map's box/pillar/ledge tops. Nothing there: a point at height fallbackY, marked loose.
+  // blind: skip the drawn map (what every view did before; kept for the placement check).
+  function surfacePoint(px, py, skipId, fallbackY, blind = false) {
+    const seenMap = blind ? null : mapPoint(px, py);
+    ray.setFromCamera(ndc(px, py), camera);
+    const built = surfaces.filter((m) => (m.userData.hit ? m.userData.hit.id !== skipId : !seenMap));
+    const hit = ray.intersectObjects(tops && !seenMap ? [...built, tops] : built, false)[0];
+    if (hit && (!seenMap || hit.distance < seenMap.distance)) return cpuHit(hit);
+    if (seenMap) return seenMap;
+    const loose = planePoint(px, py, fallbackY ?? orbit.target.y);
+    return loose ? { ...loose, loose: true } : null;
+  }
+  // Where a world point is on screen (pixels, like the mouse) and how far from the camera, or null behind it.
+  function screenPoint(x, y, z) {
+    placeCamera();
+    camera.updateMatrixWorld(true);
+    const v = new THREE.Vector3(x, y, z).project(camera);
+    return v.z > 1 || v.z < -1 ? null : { x: (v.x + 1) / 2 * W, y: (1 - v.y) / 2 * H, distance: camera.position.distanceTo(new THREE.Vector3(x, y, z)) };
+  }
+  // Any wall, floor, box or built piece under the mouse, with the way that surface faces (toward the camera side):
+  // used to aim a bouncing flash exactly. null when nothing is under the mouse.
+  function hitPoint(px, py) {
+    ray.setFromCamera(ndc(px, py), camera);
+    const list = [...world.children.filter((m) => m.isMesh && m.userData.aimHit), ...surfaces];
     const hit = ray.intersectObjects(list, false)[0];
-    if (hit) return { x: hit.point.x, y: hit.point.y, z: hit.point.z };
-    return planePoint(px, py, 0);
+    if (!hit) return null;
+    const n = hit.face ? hit.face.normal.clone().transformDirection(hit.object.matrixWorld) : new THREE.Vector3(0, 1, 0);
+    if (n.dot(ray.ray.direction) > 0) n.negate();
+    return { x: hit.point.x, y: hit.point.y, z: hit.point.z, normal: { x: n.x, y: n.y, z: n.z } };
   }
   function planePoint(px, py, y) {
     ray.setFromCamera(ndc(px, py), camera);
@@ -559,9 +776,16 @@ export function createView3D(container, { redraw = () => {} } = {}) {
   }
   function panBy(dx, dy) {
     const s = orbit.dist * 0.0015;
-    const right = new THREE.Vector3(Math.cos(orbit.yaw), 0, -Math.sin(orbit.yaw));
-    const fwd = new THREE.Vector3(-Math.sin(orbit.yaw), 0, -Math.cos(orbit.yaw));
-    orbit.target.addScaledVector(right, -dx * s).addScaledVector(fwd, dy * s);
+    moveBy(dy * s, -dx * s);
+  }
+  // Moves the point you look at `forward` / `right` metres along the ground, as the camera faces.
+  // Used by panning and by WASD.
+  // Space / Ctrl: raises or lowers the point you look at (the camera goes with it).
+  function moveUp(dy) { orbit.target.y = Math.max(-50, Math.min(300, orbit.target.y + dy)); }
+  function moveBy(forward, right) {
+    const sin = Math.sin(orbit.yaw), cos = Math.cos(orbit.yaw);
+    orbit.target.x += -sin * forward + cos * right;
+    orbit.target.z += -cos * forward - sin * right;
   }
   function zoomBy(f) { orbit.dist = Math.max(3, Math.min(400, orbit.dist / f)); }
   // Behind and above `start`, looking the way it looks.
@@ -573,13 +797,17 @@ export function createView3D(container, { redraw = () => {} } = {}) {
   }
   function focus(x, y, z) { orbit.target.set(x, y, z); }
   function dispose() {
+    // A closed view must stop loading: the detailed map is shared, and a late finish here would
+    // take it away from the view that replaced this one (that view then drew black).
+    worldKey = "disposed";
     disposeGroup(things); disposeGroup(world);
     for (const material of materialCache.values()) material.dispose(); materialCache.clear();
     for (const geometry of geometryCache.values()) geometry.dispose(); geometryCache.clear();
     pickables.length = surfaces.length = 0; bots.clear(); flashes = []; labelList = [];
     detail.clear();
+    pickTarget.dispose(); for (const material of pickMaterials.values()) material.dispose(); pickMaterials.clear();
     renderer.dispose(); canvas.remove(); labels.remove(); status.remove();
   }
 
-  return { canvas, labels, status, resize, setWorld, sync, animate, still, render, pick, surfacePoint, planePoint, beginTransform, transformDelta, rotationDelta, orbitBy, panBy, zoomBy, frame, focus, dispose, forceRebuild: () => { key = ''; translationKey = ''; translatedItem = null; } };
+  return { canvas, labels, status, resize, setWorld, sync, animate, still, render, pick, surfacePoint, mapPoint, screenPoint, hitPoint, planePoint, beginTransform, transformDelta, rotationDelta, orbitBy, panBy, moveBy, moveUp, zoomBy, frame, focus, dispose, forceRebuild: () => { key = ''; translationKey = ''; translatedItem = null; } };
 }

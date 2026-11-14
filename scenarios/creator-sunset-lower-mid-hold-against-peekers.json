@@ -1,0 +1,830 @@
+{
+ "item": {
+  "createTime": "2026-11-09 16:51:59",
+  "description": "One enemy, comes back after each kill. Bots shoot back.",
+  "docBytes": 6719,
+  "featured": false,
+  "mapId": "juliett",
+  "name": "Sunset LOWER MID HOLD AGAINST PEEKERS",
+  "parSeconds": null,
+  "playCount": 0,
+  "sceneKey": "set-05b7da6c9f364aac",
+  "shareCode": "05b7da6c9f364aac",
+  "sort": 1,
+  "status": 1,
+  "type": "hold",
+  "updateTime": "2026-11-13 15:11:02"
+ },
+ "scene": {
+  "authorNickname": "openVaim",
+  "authorUid": "creator",
+  "blockCount": 2,
+  "createTime": "2026-11-09 16:51:59",
+  "description": "One enemy, comes back after each kill. Bots shoot back.",
+  "docBytes": 6719,
+  "name": "Sunset LOWER MID HOLD AGAINST PEEKERS",
+  "playCount": 0,
+  "sceneHash": "649e76d562137f64",
+  "sceneKey": "set-05b7da6c9f364aac",
+  "schemaVersion": 2,
+  "shareCode": "05b7da6c9f364aac",
+  "updateTime": "2026-11-13 15:11:02",
+  "aimShuffle": {
+   "groups": [
+    {
+     "actors": [
+      "actor-1",
+      "actor-1-spot2",
+      "actor-1-spot3",
+      "actor-1-spot4",
+      "actor-1-spot5",
+      "actor-1-spot6",
+      "actor-1-spot7",
+      "actor-1-spot8",
+      "actor-1-spot9"
+     ]
+    }
+   ]
+  },
+  "doc": {
+   "schemaVersion": 2,
+   "meta": {
+    "id": "studio-2f7cbdd8babe3c51",
+    "name": "Sunset LOWER MID HOLD AGAINST PEEKERS",
+    "seed": 1537387696,
+    "createdAt": 0
+   },
+   "environment": {
+    "skyColor": "#111820",
+    "fogNear": 14,
+    "fogFar": 33,
+    "ambientIntensity": 2,
+    "keyLightIntensity": 3,
+    "fogEnabled": false,
+    "map": "juliett"
+   },
+   "blocks": [
+    {
+     "id": "wall-2",
+     "shape": "box",
+     "position": {
+      "x": -4.5,
+      "y": 12.1,
+      "z": 14.15
+     },
+     "rotationY": 1.553,
+     "size": {
+      "x": 8.2,
+      "y": 20.2,
+      "z": 0.3
+     },
+     "color": "#59606b",
+     "collidable": true,
+     "bulletCollidable": false,
+     "transparent": true
+    },
+    {
+     "id": "wall-3",
+     "shape": "box",
+     "position": {
+      "x": 4.3,
+      "y": 3.925,
+      "z": 15.4
+     },
+     "rotationY": 1.588,
+     "size": {
+      "x": 6,
+      "y": 4,
+      "z": 0.3
+     },
+     "color": "#59606b",
+     "collidable": true,
+     "bulletCollidable": false,
+     "transparent": true
+    }
+   ],
+   "playerSpawn": {
+    "position": {
+     "x": -2.4,
+     "y": 2,
+     "z": 13.1
+    },
+    "yaw": 6.161
+   },
+   "spawners": [],
+   "actors": [
+    {
+     "id": "actor-1",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": 5.9,
+         "y": 4,
+         "z": -26.9
+        },
+        {
+         "x": 2.7,
+         "y": 4,
+         "z": -27
+        },
+        {
+         "x": 5.9,
+         "y": 4,
+         "z": -26.9
+        }
+       ],
+       "speed": 5.4,
+       "respawn": true,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "killDelay": [
+        1.2,
+        1.5
+       ],
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 30.2
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "hard",
+       "reaction": [
+        0.22,
+        0.3
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 1.6,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot2",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -4.7,
+         "y": 4,
+         "z": -23.1
+        },
+        {
+         "x": -2.1,
+         "y": 4,
+         "z": -23.1
+        },
+        {
+         "x": -4.7,
+         "y": 4,
+         "z": -23.1
+        }
+       ],
+       "speed": 5.4,
+       "respawn": true,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "killDelay": [
+        1.2,
+        1.5
+       ],
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 30.2
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "hard",
+       "reaction": [
+        0.22,
+        0.3
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 1.6,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot3",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": 6.9,
+         "y": 5,
+         "z": -30.9
+        },
+        {
+         "x": 3,
+         "y": 5,
+         "z": -31
+        },
+        {
+         "x": 6.9,
+         "y": 5,
+         "z": -30.9
+        }
+       ],
+       "speed": 5.4,
+       "respawn": true,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "killDelay": [
+        1.2,
+        1.5
+       ],
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 30.2
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "hard",
+       "reaction": [
+        0.22,
+        0.3
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 1.6,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot4",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": 5.9,
+         "y": 4,
+         "z": -27.9
+        },
+        {
+         "x": 1.8,
+         "y": 4,
+         "z": -28
+        },
+        {
+         "x": 5.9,
+         "y": 4,
+         "z": -27.9
+        }
+       ],
+       "speed": 5.4,
+       "respawn": true,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "killDelay": [
+        1.2,
+        1.5
+       ],
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 30.2
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "hard",
+       "reaction": [
+        0.22,
+        0.3
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 1.6,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot5",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -4.6,
+         "y": 4,
+         "z": -22.5
+        },
+        {
+         "x": -2.2,
+         "y": 4,
+         "z": -22.4
+        },
+        {
+         "x": -4.6,
+         "y": 4,
+         "z": -22.5
+        }
+       ],
+       "speed": 5.4,
+       "respawn": true,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "killDelay": [
+        1.2,
+        1.5
+       ],
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 30.2
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "hard",
+       "reaction": [
+        0.22,
+        0.3
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 1.6,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot6",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -5,
+         "y": 4,
+         "z": -24.4
+        },
+        {
+         "x": -0.8,
+         "y": 4,
+         "z": -24.3
+        },
+        {
+         "x": -5,
+         "y": 4,
+         "z": -24.4
+        }
+       ],
+       "speed": 5.4,
+       "respawn": true,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "killDelay": [
+        1.2,
+        1.5
+       ],
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 30.2
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "hard",
+       "reaction": [
+        0.22,
+        0.3
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 1.6,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot7",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -4.9,
+         "y": 4,
+         "z": -25.3
+        },
+        {
+         "x": -1.4,
+         "y": 4,
+         "z": -25.3
+        },
+        {
+         "x": -4.9,
+         "y": 4,
+         "z": -25.3
+        }
+       ],
+       "speed": 5.4,
+       "respawn": true,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "killDelay": [
+        1.2,
+        1.5
+       ],
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 30.2
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "hard",
+       "reaction": [
+        0.22,
+        0.3
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 1.6,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot8",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -6.3,
+         "y": 5,
+         "z": -31
+        },
+        {
+         "x": -1.4,
+         "y": 5,
+         "z": -31
+        },
+        {
+         "x": -6.3,
+         "y": 5,
+         "z": -31
+        }
+       ],
+       "speed": 5.4,
+       "respawn": true,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "killDelay": [
+        1.2,
+        1.5
+       ],
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 30.2
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "hard",
+       "reaction": [
+        0.22,
+        0.3
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 1.6,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-1-spot9",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": 6.8,
+         "y": 4,
+         "z": -28.4
+        },
+        {
+         "x": 1.2,
+         "y": 4,
+         "z": -28.5
+        },
+        {
+         "x": 6.8,
+         "y": 4,
+         "z": -28.4
+        }
+       ],
+       "speed": 5.4,
+       "respawn": true,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "killDelay": [
+        1.2,
+        1.5
+       ],
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 30.2
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "hard",
+       "reaction": [
+        0.22,
+        0.3
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 1.6,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150
+    }
+   ],
+   "rules": {
+    "duration": 60,
+    "scoring": "clicking",
+    "weapon": "vandal",
+    "playerMovable": true,
+    "fireMode": "hold",
+    "playerDeath": "endRound"
+   },
+   "dispatchers": [
+    {
+     "id": "dispatcher-1",
+     "name": "Peeker 1",
+     "routes": [
+      {
+       "templateId": "actor-1",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-1-spot2",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-1-spot3",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-1-spot4",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-1-spot5",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-1-spot6",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-1-spot7",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-1-spot8",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-1-spot9",
+       "streak": [
+        1,
+        1
+       ]
+      }
+     ],
+     "order": "random",
+     "maxAlive": 1,
+     "interval": [
+      0.2,
+      1.2
+     ],
+     "faceTarget": true,
+     "killDelay": [
+      1.2,
+      1.5
+     ]
+    }
+   ]
+  }
+ }
+}

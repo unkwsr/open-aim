@@ -8,6 +8,8 @@ const API = "https://api.github.com/repos/unkwsr/open-aim/releases/latest";
 const RELEASES = "https://github.com/unkwsr/open-aim/releases";
 const WEEK = 7 * 24 * 60 * 60 * 1000;
 const MAX_INSTALLER = 2 * 1024 * 1024 * 1024;
+const INSTALLER_NAMES = ["openVaim-Setup.exe", "AimTrainer-Setup.exe"];
+const APP_EXE_NAMES = ["openvaim.exe", "aimtrainer.exe"]; // either marks an existing install folder
 
 function version(value) {
   const m = /^v?(\d+)\.(\d+)\.(\d+)$/.exec(String(value));
@@ -21,7 +23,10 @@ function newer(candidate, current) {
 }
 function parseRelease(data, current) {
   if (data.draft || data.prerelease || !newer(data.tag_name, current)) return null;
-  const asset = data.assets?.find(a => a.name === "AimTrainer-Setup.exe" && a.state === "uploaded");
+  // openVaim rename (12 Nov 2026): new releases ship openVaim-Setup.exe; AimTrainer-Setup.exe is still accepted
+  // (1.3.0's updater only knows that name, so the first openVaim release uploads both).
+  const uploaded = name => data.assets?.find(a => a.name === name && a.state === "uploaded");
+  const asset = uploaded(INSTALLER_NAMES[0]) || uploaded(INSTALLER_NAMES[1]);
   const prefix = "https://github.com/unkwsr/open-aim/releases/download/";
   if (!asset || !asset.browser_download_url?.startsWith(prefix) ||
       !Number.isSafeInteger(asset.size) || asset.size <= 0 || asset.size > MAX_INSTALLER ||
@@ -68,7 +73,7 @@ function createUpdater(options) {
     checking = (async () => {
       update({ status: "checking", error: "" });
       try {
-        const response = await fetchImpl(API, { headers: { Accept: "application/vnd.github+json", "User-Agent": "AimTrainer" }, signal: AbortSignal.timeout(15000) });
+        const response = await fetchImpl(API, { headers: { Accept: "application/vnd.github+json", "User-Agent": "openVaim" }, signal: AbortSignal.timeout(15000) });
         if (response.status === 404) release = null;
         else {
           if (!response.ok) throw new Error(response.status === 403 || response.status === 429
@@ -109,7 +114,7 @@ function createUpdater(options) {
     validateDirectory(state.directory);
     fs.mkdirSync(cache, { recursive: true });
     const directory = fs.mkdtempSync(path.join(cache, "installer-"));
-    const file = path.join(directory, "AimTrainer-Setup.exe");
+    const file = path.join(directory, "openVaim-Setup.exe");
     controller = new AbortController();
     const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(10 * 60 * 1000)]);
     update({ status: "downloading", progress: 0, error: "" });
@@ -155,15 +160,15 @@ function validateDirectory(directory) {
   if (typeof directory !== "string" || !path.isAbsolute(directory) || /["\r\n]/.test(directory) ||
       path.parse(directory).root === path.resolve(directory)) throw new Error("Choose an application folder, not the root of a drive.");
   const entries = fs.readdirSync(directory);
-  if (entries.length && !entries.some(name => name.toLowerCase() === "aimtrainer.exe")) {
-    throw new Error("Choose the existing AimTrainer installation folder or an empty folder.");
+  if (entries.length && !entries.some(name => APP_EXE_NAMES.includes(name.toLowerCase()))) {
+    throw new Error("Choose the existing openVaim installation folder or an empty folder.");
   }
   // Existing all-users installs can require elevation. Let NSIS handle that
   // instead of rejecting Program Files because the running app is unelevated.
   if (entries.length) return;
   const probe = path.join(directory, ".aim-update-" + crypto.randomBytes(8).toString("hex"));
   try { fs.writeFileSync(probe, "", { flag: "wx" }); }
-  catch { throw new Error("AimTrainer cannot write to this folder. Choose a writable installation folder."); }
+  catch { throw new Error("openVaim cannot write to this folder. Choose a writable installation folder."); }
   finally { if (fs.existsSync(probe)) fs.unlinkSync(probe); }
 }
 
@@ -183,7 +188,10 @@ function launchInstaller(file, directory) {
 
 function register(getWindow) {
   const { app, ipcMain, dialog, shell, session } = require("electron");
-  const updater = createUpdater({ currentVersion: app.getVersion(), userData: app.getPath("userData"),
+  // Test launchers start Electron with a script, where app.getVersion() is Electron's own version;
+  // the game's version is the one in package.json (an installed build reports the same).
+  const gameVersion = app.isPackaged ? app.getVersion() : require("./package.json").version;
+  const updater = createUpdater({ currentVersion: gameVersion, userData: app.getPath("userData"),
     installDirectory: path.dirname(process.env.PORTABLE_EXECUTABLE_FILE || app.getPath("exe")),
     supported: app.isPackaged && process.platform === "win32" && !process.env.PORTABLE_EXECUTABLE_FILE,
     notify(state) { const win = getWindow(); if (win && !win.isDestroyed() && !win.webContents.isDestroyed()) win.webContents.send("aim:updates:state", state); },
@@ -205,7 +213,7 @@ function register(getWindow) {
   handle("install", () => updater.install());
   handle("releases", () => shell.openExternal(RELEASES));
   handle("directory", async win => {
-    const result = await dialog.showOpenDialog(win, { title: "Choose the AimTrainer installation folder",
+    const result = await dialog.showOpenDialog(win, { title: "Choose the openVaim installation folder",
       defaultPath: updater.snapshot().directory, properties: ["openDirectory", "createDirectory"] });
     return result.canceled ? updater.snapshot() : updater.selectDirectory(result.filePaths[0]);
   });

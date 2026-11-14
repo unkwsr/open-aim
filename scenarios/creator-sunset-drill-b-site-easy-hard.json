@@ -1,0 +1,1647 @@
+{
+ "item": {
+  "createTime": "2026-11-07 21:18:32",
+  "description": "SUNSET B SITE EASY-HARD 17 of 26 spots each round, new spots every round. Bots don't shoot.",
+  "docBytes": 14610,
+  "featured": false,
+  "mapId": "juliett",
+  "name": "Sunset drill b site easy-hard",
+  "parSeconds": null,
+  "playCount": 0,
+  "sceneKey": "set-e2170ffc15b47deb",
+  "shareCode": "e2170ffc15b47deb",
+  "sort": 1,
+  "status": 1,
+  "type": "aim",
+  "updateTime": "2026-11-14 07:09:27"
+ },
+ "scene": {
+  "authorNickname": "openVaim",
+  "authorUid": "creator",
+  "blockCount": 4,
+  "createTime": "2026-11-07 21:18:32",
+  "description": "SUNSET B SITE EASY-HARD 17 of 26 spots each round, new spots every round. Bots don't shoot.",
+  "docBytes": 14610,
+  "name": "Sunset drill b site easy-hard",
+  "playCount": 0,
+  "sceneHash": "0a74d9dd36ad1896",
+  "sceneKey": "set-e2170ffc15b47deb",
+  "schemaVersion": 2,
+  "shareCode": "e2170ffc15b47deb",
+  "updateTime": "2026-11-14 07:09:27",
+  "aimShuffle": {
+   "groups": [
+    {
+     "actors": [
+      "actor-2"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-3"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-4"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-5"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-6"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-7"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-8"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-9"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-10"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-11"
+     ],
+     "keepWeapon": true,
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-12"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-13"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-14"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-15"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-16"
+     ],
+     "keepWeapon": true,
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-17"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-18"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-20"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-22"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-23"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-25"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-26"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-27"
+     ],
+     "keepWeapon": true,
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-28"
+     ]
+    },
+    {
+     "actors": [
+      "actor-29"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-30"
+     ]
+    }
+   ],
+   "crouch": 8
+  },
+  "doc": {
+   "schemaVersion": 2,
+   "meta": {
+    "id": "studio-010a16ab90daa4b7",
+    "name": "Sunset drill b site easy-hard",
+    "seed": 1338841189,
+    "createdAt": 0
+   },
+   "environment": {
+    "skyColor": "#111820",
+    "fogNear": 14,
+    "fogFar": 33,
+    "ambientIntensity": 2,
+    "keyLightIntensity": 3,
+    "fogEnabled": false,
+    "map": "juliett"
+   },
+   "blocks": [
+    {
+     "id": "block-1",
+     "shape": "box",
+     "position": {
+      "x": -46.1,
+      "y": 4,
+      "z": 11
+     },
+     "rotationY": 1.553,
+     "size": {
+      "x": 1.6,
+      "y": 4,
+      "z": 1.5
+     },
+     "color": "#202024",
+     "collidable": true,
+     "surface": "tile",
+     "surfaceStyle": "squares",
+     "surfaceScale": 1.2,
+     "surfaceSeam": "#333338"
+    },
+    {
+     "id": "block-19",
+     "shape": "box",
+     "position": {
+      "x": -36.8,
+      "y": 5.5,
+      "z": -25.1
+     },
+     "rotationY": 0,
+     "size": {
+      "x": 1.8,
+      "y": 3,
+      "z": 1.2
+     },
+     "color": "#202024",
+     "collidable": true,
+     "surface": "tile",
+     "surfaceStyle": "squares",
+     "surfaceScale": 1.2,
+     "surfaceSeam": "#333338"
+    },
+    {
+     "id": "block-21",
+     "shape": "box",
+     "position": {
+      "x": -52.2,
+      "y": 4.94,
+      "z": -20.75
+     },
+     "rotationY": 0,
+     "size": {
+      "x": 1.4,
+      "y": 2.1,
+      "z": 1.2
+     },
+     "color": "#202024",
+     "collidable": true,
+     "surface": "tile",
+     "surfaceStyle": "squares",
+     "surfaceScale": 1.2,
+     "surfaceSeam": "#333338"
+    },
+    {
+     "id": "block-24",
+     "shape": "box",
+     "position": {
+      "x": -25.1,
+      "y": 3.85,
+      "z": -2.55
+     },
+     "rotationY": 0,
+     "size": {
+      "x": 1.2,
+      "y": 3.7,
+      "z": 1.9
+     },
+     "color": "#202024",
+     "collidable": true,
+     "surface": "tile",
+     "surfaceStyle": "squares",
+     "surfaceScale": 1.2,
+     "surfaceSeam": "#333338"
+    }
+   ],
+   "playerSpawn": {
+    "position": {
+     "x": -31.1,
+     "y": 4,
+     "z": 19.7
+    },
+    "yaw": 0
+   },
+   "spawners": [
+    {
+     "id": "spawner-2",
+     "name": "Holder 1",
+     "kind": "area",
+     "actorTemplateId": "actor-2",
+     "position": {
+      "x": -38.6,
+      "y": 2.3,
+      "z": 19.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.518,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-3",
+     "name": "Holder 2",
+     "kind": "area",
+     "actorTemplateId": "actor-3",
+     "position": {
+      "x": -48,
+      "y": 2.34,
+      "z": 11.9
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.138,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-4",
+     "name": "Holder 3",
+     "kind": "area",
+     "actorTemplateId": "actor-4",
+     "position": {
+      "x": -51.8,
+      "y": 2.3,
+      "z": 19.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.561,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-5",
+     "name": "Holder 4",
+     "kind": "area",
+     "actorTemplateId": "actor-5",
+     "position": {
+      "x": -52,
+      "y": 2.3,
+      "z": 17.8
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.48,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-6",
+     "name": "Holder 5",
+     "kind": "area",
+     "actorTemplateId": "actor-6",
+     "position": {
+      "x": -57.5,
+      "y": 2.3,
+      "z": 5.2
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.069,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-7",
+     "name": "Holder 6",
+     "kind": "area",
+     "actorTemplateId": "actor-7",
+     "position": {
+      "x": -42.3,
+      "y": 2.3,
+      "z": 5.2
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.658,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-8",
+     "name": "Holder 7",
+     "kind": "area",
+     "actorTemplateId": "actor-8",
+     "position": {
+      "x": -37.8,
+      "y": 2.3,
+      "z": 1.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.353,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-9",
+     "name": "Holder 8",
+     "kind": "area",
+     "actorTemplateId": "actor-9",
+     "position": {
+      "x": -41.3,
+      "y": 2.34,
+      "z": -7.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.361,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-10",
+     "name": "Holder 9",
+     "kind": "area",
+     "actorTemplateId": "actor-10",
+     "position": {
+      "x": -35,
+      "y": 4.3,
+      "z": -11.2
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.126,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-11",
+     "name": "Holder 10",
+     "kind": "area",
+     "actorTemplateId": "actor-11",
+     "position": {
+      "x": -34.5,
+      "y": 4.3,
+      "z": -17.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.091,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-12",
+     "name": "Holder 11",
+     "kind": "area",
+     "actorTemplateId": "actor-12",
+     "position": {
+      "x": -44.8,
+      "y": 4.3,
+      "z": -14.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.381,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-13",
+     "name": "Holder 12",
+     "kind": "area",
+     "actorTemplateId": "actor-13",
+     "position": {
+      "x": -57.5,
+      "y": 3.3,
+      "z": -10.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.717,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-14",
+     "name": "Holder 13",
+     "kind": "area",
+     "actorTemplateId": "actor-14",
+     "position": {
+      "x": -57.4,
+      "y": 3.3,
+      "z": -17.4
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.617,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-15",
+     "name": "Holder 14",
+     "kind": "area",
+     "actorTemplateId": "actor-15",
+     "position": {
+      "x": -47.7,
+      "y": 4.3,
+      "z": -24.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.359,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-16",
+     "name": "Holder 15",
+     "kind": "area",
+     "actorTemplateId": "actor-16",
+     "position": {
+      "x": -46.1,
+      "y": 6.3,
+      "z": 11.1
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.05,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-17",
+     "name": "Holder 16",
+     "kind": "area",
+     "actorTemplateId": "actor-17",
+     "position": {
+      "x": -37.5,
+      "y": 4.3,
+      "z": -10.9
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.206,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-18",
+     "name": "Holder 17",
+     "kind": "area",
+     "actorTemplateId": "actor-18",
+     "position": {
+      "x": -37.6,
+      "y": 4.3,
+      "z": -28.7
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.133,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-20",
+     "name": "Holder 18",
+     "kind": "area",
+     "actorTemplateId": "actor-20",
+     "position": {
+      "x": -37.2,
+      "y": 7.301,
+      "z": -25.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.134,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-22",
+     "name": "Holder 19",
+     "kind": "area",
+     "actorTemplateId": "actor-22",
+     "position": {
+      "x": -52.3,
+      "y": 6.29,
+      "z": -20.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.484,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-23",
+     "name": "Holder 20",
+     "kind": "area",
+     "actorTemplateId": "actor-23",
+     "position": {
+      "x": -46.4,
+      "y": 2.3,
+      "z": -7.2
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.517,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-25",
+     "name": "Holder 21",
+     "kind": "area",
+     "actorTemplateId": "actor-25",
+     "position": {
+      "x": -24.5,
+      "y": 6.3,
+      "z": -4.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 6.017,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-26",
+     "name": "Holder 22",
+     "kind": "area",
+     "actorTemplateId": "actor-26",
+     "position": {
+      "x": -31.2,
+      "y": 2.3,
+      "z": -3.1
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.004,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-27",
+     "name": "Holder 23",
+     "kind": "area",
+     "actorTemplateId": "actor-27",
+     "position": {
+      "x": -24.1,
+      "y": 2.3,
+      "z": -1.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 5.961,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-28",
+     "name": "Strafer 1",
+     "kind": "area",
+     "actorTemplateId": "actor-28",
+     "position": {
+      "x": -24.8,
+      "y": 6.3,
+      "z": -2.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 4.852,
+     "faceTarget": false,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-29",
+     "name": "Holder 24",
+     "kind": "area",
+     "actorTemplateId": "actor-29",
+     "position": {
+      "x": -56.3,
+      "y": 2.3,
+      "z": 0.8
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.927,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-30",
+     "name": "Strafer 2",
+     "kind": "area",
+     "actorTemplateId": "actor-30",
+     "position": {
+      "x": -52.1,
+      "y": 2.7,
+      "z": -7.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 6.353,
+     "faceTarget": false,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    }
+   ],
+   "actors": [
+    {
+     "id": "actor-2",
+     "name": "Holder 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "miks",
+      "motion": "crouch",
+      "weapon": "stinger"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-3",
+     "name": "Holder 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "yoru",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-4",
+     "name": "Holder 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "clove",
+      "motion": "crouch",
+      "weapon": "guardian"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-5",
+     "name": "Holder 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "vyse",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-6",
+     "name": "Holder 5",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-7",
+     "name": "Holder 6",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "raze",
+      "weapon": "judge"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-8",
+     "name": "Holder 7",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "fade",
+      "motion": "crouch",
+      "weapon": "phantom"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-9",
+     "name": "Holder 8",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "sova",
+      "weapon": "phantom"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-10",
+     "name": "Holder 9",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "tejo",
+      "motion": "crouch",
+      "weapon": "sheriff"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-11",
+     "name": "Holder 10",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "marshal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-12",
+     "name": "Holder 11",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "harbor",
+      "weapon": "bulldog"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-13",
+     "name": "Holder 12",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "skye",
+      "weapon": "spectre"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-14",
+     "name": "Holder 13",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "brimstone",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-15",
+     "name": "Holder 14",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "chamber",
+      "weapon": "bulldog"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-16",
+     "name": "Holder 15",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "omen",
+      "weapon": "tourdeforce"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-17",
+     "name": "Holder 16",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "veto",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-18",
+     "name": "Holder 17",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "harbor",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-20",
+     "name": "Holder 18",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher",
+      "weapon": "guardian"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-22",
+     "name": "Holder 19",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "jett",
+      "motion": "crouch",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-23",
+     "name": "Holder 20",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "viper",
+      "weapon": "phantom"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-25",
+     "name": "Holder 21",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-26",
+     "name": "Holder 22",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "gekko",
+      "weapon": "guardian"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-27",
+     "name": "Holder 23",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "kayo",
+      "weapon": "outlaw"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-28",
+     "name": "Strafer 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "bulldog"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "strafe",
+       "speed": [
+        5.4,
+        5.4
+       ],
+       "dwell": [
+        0.15,
+        0.6
+       ],
+       "travel": [
+        0.54,
+        0.9
+       ],
+       "counterStrafe": true
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-29",
+     "name": "Holder 24",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "sage",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-30",
+     "name": "Strafer 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "neon",
+      "weapon": "phantom"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "strafe",
+       "speed": [
+        5.4,
+        5.4
+       ],
+       "dwell": [
+        0.03,
+        0.25
+       ],
+       "travel": [
+        1.62,
+        3.6
+       ],
+       "tap": [
+        0.35,
+        0.5,
+        1.2
+       ],
+       "counterStrafe": true
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150,
+     "studioCrouch": {
+      "duration": [
+       0.5,
+       1.2
+      ],
+      "interval": [
+       2,
+       4
+      ],
+      "still": true
+     }
+    }
+   ],
+   "rules": {
+    "duration": 120,
+    "scoring": "clicking",
+    "weapon": "vandal",
+    "playerMovable": true,
+    "fireMode": "hold",
+    "spawnerPick": {
+     "pool": [
+      "spawner-2",
+      "spawner-3",
+      "spawner-4",
+      "spawner-5",
+      "spawner-6",
+      "spawner-7",
+      "spawner-8",
+      "spawner-9",
+      "spawner-10",
+      "spawner-11",
+      "spawner-12",
+      "spawner-13",
+      "spawner-14",
+      "spawner-15",
+      "spawner-16",
+      "spawner-17",
+      "spawner-18",
+      "spawner-20",
+      "spawner-22",
+      "spawner-23",
+      "spawner-25",
+      "spawner-26",
+      "spawner-27",
+      "spawner-28",
+      "spawner-29",
+      "spawner-30"
+     ],
+     "count": 17
+    }
+   }
+  }
+ }
+}

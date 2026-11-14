@@ -1,0 +1,873 @@
+{
+ "item": {
+  "createTime": "2026-11-08 22:01:00",
+  "description": "9 of 13 spots each round, new spots every round. Bots don't shoot.",
+  "docBytes": 7454,
+  "featured": false,
+  "mapId": "juliett",
+  "name": "Sunset drill RETAKE 2",
+  "parSeconds": null,
+  "playCount": 0,
+  "sceneKey": "set-363d1273ad930ab9",
+  "shareCode": "363d1273ad930ab9",
+  "sort": 1,
+  "status": 1,
+  "type": "aim",
+  "updateTime": "2026-11-14 07:09:27"
+ },
+ "scene": {
+  "authorNickname": "openVaim",
+  "authorUid": "creator",
+  "blockCount": 4,
+  "createTime": "2026-11-08 22:01:00",
+  "description": "9 of 13 spots each round, new spots every round. Bots don't shoot.",
+  "docBytes": 7454,
+  "name": "Sunset drill RETAKE 2",
+  "playCount": 0,
+  "sceneHash": "d754069f26cbe1e1",
+  "sceneKey": "set-363d1273ad930ab9",
+  "schemaVersion": 2,
+  "shareCode": "363d1273ad930ab9",
+  "updateTime": "2026-11-14 07:09:27",
+  "aimShuffle": {
+   "groups": [
+    {
+     "actors": [
+      "actor-1"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-2"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-3"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-4"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-5"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-6"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-7"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-8"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-9"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-10"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-11"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-12"
+     ]
+    },
+    {
+     "actors": [
+      "actor-14"
+     ],
+     "keepWeapon": true,
+     "crouchable": true
+    }
+   ],
+   "crouch": 6
+  },
+  "doc": {
+   "schemaVersion": 2,
+   "meta": {
+    "id": "studio-eb4e8746dfe74079",
+    "name": "Sunset drill RETAKE 2",
+    "seed": 284422356,
+    "createdAt": 0
+   },
+   "environment": {
+    "skyColor": "#111820",
+    "fogNear": 14,
+    "fogFar": 33,
+    "ambientIntensity": 2,
+    "keyLightIntensity": 3,
+    "fogEnabled": false,
+    "map": "juliett"
+   },
+   "blocks": [
+    {
+     "id": "block-13",
+     "shape": "box",
+     "position": {
+      "x": 38.1,
+      "y": 2.95,
+      "z": -26
+     },
+     "rotationY": 0,
+     "size": {
+      "x": 3.1,
+      "y": 3.9,
+      "z": 1.6
+     },
+     "color": "#202024",
+     "collidable": true,
+     "surface": "tile",
+     "surfaceStyle": "squares",
+     "surfaceScale": 1.2,
+     "surfaceSeam": "#333338"
+    },
+    {
+     "id": "wall-15",
+     "shape": "box",
+     "position": {
+      "x": 54.17,
+      "y": 13.5,
+      "z": -15.38
+     },
+     "rotationY": 6.266,
+     "size": {
+      "x": 4.7,
+      "y": 23,
+      "z": 0.3
+     },
+     "color": "#59606b",
+     "collidable": true,
+     "bulletCollidable": false,
+     "transparent": true
+    },
+    {
+     "id": "wall-16",
+     "shape": "box",
+     "position": {
+      "x": 25.2,
+      "y": 11.4,
+      "z": -7.48
+     },
+     "rotationY": 3.159,
+     "size": {
+      "x": 6,
+      "y": 20.8,
+      "z": 0.3
+     },
+     "color": "#59606b",
+     "collidable": true,
+     "bulletCollidable": false,
+     "transparent": true
+    },
+    {
+     "id": "wall-17",
+     "shape": "box",
+     "position": {
+      "x": 19.9,
+      "y": 11.7,
+      "z": -30.9
+     },
+     "rotationY": 1.571,
+     "size": {
+      "x": 6.6,
+      "y": 17.4,
+      "z": 0.3
+     },
+     "color": "#59606b",
+     "collidable": true,
+     "bulletCollidable": false,
+     "transparent": true
+    }
+   ],
+   "playerSpawn": {
+    "position": {
+     "x": 29.2,
+     "y": 1,
+     "z": -43.4
+    },
+    "yaw": 4.73
+   },
+   "spawners": [
+    {
+     "id": "spawner-1",
+     "name": "Holder 1",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": 52.8,
+      "y": 2.32,
+      "z": -22.2
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 3.981,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-2",
+     "name": "Holder 2",
+     "kind": "area",
+     "actorTemplateId": "actor-2",
+     "position": {
+      "x": 59.1,
+      "y": 2.3,
+      "z": -29.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 4.272,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-3",
+     "name": "Holder 3",
+     "kind": "area",
+     "actorTemplateId": "actor-3",
+     "position": {
+      "x": 36.6,
+      "y": 1.3,
+      "z": -27.7
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 3.582,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-4",
+     "name": "Holder 4",
+     "kind": "area",
+     "actorTemplateId": "actor-4",
+     "position": {
+      "x": 45.8,
+      "y": 1.3,
+      "z": -15.8
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 3.683,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-5",
+     "name": "Holder 5",
+     "kind": "area",
+     "actorTemplateId": "actor-5",
+     "position": {
+      "x": 34.4,
+      "y": 1.3,
+      "z": -24.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 3.41,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-6",
+     "name": "Holder 6",
+     "kind": "area",
+     "actorTemplateId": "actor-6",
+     "position": {
+      "x": 59.1,
+      "y": 2.32,
+      "z": -19.1
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 4.03,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-7",
+     "name": "Holder 7",
+     "kind": "area",
+     "actorTemplateId": "actor-7",
+     "position": {
+      "x": 32.8,
+      "y": 1.3,
+      "z": -17.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 3.28,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-8",
+     "name": "Holder 8",
+     "kind": "area",
+     "actorTemplateId": "actor-8",
+     "position": {
+      "x": 30.5,
+      "y": 1.3,
+      "z": -10.7
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 3.181,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-9",
+     "name": "Holder 9",
+     "kind": "area",
+     "actorTemplateId": "actor-9",
+     "position": {
+      "x": 22.8,
+      "y": 1.3,
+      "z": -15
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.92,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-10",
+     "name": "Holder 10",
+     "kind": "area",
+     "actorTemplateId": "actor-10",
+     "position": {
+      "x": 21.7,
+      "y": 3.3,
+      "z": -28.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.673,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-11",
+     "name": "Holder 11",
+     "kind": "area",
+     "actorTemplateId": "actor-11",
+     "position": {
+      "x": 29.2,
+      "y": 1.3,
+      "z": -20.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 3.142,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-12",
+     "name": "Strafer 1",
+     "kind": "area",
+     "actorTemplateId": "actor-12",
+     "position": {
+      "x": 37.2,
+      "y": 1.3,
+      "z": -14.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 9.093,
+     "faceTarget": false,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-14",
+     "name": "Holder 12",
+     "kind": "area",
+     "actorTemplateId": "actor-14",
+     "position": {
+      "x": 39.2,
+      "y": 5.3,
+      "z": -25.9
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 3.661,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    }
+   ],
+   "actors": [
+    {
+     "id": "actor-1",
+     "name": "Holder 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-2",
+     "name": "Holder 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-3",
+     "name": "Holder 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-4",
+     "name": "Holder 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-5",
+     "name": "Holder 5",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-6",
+     "name": "Holder 6",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-7",
+     "name": "Holder 7",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-8",
+     "name": "Holder 8",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-9",
+     "name": "Holder 9",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-10",
+     "name": "Holder 10",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-11",
+     "name": "Holder 11",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-12",
+     "name": "Strafer 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "strafe",
+       "speed": [
+        5.4,
+        5.4
+       ],
+       "dwell": [
+        0.03,
+        0.25
+       ],
+       "travel": [
+        1.44,
+        3.2
+       ],
+       "tap": [
+        0.35,
+        0.5,
+        1.2
+       ],
+       "counterStrafe": true
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-14",
+     "name": "Holder 12",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "jett",
+      "motion": "crouch",
+      "weapon": "operator"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    }
+   ],
+   "rules": {
+    "duration": 120,
+    "scoring": "clicking",
+    "weapon": "vandal",
+    "playerMovable": true,
+    "fireMode": "hold",
+    "spawnerPick": {
+     "pool": [
+      "spawner-1",
+      "spawner-2",
+      "spawner-3",
+      "spawner-4",
+      "spawner-5",
+      "spawner-6",
+      "spawner-7",
+      "spawner-8",
+      "spawner-9",
+      "spawner-10",
+      "spawner-11",
+      "spawner-12",
+      "spawner-14"
+     ],
+     "count": 9
+    }
+   }
+  }
+ }
+}

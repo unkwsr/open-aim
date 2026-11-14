@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 520" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="signal" cx="76%" cy="12%" r="72%">
+      <stop stop-color="#49202d" stop-opacity=".38"/>
+      <stop offset=".53" stop-color="#17202d" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#08111a" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fade" x2="0" y2="1">
+      <stop stop-color="#08111a" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#08111a" stop-opacity=".55"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="520" fill="#08111a"/>
+  <rect width="1600" height="520" fill="url(#signal)"/>
+  <g fill="none" stroke="#ff6072" stroke-width="2" opacity=".13">
+    <path d="M-90 290 570-86"/>
+    <path d="M105 522 774-78"/>
+    <path d="m650-84 580 272 452-260"/>
+    <path d="m807-84 422 202 334-202"/>
+    <path d="M1010 0v42m0 164v58h72m225-264v42m0 164v58h-72"/>
+    <path d="M0 505h368m-368 10h186"/>
+  </g>
+  <g fill="none" stroke="#87bed2" stroke-width="1.7" opacity=".13">
+    <circle cx="1226" cy="109" r="166"/>
+    <circle cx="1226" cy="109" r="276"/>
+    <circle cx="1226" cy="109" r="391"/>
+    <path d="M1226-110v466M786 109h814" stroke-dasharray="4 14"/>
+    <path d="M1162 109h128M1226 45v128" opacity=".5"/>
+  </g>
+  <g fill="none" stroke="#ff6072" opacity=".32">
+    <circle cx="1226" cy="109" r="18" stroke-width="1.5"/>
+    <path d="M1190 109h-13m98 0h-13m-36-36V60m0 98v-13" stroke-width="2"/>
+  </g>
+  <g fill="#ff6072">
+    <circle cx="1226" cy="109" r="5" opacity=".8"/>
+    <circle cx="396" cy="-2" r="3" opacity=".22"/>
+  </g>
+  <g fill="#88cde0" opacity=".36">
+    <circle cx="940" cy="253" r="4"/>
+    <circle cx="805" cy="35" r="2.5"/>
+  </g>
+  <rect width="1600" height="520" fill="url(#fade)"/>
+</svg>

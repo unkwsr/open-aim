@@ -54,7 +54,7 @@ Common types: `feat`, `fix`, `perf`, `docs`, `style`, `chore`.
 
 ## Rules for files
 
-- Send drills as files in `scenarios/`, not as changes to `site/`.
+- Send drills as files in `scenarios/`, not as changes to `base/` or `app/site/`.
 - Only submit work that's yours, or that's under a license that allows sharing it (say which).
 - No personal data: no backups, logs, or files from `%APPDATA%\AimTrainer`.
 

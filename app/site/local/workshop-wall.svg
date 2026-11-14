@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <!-- original-workshop-wall-v1: abstract aim lanes; no weapon imagery -->
+  <defs>
+    <linearGradient id="base" x2="1" y2="1"><stop stop-color="#08131d"/><stop offset=".55" stop-color="#0b1520"/><stop offset="1" stop-color="#060b11"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#b62f47" stop-opacity=".22"/><stop offset="1" stop-color="#b62f47" stop-opacity="0"/></radialGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse"><path d="M48 0H0V48" fill="none" stroke="#7ba8b7" stroke-opacity=".10" stroke-width="1"/></pattern>
+    <linearGradient id="rail"><stop stop-color="#ff6170" stop-opacity="0"/><stop offset=".52" stop-color="#ff6170" stop-opacity=".32"/><stop offset="1" stop-color="#ff6170" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#base)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <ellipse cx="1200" cy="490" rx="580" ry="460" fill="url(#glow)"/>
+  <g fill="none" stroke="#8bcbd7" stroke-opacity=".15" stroke-width="2">
+    <circle cx="1200" cy="470" r="148"/><circle cx="1200" cy="470" r="246"/><circle cx="1200" cy="470" r="356"/>
+    <path d="M844 470h712M1200 114v712" stroke-dasharray="5 15"/>
+  </g>
+  <g fill="none" stroke="url(#rail)" stroke-width="3">
+    <path d="M-80 690 660 270 1215 475 1720 180"/>
+    <path d="M-60 785 730 345 1215 565 1710 290"/>
+  </g>
+  <g fill="none" stroke="#ff6474" stroke-opacity=".28" stroke-width="2">
+    <path d="M1123 322h-72v72M1277 322h72v72M1123 618h-72v-72M1277 618h72v-72"/>
+    <circle cx="1200" cy="470" r="18"/><circle cx="1200" cy="470" r="5" fill="#ff6676" stroke="none"/>
+  </g>
+  <g fill="#92d1dd" fill-opacity=".52">
+    <circle cx="646" cy="287" r="4"/><circle cx="774" cy="369" r="3"/><circle cx="917" cy="598" r="4"/><circle cx="1432" cy="326" r="3"/>
+  </g>
+  <path d="M0 854h420M0 865h260M1350 62h250M1460 75h140" stroke="#ff6b78" stroke-opacity=".23" stroke-width="2"/>
+</svg>

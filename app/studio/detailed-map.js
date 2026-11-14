@@ -70,6 +70,7 @@ async function rewrap(source, mask) {
       if (!geometry) continue;
     }
     const mesh = o.isInstancedMesh ? new THREE.InstancedMesh(geometry, o.material, o.count) : new THREE.Mesh(geometry, o.material);
+    mesh.name = o.name;
     if (o.isInstancedMesh) {
       // Keep only the copies inside the map; the game's own buffers stay untouched.
       const keep = [];

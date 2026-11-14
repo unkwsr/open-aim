@@ -1,0 +1,347 @@
+{
+ "item": {
+  "createTime": "2026-11-12 00:00:00",
+  "description": "Push from B main through Yellow onto B site. 10 static bots on the common angles: Yellow, site, Snowman, Back site and Hall.",
+  "docBytes": 0,
+  "featured": false,
+  "mapId": "port",
+  "name": "Icebox — B attack, pre-aim",
+  "parSeconds": null,
+  "playCount": 0,
+  "sceneKey": "set-1ceb0b5173a1e0b1",
+  "shareCode": "1ceb0b5173a1e0b1",
+  "sort": 0,
+  "status": 1,
+  "type": "aim",
+  "updateTime": "2026-11-12 00:00:00"
+ },
+ "scene": {
+  "authorNickname": "Local",
+  "authorUid": "local",
+  "blockCount": 0,
+  "createTime": "2026-11-12 00:00:00",
+  "description": "Push from B main through Yellow onto B site. 10 static bots on the common angles: Yellow, site, Snowman, Back site and Hall.",
+  "docBytes": 0,
+  "name": "Icebox — B attack, pre-aim",
+  "playCount": 0,
+  "sceneKey": "set-1ceb0b5173a1e0b1",
+  "schemaVersion": 2,
+  "shareCode": "1ceb0b5173a1e0b1",
+  "updateTime": "2026-11-12 00:00:00",
+  "doc": {
+   "schemaVersion": 2,
+   "meta": {
+    "id": "local-icebox-b-pre-aim",
+    "name": "Icebox — B attack, pre-aim",
+    "seed": 1120261,
+    "createdAt": 0
+   },
+   "environment": {
+    "map": "port",
+    "skyColor": "#c9dbe6",
+    "fogNear": 20,
+    "fogFar": 200,
+    "fogEnabled": false,
+    "ambientIntensity": 1,
+    "keyLightIntensity": 1,
+    "lightingVersion": 2
+   },
+   "blocks": [],
+   "playerSpawn": {
+    "position": {
+     "x": -7,
+     "y": 1.01,
+     "z": 2
+    },
+    "yaw": 0
+   },
+   "spawners": [
+    {
+     "id": "spawner-1",
+     "kind": "fixed",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -5.6,
+      "y": 2.19,
+      "z": -28.75
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "faceTarget": true,
+     "groundSnap": true,
+     "name": "Yellow corner"
+    },
+    {
+     "id": "spawner-2",
+     "kind": "fixed",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": 3.22,
+      "y": 1.95,
+      "z": -27.13
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "faceTarget": true,
+     "groundSnap": true,
+     "name": "Yellow box"
+    },
+    {
+     "id": "spawner-3",
+     "kind": "fixed",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": 8,
+      "y": 1.99,
+      "z": -29
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "faceTarget": true,
+     "groundSnap": true,
+     "name": "Yellow right"
+    },
+    {
+     "id": "spawner-4",
+     "kind": "fixed",
+     "actorTemplateId": "actor-2",
+     "position": {
+      "x": 14,
+      "y": 1.93,
+      "z": -21
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "faceTarget": true,
+     "groundSnap": true,
+     "name": "Site entry"
+    },
+    {
+     "id": "spawner-5",
+     "kind": "fixed",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": 22.89,
+      "y": 1.99,
+      "z": -18.17
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "faceTarget": true,
+     "groundSnap": true,
+     "name": "Site middle"
+    },
+    {
+     "id": "spawner-6",
+     "kind": "fixed",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": 27,
+      "y": 2.04,
+      "z": -21
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "faceTarget": true,
+     "groundSnap": true,
+     "name": "Site deep"
+    },
+    {
+     "id": "spawner-7",
+     "kind": "fixed",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": 39.57,
+      "y": 2.05,
+      "z": -22.52
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "faceTarget": true,
+     "groundSnap": true,
+     "name": "Snowman"
+    },
+    {
+     "id": "spawner-8",
+     "kind": "fixed",
+     "actorTemplateId": "actor-2",
+     "position": {
+      "x": 41.88,
+      "y": 2.03,
+      "z": -11.8
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "faceTarget": true,
+     "groundSnap": true,
+     "name": "Back site"
+    },
+    {
+     "id": "spawner-9",
+     "kind": "fixed",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": 17.46,
+      "y": 2.01,
+      "z": -6.37
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "faceTarget": true,
+     "groundSnap": true,
+     "name": "Site default"
+    },
+    {
+     "id": "spawner-10",
+     "kind": "fixed",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": 30.75,
+      "y": 5.71,
+      "z": -1.63
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "faceTarget": true,
+     "groundSnap": true,
+     "name": "Hall (high)"
+    }
+   ],
+   "actors": [
+    {
+     "id": "actor-1",
+     "name": "Static non-shooting bot",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ]
+    },
+    {
+     "id": "actor-2",
+     "name": "Crouch bot",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "motion": "crouch",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "duration": 60,
+    "scoring": "clicking",
+    "weapon": "vandal",
+    "playerMovable": true,
+    "fireMode": "hold",
+    "playerDeath": "endRound"
+   }
+  }
+ }
+}

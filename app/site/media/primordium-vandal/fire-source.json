@@ -1,0 +1,48 @@
+{
+  "layers": [
+    {
+      "layer": "tail",
+      "id": 300674410,
+      "rate": 48000,
+      "channels": 2,
+      "seconds": 3.081625,
+      "sourceSha256": "8085be7472fdc9adb2fedfcdd104a470ebe40063dae349a299c3bea91d919644"
+    },
+    {
+      "layer": "element",
+      "id": 383058673,
+      "rate": 48000,
+      "channels": 2,
+      "seconds": 0.5632291666666667,
+      "sourceSha256": "91aab37b6f882dfb298cb83deba7d7d701bf74b3a209561e5617f51785bf6170"
+    },
+    {
+      "layer": "tail-element",
+      "id": 552095866,
+      "rate": 48000,
+      "channels": 2,
+      "seconds": 3.030875,
+      "sourceSha256": "3744a2354decf54ed00d7190129518ef0abdff28c08238356660a178d833b6db"
+    },
+    {
+      "layer": "transient",
+      "id": 658705525,
+      "rate": 48000,
+      "channels": 2,
+      "seconds": 0.5632291666666667,
+      "sourceSha256": "8b17b7b80a13556c356efd661fc27042ac9cb4b68e24233172f8d732931a00c3"
+    },
+    {
+      "layer": "mechanical",
+      "id": 881404176,
+      "rate": 48000,
+      "channels": 1,
+      "seconds": 0.1389375,
+      "sourceSha256": "13a739ce2c2ba3993cbc78bdc1b9356114368321f22cc054c12e456c2d30c043"
+    }
+  ],
+  "mix": "Five first-person layers aligned at zero, unity relative gains, common peak attenuation. Approximation; Wwise event mixing not reproduced.",
+  "gain": 0.4006386559456855,
+  "outputPeak": 0.8499755859375,
+  "seconds": 3.081625
+}

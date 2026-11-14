@@ -1,0 +1,10250 @@
+{
+ "item": {
+  "createTime": "2026-11-08 21:00:33",
+  "description": "15 of 23 spots each round, new spots every round. Bots shoot back.",
+  "docBytes": 53590,
+  "featured": false,
+  "mapId": "juliett",
+  "name": "SUNSET B RETAKE FROM DEf flashes",
+  "parSeconds": null,
+  "playCount": 0,
+  "sceneKey": "set-ecd82f5bf93ce11b",
+  "shareCode": "ecd82f5bf93ce11b",
+  "sort": 1,
+  "status": 1,
+  "type": "hold",
+  "updateTime": "2026-11-14 07:09:27"
+ },
+ "scene": {
+  "authorNickname": "openVaim",
+  "authorUid": "creator",
+  "blockCount": 5,
+  "createTime": "2026-11-08 21:00:33",
+  "description": "15 of 23 spots each round, new spots every round. Bots shoot back.",
+  "docBytes": 53590,
+  "name": "SUNSET B RETAKE FROM DEf flashes",
+  "playCount": 0,
+  "sceneHash": "357babe98fd46632",
+  "sceneKey": "set-ecd82f5bf93ce11b",
+  "schemaVersion": 2,
+  "shareCode": "ecd82f5bf93ce11b",
+  "updateTime": "2026-11-14 07:09:27",
+  "aimShuffle": {
+   "groups": [
+    {
+     "actors": [
+      "actor-1"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-2"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-3"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-5"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-6"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-7"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-8"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-9"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-10"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-11"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-12"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-13"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-14"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-15"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-16"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-18"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-19"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-21"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-22"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-24"
+     ]
+    },
+    {
+     "actors": [
+      "actor-29"
+     ]
+    },
+    {
+     "actors": [
+      "actor-30"
+     ]
+    },
+    {
+     "actors": [
+      "actor-31"
+     ]
+    },
+    {
+     "actors": [
+      "actor-32"
+     ],
+     "keepLook": true
+    },
+    {
+     "actors": [
+      "actor-23"
+     ],
+     "keepLook": true
+    },
+    {
+     "actors": [
+      "actor-25"
+     ],
+     "keepLook": true
+    },
+    {
+     "actors": [
+      "actor-26"
+     ],
+     "keepLook": true
+    }
+   ],
+   "crouch": 8
+  },
+  "doc": {
+   "schemaVersion": 2,
+   "meta": {
+    "id": "studio-49f0fdf3f24fa69a",
+    "name": "SUNSET B RETAKE FROM DEf flashes",
+    "seed": 13510047,
+    "createdAt": 0
+   },
+   "environment": {
+    "skyColor": "#111820",
+    "fogNear": 14,
+    "fogFar": 33,
+    "ambientIntensity": 2,
+    "keyLightIntensity": 3,
+    "fogEnabled": false,
+    "map": "juliett"
+   },
+   "blocks": [
+    {
+     "id": "block-4",
+     "shape": "box",
+     "position": {
+      "x": -25.1,
+      "y": 2.15,
+      "z": -4.1
+     },
+     "rotationY": 0,
+     "size": {
+      "x": 1.6,
+      "y": 0.3,
+      "z": 4.2
+     },
+     "color": "#202024",
+     "collidable": true,
+     "surface": "tile",
+     "surfaceStyle": "squares",
+     "surfaceScale": 1.2,
+     "surfaceSeam": "#333338"
+    },
+    {
+     "id": "block-17",
+     "shape": "box",
+     "position": {
+      "x": -39.6,
+      "y": 2.45,
+      "z": -9.5
+     },
+     "rotationY": 0,
+     "size": {
+      "x": 1.5,
+      "y": 0.9,
+      "z": 0.9
+     },
+     "color": "#202024",
+     "collidable": true,
+     "surface": "tile",
+     "surfaceStyle": "squares",
+     "surfaceScale": 1.2,
+     "surfaceSeam": "#333338"
+    },
+    {
+     "id": "block-20",
+     "shape": "box",
+     "position": {
+      "x": -50.15,
+      "y": 2.99,
+      "z": 19
+     },
+     "rotationY": 3.142,
+     "size": {
+      "x": 1.9,
+      "y": 1.9,
+      "z": 1.7
+     },
+     "color": "#202024",
+     "collidable": true,
+     "surface": "tile",
+     "surfaceStyle": "squares",
+     "surfaceScale": 1.2,
+     "surfaceSeam": "#333338"
+    },
+    {
+     "id": "wall-27",
+     "shape": "box",
+     "position": {
+      "x": -38.1,
+      "y": 17,
+      "z": -10.43
+     },
+     "rotationY": 3.142,
+     "size": {
+      "x": 8.3,
+      "y": 26,
+      "z": 0.3
+     },
+     "color": "#59606b",
+     "collidable": true,
+     "bulletCollidable": false,
+     "transparent": true
+    },
+    {
+     "id": "wall-28",
+     "shape": "box",
+     "position": {
+      "x": -29.85,
+      "y": 5.51,
+      "z": -20.53
+     },
+     "rotationY": 3.124,
+     "size": {
+      "x": 4.7,
+      "y": 4,
+      "z": 0.3
+     },
+     "color": "#59606b",
+     "collidable": true,
+     "bulletCollidable": false,
+     "transparent": true
+    }
+   ],
+   "playerSpawn": {
+    "position": {
+     "x": -16.7,
+     "y": 4,
+     "z": -25.1
+    },
+    "yaw": 0
+   },
+   "spawners": [
+    {
+     "id": "spawner-1",
+     "name": "Holder 1",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -47.5,
+      "y": 4.3,
+      "z": -24.7
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.584,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-2",
+     "name": "Holder 2",
+     "kind": "area",
+     "actorTemplateId": "actor-2",
+     "position": {
+      "x": -32.7,
+      "y": 4.3,
+      "z": -24.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.602,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-3",
+     "name": "Holder 3",
+     "kind": "area",
+     "actorTemplateId": "actor-3",
+     "position": {
+      "x": -28.1,
+      "y": 2.3,
+      "z": -13.1
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.382,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-5",
+     "name": "Holder 4",
+     "kind": "area",
+     "actorTemplateId": "actor-5",
+     "position": {
+      "x": -25,
+      "y": 6.3,
+      "z": -4
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.767,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-6",
+     "name": "Holder 5",
+     "kind": "area",
+     "actorTemplateId": "actor-6",
+     "position": {
+      "x": -57.5,
+      "y": 4.19,
+      "z": -18.8
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.724,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-7",
+     "name": "Holder 6",
+     "kind": "area",
+     "actorTemplateId": "actor-7",
+     "position": {
+      "x": -53.6,
+      "y": 4.19,
+      "z": -21.4
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.671,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-8",
+     "name": "Holder 7",
+     "kind": "area",
+     "actorTemplateId": "actor-8",
+     "position": {
+      "x": -34.6,
+      "y": 4.3,
+      "z": -14.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.114,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-9",
+     "name": "Holder 8",
+     "kind": "area",
+     "actorTemplateId": "actor-9",
+     "position": {
+      "x": -34.2,
+      "y": 2.34,
+      "z": -2.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.487,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-10",
+     "name": "Holder 9",
+     "kind": "area",
+     "actorTemplateId": "actor-10",
+     "position": {
+      "x": -57.5,
+      "y": 2.34,
+      "z": -1.4
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.097,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-11",
+     "name": "Holder 10",
+     "kind": "area",
+     "actorTemplateId": "actor-11",
+     "position": {
+      "x": -48.6,
+      "y": 2.34,
+      "z": -7.1
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.085,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-12",
+     "name": "Holder 11",
+     "kind": "area",
+     "actorTemplateId": "actor-12",
+     "position": {
+      "x": -47.2,
+      "y": 2.3,
+      "z": 12.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.46,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-13",
+     "name": "Holder 12",
+     "kind": "area",
+     "actorTemplateId": "actor-13",
+     "position": {
+      "x": -42.2,
+      "y": 2.34,
+      "z": 4.8
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.435,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-14",
+     "name": "Holder 13",
+     "kind": "area",
+     "actorTemplateId": "actor-14",
+     "position": {
+      "x": -57.8,
+      "y": 2.3,
+      "z": 4.8
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.2,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-15",
+     "name": "Holder 14",
+     "kind": "area",
+     "actorTemplateId": "actor-15",
+     "position": {
+      "x": -37.7,
+      "y": 2.34,
+      "z": 1.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.475,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-16",
+     "name": "Holder 15",
+     "kind": "area",
+     "actorTemplateId": "actor-16",
+     "position": {
+      "x": -31.8,
+      "y": 2.3,
+      "z": -2.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.557,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-18",
+     "name": "Holder 16",
+     "kind": "area",
+     "actorTemplateId": "actor-18",
+     "position": {
+      "x": -39.7,
+      "y": 3.301,
+      "z": -9.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.164,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-19",
+     "name": "Holder 17",
+     "kind": "area",
+     "actorTemplateId": "actor-19",
+     "position": {
+      "x": -43.4,
+      "y": 2.3,
+      "z": -7.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.154,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-21",
+     "name": "Holder 18",
+     "kind": "area",
+     "actorTemplateId": "actor-21",
+     "position": {
+      "x": -49.8,
+      "y": 4.24,
+      "z": 19.2
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.5,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-22",
+     "name": "Holder 19",
+     "kind": "area",
+     "actorTemplateId": "actor-22",
+     "position": {
+      "x": -37.1,
+      "y": 7.301,
+      "z": -24.7
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.59,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-24",
+     "name": "Strafer 1",
+     "kind": "area",
+     "actorTemplateId": "actor-24",
+     "position": {
+      "x": -29.2,
+      "y": 4.3,
+      "z": -30.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 7.871,
+     "faceTarget": false,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ],
+     "trigger": {
+      "a": {
+       "x": -11.9,
+       "z": -28.2
+      },
+      "b": {
+       "x": -19.9,
+       "z": -28.1
+      }
+     }
+    },
+    {
+     "id": "spawner-29",
+     "name": "Copycat 1",
+     "kind": "area",
+     "actorTemplateId": "actor-29",
+     "position": {
+      "x": -53.8,
+      "y": 2,
+      "z": 11
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.343,
+     "faceTarget": true,
+     "groundSnap": false,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-30",
+     "name": "Strafer 2",
+     "kind": "area",
+     "actorTemplateId": "actor-30",
+     "position": {
+      "x": -45.7,
+      "y": 4.3,
+      "z": -14.8
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 9.233,
+     "faceTarget": false,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-31",
+     "name": "Strafer 3",
+     "kind": "area",
+     "actorTemplateId": "actor-31",
+     "position": {
+      "x": -26.7,
+      "y": 2.3,
+      "z": -1.1
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 3.316,
+     "faceTarget": false,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-32",
+     "name": "Peeker 4",
+     "kind": "area",
+     "actorTemplateId": "actor-32",
+     "position": {
+      "x": -47.7,
+      "y": 2.3,
+      "z": -5.4
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 2.137,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ],
+     "trigger": {
+      "a": {
+       "x": -58.3,
+       "z": -13.7
+      },
+      "b": {
+       "x": -50,
+       "z": -13.8
+      }
+     }
+    }
+   ],
+   "actors": [
+    {
+     "id": "actor-1",
+     "name": "Holder 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "neon",
+      "motion": "crouch"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-2",
+     "name": "Holder 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-3",
+     "name": "Holder 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-5",
+     "name": "Holder 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-6",
+     "name": "Holder 5",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-7",
+     "name": "Holder 6",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "motion": "crouch"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-8",
+     "name": "Holder 7",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "motion": "crouch"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-9",
+     "name": "Holder 8",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-10",
+     "name": "Holder 9",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-11",
+     "name": "Holder 10",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-12",
+     "name": "Holder 11",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-13",
+     "name": "Holder 12",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-14",
+     "name": "Holder 13",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-15",
+     "name": "Holder 14",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "motion": "crouch"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-16",
+     "name": "Holder 15",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-18",
+     "name": "Holder 16",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "reyna"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-19",
+     "name": "Holder 17",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-21",
+     "name": "Holder 18",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-22",
+     "name": "Holder 19",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "tejo"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-24",
+     "name": "Strafer 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "brimstone",
+      "weapon": "phantom"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "strafe",
+       "speed": [
+        5.4,
+        5.4
+       ],
+       "dwell": [
+        0.03,
+        0.25
+       ],
+       "travel": [
+        1.17,
+        2.6
+       ],
+       "tap": [
+        0.35,
+        0.5,
+        1.2
+       ],
+       "counterStrafe": true
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150,
+     "studioCrouch": {
+      "duration": [
+       0.3,
+       0.3
+      ],
+      "interval": [
+       2,
+       4
+      ],
+      "still": true
+     }
+    },
+    {
+     "id": "actor-29",
+     "name": "Copycat 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "jett",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "replay",
+       "hz": 30,
+       "frames": [
+        -53.8,
+        2,
+        11,
+        0,
+        0,
+        0,
+        -53.8,
+        2,
+        11,
+        0,
+        0,
+        0,
+        -53.8,
+        2,
+        11,
+        0,
+        0,
+        0,
+        -53.8,
+        2,
+        11,
+        0,
+        0,
+        0,
+        -53.8,
+        2,
+        11,
+        0,
+        0,
+        0,
+        -53.8,
+        2,
+        11,
+        0,
+        0,
+        0,
+        -53.8,
+        2,
+        11,
+        0,
+        0,
+        0,
+        -53.79,
+        2,
+        11,
+        0,
+        0,
+        0,
+        -53.74,
+        2,
+        11.01,
+        0,
+        0,
+        0,
+        -53.68,
+        2,
+        11.04,
+        0,
+        0,
+        0,
+        -53.58,
+        2,
+        11.05,
+        0,
+        0,
+        0,
+        -53.46,
+        2,
+        11.09,
+        0,
+        0,
+        0,
+        -53.33,
+        2,
+        11.13,
+        0,
+        0,
+        0,
+        -53.17,
+        2,
+        11.17,
+        0,
+        0,
+        0,
+        -53,
+        2,
+        11.22,
+        0,
+        0,
+        0,
+        -52.82,
+        2,
+        11.28,
+        0,
+        0,
+        0,
+        -52.65,
+        2,
+        11.35,
+        0,
+        0,
+        0,
+        -52.49,
+        2.13,
+        11.44,
+        0,
+        0,
+        1,
+        -52.34,
+        2.33,
+        11.56,
+        0,
+        0,
+        1,
+        -52.2,
+        2.51,
+        11.69,
+        0,
+        0,
+        1,
+        -52.09,
+        2.67,
+        11.85,
+        0,
+        0,
+        1,
+        -52,
+        2.81,
+        12.02,
+        0,
+        0,
+        1,
+        -51.91,
+        2.92,
+        12.19,
+        0,
+        0,
+        1,
+        -51.82,
+        3.01,
+        12.36,
+        0,
+        0,
+        1,
+        -51.71,
+        3.08,
+        12.52,
+        0,
+        0,
+        1,
+        -51.56,
+        3.12,
+        12.64,
+        0,
+        0,
+        1,
+        -51.38,
+        3.15,
+        12.72,
+        0,
+        0,
+        1,
+        -51.16,
+        3.15,
+        12.72,
+        0,
+        0,
+        1,
+        -50.97,
+        3.13,
+        12.67,
+        0,
+        0,
+        1,
+        -50.77,
+        3.08,
+        12.56,
+        0,
+        0,
+        1,
+        -50.58,
+        3.02,
+        12.46,
+        0,
+        0,
+        1,
+        -50.4,
+        2.93,
+        12.35,
+        0,
+        0,
+        1,
+        -50.22,
+        2.81,
+        12.3,
+        0,
+        0,
+        1,
+        -50.07,
+        2.68,
+        12.31,
+        0,
+        0,
+        1,
+        -49.95,
+        2.52,
+        12.38,
+        0,
+        0,
+        1,
+        -49.89,
+        2.35,
+        12.51,
+        0,
+        0,
+        1,
+        -49.89,
+        2.14,
+        12.65,
+        0,
+        0,
+        1,
+        -49.97,
+        2.05,
+        12.77,
+        0,
+        0,
+        1,
+        -50.08,
+        2.26,
+        12.87,
+        0,
+        0,
+        1,
+        -50.19,
+        2.45,
+        12.97,
+        0,
+        0,
+        1,
+        -50.31,
+        2.61,
+        13.08,
+        0,
+        0,
+        1,
+        -50.43,
+        2.76,
+        13.17,
+        0,
+        0,
+        1,
+        -50.54,
+        2.88,
+        13.27,
+        0,
+        0,
+        1,
+        -50.66,
+        2.98,
+        13.37,
+        0,
+        0,
+        1,
+        -50.77,
+        3.05,
+        13.47,
+        0,
+        0,
+        1,
+        -50.89,
+        3.11,
+        13.56,
+        0,
+        0,
+        1,
+        -51,
+        3.14,
+        13.66,
+        0,
+        0,
+        1,
+        -51.12,
+        3.15,
+        13.76,
+        0,
+        0,
+        1,
+        -51.23,
+        3.14,
+        13.87,
+        0,
+        0,
+        1,
+        -51.34,
+        3.1,
+        13.97,
+        0,
+        0,
+        1,
+        -51.47,
+        3.04,
+        14.05,
+        0,
+        0,
+        1,
+        -51.62,
+        2.96,
+        14.08,
+        0,
+        0,
+        1,
+        -51.78,
+        2.86,
+        14.07,
+        0,
+        0,
+        1,
+        -51.92,
+        2.74,
+        14,
+        0,
+        0,
+        1,
+        -52.04,
+        2.59,
+        13.89,
+        0,
+        0,
+        1,
+        -52.14,
+        2.42,
+        13.75,
+        0,
+        0,
+        1,
+        -52.23,
+        2.23,
+        13.62,
+        0,
+        0,
+        1,
+        -52.31,
+        2.02,
+        13.47,
+        0,
+        0,
+        1,
+        -52.4,
+        2.13,
+        13.33,
+        0,
+        0,
+        1,
+        -52.48,
+        2.33,
+        13.19,
+        0,
+        0,
+        1,
+        -52.56,
+        2.51,
+        13.03,
+        0,
+        0,
+        1,
+        -52.64,
+        2.67,
+        12.89,
+        0,
+        0,
+        1,
+        -52.76,
+        2.8,
+        12.76,
+        0,
+        0,
+        1,
+        -52.9,
+        2.92,
+        12.7,
+        0,
+        0,
+        1,
+        -53.08,
+        3.01,
+        12.67,
+        0,
+        0,
+        1,
+        -53.25,
+        3.08,
+        12.64,
+        0,
+        0,
+        1,
+        -53.42,
+        3.12,
+        12.6,
+        0,
+        0,
+        1,
+        -53.56,
+        3.15,
+        12.5,
+        0,
+        0,
+        1,
+        -53.64,
+        3.15,
+        12.34,
+        0,
+        0,
+        1,
+        -53.71,
+        3.13,
+        12.17,
+        0,
+        0,
+        1,
+        -53.79,
+        3.08,
+        12,
+        0,
+        0,
+        1,
+        -53.86,
+        3.02,
+        11.84,
+        0,
+        0,
+        1,
+        -53.95,
+        2.93,
+        11.68,
+        0,
+        0,
+        1,
+        -54.03,
+        2.82,
+        11.51,
+        0,
+        0,
+        1,
+        -54.1,
+        2.68,
+        11.35,
+        0,
+        0,
+        1,
+        -54.18,
+        2.53,
+        11.19,
+        0,
+        0,
+        1,
+        -54.25,
+        2.35,
+        11.02,
+        0,
+        0,
+        1,
+        -54.31,
+        2.15,
+        10.84,
+        0,
+        0,
+        1,
+        -54.35,
+        2,
+        10.67,
+        0,
+        0,
+        0,
+        -54.36,
+        2,
+        10.5,
+        0,
+        0,
+        0,
+        -54.34,
+        2,
+        10.34,
+        0,
+        0,
+        0,
+        -54.31,
+        2,
+        10.24,
+        0,
+        0,
+        0,
+        -54.27,
+        2,
+        10.16,
+        0,
+        0,
+        0,
+        -54.23,
+        2,
+        10.12,
+        0,
+        0,
+        0,
+        -54.2,
+        2,
+        10.12,
+        0,
+        0,
+        0,
+        -54.18,
+        2,
+        10.14,
+        0,
+        0,
+        0,
+        -54.16,
+        2,
+        10.19,
+        0,
+        0,
+        0,
+        -54.14,
+        2,
+        10.23,
+        0,
+        0,
+        0,
+        -54.14,
+        2,
+        10.27,
+        0,
+        0,
+        0,
+        -54.14,
+        2,
+        10.28,
+        0,
+        0,
+        0,
+        -54.14,
+        2,
+        10.28,
+        0,
+        0,
+        0,
+        -54.14,
+        2,
+        10.28,
+        0,
+        0,
+        0,
+        -54.14,
+        2,
+        10.28,
+        0,
+        0,
+        0,
+        -54.13,
+        2,
+        10.27,
+        0,
+        0,
+        0,
+        -54.1,
+        2,
+        10.29,
+        0,
+        0,
+        0,
+        -54.05,
+        2,
+        10.3,
+        0,
+        0,
+        0,
+        -53.97,
+        2,
+        10.33,
+        0,
+        0,
+        0,
+        -53.86,
+        2,
+        10.37,
+        0,
+        0,
+        0,
+        -53.75,
+        2,
+        10.43,
+        0,
+        0,
+        0,
+        -53.64,
+        2,
+        10.54,
+        0,
+        0,
+        0,
+        -53.52,
+        2,
+        10.64,
+        0,
+        0,
+        0,
+        -53.39,
+        2,
+        10.77,
+        0,
+        0,
+        0,
+        -53.27,
+        2,
+        10.92,
+        0,
+        0,
+        0,
+        -53.14,
+        2.08,
+        11.07,
+        0,
+        0,
+        1,
+        -53.01,
+        2.28,
+        11.21,
+        0,
+        0,
+        1,
+        -52.88,
+        2.47,
+        11.36,
+        0,
+        0,
+        1,
+        -52.77,
+        2.63,
+        11.53,
+        0,
+        0,
+        1,
+        -52.68,
+        2.77,
+        11.71,
+        0,
+        0,
+        1,
+        -52.62,
+        2.89,
+        11.91,
+        0,
+        0,
+        1,
+        -52.56,
+        2.99,
+        12.1,
+        0,
+        0,
+        1,
+        -52.51,
+        3.06,
+        12.3,
+        0,
+        0,
+        1,
+        -52.41,
+        3.11,
+        12.47,
+        0,
+        0,
+        1,
+        -52.27,
+        3.14,
+        12.62,
+        0,
+        0,
+        1,
+        -52.08,
+        3.15,
+        12.71,
+        0,
+        0,
+        1,
+        -51.87,
+        3.13,
+        12.75,
+        0,
+        0,
+        1,
+        -51.66,
+        3.09,
+        12.73,
+        0,
+        0,
+        1,
+        -51.45,
+        3.03,
+        12.67,
+        0,
+        0,
+        1,
+        -51.25,
+        2.95,
+        12.59,
+        0,
+        0,
+        1,
+        -51.05,
+        2.84,
+        12.51,
+        0,
+        0,
+        1,
+        -50.84,
+        2.72,
+        12.43,
+        0,
+        0,
+        1,
+        -50.62,
+        2.57,
+        12.4,
+        0,
+        0,
+        1,
+        -50.4,
+        2.39,
+        12.41,
+        0,
+        0,
+        1,
+        -50.19,
+        2.2,
+        12.48,
+        0,
+        0,
+        1,
+        -50.02,
+        2,
+        12.62,
+        0,
+        0,
+        0,
+        -49.89,
+        2.06,
+        12.8,
+        0,
+        0,
+        1,
+        -49.81,
+        2.27,
+        13.01,
+        0,
+        0,
+        1,
+        -49.81,
+        2.45,
+        13.23,
+        0,
+        0,
+        1,
+        -49.87,
+        2.62,
+        13.43,
+        0,
+        0,
+        1,
+        -50,
+        2.76,
+        13.62,
+        0,
+        0,
+        1,
+        -50.13,
+        2.88,
+        13.82,
+        0,
+        0,
+        1,
+        -50.26,
+        2.98,
+        14,
+        0,
+        0,
+        1,
+        -50.38,
+        3.06,
+        14.19,
+        0,
+        0,
+        1,
+        -50.51,
+        3.11,
+        14.37,
+        0,
+        0,
+        1,
+        -50.63,
+        3.14,
+        14.56,
+        0,
+        0,
+        1,
+        -50.77,
+        3.15,
+        14.75,
+        0,
+        0,
+        1,
+        -50.89,
+        3.14,
+        14.94,
+        0,
+        0,
+        1,
+        -51.02,
+        3.1,
+        15.12,
+        0,
+        0,
+        1,
+        -51.15,
+        3.04,
+        15.3,
+        0,
+        0,
+        1,
+        -51.32,
+        2.96,
+        15.46,
+        0,
+        0,
+        1,
+        -51.51,
+        2.86,
+        15.59,
+        0,
+        0,
+        1,
+        -51.73,
+        2.73,
+        15.65,
+        0,
+        0,
+        1,
+        -51.97,
+        2.58,
+        15.65,
+        0,
+        0,
+        1,
+        -52.19,
+        2.41,
+        15.58,
+        0,
+        0,
+        1,
+        -52.39,
+        2.22,
+        15.45,
+        0,
+        0,
+        1,
+        -52.55,
+        2.01,
+        15.27,
+        0,
+        0,
+        1,
+        -52.67,
+        2,
+        15.07,
+        0,
+        0,
+        0,
+        -52.79,
+        2.2,
+        14.88,
+        0,
+        0,
+        1,
+        -52.9,
+        2.4,
+        14.68,
+        0,
+        0,
+        1,
+        -53.01,
+        2.57,
+        14.5,
+        0,
+        0,
+        1,
+        -53.12,
+        2.72,
+        14.3,
+        0,
+        0,
+        1,
+        -53.26,
+        2.85,
+        14.14,
+        0,
+        0,
+        1,
+        -53.45,
+        2.95,
+        14.03,
+        0,
+        0,
+        1,
+        -53.65,
+        3.03,
+        13.98,
+        0,
+        0,
+        1,
+        -53.87,
+        3.1,
+        13.94,
+        0,
+        0,
+        1,
+        -54.09,
+        3.13,
+        13.9,
+        0,
+        0,
+        1,
+        -54.3,
+        3.15,
+        13.87,
+        0,
+        0,
+        1,
+        -54.51,
+        3.14,
+        13.83,
+        0,
+        0,
+        1,
+        -54.73,
+        3.11,
+        13.79,
+        0,
+        0,
+        1,
+        -54.93,
+        3.06,
+        13.73,
+        0,
+        0,
+        1,
+        -55.08,
+        2.99,
+        13.61,
+        0,
+        0,
+        1,
+        -55.18,
+        2.89,
+        13.44,
+        0,
+        0,
+        1,
+        -55.21,
+        2.77,
+        13.25,
+        0,
+        0,
+        1,
+        -55.21,
+        2.63,
+        13.05,
+        0,
+        0,
+        1,
+        -55.21,
+        2.47,
+        12.86,
+        0,
+        0,
+        1,
+        -55.22,
+        2.28,
+        12.66,
+        0,
+        0,
+        1,
+        -55.22,
+        2.07,
+        12.47,
+        0,
+        0,
+        1,
+        -55.22,
+        2,
+        12.27,
+        0,
+        0,
+        0,
+        -55.19,
+        2,
+        12.08,
+        0,
+        0,
+        0,
+        -55.13,
+        2.14,
+        11.92,
+        0,
+        0,
+        1,
+        -55.01,
+        2.35,
+        11.8,
+        0,
+        0,
+        1,
+        -54.84,
+        2.52,
+        11.74,
+        0,
+        0,
+        1,
+        -54.67,
+        2.68,
+        11.74,
+        0,
+        0,
+        1,
+        -54.5,
+        2.81,
+        11.82,
+        0,
+        0,
+        1,
+        -54.34,
+        2.93,
+        11.9,
+        0,
+        0,
+        1,
+        -54.18,
+        3.01,
+        12,
+        0,
+        0,
+        1,
+        -54.02,
+        3.08,
+        12.09,
+        0,
+        0,
+        1,
+        -53.87,
+        3.13,
+        12.18,
+        0,
+        0,
+        1,
+        -53.7,
+        3.15,
+        12.27,
+        0,
+        0,
+        1,
+        -53.54,
+        3.15,
+        12.37,
+        0,
+        0,
+        1,
+        -53.39,
+        3.12,
+        12.46,
+        0,
+        0,
+        1,
+        -53.22,
+        3.08,
+        12.54,
+        0,
+        0,
+        1,
+        -53.07,
+        3.01,
+        12.63,
+        0,
+        0,
+        1,
+        -52.9,
+        2.92,
+        12.7,
+        0,
+        0,
+        1,
+        -52.71,
+        2.81,
+        12.76,
+        0,
+        0,
+        1,
+        -52.53,
+        2.67,
+        12.78,
+        0,
+        0,
+        1,
+        -52.34,
+        2.51,
+        12.76,
+        0,
+        0,
+        1,
+        -52.15,
+        2.33,
+        12.73,
+        0,
+        0,
+        1,
+        -51.97,
+        2.13,
+        12.69,
+        0,
+        0,
+        1,
+        -51.78,
+        2,
+        12.68,
+        0,
+        0,
+        0,
+        -51.59,
+        2.12,
+        12.67,
+        0,
+        0,
+        1,
+        -51.4,
+        2.33,
+        12.68,
+        0,
+        0,
+        1,
+        -51.21,
+        2.51,
+        12.75,
+        0,
+        0,
+        1,
+        -51.06,
+        2.67,
+        12.87,
+        0,
+        0,
+        1,
+        -50.96,
+        2.8,
+        13.03,
+        0,
+        0,
+        1,
+        -50.92,
+        2.92,
+        13.23,
+        0,
+        0,
+        1,
+        -50.95,
+        3.01,
+        13.43,
+        0,
+        0,
+        1,
+        -51.05,
+        3.08,
+        13.61,
+        0,
+        0,
+        1,
+        -51.18,
+        3.12,
+        13.78,
+        0,
+        0,
+        1,
+        -51.3,
+        3.15,
+        13.95,
+        0,
+        0,
+        1,
+        -51.43,
+        3.15,
+        14.12,
+        0,
+        0,
+        1,
+        -51.57,
+        3.13,
+        14.28,
+        0,
+        0,
+        1,
+        -51.75,
+        3.08,
+        14.39,
+        0,
+        0,
+        1,
+        -51.96,
+        3.02,
+        14.43,
+        0,
+        0,
+        1,
+        -52.17,
+        2.93,
+        14.4,
+        0,
+        0,
+        1,
+        -52.37,
+        2.82,
+        14.29,
+        0,
+        0,
+        1,
+        -52.53,
+        2.68,
+        14.13,
+        0,
+        0,
+        1,
+        -52.64,
+        2.53,
+        13.94,
+        0,
+        0,
+        1,
+        -52.76,
+        2.35,
+        13.74,
+        0,
+        0,
+        1,
+        -52.87,
+        2.15,
+        13.54,
+        0,
+        0,
+        1,
+        -52.99,
+        2,
+        13.35,
+        0,
+        0,
+        0,
+        -53.09,
+        2,
+        13.15,
+        0,
+        0,
+        0,
+        -53.16,
+        2,
+        12.97,
+        0,
+        0,
+        0,
+        -53.23,
+        2.18,
+        12.8,
+        0,
+        0,
+        1,
+        -53.28,
+        2.38,
+        12.63,
+        0,
+        0,
+        1,
+        -53.3,
+        2.55,
+        12.46,
+        0,
+        0,
+        1,
+        -53.24,
+        2.71,
+        12.28,
+        0,
+        0,
+        1,
+        -53.12,
+        2.84,
+        12.13,
+        0,
+        0,
+        1,
+        -52.94,
+        2.94,
+        12.05,
+        0,
+        0,
+        1,
+        -52.75,
+        3.03,
+        12.03,
+        0,
+        0,
+        1,
+        -52.55,
+        3.09,
+        12.04,
+        0,
+        0,
+        1,
+        -52.35,
+        3.13,
+        12.05,
+        0,
+        0,
+        1,
+        -52.15,
+        3.15,
+        12.06,
+        0,
+        0,
+        1,
+        -51.95,
+        3.14,
+        12.06,
+        0,
+        0,
+        1,
+        -51.76,
+        3.12,
+        12.15,
+        0,
+        0,
+        1,
+        -51.62,
+        3.07,
+        12.28,
+        0,
+        0,
+        1,
+        -51.52,
+        3,
+        12.45,
+        0,
+        0,
+        1,
+        -51.5,
+        2.9,
+        12.66,
+        0,
+        0,
+        1,
+        -51.56,
+        2.78,
+        12.85,
+        0,
+        0,
+        1,
+        -51.65,
+        2.65,
+        13.02,
+        0,
+        0,
+        1,
+        -51.75,
+        2.48,
+        13.21,
+        0,
+        0,
+        1,
+        -51.86,
+        2.3,
+        13.38,
+        0,
+        0,
+        1,
+        -51.99,
+        2.09,
+        13.54,
+        0,
+        0,
+        1,
+        -52.16,
+        2,
+        13.65,
+        0,
+        0,
+        0,
+        -52.34,
+        2.11,
+        13.71,
+        0,
+        0,
+        1,
+        -52.55,
+        2.32,
+        13.7,
+        0,
+        0,
+        1,
+        -52.73,
+        2.5,
+        13.63,
+        0,
+        0,
+        1,
+        -52.89,
+        2.66,
+        13.49,
+        0,
+        0,
+        1,
+        -53.04,
+        2.79,
+        13.36,
+        0,
+        0,
+        1,
+        -53.22,
+        2.91,
+        13.25,
+        0,
+        0,
+        1,
+        -53.42,
+        3,
+        13.2,
+        0,
+        0,
+        1,
+        -53.62,
+        3.07,
+        13.15,
+        0,
+        0,
+        1,
+        -53.82,
+        3.12,
+        13.09,
+        0,
+        0,
+        1,
+        -53.99,
+        3.15,
+        12.96,
+        0,
+        0,
+        1,
+        -54.12,
+        3.15,
+        12.79,
+        0,
+        0,
+        1,
+        -54.25,
+        3.13,
+        12.61,
+        0,
+        0,
+        1,
+        -54.37,
+        3.09,
+        12.46,
+        0,
+        0,
+        1,
+        -54.48,
+        3.02,
+        12.39,
+        0,
+        0,
+        1,
+        -54.59,
+        2.94,
+        12.38,
+        0,
+        0,
+        1,
+        -54.66,
+        2.83,
+        12.45,
+        0,
+        0,
+        1,
+        -54.73,
+        2.69,
+        12.54,
+        0,
+        0,
+        1,
+        -54.77,
+        2.54,
+        12.64,
+        0,
+        0,
+        1,
+        -54.75,
+        2.36,
+        12.75,
+        0,
+        0,
+        1,
+        -54.67,
+        2.16,
+        12.83,
+        0,
+        0,
+        1,
+        -54.55,
+        2,
+        12.86,
+        0,
+        0,
+        0,
+        -54.41,
+        2,
+        12.84,
+        0,
+        0,
+        0,
+        -54.28,
+        2,
+        12.81,
+        0,
+        0,
+        0,
+        -54.17,
+        2,
+        12.78,
+        0,
+        0,
+        0,
+        -54.06,
+        2,
+        12.76,
+        0,
+        0,
+        0,
+        -53.95,
+        2,
+        12.74,
+        0,
+        0,
+        0,
+        -53.84,
+        2,
+        12.7,
+        0,
+        0,
+        0,
+        -53.73,
+        2,
+        12.66,
+        0,
+        0,
+        0,
+        -53.63,
+        2,
+        12.62,
+        0,
+        0,
+        0,
+        -53.52,
+        2.1,
+        12.59,
+        0,
+        0,
+        1,
+        -53.41,
+        2.3,
+        12.58,
+        0,
+        0,
+        1,
+        -53.29,
+        2.49,
+        12.6,
+        0,
+        0,
+        1,
+        -53.19,
+        2.65,
+        12.67,
+        0,
+        0,
+        1,
+        -53.16,
+        2.79,
+        12.76,
+        0,
+        0,
+        1,
+        -53.18,
+        2.9,
+        12.85,
+        0,
+        0,
+        1,
+        -53.2,
+        3,
+        12.95,
+        0,
+        0,
+        1,
+        -53.26,
+        3.07,
+        13.03,
+        0,
+        0,
+        1,
+        -53.35,
+        3.12,
+        13.1,
+        0,
+        0,
+        1,
+        -53.43,
+        3.14,
+        13.16,
+        0,
+        1,
+        1,
+        -53.51,
+        3.15,
+        13.24,
+        0,
+        1,
+        1,
+        -53.58,
+        3.13,
+        13.3,
+        0,
+        1,
+        1,
+        -53.67,
+        3.09,
+        13.37,
+        0,
+        1,
+        1,
+        -53.75,
+        3.03,
+        13.43,
+        0,
+        1,
+        1,
+        -53.83,
+        2.94,
+        13.51,
+        0,
+        1,
+        1,
+        -53.91,
+        2.83,
+        13.57,
+        0,
+        1,
+        1,
+        -54.01,
+        2.7,
+        13.62,
+        0,
+        1,
+        1,
+        -54.1,
+        2.55,
+        13.68,
+        0,
+        1,
+        1,
+        -54.2,
+        2.37,
+        13.73,
+        0,
+        1,
+        1,
+        -54.29,
+        2.18,
+        13.78,
+        0,
+        0,
+        1,
+        -54.38,
+        2,
+        13.83,
+        0,
+        0,
+        0,
+        -54.49,
+        2,
+        13.86,
+        0,
+        0,
+        0,
+        -54.6,
+        2,
+        13.88,
+        0,
+        0,
+        0,
+        -54.7,
+        2,
+        13.87,
+        0,
+        0,
+        0,
+        -54.79,
+        2,
+        13.84,
+        0,
+        0,
+        0,
+        -54.88,
+        2,
+        13.81,
+        0,
+        0,
+        0,
+        -54.95,
+        2,
+        13.76,
+        0,
+        0,
+        0,
+        -55.02,
+        2,
+        13.7,
+        0,
+        0,
+        0,
+        -55.08,
+        2,
+        13.63,
+        0,
+        0,
+        0,
+        -55.11,
+        2,
+        13.55,
+        0,
+        0,
+        0,
+        -55.12,
+        2,
+        13.49,
+        0,
+        0,
+        0,
+        -55.11,
+        2,
+        13.42,
+        0,
+        0,
+        0,
+        -55.08,
+        2,
+        13.35,
+        0,
+        0,
+        0,
+        -55.05,
+        2,
+        13.27,
+        0,
+        0,
+        0,
+        -55,
+        2,
+        13.18,
+        0,
+        0,
+        0,
+        -54.93,
+        2,
+        13.08,
+        0,
+        0,
+        0,
+        -54.85,
+        2,
+        12.96,
+        0,
+        0,
+        0,
+        -54.76,
+        2,
+        12.84,
+        0,
+        0,
+        0,
+        -54.66,
+        2,
+        12.7,
+        0,
+        0,
+        0,
+        -54.54,
+        2,
+        12.55,
+        0,
+        0,
+        0,
+        -54.41,
+        2,
+        12.41,
+        0,
+        0,
+        0,
+        -54.28,
+        2,
+        12.24,
+        0,
+        0,
+        0,
+        -54.14,
+        2.16,
+        12.08,
+        0,
+        0,
+        1,
+        -53.98,
+        2.36,
+        11.95,
+        0,
+        0,
+        1,
+        -53.78,
+        2.53,
+        11.86,
+        0,
+        0,
+        1,
+        -53.56,
+        2.69,
+        11.83,
+        0,
+        0,
+        1,
+        -53.35,
+        2.82,
+        11.86,
+        0,
+        0,
+        1,
+        -53.15,
+        2.93,
+        11.94,
+        0,
+        0,
+        1,
+        -52.95,
+        3.02,
+        12.06,
+        0,
+        0,
+        1,
+        -52.77,
+        3.09,
+        12.2,
+        0,
+        0,
+        1,
+        -52.6,
+        3.13,
+        12.36,
+        0,
+        0,
+        1,
+        -52.45,
+        3.15,
+        12.53,
+        0,
+        0,
+        1,
+        -52.32,
+        3.15,
+        12.72,
+        0,
+        0,
+        1,
+        -52.28,
+        3.12,
+        12.89,
+        0,
+        0,
+        1,
+        -52.3,
+        3.07,
+        13.06,
+        0,
+        0,
+        1,
+        -52.38,
+        3,
+        13.19,
+        0,
+        0,
+        1,
+        -52.47,
+        2.91,
+        13.32,
+        0,
+        0,
+        1,
+        -52.57,
+        2.8,
+        13.42,
+        0,
+        0,
+        1,
+        -52.69,
+        2.66,
+        13.53,
+        0,
+        0,
+        1,
+        -52.8,
+        2.5,
+        13.64,
+        0,
+        0,
+        1,
+        -52.91,
+        2.32,
+        13.75,
+        0,
+        0,
+        1,
+        -53.03,
+        2.12,
+        13.85,
+        0,
+        0,
+        1,
+        -53.17,
+        2,
+        13.91,
+        0,
+        0,
+        0,
+        -53.33,
+        2,
+        13.92,
+        0,
+        0,
+        0,
+        -53.46,
+        2,
+        13.92,
+        0,
+        0,
+        0,
+        -53.57,
+        2,
+        13.9,
+        0,
+        0,
+        0,
+        -53.68,
+        2,
+        13.89,
+        0,
+        0,
+        0,
+        -53.79,
+        2,
+        13.85,
+        0,
+        0,
+        0,
+        -53.9,
+        2,
+        13.82,
+        0,
+        0,
+        0,
+        -54.01,
+        2,
+        13.78,
+        0,
+        0,
+        0,
+        -54.11,
+        2,
+        13.73,
+        0,
+        0,
+        0,
+        -54.2,
+        2,
+        13.68,
+        0,
+        0,
+        0,
+        -54.31,
+        2,
+        13.62,
+        0,
+        0,
+        0,
+        -54.39,
+        2,
+        13.54,
+        0,
+        0,
+        0,
+        -54.46,
+        2,
+        13.46,
+        0,
+        0,
+        0,
+        -54.52,
+        2,
+        13.36,
+        0,
+        0,
+        0,
+        -54.56,
+        2,
+        13.25,
+        0,
+        0,
+        0,
+        -54.59,
+        2,
+        13.1,
+        0,
+        0,
+        0,
+        -54.6,
+        2,
+        12.95,
+        0,
+        0,
+        0,
+        -54.61,
+        2,
+        12.79,
+        0,
+        0,
+        0,
+        -54.61,
+        2,
+        12.62,
+        0,
+        0,
+        0,
+        -54.6,
+        2,
+        12.43,
+        0,
+        0,
+        0,
+        -54.55,
+        2,
+        12.26,
+        0,
+        0,
+        0,
+        -54.46,
+        2.2,
+        12.1,
+        0,
+        0,
+        1,
+        -54.34,
+        2.4,
+        11.97,
+        0,
+        0,
+        1,
+        -54.19,
+        2.57,
+        11.84,
+        0,
+        0,
+        1,
+        -54.03,
+        2.72,
+        11.75,
+        0,
+        0,
+        1,
+        -53.86,
+        2.85,
+        11.69,
+        0,
+        0,
+        1,
+        -53.67,
+        2.95,
+        11.63,
+        0,
+        0,
+        1,
+        -53.49,
+        3.04,
+        11.61,
+        0,
+        0,
+        1,
+        -53.3,
+        3.1,
+        11.6,
+        0,
+        0,
+        1,
+        -53.1,
+        3.13,
+        11.63,
+        0,
+        0,
+        1,
+        -52.92,
+        3.15,
+        11.68,
+        0,
+        0,
+        1,
+        -52.73,
+        3.14,
+        11.74,
+        0,
+        0,
+        1,
+        -52.55,
+        3.11,
+        11.82,
+        0,
+        0,
+        1,
+        -52.42,
+        3.06,
+        11.93,
+        0,
+        0,
+        1,
+        -52.34,
+        2.99,
+        12.08,
+        0,
+        0,
+        1,
+        -52.34,
+        2.89,
+        12.24,
+        0,
+        0,
+        1,
+        -52.34,
+        2.77,
+        12.41,
+        0,
+        0,
+        1,
+        -52.34,
+        2.63,
+        12.58,
+        0,
+        0,
+        1,
+        -52.39,
+        2.47,
+        12.74,
+        0,
+        0,
+        1,
+        -52.5,
+        2.28,
+        12.87,
+        0,
+        0,
+        1,
+        -52.62,
+        2.07,
+        12.99,
+        0,
+        0,
+        1,
+        -52.74,
+        2,
+        13.11,
+        0,
+        0,
+        0,
+        -52.88,
+        2,
+        13.19,
+        0,
+        0,
+        0,
+        -53,
+        2,
+        13.25,
+        0,
+        0,
+        0,
+        -53.12,
+        2,
+        13.29,
+        0,
+        0,
+        0,
+        -53.22,
+        2,
+        13.31,
+        0,
+        0,
+        0,
+        -53.32,
+        2,
+        13.31,
+        0,
+        0,
+        0,
+        -53.42,
+        2,
+        13.3,
+        0,
+        0,
+        0,
+        -53.53,
+        2,
+        13.27,
+        0,
+        0,
+        0,
+        -53.63,
+        2,
+        13.24,
+        0,
+        0,
+        0,
+        -53.72,
+        2,
+        13.2,
+        0,
+        0,
+        0,
+        -53.84,
+        2,
+        13.16,
+        0,
+        0,
+        0,
+        -53.93,
+        2,
+        13.11,
+        0,
+        0,
+        0,
+        -54.02,
+        2,
+        13.03,
+        0,
+        0,
+        0,
+        -54.09,
+        2,
+        12.94,
+        0,
+        0,
+        0,
+        -54.16,
+        2,
+        12.83,
+        0,
+        0,
+        0,
+        -54.2,
+        2,
+        12.71,
+        0,
+        0,
+        0,
+        -54.2,
+        2,
+        12.59,
+        0,
+        0,
+        0,
+        -54.17,
+        2,
+        12.46,
+        0,
+        0,
+        0,
+        -54.11,
+        2,
+        12.33,
+        0,
+        0,
+        0,
+        -54.03,
+        2,
+        12.21,
+        0,
+        0,
+        0,
+        -53.93,
+        2,
+        12.09,
+        0,
+        0,
+        0,
+        -53.79,
+        2,
+        11.97,
+        0,
+        0,
+        0,
+        -53.65,
+        2.06,
+        11.86,
+        0,
+        0,
+        1,
+        -53.5,
+        2.27,
+        11.77,
+        0,
+        0,
+        1,
+        -53.31,
+        2.46,
+        11.71,
+        0,
+        0,
+        1,
+        -53.12,
+        2.62,
+        11.7,
+        0,
+        0,
+        1,
+        -52.93,
+        2.77,
+        11.73,
+        0,
+        0,
+        1,
+        -52.74,
+        2.89,
+        11.78,
+        0,
+        0,
+        1,
+        -52.6,
+        2.98,
+        11.87,
+        0,
+        0,
+        1,
+        -52.53,
+        3.06,
+        12,
+        0,
+        0,
+        1,
+        -52.51,
+        3.11,
+        12.16,
+        0,
+        0,
+        1,
+        -52.52,
+        3.14,
+        12.32,
+        0,
+        0,
+        1,
+        -52.53,
+        3.15,
+        12.48,
+        0,
+        0,
+        1,
+        -52.6,
+        3.13,
+        12.62,
+        0,
+        0,
+        1,
+        -52.72,
+        3.1,
+        12.74,
+        0,
+        0,
+        1,
+        -52.83,
+        3.04,
+        12.86,
+        0,
+        0,
+        1,
+        -52.95,
+        2.96,
+        12.98,
+        0,
+        0,
+        1,
+        -53.07,
+        2.85,
+        13.08,
+        0,
+        0,
+        1,
+        -53.19,
+        2.72,
+        13.2,
+        0,
+        0,
+        1,
+        -53.32,
+        2.58,
+        13.3,
+        0,
+        0,
+        1,
+        -53.44,
+        2.4,
+        13.42,
+        0,
+        0,
+        1,
+        -53.55,
+        2.21,
+        13.54,
+        0,
+        0,
+        1,
+        -53.68,
+        2.01,
+        13.65,
+        0,
+        0,
+        0,
+        -53.81,
+        2,
+        13.74,
+        0,
+        0,
+        0,
+        -53.94,
+        2,
+        13.82,
+        0,
+        0,
+        0,
+        -54.07,
+        2,
+        13.87,
+        0,
+        0,
+        0,
+        -54.18,
+        2,
+        13.91,
+        0,
+        0,
+        0,
+        -54.27,
+        2,
+        13.91,
+        0,
+        0,
+        0,
+        -54.34,
+        2,
+        13.91,
+        0,
+        0,
+        0,
+        -54.4,
+        2,
+        13.88,
+        0,
+        0,
+        0,
+        -54.44,
+        2,
+        13.86,
+        0,
+        0,
+        0,
+        -54.47,
+        2,
+        13.8,
+        0,
+        0,
+        0,
+        -54.48,
+        2,
+        13.74,
+        0,
+        0,
+        0,
+        -54.49,
+        2,
+        13.66,
+        0,
+        0,
+        0,
+        -54.49,
+        2,
+        13.59,
+        0,
+        0,
+        0,
+        -54.48,
+        2,
+        13.49,
+        0,
+        0,
+        0,
+        -54.47,
+        2,
+        13.38,
+        0,
+        0,
+        0,
+        -54.44,
+        2,
+        13.25,
+        0,
+        0,
+        0,
+        -54.41,
+        2,
+        13.11,
+        0,
+        0,
+        0,
+        -54.36,
+        2,
+        12.96,
+        0,
+        0,
+        0,
+        -54.32,
+        2,
+        12.79,
+        0,
+        0,
+        0,
+        -54.27,
+        2,
+        12.61,
+        0,
+        0,
+        0,
+        -54.21,
+        2.05,
+        12.42,
+        0,
+        0,
+        1,
+        -54.12,
+        2.26,
+        12.25,
+        0,
+        0,
+        1,
+        -54,
+        2.45,
+        12.09,
+        0,
+        0,
+        1,
+        -53.84,
+        2.61,
+        11.95,
+        0,
+        0,
+        1,
+        -53.65,
+        2.76,
+        11.86,
+        0,
+        0,
+        1,
+        -53.44,
+        2.88,
+        11.81,
+        0,
+        0,
+        1,
+        -53.22,
+        2.98,
+        11.79,
+        0,
+        0,
+        1,
+        -53,
+        3.05,
+        11.8,
+        0,
+        0,
+        1,
+        -52.79,
+        3.11,
+        11.81,
+        0,
+        0,
+        1,
+        -52.57,
+        3.14,
+        11.84,
+        0,
+        0,
+        1,
+        -52.38,
+        3.15,
+        11.91,
+        0,
+        0,
+        1,
+        -52.24,
+        3.14,
+        12.05,
+        0,
+        0,
+        1,
+        -52.13,
+        3.1,
+        12.21,
+        0,
+        0,
+        1,
+        -52.06,
+        3.04,
+        12.37,
+        0,
+        0,
+        1,
+        -52.05,
+        2.96,
+        12.55,
+        0,
+        0,
+        1,
+        -52.13,
+        2.86,
+        12.72,
+        0,
+        0,
+        1,
+        -52.26,
+        2.74,
+        12.85,
+        0,
+        0,
+        1,
+        -52.39,
+        2.59,
+        12.96,
+        0,
+        0,
+        1,
+        -52.53,
+        2.42,
+        13.08,
+        0,
+        0,
+        1,
+        -52.67,
+        2.23,
+        13.19,
+        0,
+        0,
+        1,
+        -52.81,
+        2.02,
+        13.32,
+        0,
+        0,
+        1,
+        -52.96,
+        2,
+        13.42,
+        0,
+        0,
+        0,
+        -53.11,
+        2,
+        13.48,
+        0,
+        0,
+        0,
+        -53.23,
+        2,
+        13.51,
+        0,
+        0,
+        0,
+        -53.34,
+        2,
+        13.54,
+        0,
+        0,
+        0,
+        -53.45,
+        2,
+        13.54,
+        0,
+        0,
+        0,
+        -53.55,
+        2,
+        13.52,
+        0,
+        0,
+        0,
+        -53.66,
+        2,
+        13.52,
+        0,
+        0,
+        0,
+        -53.77,
+        2,
+        13.51,
+        0,
+        0,
+        0,
+        -53.89,
+        2,
+        13.5,
+        0,
+        0,
+        0,
+        -54,
+        2,
+        13.5,
+        0,
+        0,
+        0,
+        -54.12,
+        2,
+        13.5,
+        0,
+        0,
+        0,
+        -54.24,
+        2,
+        13.48,
+        0,
+        0,
+        0,
+        -54.36,
+        2,
+        13.45,
+        0,
+        0,
+        0,
+        -54.48,
+        2,
+        13.41,
+        0,
+        0,
+        0,
+        -54.61,
+        2,
+        13.34,
+        0,
+        0,
+        0,
+        -54.74,
+        2,
+        13.26,
+        0,
+        0,
+        0,
+        -54.87,
+        2,
+        13.16,
+        0,
+        0,
+        0,
+        -54.97,
+        2,
+        13.04,
+        0,
+        0,
+        0,
+        -55.01,
+        2,
+        12.92,
+        0,
+        0,
+        0,
+        -55.02,
+        2,
+        12.8,
+        0,
+        0,
+        0,
+        -54.99,
+        2,
+        12.69,
+        0,
+        0,
+        0,
+        -54.94,
+        2,
+        12.57,
+        0,
+        0,
+        0,
+        -54.85,
+        2,
+        12.47,
+        0,
+        0,
+        0,
+        -54.74,
+        2,
+        12.4,
+        0,
+        0,
+        0,
+        -54.61,
+        2,
+        12.35,
+        0,
+        0,
+        0,
+        -54.47,
+        2,
+        12.28,
+        0,
+        0,
+        0,
+        -54.31,
+        2,
+        12.2,
+        0,
+        0,
+        0,
+        -54.14,
+        2,
+        12.13,
+        0,
+        0,
+        0,
+        -53.96,
+        2,
+        12.04,
+        0,
+        0,
+        0,
+        -53.76,
+        2,
+        11.97,
+        0,
+        0,
+        0,
+        -53.57,
+        2,
+        11.89,
+        0,
+        0,
+        0,
+        -53.36,
+        2.14,
+        11.83,
+        0,
+        0,
+        1,
+        -53.14,
+        2.34,
+        11.81,
+        0,
+        0,
+        1,
+        -52.92,
+        2.52,
+        11.78,
+        0,
+        0,
+        1,
+        -52.69,
+        2.68,
+        11.76,
+        0,
+        0,
+        1,
+        -52.47,
+        2.81,
+        11.76,
+        0,
+        0,
+        1,
+        -52.26,
+        2.92,
+        11.81,
+        0,
+        0,
+        1,
+        -52.08,
+        3.01,
+        11.92,
+        0,
+        0,
+        1,
+        -51.9,
+        3.08,
+        12.04,
+        0,
+        0,
+        1,
+        -51.69,
+        3.13,
+        12.09,
+        0,
+        0,
+        1,
+        -51.5,
+        3.15,
+        12.08,
+        0,
+        0,
+        1,
+        -51.3,
+        3.15,
+        12.07,
+        0,
+        0,
+        1,
+        -51.1,
+        3.12,
+        12.13,
+        0,
+        0,
+        1,
+        -50.94,
+        3.08,
+        12.25,
+        0,
+        0,
+        1,
+        -50.84,
+        3.01,
+        12.41,
+        0,
+        0,
+        1,
+        -50.8,
+        2.92,
+        12.6,
+        0,
+        0,
+        1,
+        -50.8,
+        2.81,
+        12.79,
+        0,
+        0,
+        1,
+        -50.81,
+        2.67,
+        12.98,
+        0,
+        0,
+        1,
+        -50.82,
+        2.52,
+        13.17,
+        0,
+        0,
+        1,
+        -50.83,
+        2.34,
+        13.36,
+        0,
+        0,
+        1,
+        -50.84,
+        2.13,
+        13.55,
+        0,
+        0,
+        1,
+        -50.86,
+        2,
+        13.73,
+        0,
+        0,
+        0,
+        -50.89,
+        2.17,
+        13.92,
+        0,
+        0,
+        1,
+        -50.95,
+        2.37,
+        14.09,
+        0,
+        0,
+        1,
+        -51.07,
+        2.54,
+        14.23,
+        0,
+        0,
+        1,
+        -51.24,
+        2.7,
+        14.32,
+        0,
+        0,
+        1,
+        -51.43,
+        2.83,
+        14.36,
+        0,
+        0,
+        1,
+        -51.61,
+        2.94,
+        14.31,
+        0,
+        0,
+        1,
+        -51.76,
+        3.02,
+        14.2,
+        0,
+        0,
+        1,
+        -51.89,
+        3.09,
+        14.08,
+        0,
+        0,
+        1,
+        -52.02,
+        3.13,
+        13.96,
+        0,
+        0,
+        1,
+        -52.16,
+        3.15,
+        13.84,
+        0,
+        0,
+        1,
+        -52.3,
+        3.15,
+        13.71,
+        0,
+        0,
+        1,
+        -52.44,
+        3.12,
+        13.6,
+        0,
+        0,
+        1,
+        -52.58,
+        3.07,
+        13.48,
+        0,
+        0,
+        1,
+        -52.67,
+        3,
+        13.32,
+        0,
+        0,
+        1,
+        -52.7,
+        2.91,
+        13.14,
+        0,
+        0,
+        1,
+        -52.66,
+        2.79,
+        12.95,
+        0,
+        0,
+        1,
+        -52.54,
+        2.65,
+        12.79,
+        0,
+        0,
+        1,
+        -52.4,
+        2.49,
+        12.67,
+        0,
+        0,
+        1,
+        -52.27,
+        2.31,
+        12.53,
+        0,
+        0,
+        1,
+        -52.19,
+        2.1,
+        12.42,
+        0,
+        0,
+        1,
+        -52.16,
+        2,
+        12.32,
+        0,
+        0,
+        0,
+        -52.18,
+        2.2,
+        12.25,
+        0,
+        0,
+        1,
+        -52.25,
+        2.4,
+        12.23,
+        0,
+        0,
+        1,
+        -52.32,
+        2.57,
+        12.24,
+        0,
+        0,
+        1,
+        -52.4,
+        2.72,
+        12.25,
+        0,
+        0,
+        1,
+        -52.48,
+        2.85,
+        12.26,
+        0,
+        0,
+        1,
+        -52.56,
+        2.95,
+        12.22,
+        0,
+        0,
+        1,
+        -52.59,
+        3.03,
+        12.13,
+        0,
+        0,
+        1,
+        -52.57,
+        3.1,
+        12.05,
+        0,
+        0,
+        1,
+        -52.51,
+        3.13,
+        11.97,
+        0,
+        0,
+        1,
+        -52.4,
+        3.15,
+        11.95,
+        0,
+        0,
+        1,
+        -52.3,
+        3.14,
+        11.95,
+        0,
+        0,
+        1,
+        -52.19,
+        3.11,
+        11.97,
+        0,
+        0,
+        1,
+        -52.08,
+        3.06,
+        11.98,
+        0,
+        0,
+        1,
+        -51.97,
+        2.99,
+        11.99,
+        0,
+        0,
+        1,
+        -51.86,
+        2.89,
+        12,
+        0,
+        0,
+        1,
+        -51.76,
+        2.77,
+        12.03,
+        0,
+        0,
+        1,
+        -51.67,
+        2.63,
+        12.1,
+        0,
+        0,
+        1,
+        -51.61,
+        2.47,
+        12.2,
+        0,
+        0,
+        1,
+        -51.58,
+        2.28,
+        12.32,
+        0,
+        0,
+        1,
+        -51.58,
+        2.07,
+        12.44,
+        0,
+        0,
+        1,
+        -51.61,
+        2,
+        12.56,
+        0,
+        0,
+        0,
+        -51.67,
+        2.08,
+        12.68,
+        0,
+        0,
+        1,
+        -51.74,
+        2.29,
+        12.79,
+        0,
+        0,
+        1,
+        -51.84,
+        2.47,
+        12.89,
+        0,
+        0,
+        1,
+        -51.94,
+        2.64,
+        12.97,
+        0,
+        0,
+        1,
+        -52.04,
+        2.78,
+        13.07,
+        0,
+        0,
+        1,
+        -52.13,
+        2.9,
+        13.16,
+        0,
+        0,
+        1,
+        -52.23,
+        2.99,
+        13.26,
+        0,
+        0,
+        1,
+        -52.33,
+        3.06,
+        13.35,
+        0,
+        0,
+        1,
+        -52.43,
+        3.11,
+        13.44,
+        0,
+        0,
+        1,
+        -52.52,
+        3.14,
+        13.54,
+        0,
+        0,
+        1,
+        -52.65,
+        3.15,
+        13.58,
+        0,
+        0,
+        1,
+        -52.8,
+        3.13,
+        13.55,
+        0,
+        0,
+        1,
+        -52.91,
+        3.09,
+        13.45,
+        0,
+        0,
+        1,
+        -52.98,
+        3.03,
+        13.32,
+        0,
+        0,
+        1,
+        -53.03,
+        2.95,
+        13.18,
+        0,
+        0,
+        1,
+        -53.09,
+        2.84,
+        13.05,
+        0,
+        0,
+        1,
+        -53.16,
+        2.71,
+        12.9,
+        0,
+        0,
+        1,
+        -53.25,
+        2.56,
+        12.78,
+        0,
+        0,
+        1,
+        -53.38,
+        2.39,
+        12.7,
+        0,
+        0,
+        1,
+        -53.53,
+        2.19,
+        12.64,
+        0,
+        0,
+        1,
+        -53.69,
+        2,
+        12.65,
+        0,
+        0,
+        0,
+        -53.83,
+        2.21,
+        12.73,
+        0,
+        0,
+        1,
+        -53.94,
+        2.4,
+        12.87,
+        0,
+        0,
+        1,
+        -54.05,
+        2.58,
+        12.98,
+        0,
+        0,
+        1,
+        -54.15,
+        2.72,
+        13.12,
+        0,
+        0,
+        1,
+        -54.26,
+        2.85,
+        13.25,
+        0,
+        0,
+        1,
+        -54.37,
+        2.96,
+        13.38,
+        0,
+        0,
+        1,
+        -54.47,
+        3.04,
+        13.52,
+        0,
+        0,
+        1,
+        -54.55,
+        3.1,
+        13.67,
+        0,
+        0,
+        1,
+        -54.58,
+        3.13,
+        13.84,
+        0,
+        0,
+        1,
+        -54.55,
+        3.15,
+        14.02,
+        0,
+        0,
+        1,
+        -54.45,
+        3.14,
+        14.15,
+        0,
+        0,
+        1,
+        -54.32,
+        3.11,
+        14.22,
+        0,
+        0,
+        1,
+        -54.15,
+        3.06,
+        14.24,
+        0,
+        0,
+        1,
+        -53.99,
+        2.98,
+        14.21,
+        0,
+        0,
+        1,
+        -53.82,
+        2.89,
+        14.17,
+        0,
+        0,
+        1,
+        -53.67,
+        2.77,
+        14.12,
+        0,
+        0,
+        1,
+        -53.54,
+        2.62,
+        14,
+        0,
+        0,
+        1,
+        -53.48,
+        2.46,
+        13.84,
+        0,
+        0,
+        1,
+        -53.45,
+        2.27,
+        13.67,
+        0,
+        0,
+        1,
+        -53.43,
+        2.06,
+        13.49,
+        0,
+        0,
+        1,
+        -53.41,
+        2.13,
+        13.32,
+        0,
+        0,
+        1,
+        -53.4,
+        2.33,
+        13.13,
+        0,
+        0,
+        1,
+        -53.37,
+        2.51,
+        12.96,
+        0,
+        0,
+        1,
+        -53.28,
+        2.67,
+        12.81,
+        0,
+        0,
+        1,
+        -53.17,
+        2.8,
+        12.73,
+        0,
+        0,
+        1,
+        -53.05,
+        2.92,
+        12.7,
+        0,
+        0,
+        1,
+        -52.97,
+        3.01,
+        12.71,
+        0,
+        0,
+        1,
+        -52.96,
+        3.08,
+        12.74,
+        0,
+        0,
+        1,
+        -52.99,
+        3.12,
+        12.76,
+        0,
+        0,
+        1,
+        -53.02,
+        3.15,
+        12.78,
+        0,
+        0,
+        1,
+        -53.06,
+        3.15,
+        12.79,
+        0,
+        0,
+        1,
+        -53.1,
+        3.13,
+        12.81,
+        0,
+        0,
+        1,
+        -53.12,
+        3.08,
+        12.83,
+        0,
+        0,
+        1,
+        -53.16,
+        3.02,
+        12.85,
+        0,
+        0,
+        1,
+        -53.2,
+        2.93,
+        12.85,
+        0,
+        0,
+        1,
+        -53.25,
+        2.82,
+        12.86,
+        0,
+        0,
+        1,
+        -53.29,
+        2.68,
+        12.86,
+        0,
+        0,
+        1,
+        -53.33,
+        2.53,
+        12.87,
+        0,
+        0,
+        1,
+        -53.37,
+        2.35,
+        12.87,
+        0,
+        0,
+        1,
+        -53.42,
+        2.15,
+        12.88,
+        0,
+        0,
+        1,
+        -53.47,
+        2,
+        12.88,
+        0,
+        0,
+        0,
+        -53.53,
+        2,
+        12.87,
+        0,
+        0,
+        0,
+        -53.61,
+        2,
+        12.86,
+        0,
+        0,
+        0,
+        -53.69,
+        2,
+        12.83,
+        0,
+        0,
+        0,
+        -53.78,
+        2,
+        12.81,
+        0,
+        0,
+        0,
+        -53.88,
+        2,
+        12.78,
+        0,
+        0,
+        0,
+        -53.97,
+        2,
+        12.74,
+        0,
+        0,
+        0,
+        -54.08,
+        2,
+        12.71,
+        0,
+        0,
+        0,
+        -54.18,
+        2,
+        12.67,
+        0,
+        0,
+        0,
+        -54.28,
+        2,
+        12.63,
+        0,
+        0,
+        0,
+        -54.39,
+        2,
+        12.58,
+        0,
+        0,
+        0,
+        -54.51,
+        2,
+        12.54,
+        0,
+        0,
+        0,
+        -54.62,
+        2,
+        12.5,
+        0,
+        0,
+        0,
+        -54.75,
+        2,
+        12.44,
+        0,
+        0,
+        0,
+        -54.84,
+        2,
+        12.4,
+        0,
+        0,
+        0,
+        -54.89,
+        2,
+        12.39,
+        0,
+        0,
+        0,
+        -54.89,
+        2,
+        12.39,
+        0,
+        0,
+        0,
+        -54.87,
+        2,
+        12.4,
+        0,
+        0,
+        0,
+        -54.81,
+        2,
+        12.43,
+        0,
+        0,
+        0,
+        -54.73,
+        2,
+        12.47,
+        0,
+        0,
+        0,
+        -54.63,
+        2,
+        12.48,
+        0,
+        0,
+        0,
+        -54.53,
+        2,
+        12.45,
+        0,
+        0,
+        0,
+        -54.43,
+        2,
+        12.4,
+        0,
+        0,
+        0,
+        -54.34,
+        2,
+        12.32,
+        0,
+        0,
+        0,
+        -54.23,
+        2,
+        12.22,
+        0,
+        0,
+        0,
+        -54.11,
+        2,
+        12.13,
+        0,
+        0,
+        0,
+        -53.98,
+        2,
+        12.07,
+        0,
+        0,
+        0,
+        -53.84,
+        2,
+        12.05,
+        0,
+        0,
+        0,
+        -53.69,
+        2,
+        12.06,
+        0,
+        0,
+        0,
+        -53.53,
+        2,
+        12.08,
+        0,
+        0,
+        0,
+        -53.36,
+        2,
+        12.12,
+        0,
+        0,
+        0,
+        -53.18,
+        2,
+        12.17,
+        0,
+        0,
+        0,
+        -52.99,
+        2,
+        12.23,
+        0,
+        0,
+        0,
+        -52.8,
+        2,
+        12.3,
+        0,
+        0,
+        0,
+        -52.61,
+        2,
+        12.38,
+        0,
+        0,
+        0,
+        -52.48,
+        2,
+        12.43,
+        0,
+        0,
+        0,
+        -52.4,
+        2,
+        12.45,
+        0,
+        0,
+        0,
+        -52.36,
+        2,
+        12.45,
+        0,
+        0,
+        0,
+        -52.37,
+        2,
+        12.44,
+        0,
+        0,
+        0,
+        -52.41,
+        2,
+        12.41,
+        0,
+        0,
+        0,
+        -52.48,
+        2,
+        12.38,
+        0,
+        0,
+        0,
+        -52.57,
+        2,
+        12.33,
+        0,
+        0,
+        0,
+        -52.68,
+        2,
+        12.27,
+        0,
+        0,
+        0,
+        -52.81,
+        2,
+        12.19,
+        0,
+        0,
+        0,
+        -52.95,
+        2,
+        12.12,
+        0,
+        0,
+        0,
+        -53.11,
+        2,
+        12.04,
+        0,
+        0,
+        0,
+        -53.27,
+        2,
+        11.95,
+        0,
+        0,
+        0,
+        -53.44,
+        2,
+        11.85,
+        0,
+        0,
+        0,
+        -53.63,
+        2,
+        11.75,
+        0,
+        0,
+        0,
+        -53.77,
+        2,
+        11.68,
+        0,
+        0,
+        0,
+        -53.85,
+        2,
+        11.64,
+        0,
+        0,
+        0,
+        -53.89,
+        2,
+        11.61,
+        0,
+        0,
+        0,
+        -53.9,
+        2,
+        11.64,
+        0,
+        0,
+        0,
+        -53.92,
+        2,
+        11.68,
+        0,
+        0,
+        0,
+        -53.94,
+        2,
+        11.75,
+        0,
+        0,
+        0,
+        -54,
+        2,
+        11.85,
+        0,
+        0,
+        0,
+        -54.06,
+        2,
+        11.95,
+        0,
+        0,
+        0,
+        -54.11,
+        2,
+        12.04,
+        0,
+        0,
+        0,
+        -54.17,
+        2,
+        12.08,
+        0,
+        0,
+        0,
+        -54.26,
+        2,
+        12.1,
+        0,
+        0,
+        0,
+        -54.37,
+        2,
+        12.1,
+        0,
+        0,
+        0,
+        -54.49,
+        2,
+        12.07,
+        0,
+        0,
+        0,
+        -54.63,
+        2,
+        12.04,
+        0,
+        0,
+        0,
+        -54.78,
+        2,
+        11.98,
+        0,
+        0,
+        0,
+        -54.94,
+        2,
+        11.91,
+        0,
+        0,
+        0,
+        -55.11,
+        2,
+        11.84,
+        0,
+        0,
+        0,
+        -55.26,
+        2,
+        11.77,
+        0,
+        0,
+        0,
+        -55.35,
+        2,
+        11.73,
+        0,
+        0,
+        0,
+        -55.4,
+        2,
+        11.71,
+        0,
+        0,
+        0,
+        -55.41,
+        2,
+        11.71,
+        0,
+        0,
+        0,
+        -55.37,
+        2,
+        11.74,
+        0,
+        0,
+        0,
+        -55.32,
+        2,
+        11.77,
+        0,
+        0,
+        0,
+        -55.24,
+        2,
+        11.83,
+        0,
+        0,
+        0,
+        -55.15,
+        2,
+        11.89,
+        0,
+        0,
+        0,
+        -55.03,
+        2,
+        11.97,
+        0,
+        0,
+        0,
+        -54.9,
+        2,
+        12.05,
+        0,
+        0,
+        0,
+        -54.75,
+        2,
+        12.15,
+        0,
+        0,
+        0,
+        -54.59,
+        2,
+        12.25,
+        0,
+        0,
+        0,
+        -54.43,
+        2,
+        12.35,
+        0,
+        0,
+        0,
+        -54.26,
+        2,
+        12.46,
+        0,
+        0,
+        0,
+        -54.08,
+        2,
+        12.57,
+        0,
+        0,
+        0,
+        -53.89,
+        2,
+        12.7,
+        0,
+        0,
+        0,
+        -53.7,
+        2,
+        12.8,
+        0,
+        0,
+        0,
+        -53.52,
+        2,
+        12.93,
+        0,
+        0,
+        0,
+        -53.33,
+        2,
+        13.05,
+        0.01,
+        0,
+        0,
+        -53.16,
+        2,
+        13.15,
+        0.13,
+        0,
+        0,
+        -53.03,
+        2,
+        13.24,
+        0.25,
+        0,
+        0,
+        -52.94,
+        2,
+        13.29,
+        0.37,
+        0,
+        0,
+        -52.9,
+        2,
+        13.32,
+        0.25,
+        0,
+        0,
+        -52.9,
+        2,
+        13.32,
+        0.13,
+        0,
+        0,
+        -52.93,
+        2,
+        13.3,
+        0.01,
+        0,
+        0,
+        -52.98,
+        2,
+        13.27,
+        0,
+        0,
+        0,
+        -53.05,
+        2,
+        13.22,
+        0,
+        0,
+        0,
+        -53.15,
+        2,
+        13.16,
+        0,
+        0,
+        0,
+        -53.27,
+        2,
+        13.09,
+        0,
+        0,
+        0,
+        -53.4,
+        2,
+        13.01,
+        0,
+        0,
+        0,
+        -53.54,
+        2,
+        12.91,
+        0,
+        0,
+        0,
+        -53.7,
+        2,
+        12.82,
+        0,
+        0,
+        0,
+        -53.87,
+        2,
+        12.71,
+        0,
+        0,
+        0,
+        -54.03,
+        2,
+        12.61,
+        0,
+        0,
+        0,
+        -54.22,
+        2,
+        12.49,
+        0,
+        0,
+        0,
+        -54.4,
+        2,
+        12.38,
+        0,
+        0,
+        0,
+        -54.59,
+        2,
+        12.26,
+        0,
+        0,
+        0,
+        -54.78,
+        2,
+        12.13,
+        0,
+        0,
+        0,
+        -54.96,
+        2,
+        12,
+        0,
+        0,
+        0,
+        -55.15,
+        2,
+        11.88,
+        0,
+        0,
+        0,
+        -55.33,
+        2,
+        11.75,
+        0,
+        0,
+        0,
+        -55.51,
+        2,
+        11.62,
+        0,
+        0,
+        0,
+        -55.69,
+        2,
+        11.49,
+        0,
+        0,
+        0,
+        -55.88,
+        2,
+        11.35,
+        0,
+        0,
+        0,
+        -56.06,
+        2,
+        11.23,
+        0,
+        0,
+        0,
+        -56.19,
+        2,
+        11.12,
+        0,
+        0,
+        0,
+        -56.28,
+        2,
+        11.06,
+        0,
+        0,
+        0,
+        -56.33,
+        2,
+        11.02,
+        0,
+        0,
+        0,
+        -56.35,
+        2,
+        11.01,
+        0,
+        0,
+        0,
+        -56.35,
+        2,
+        11.01,
+        0,
+        0,
+        0,
+        -56.32,
+        2,
+        10.99,
+        0,
+        0,
+        0,
+        -56.25,
+        2,
+        10.97,
+        0,
+        0,
+        0,
+        -56.17,
+        2,
+        10.95,
+        0,
+        0,
+        0,
+        -56.05,
+        2,
+        10.91,
+        0,
+        0,
+        0,
+        -55.93,
+        2,
+        10.86,
+        0,
+        0,
+        0,
+        -55.78,
+        2,
+        10.82,
+        0,
+        0,
+        0,
+        -55.61,
+        2,
+        10.77,
+        0,
+        0,
+        0,
+        -55.44,
+        2,
+        10.72,
+        0,
+        0,
+        0,
+        -55.25,
+        2,
+        10.68,
+        0,
+        0,
+        0,
+        -55.05,
+        2,
+        10.66,
+        0,
+        0,
+        0,
+        -54.87,
+        2,
+        10.66,
+        0,
+        0,
+        0,
+        -54.67,
+        2.09,
+        10.69,
+        0,
+        0,
+        1,
+        -54.48,
+        2.29,
+        10.71,
+        0,
+        0,
+        1,
+        -54.29,
+        2.48,
+        10.77,
+        0,
+        0,
+        1,
+        -54.1,
+        2.64,
+        10.85,
+        0,
+        0,
+        1,
+        -53.93,
+        2.78,
+        10.94,
+        0,
+        0,
+        1,
+        -53.76,
+        2.9,
+        11.06,
+        0,
+        0,
+        1,
+        -53.59,
+        2.99,
+        11.17,
+        0,
+        0,
+        1,
+        -53.44,
+        3.07,
+        11.3,
+        0,
+        0,
+        1,
+        -53.3,
+        3.12,
+        11.44,
+        0,
+        0,
+        1,
+        -53.26,
+        3.14,
+        11.59,
+        0,
+        0,
+        1,
+        -53.27,
+        3.15,
+        11.74,
+        0,
+        0,
+        1,
+        -53.34,
+        3.13,
+        11.85,
+        0,
+        0,
+        1,
+        -53.4,
+        3.09,
+        11.97,
+        0,
+        0,
+        1,
+        -53.49,
+        3.03,
+        12.07,
+        0,
+        0,
+        1,
+        -53.62,
+        2.95,
+        12.11,
+        0,
+        0,
+        1,
+        -53.74,
+        2.84,
+        12.12,
+        0,
+        0,
+        1,
+        -53.88,
+        2.71,
+        12.14,
+        0,
+        0,
+        1,
+        -54.01,
+        2.56,
+        12.16,
+        0,
+        0,
+        1,
+        -54.15,
+        2.38,
+        12.16,
+        0,
+        0,
+        1,
+        -54.28,
+        2.19,
+        12.18,
+        0,
+        0,
+        1,
+        -54.42,
+        2,
+        12.2,
+        0,
+        0,
+        0,
+        -54.56,
+        2,
+        12.21,
+        0,
+        0,
+        0,
+        -54.7,
+        2,
+        12.23,
+        0,
+        0,
+        0,
+        -54.83,
+        2,
+        12.22,
+        0,
+        0,
+        0,
+        -54.95,
+        2,
+        12.23,
+        0,
+        0,
+        0,
+        -55.05,
+        2,
+        12.23,
+        0,
+        0,
+        0,
+        -55.15,
+        2,
+        12.25,
+        0,
+        0,
+        0,
+        -55.22,
+        2,
+        12.25,
+        0,
+        0,
+        0,
+        -55.25,
+        2,
+        12.26,
+        0,
+        0,
+        0,
+        -55.27,
+        2,
+        12.27,
+        0,
+        0,
+        0,
+        -55.28,
+        2,
+        12.26,
+        0,
+        0,
+        0,
+        -55.27,
+        2,
+        12.25,
+        0,
+        0,
+        0,
+        -55.25,
+        2,
+        12.25,
+        0,
+        0,
+        0,
+        -55.22,
+        2,
+        12.21,
+        0,
+        0,
+        0,
+        -55.17,
+        2,
+        12.16,
+        0,
+        0,
+        0,
+        -55.1,
+        2,
+        12.11,
+        0,
+        0,
+        0,
+        -55.01,
+        2,
+        12.04,
+        0,
+        0,
+        0,
+        -54.9,
+        2,
+        11.95,
+        0,
+        0,
+        0,
+        -54.77,
+        2,
+        11.89,
+        0,
+        0,
+        0,
+        -54.62,
+        2,
+        11.84,
+        0,
+        0,
+        0,
+        -54.45,
+        2,
+        11.8,
+        0,
+        0,
+        0,
+        -54.28,
+        2,
+        11.77,
+        0,
+        0,
+        0,
+        -54.09,
+        2,
+        11.74,
+        0,
+        0,
+        0,
+        -53.89,
+        2.11,
+        11.71,
+        0,
+        0,
+        1,
+        -53.68,
+        2.32,
+        11.69,
+        0,
+        0,
+        1,
+        -53.48,
+        2.5,
+        11.67,
+        0,
+        0,
+        1,
+        -53.29,
+        2.66,
+        11.64,
+        0,
+        0,
+        1,
+        -53.09,
+        2.79,
+        11.62,
+        0,
+        0,
+        1,
+        -52.89,
+        2.91,
+        11.61,
+        0,
+        0,
+        1,
+        -52.71,
+        3,
+        11.65,
+        0,
+        0,
+        1,
+        -52.56,
+        3.07,
+        11.76,
+        0,
+        0,
+        1,
+        -52.47,
+        3.12,
+        11.92,
+        0,
+        0,
+        1,
+        -52.43,
+        3.15,
+        12.11,
+        0,
+        1,
+        1,
+        -52.4,
+        3.15,
+        12.31,
+        0,
+        1,
+        1,
+        -52.39,
+        3.13,
+        12.49,
+        0,
+        1,
+        1,
+        -52.38,
+        3.09,
+        12.69,
+        0,
+        1,
+        1,
+        -52.37,
+        3.02,
+        12.89,
+        0,
+        1,
+        1,
+        -52.39,
+        2.94,
+        13.07,
+        0,
+        1,
+        1,
+        -52.46,
+        2.83,
+        13.24,
+        0,
+        1,
+        1,
+        -52.59,
+        2.69,
+        13.36,
+        0,
+        1,
+        1,
+        -52.76,
+        2.54,
+        13.45,
+        0,
+        1,
+        1,
+        -52.92,
+        2.36,
+        13.55,
+        0,
+        1,
+        1,
+        -53.09,
+        2.16,
+        13.64,
+        0,
+        1,
+        1,
+        -53.25,
+        2,
+        13.73,
+        0,
+        1,
+        0,
+        -53.42,
+        2,
+        13.81,
+        0,
+        1,
+        0,
+        -53.58,
+        2,
+        13.87,
+        0,
+        1,
+        0,
+        -53.73,
+        2,
+        13.91,
+        0,
+        1,
+        0,
+        -53.85,
+        2,
+        13.93,
+        0,
+        1,
+        0,
+        -53.97,
+        2,
+        13.94,
+        0,
+        0,
+        0,
+        -54.07,
+        2,
+        13.93,
+        0,
+        0,
+        0,
+        -54.18,
+        2,
+        13.91,
+        0,
+        0,
+        0,
+        -54.28,
+        2,
+        13.87,
+        0,
+        0,
+        0,
+        -54.39,
+        2,
+        13.83,
+        0,
+        0,
+        0,
+        -54.49,
+        2,
+        13.79,
+        0,
+        0,
+        0,
+        -54.6,
+        2,
+        13.73,
+        0,
+        0,
+        0,
+        -54.7,
+        2,
+        13.67,
+        0,
+        0,
+        0,
+        -54.81,
+        2,
+        13.6,
+        0,
+        0,
+        0,
+        -54.92,
+        2,
+        13.52,
+        0,
+        0,
+        0,
+        -55.03,
+        2,
+        13.45,
+        0,
+        0,
+        0,
+        -55.08,
+        2,
+        13.41,
+        0,
+        0,
+        0,
+        -55.11,
+        2,
+        13.39,
+        0,
+        0,
+        0,
+        -55.1,
+        2,
+        13.41,
+        0,
+        0,
+        0,
+        -55.09,
+        2,
+        13.42,
+        0,
+        0,
+        0,
+        -55.09,
+        2,
+        13.42,
+        0,
+        0,
+        0,
+        -55.09,
+        2,
+        13.42,
+        0,
+        0,
+        0,
+        -55.09,
+        2,
+        13.42,
+        0,
+        0,
+        0,
+        -55.09,
+        2,
+        13.42,
+        0,
+        0,
+        0,
+        -55.09,
+        2,
+        13.42,
+        0,
+        0,
+        0,
+        -55.09,
+        2,
+        13.42,
+        0,
+        0,
+        0,
+        -55.08,
+        2,
+        13.41,
+        0,
+        0,
+        0,
+        -55.06,
+        2,
+        13.37,
+        0,
+        0,
+        0,
+        -55.01,
+        2,
+        13.32,
+        0,
+        0,
+        0,
+        -54.96,
+        2,
+        13.25,
+        0,
+        0,
+        0,
+        -54.86,
+        2,
+        13.16,
+        0,
+        0,
+        0,
+        -54.77,
+        2,
+        13.06,
+        0,
+        0,
+        0,
+        -54.67,
+        2,
+        12.93,
+        0,
+        0,
+        0,
+        -54.55,
+        2,
+        12.81,
+        0,
+        0,
+        0,
+        -54.43,
+        2,
+        12.67,
+        0,
+        0,
+        0,
+        -54.3,
+        2,
+        12.52,
+        0,
+        0,
+        0,
+        -54.17,
+        2,
+        12.36,
+        0,
+        0,
+        0,
+        -54.02,
+        2.17,
+        12.21,
+        0,
+        0,
+        1,
+        -53.87,
+        2.37,
+        12.06,
+        0,
+        0,
+        1,
+        -53.72,
+        2.54,
+        11.91,
+        0,
+        0,
+        1,
+        -53.56,
+        2.7,
+        11.77,
+        0,
+        0,
+        1,
+        -53.38,
+        2.83,
+        11.64,
+        0,
+        1,
+        1,
+        -53.2,
+        2.94,
+        11.53,
+        0,
+        1,
+        1,
+        -53,
+        3.02,
+        11.46,
+        0,
+        1,
+        1,
+        -52.83,
+        3.09,
+        11.47,
+        0,
+        1,
+        1,
+        -52.7,
+        3.13,
+        11.53,
+        0,
+        1,
+        1,
+        -52.6,
+        3.15,
+        11.66,
+        0,
+        1,
+        1,
+        -52.56,
+        3.15,
+        11.8,
+        0,
+        1,
+        1,
+        -52.53,
+        3.12,
+        11.95,
+        0,
+        1,
+        1,
+        -52.5,
+        3.07,
+        12.11,
+        0,
+        1,
+        1,
+        -52.47,
+        3,
+        12.26,
+        0,
+        1,
+        1,
+        -52.45,
+        2.91,
+        12.4,
+        0,
+        1,
+        1,
+        -52.5,
+        2.79,
+        12.55,
+        0,
+        1,
+        1,
+        -52.61,
+        2.65,
+        12.65,
+        0,
+        1,
+        1,
+        -52.73,
+        2.49,
+        12.74,
+        0,
+        1,
+        1,
+        -52.86,
+        2.31,
+        12.83,
+        0,
+        0,
+        1,
+        -52.98,
+        2.1,
+        12.91,
+        0,
+        0,
+        1,
+        -53.11,
+        2,
+        13,
+        0,
+        0,
+        0,
+        -53.25,
+        2,
+        13.07,
+        0,
+        0,
+        0,
+        -53.38,
+        2,
+        13.13,
+        0,
+        0,
+        0,
+        -53.5,
+        2,
+        13.18,
+        0,
+        0,
+        0,
+        -53.61,
+        2,
+        13.22,
+        0,
+        0,
+        0,
+        -53.72,
+        2,
+        13.25,
+        0,
+        0,
+        0,
+        -53.83,
+        2,
+        13.28,
+        0,
+        0,
+        0,
+        -53.94,
+        2,
+        13.28,
+        0,
+        0,
+        0,
+        -54.04,
+        2,
+        13.29,
+        0,
+        0,
+        0,
+        -54.15,
+        2,
+        13.27,
+        0,
+        0,
+        0,
+        -54.25,
+        2,
+        13.24,
+        0,
+        0,
+        0,
+        -54.35,
+        2,
+        13.2,
+        0,
+        0,
+        0,
+        -54.46,
+        2,
+        13.15,
+        0,
+        0,
+        0,
+        -54.57,
+        2,
+        13.09,
+        0,
+        0,
+        0,
+        -54.65,
+        2,
+        13.04,
+        0,
+        0,
+        0,
+        -54.7,
+        2,
+        13.01,
+        0,
+        0,
+        0,
+        -54.71,
+        2,
+        13,
+        0,
+        0,
+        0,
+        -54.7,
+        2,
+        12.99,
+        0,
+        0,
+        0,
+        -54.66,
+        2,
+        12.95,
+        0,
+        0,
+        0,
+        -54.61,
+        2,
+        12.89,
+        0,
+        0,
+        0,
+        -54.53,
+        2,
+        12.81,
+        0,
+        0,
+        0,
+        -54.45,
+        2,
+        12.72,
+        0,
+        0,
+        0,
+        -54.34,
+        2,
+        12.61,
+        0,
+        0,
+        0,
+        -54.23,
+        2,
+        12.49,
+        0,
+        0,
+        0,
+        -54.1,
+        2,
+        12.37,
+        0,
+        0,
+        0,
+        -53.96,
+        2.12,
+        12.26,
+        0,
+        0,
+        1,
+        -53.82,
+        2.32,
+        12.15,
+        0,
+        0,
+        1,
+        -53.67,
+        2.51,
+        12.03,
+        0,
+        0,
+        1,
+        -53.54,
+        2.66,
+        11.93,
+        0,
+        0,
+        1,
+        -53.39,
+        2.8,
+        11.83,
+        0,
+        0,
+        1,
+        -53.23,
+        2.91,
+        11.73,
+        0,
+        0,
+        1,
+        -53.07,
+        3.01,
+        11.64,
+        0,
+        0,
+        1,
+        -52.89,
+        3.08,
+        11.58,
+        0,
+        0,
+        1,
+        -52.71,
+        3.12,
+        11.53,
+        0,
+        1,
+        1,
+        -52.56,
+        3.15,
+        11.53,
+        0,
+        1,
+        1,
+        -52.42,
+        3.15,
+        11.6,
+        0,
+        1,
+        1,
+        -52.35,
+        3.13,
+        11.73,
+        0,
+        1,
+        1,
+        -52.32,
+        3.08,
+        11.88,
+        0,
+        1,
+        1,
+        -52.29,
+        3.02,
+        12.02,
+        0,
+        1,
+        1,
+        -52.27,
+        2.93,
+        12.17,
+        0,
+        1,
+        1,
+        -52.24,
+        2.82,
+        12.32,
+        0,
+        1,
+        1,
+        -52.22,
+        2.69,
+        12.46,
+        0,
+        1,
+        1
+       ],
+       "playback": "loop",
+       "speed": 1,
+       "randomStart": false,
+       "fireWhen": "mine",
+       "hold": "move"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "move",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150,
+     "hitSlow": true
+    },
+    {
+     "id": "actor-30",
+     "name": "Strafer 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "raze"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "strafe",
+       "speed": [
+        5.4,
+        5.4
+       ],
+       "dwell": [
+        0.03,
+        0.25
+       ],
+       "travel": [
+        1.49,
+        3.3
+       ],
+       "tap": [
+        0.35,
+        0.5,
+        1.2
+       ],
+       "counterStrafe": true
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150,
+     "hitSlow": true,
+     "studioCrouch": {
+      "duration": [
+       0.3,
+       0.3
+      ],
+      "interval": [
+       2,
+       4
+      ],
+      "still": true
+     }
+    },
+    {
+     "id": "actor-31",
+     "name": "Strafer 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher",
+      "weapon": "guardian"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "strafe",
+       "speed": [
+        5.4,
+        5.4
+       ],
+       "dwell": [
+        0.03,
+        0.25
+       ],
+       "travel": [
+        0.99,
+        2.2
+       ],
+       "tap": [
+        0.35,
+        0.5,
+        1.2
+       ],
+       "counterStrafe": true
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-32",
+     "name": "Peeker 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "judge"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -47.7,
+         "y": 2,
+         "z": -5.4
+        },
+        {
+         "x": -48.54,
+         "y": 2,
+         "z": -5.3
+        },
+        {
+         "x": -51.9,
+         "y": 2,
+         "z": -4.9
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -52.248,
+         "y": 2,
+         "z": -5.507
+        },
+        {
+         "x": -51.701,
+         "y": 2,
+         "z": -4.553
+        },
+        {
+         "x": -52.199,
+         "y": 2,
+         "z": -5.42
+        },
+        {
+         "x": -51.552,
+         "y": 2,
+         "z": -4.293
+        },
+        {
+         "x": -52.149,
+         "y": 2,
+         "z": -5.334
+        },
+        {
+         "x": -51.601,
+         "y": 2,
+         "z": -4.38
+        },
+        {
+         "x": -47.7,
+         "y": 2,
+         "z": -5.4
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 2,
+         "wait": 0.1
+        },
+        {
+         "at": 3,
+         "wait": 0.15
+        },
+        {
+         "at": 4,
+         "wait": 0.25
+        },
+        {
+         "at": 5,
+         "wait": 0.2
+        },
+        {
+         "at": 6,
+         "wait": 0.15
+        },
+        {
+         "at": 7,
+         "wait": 0.25
+        },
+        {
+         "at": 8,
+         "wait": 0.2
+        },
+        {
+         "at": 9,
+         "wait": 0.15
+        },
+        {
+         "at": 10,
+         "wait": 0.25
+        },
+        {
+         "at": 11,
+         "wait": 0.2
+        },
+        {
+         "at": 12,
+         "wait": 0.15
+        },
+        {
+         "at": 13,
+         "wait": 0.25
+        },
+        {
+         "at": 14,
+         "wait": 0.2
+        },
+        {
+         "at": 15,
+         "wait": 0.15
+        },
+        {
+         "at": 16,
+         "wait": 0.25
+        },
+        {
+         "at": 17,
+         "wait": 0.2
+        },
+        {
+         "at": 18,
+         "wait": 0.15
+        },
+        {
+         "at": 19,
+         "wait": 0.25
+        },
+        {
+         "at": 20,
+         "wait": 0.2
+        },
+        {
+         "at": 21,
+         "wait": 0.15
+        },
+        {
+         "at": 22,
+         "wait": 0.25
+        },
+        {
+         "at": 23,
+         "wait": 0.2
+        },
+        {
+         "at": 24,
+         "wait": 0.15
+        },
+        {
+         "at": 25,
+         "wait": 0.25
+        },
+        {
+         "at": 26,
+         "wait": 0.2
+        },
+        {
+         "at": 27,
+         "wait": 0.15
+        },
+        {
+         "at": 28,
+         "wait": 0.25
+        },
+        {
+         "at": 29,
+         "wait": 0.2
+        },
+        {
+         "at": 30,
+         "wait": 0.15
+        },
+        {
+         "at": 31,
+         "wait": 0.25
+        },
+        {
+         "at": 32,
+         "wait": 0.2
+        },
+        {
+         "at": 33,
+         "wait": 0.15
+        },
+        {
+         "at": 34,
+         "wait": 0.25
+        },
+        {
+         "at": 35,
+         "wait": 0.2
+        },
+        {
+         "at": 36,
+         "wait": 0.15
+        },
+        {
+         "at": 37,
+         "wait": 0.25
+        },
+        {
+         "at": 38,
+         "wait": 0.2
+        },
+        {
+         "at": 39,
+         "wait": 0.15
+        },
+        {
+         "at": 40,
+         "wait": 0.25
+        },
+        {
+         "at": 41,
+         "wait": 0.2
+        },
+        {
+         "at": 42,
+         "wait": 0.15
+        },
+        {
+         "at": 43,
+         "wait": 0.25
+        },
+        {
+         "at": 44,
+         "wait": 0.2
+        },
+        {
+         "at": 45,
+         "wait": 0.15
+        },
+        {
+         "at": 46,
+         "wait": 0.25
+        },
+        {
+         "at": 47,
+         "wait": 0.2
+        },
+        {
+         "at": 48,
+         "wait": 0.15
+        },
+        {
+         "at": 49,
+         "wait": 0.25
+        },
+        {
+         "at": 50,
+         "wait": 0.2
+        },
+        {
+         "at": 51,
+         "wait": 0.15
+        },
+        {
+         "at": 52,
+         "wait": 0.25
+        },
+        {
+         "at": 53,
+         "wait": 0.2
+        },
+        {
+         "at": 54,
+         "wait": 0.15
+        },
+        {
+         "at": 55,
+         "wait": 0.25
+        },
+        {
+         "at": 56,
+         "wait": 0.2
+        },
+        {
+         "at": 57,
+         "wait": 0.15
+        },
+        {
+         "at": 58,
+         "wait": 0.25
+        },
+        {
+         "at": 59,
+         "wait": 0.2
+        },
+        {
+         "at": 60,
+         "wait": 0.15
+        },
+        {
+         "at": 61,
+         "wait": 0.25
+        },
+        {
+         "at": 62,
+         "wait": 0.2
+        },
+        {
+         "at": 63,
+         "wait": 0.15
+        },
+        {
+         "at": 64,
+         "wait": 0.25
+        },
+        {
+         "at": 65,
+         "wait": 0.2
+        },
+        {
+         "at": 66,
+         "wait": 0.15
+        },
+        {
+         "at": 67,
+         "wait": 0.25
+        },
+        {
+         "at": 68,
+         "wait": 0.2
+        },
+        {
+         "at": 69,
+         "wait": 0.15
+        },
+        {
+         "at": 70,
+         "wait": 0.25
+        },
+        {
+         "at": 71,
+         "wait": 0.2
+        },
+        {
+         "at": 72,
+         "wait": 0.15
+        },
+        {
+         "at": 73,
+         "wait": 0.25
+        },
+        {
+         "at": 74,
+         "wait": 0.2
+        },
+        {
+         "at": 75,
+         "wait": 0.15
+        },
+        {
+         "at": 76,
+         "wait": 0.25
+        },
+        {
+         "at": 77,
+         "wait": 0.2
+        },
+        {
+         "at": 78,
+         "wait": 0.15
+        },
+        {
+         "at": 79,
+         "wait": 0.25
+        },
+        {
+         "at": 80,
+         "wait": 0.2
+        },
+        {
+         "at": 81,
+         "wait": 0.15
+        },
+        {
+         "at": 82,
+         "wait": 0.25
+        },
+        {
+         "at": 83,
+         "wait": 0.2
+        },
+        {
+         "at": 84,
+         "wait": 0.15
+        },
+        {
+         "at": 85,
+         "wait": 0.25
+        },
+        {
+         "at": 86,
+         "wait": 0.2
+        },
+        {
+         "at": 87,
+         "wait": 0.15
+        },
+        {
+         "at": 88,
+         "wait": 0.25
+        },
+        {
+         "at": 89,
+         "wait": 0.2
+        },
+        {
+         "at": 90,
+         "wait": 0.15
+        },
+        {
+         "at": 91,
+         "wait": 0.25
+        },
+        {
+         "at": 92,
+         "wait": 0.2
+        },
+        {
+         "at": 93,
+         "wait": 0.15
+        },
+        {
+         "at": 94,
+         "wait": 0.25
+        },
+        {
+         "at": 95,
+         "wait": 0.2
+        }
+       ],
+       "flashStops": [
+        {
+         "at": 1,
+         "target": {
+          "x": -50.9,
+          "y": 5.5,
+          "z": -6
+         },
+         "wait": 1,
+         "curve": "left"
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-23",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "yoru",
+      "weapon": "phantom"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -38.5,
+         "y": 4,
+         "z": -25.3
+        },
+        {
+         "x": -38.72,
+         "y": 4,
+         "z": -26.22
+        },
+        {
+         "x": -39.6,
+         "y": 4,
+         "z": -29.9
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -39.456,
+         "y": 4,
+         "z": -30.585
+        },
+        {
+         "x": -39.682,
+         "y": 4,
+         "z": -29.509
+        },
+        {
+         "x": -39.477,
+         "y": 4,
+         "z": -30.487
+        },
+        {
+         "x": -39.744,
+         "y": 4,
+         "z": -29.215
+        },
+        {
+         "x": -39.497,
+         "y": 4,
+         "z": -30.389
+        },
+        {
+         "x": -39.723,
+         "y": 4,
+         "z": -29.313
+        },
+        {
+         "x": -38.5,
+         "y": 4,
+         "z": -25.3
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 2,
+         "wait": 0.1
+        },
+        {
+         "at": 3,
+         "wait": 0.15
+        },
+        {
+         "at": 4,
+         "wait": 0.25
+        },
+        {
+         "at": 5,
+         "wait": 0.2
+        },
+        {
+         "at": 6,
+         "wait": 0.15
+        },
+        {
+         "at": 7,
+         "wait": 0.25
+        },
+        {
+         "at": 8,
+         "wait": 0.2
+        },
+        {
+         "at": 9,
+         "wait": 0.15
+        },
+        {
+         "at": 10,
+         "wait": 0.25
+        },
+        {
+         "at": 11,
+         "wait": 0.2
+        },
+        {
+         "at": 12,
+         "wait": 0.15
+        },
+        {
+         "at": 13,
+         "wait": 0.25
+        },
+        {
+         "at": 14,
+         "wait": 0.2
+        },
+        {
+         "at": 15,
+         "wait": 0.15
+        },
+        {
+         "at": 16,
+         "wait": 0.25
+        },
+        {
+         "at": 17,
+         "wait": 0.2
+        },
+        {
+         "at": 18,
+         "wait": 0.15
+        },
+        {
+         "at": 19,
+         "wait": 0.25
+        },
+        {
+         "at": 20,
+         "wait": 0.2
+        },
+        {
+         "at": 21,
+         "wait": 0.15
+        },
+        {
+         "at": 22,
+         "wait": 0.25
+        },
+        {
+         "at": 23,
+         "wait": 0.2
+        },
+        {
+         "at": 24,
+         "wait": 0.15
+        },
+        {
+         "at": 25,
+         "wait": 0.25
+        },
+        {
+         "at": 26,
+         "wait": 0.2
+        },
+        {
+         "at": 27,
+         "wait": 0.15
+        },
+        {
+         "at": 28,
+         "wait": 0.25
+        },
+        {
+         "at": 29,
+         "wait": 0.2
+        },
+        {
+         "at": 30,
+         "wait": 0.15
+        },
+        {
+         "at": 31,
+         "wait": 0.25
+        },
+        {
+         "at": 32,
+         "wait": 0.2
+        },
+        {
+         "at": 33,
+         "wait": 0.15
+        },
+        {
+         "at": 34,
+         "wait": 0.25
+        },
+        {
+         "at": 35,
+         "wait": 0.2
+        },
+        {
+         "at": 36,
+         "wait": 0.15
+        },
+        {
+         "at": 37,
+         "wait": 0.25
+        },
+        {
+         "at": 38,
+         "wait": 0.2
+        },
+        {
+         "at": 39,
+         "wait": 0.15
+        },
+        {
+         "at": 40,
+         "wait": 0.25
+        },
+        {
+         "at": 41,
+         "wait": 0.2
+        },
+        {
+         "at": 42,
+         "wait": 0.15
+        },
+        {
+         "at": 43,
+         "wait": 0.25
+        },
+        {
+         "at": 44,
+         "wait": 0.2
+        },
+        {
+         "at": 45,
+         "wait": 0.15
+        },
+        {
+         "at": 46,
+         "wait": 0.25
+        },
+        {
+         "at": 47,
+         "wait": 0.2
+        },
+        {
+         "at": 48,
+         "wait": 0.15
+        },
+        {
+         "at": 49,
+         "wait": 0.25
+        },
+        {
+         "at": 50,
+         "wait": 0.2
+        },
+        {
+         "at": 51,
+         "wait": 0.15
+        },
+        {
+         "at": 52,
+         "wait": 0.25
+        },
+        {
+         "at": 53,
+         "wait": 0.2
+        },
+        {
+         "at": 54,
+         "wait": 0.15
+        },
+        {
+         "at": 55,
+         "wait": 0.25
+        },
+        {
+         "at": 56,
+         "wait": 0.2
+        },
+        {
+         "at": 57,
+         "wait": 0.15
+        },
+        {
+         "at": 58,
+         "wait": 0.25
+        },
+        {
+         "at": 59,
+         "wait": 0.2
+        },
+        {
+         "at": 60,
+         "wait": 0.15
+        },
+        {
+         "at": 61,
+         "wait": 0.25
+        },
+        {
+         "at": 62,
+         "wait": 0.2
+        },
+        {
+         "at": 63,
+         "wait": 0.15
+        },
+        {
+         "at": 64,
+         "wait": 0.25
+        },
+        {
+         "at": 65,
+         "wait": 0.2
+        },
+        {
+         "at": 66,
+         "wait": 0.15
+        },
+        {
+         "at": 67,
+         "wait": 0.25
+        },
+        {
+         "at": 68,
+         "wait": 0.2
+        },
+        {
+         "at": 69,
+         "wait": 0.15
+        },
+        {
+         "at": 70,
+         "wait": 0.25
+        },
+        {
+         "at": 71,
+         "wait": 0.2
+        },
+        {
+         "at": 72,
+         "wait": 0.15
+        },
+        {
+         "at": 73,
+         "wait": 0.25
+        },
+        {
+         "at": 74,
+         "wait": 0.2
+        },
+        {
+         "at": 75,
+         "wait": 0.15
+        },
+        {
+         "at": 76,
+         "wait": 0.25
+        },
+        {
+         "at": 77,
+         "wait": 0.2
+        },
+        {
+         "at": 78,
+         "wait": 0.15
+        },
+        {
+         "at": 79,
+         "wait": 0.25
+        },
+        {
+         "at": 80,
+         "wait": 0.2
+        },
+        {
+         "at": 81,
+         "wait": 0.15
+        },
+        {
+         "at": 82,
+         "wait": 0.25
+        },
+        {
+         "at": 83,
+         "wait": 0.2
+        },
+        {
+         "at": 84,
+         "wait": 0.15
+        },
+        {
+         "at": 85,
+         "wait": 0.25
+        },
+        {
+         "at": 86,
+         "wait": 0.2
+        },
+        {
+         "at": 87,
+         "wait": 0.15
+        },
+        {
+         "at": 88,
+         "wait": 0.25
+        },
+        {
+         "at": 89,
+         "wait": 0.2
+        },
+        {
+         "at": 90,
+         "wait": 0.15
+        },
+        {
+         "at": 91,
+         "wait": 0.25
+        },
+        {
+         "at": 92,
+         "wait": 0.2
+        },
+        {
+         "at": 93,
+         "wait": 0.15
+        },
+        {
+         "at": 94,
+         "wait": 0.25
+        },
+        {
+         "at": 95,
+         "wait": 0.2
+        }
+       ],
+       "flashStops": [
+        {
+         "at": 1,
+         "target": {
+          "x": -38.013,
+          "y": 5.196,
+          "z": -27.382
+         },
+         "wait": 0.7,
+         "agent": "yoru",
+         "normal": {
+          "x": -1,
+          "y": 0.003,
+          "z": -0.001
+         }
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-25",
+     "name": "Peeker 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "kayo",
+      "weapon": "phantom"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -50.8,
+         "y": 3,
+         "z": -11.8
+        },
+        {
+         "x": -50.92,
+         "y": 3,
+         "z": -12.38
+        },
+        {
+         "x": -51.4,
+         "y": 3,
+         "z": -14.7
+        },
+        {
+         "x": -51.199,
+         "y": 3,
+         "z": -14.029
+        },
+        {
+         "x": -51.544,
+         "y": 3,
+         "z": -15.179
+        },
+        {
+         "x": -51.228,
+         "y": 3,
+         "z": -14.125
+        },
+        {
+         "x": -51.601,
+         "y": 3,
+         "z": -15.371
+        },
+        {
+         "x": -51.285,
+         "y": 3,
+         "z": -14.317
+        },
+        {
+         "x": -51.572,
+         "y": 3,
+         "z": -15.275
+        },
+        {
+         "x": -51.199,
+         "y": 3,
+         "z": -14.029
+        },
+        {
+         "x": -51.544,
+         "y": 3,
+         "z": -15.179
+        },
+        {
+         "x": -51.228,
+         "y": 3,
+         "z": -14.125
+        },
+        {
+         "x": -51.601,
+         "y": 3,
+         "z": -15.371
+        },
+        {
+         "x": -51.285,
+         "y": 3,
+         "z": -14.317
+        },
+        {
+         "x": -51.572,
+         "y": 3,
+         "z": -15.275
+        },
+        {
+         "x": -51.199,
+         "y": 3,
+         "z": -14.029
+        },
+        {
+         "x": -51.544,
+         "y": 3,
+         "z": -15.179
+        },
+        {
+         "x": -51.228,
+         "y": 3,
+         "z": -14.125
+        },
+        {
+         "x": -51.601,
+         "y": 3,
+         "z": -15.371
+        },
+        {
+         "x": -51.285,
+         "y": 3,
+         "z": -14.317
+        },
+        {
+         "x": -51.572,
+         "y": 3,
+         "z": -15.275
+        },
+        {
+         "x": -51.199,
+         "y": 3,
+         "z": -14.029
+        },
+        {
+         "x": -51.544,
+         "y": 3,
+         "z": -15.179
+        },
+        {
+         "x": -51.228,
+         "y": 3,
+         "z": -14.125
+        },
+        {
+         "x": -51.601,
+         "y": 3,
+         "z": -15.371
+        },
+        {
+         "x": -51.285,
+         "y": 3,
+         "z": -14.317
+        },
+        {
+         "x": -51.572,
+         "y": 3,
+         "z": -15.275
+        },
+        {
+         "x": -51.199,
+         "y": 3,
+         "z": -14.029
+        },
+        {
+         "x": -51.544,
+         "y": 3,
+         "z": -15.179
+        },
+        {
+         "x": -51.228,
+         "y": 3,
+         "z": -14.125
+        },
+        {
+         "x": -51.601,
+         "y": 3,
+         "z": -15.371
+        },
+        {
+         "x": -51.285,
+         "y": 3,
+         "z": -14.317
+        },
+        {
+         "x": -51.572,
+         "y": 3,
+         "z": -15.275
+        },
+        {
+         "x": -51.199,
+         "y": 3,
+         "z": -14.029
+        },
+        {
+         "x": -51.544,
+         "y": 3,
+         "z": -15.179
+        },
+        {
+         "x": -51.228,
+         "y": 3,
+         "z": -14.125
+        },
+        {
+         "x": -51.601,
+         "y": 3,
+         "z": -15.371
+        },
+        {
+         "x": -51.285,
+         "y": 3,
+         "z": -14.317
+        },
+        {
+         "x": -51.572,
+         "y": 3,
+         "z": -15.275
+        },
+        {
+         "x": -51.199,
+         "y": 3,
+         "z": -14.029
+        },
+        {
+         "x": -51.544,
+         "y": 3,
+         "z": -15.179
+        },
+        {
+         "x": -51.228,
+         "y": 3,
+         "z": -14.125
+        },
+        {
+         "x": -51.601,
+         "y": 3,
+         "z": -15.371
+        },
+        {
+         "x": -51.285,
+         "y": 3,
+         "z": -14.317
+        },
+        {
+         "x": -51.572,
+         "y": 3,
+         "z": -15.275
+        },
+        {
+         "x": -51.199,
+         "y": 3,
+         "z": -14.029
+        },
+        {
+         "x": -51.544,
+         "y": 3,
+         "z": -15.179
+        },
+        {
+         "x": -51.228,
+         "y": 3,
+         "z": -14.125
+        },
+        {
+         "x": -51.601,
+         "y": 3,
+         "z": -15.371
+        },
+        {
+         "x": -50.8,
+         "y": 3,
+         "z": -11.8
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 2,
+         "wait": 0.1
+        },
+        {
+         "at": 3,
+         "wait": 0.15
+        },
+        {
+         "at": 4,
+         "wait": 0.25
+        },
+        {
+         "at": 5,
+         "wait": 0.2
+        },
+        {
+         "at": 6,
+         "wait": 0.15
+        },
+        {
+         "at": 7,
+         "wait": 0.25
+        },
+        {
+         "at": 8,
+         "wait": 0.2
+        },
+        {
+         "at": 9,
+         "wait": 0.15
+        },
+        {
+         "at": 10,
+         "wait": 0.25
+        },
+        {
+         "at": 11,
+         "wait": 0.2
+        },
+        {
+         "at": 12,
+         "wait": 0.15
+        },
+        {
+         "at": 13,
+         "wait": 0.25
+        },
+        {
+         "at": 14,
+         "wait": 0.2
+        },
+        {
+         "at": 15,
+         "wait": 0.15
+        },
+        {
+         "at": 16,
+         "wait": 0.25
+        },
+        {
+         "at": 17,
+         "wait": 0.2
+        },
+        {
+         "at": 18,
+         "wait": 0.15
+        },
+        {
+         "at": 19,
+         "wait": 0.25
+        },
+        {
+         "at": 20,
+         "wait": 0.2
+        },
+        {
+         "at": 21,
+         "wait": 0.15
+        },
+        {
+         "at": 22,
+         "wait": 0.25
+        },
+        {
+         "at": 23,
+         "wait": 0.2
+        },
+        {
+         "at": 24,
+         "wait": 0.15
+        },
+        {
+         "at": 25,
+         "wait": 0.25
+        },
+        {
+         "at": 26,
+         "wait": 0.2
+        },
+        {
+         "at": 27,
+         "wait": 0.15
+        },
+        {
+         "at": 28,
+         "wait": 0.25
+        },
+        {
+         "at": 29,
+         "wait": 0.2
+        },
+        {
+         "at": 30,
+         "wait": 0.15
+        },
+        {
+         "at": 31,
+         "wait": 0.25
+        },
+        {
+         "at": 32,
+         "wait": 0.2
+        },
+        {
+         "at": 33,
+         "wait": 0.15
+        },
+        {
+         "at": 34,
+         "wait": 0.25
+        },
+        {
+         "at": 35,
+         "wait": 0.2
+        },
+        {
+         "at": 36,
+         "wait": 0.15
+        },
+        {
+         "at": 37,
+         "wait": 0.25
+        },
+        {
+         "at": 38,
+         "wait": 0.2
+        },
+        {
+         "at": 39,
+         "wait": 0.15
+        },
+        {
+         "at": 40,
+         "wait": 0.25
+        },
+        {
+         "at": 41,
+         "wait": 0.2
+        },
+        {
+         "at": 42,
+         "wait": 0.15
+        },
+        {
+         "at": 43,
+         "wait": 0.25
+        },
+        {
+         "at": 44,
+         "wait": 0.2
+        },
+        {
+         "at": 45,
+         "wait": 0.15
+        },
+        {
+         "at": 46,
+         "wait": 0.25
+        },
+        {
+         "at": 47,
+         "wait": 0.2
+        },
+        {
+         "at": 48,
+         "wait": 0.15
+        }
+       ],
+       "flashStops": [
+        {
+         "at": 1,
+         "target": {
+          "x": -49.8,
+          "y": 5.2,
+          "z": -15.9
+         },
+         "wait": 0.7,
+         "agent": "kayo"
+        }
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-26",
+     "name": "Peeker 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "reyna",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -55.8,
+         "y": 2,
+         "z": 0
+        },
+        {
+         "x": -55.18,
+         "y": 2,
+         "z": 0
+        },
+        {
+         "x": -52.7,
+         "y": 2,
+         "z": 0
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -53.1,
+         "y": 2,
+         "z": -0.574
+        },
+        {
+         "x": -52.471,
+         "y": 2,
+         "z": 0.328
+        },
+        {
+         "x": -53.043,
+         "y": 2,
+         "z": -0.492
+        },
+        {
+         "x": -52.3,
+         "y": 2,
+         "z": 0.574
+        },
+        {
+         "x": -52.986,
+         "y": 2,
+         "z": -0.41
+        },
+        {
+         "x": -52.357,
+         "y": 2,
+         "z": 0.492
+        },
+        {
+         "x": -55.8,
+         "y": 2,
+         "z": 0
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 2,
+         "wait": 0.1
+        },
+        {
+         "at": 3,
+         "wait": 0.15
+        },
+        {
+         "at": 4,
+         "wait": 0.25
+        },
+        {
+         "at": 5,
+         "wait": 0.2
+        },
+        {
+         "at": 6,
+         "wait": 0.15
+        },
+        {
+         "at": 7,
+         "wait": 0.25
+        },
+        {
+         "at": 8,
+         "wait": 0.2
+        },
+        {
+         "at": 9,
+         "wait": 0.15
+        },
+        {
+         "at": 10,
+         "wait": 0.25
+        },
+        {
+         "at": 11,
+         "wait": 0.2
+        },
+        {
+         "at": 12,
+         "wait": 0.15
+        },
+        {
+         "at": 13,
+         "wait": 0.25
+        },
+        {
+         "at": 14,
+         "wait": 0.2
+        },
+        {
+         "at": 15,
+         "wait": 0.15
+        },
+        {
+         "at": 16,
+         "wait": 0.25
+        },
+        {
+         "at": 17,
+         "wait": 0.2
+        },
+        {
+         "at": 18,
+         "wait": 0.15
+        },
+        {
+         "at": 19,
+         "wait": 0.25
+        },
+        {
+         "at": 20,
+         "wait": 0.2
+        },
+        {
+         "at": 21,
+         "wait": 0.15
+        },
+        {
+         "at": 22,
+         "wait": 0.25
+        },
+        {
+         "at": 23,
+         "wait": 0.2
+        },
+        {
+         "at": 24,
+         "wait": 0.15
+        },
+        {
+         "at": 25,
+         "wait": 0.25
+        },
+        {
+         "at": 26,
+         "wait": 0.2
+        },
+        {
+         "at": 27,
+         "wait": 0.15
+        },
+        {
+         "at": 28,
+         "wait": 0.25
+        },
+        {
+         "at": 29,
+         "wait": 0.2
+        },
+        {
+         "at": 30,
+         "wait": 0.15
+        },
+        {
+         "at": 31,
+         "wait": 0.25
+        },
+        {
+         "at": 32,
+         "wait": 0.2
+        },
+        {
+         "at": 33,
+         "wait": 0.15
+        },
+        {
+         "at": 34,
+         "wait": 0.25
+        },
+        {
+         "at": 35,
+         "wait": 0.2
+        },
+        {
+         "at": 36,
+         "wait": 0.15
+        },
+        {
+         "at": 37,
+         "wait": 0.25
+        },
+        {
+         "at": 38,
+         "wait": 0.2
+        },
+        {
+         "at": 39,
+         "wait": 0.15
+        },
+        {
+         "at": 40,
+         "wait": 0.25
+        },
+        {
+         "at": 41,
+         "wait": 0.2
+        },
+        {
+         "at": 42,
+         "wait": 0.15
+        },
+        {
+         "at": 43,
+         "wait": 0.25
+        },
+        {
+         "at": 44,
+         "wait": 0.2
+        },
+        {
+         "at": 45,
+         "wait": 0.15
+        },
+        {
+         "at": 46,
+         "wait": 0.25
+        },
+        {
+         "at": 47,
+         "wait": 0.2
+        },
+        {
+         "at": 48,
+         "wait": 0.15
+        },
+        {
+         "at": 49,
+         "wait": 0.25
+        },
+        {
+         "at": 50,
+         "wait": 0.2
+        },
+        {
+         "at": 51,
+         "wait": 0.15
+        },
+        {
+         "at": 52,
+         "wait": 0.25
+        },
+        {
+         "at": 53,
+         "wait": 0.2
+        },
+        {
+         "at": 54,
+         "wait": 0.15
+        },
+        {
+         "at": 55,
+         "wait": 0.25
+        },
+        {
+         "at": 56,
+         "wait": 0.2
+        },
+        {
+         "at": 57,
+         "wait": 0.15
+        },
+        {
+         "at": 58,
+         "wait": 0.25
+        },
+        {
+         "at": 59,
+         "wait": 0.2
+        },
+        {
+         "at": 60,
+         "wait": 0.15
+        },
+        {
+         "at": 61,
+         "wait": 0.25
+        },
+        {
+         "at": 62,
+         "wait": 0.2
+        },
+        {
+         "at": 63,
+         "wait": 0.15
+        },
+        {
+         "at": 64,
+         "wait": 0.25
+        },
+        {
+         "at": 65,
+         "wait": 0.2
+        },
+        {
+         "at": 66,
+         "wait": 0.15
+        },
+        {
+         "at": 67,
+         "wait": 0.25
+        },
+        {
+         "at": 68,
+         "wait": 0.2
+        },
+        {
+         "at": 69,
+         "wait": 0.15
+        },
+        {
+         "at": 70,
+         "wait": 0.25
+        },
+        {
+         "at": 71,
+         "wait": 0.2
+        },
+        {
+         "at": 72,
+         "wait": 0.15
+        },
+        {
+         "at": 73,
+         "wait": 0.25
+        },
+        {
+         "at": 74,
+         "wait": 0.2
+        },
+        {
+         "at": 75,
+         "wait": 0.15
+        },
+        {
+         "at": 76,
+         "wait": 0.25
+        },
+        {
+         "at": 77,
+         "wait": 0.2
+        },
+        {
+         "at": 78,
+         "wait": 0.15
+        },
+        {
+         "at": 79,
+         "wait": 0.25
+        },
+        {
+         "at": 80,
+         "wait": 0.2
+        },
+        {
+         "at": 81,
+         "wait": 0.15
+        },
+        {
+         "at": 82,
+         "wait": 0.25
+        },
+        {
+         "at": 83,
+         "wait": 0.2
+        },
+        {
+         "at": 84,
+         "wait": 0.15
+        },
+        {
+         "at": 85,
+         "wait": 0.25
+        },
+        {
+         "at": 86,
+         "wait": 0.2
+        },
+        {
+         "at": 87,
+         "wait": 0.15
+        },
+        {
+         "at": 88,
+         "wait": 0.25
+        },
+        {
+         "at": 89,
+         "wait": 0.2
+        },
+        {
+         "at": 90,
+         "wait": 0.15
+        },
+        {
+         "at": 91,
+         "wait": 0.25
+        },
+        {
+         "at": 92,
+         "wait": 0.2
+        },
+        {
+         "at": 93,
+         "wait": 0.15
+        },
+        {
+         "at": 94,
+         "wait": 0.25
+        },
+        {
+         "at": 95,
+         "wait": 0.2
+        }
+       ],
+       "flashStops": [
+        {
+         "at": 1,
+         "target": {
+          "x": -53.2,
+          "y": 5.5,
+          "z": -2.3
+         },
+         "wait": 0.4,
+         "agent": "reyna"
+        }
+       ]
+      }
+     ],
+     "health": 150
+    }
+   ],
+   "rules": {
+    "duration": 120,
+    "scoring": "clicking",
+    "weapon": "vandal",
+    "playerMovable": true,
+    "fireMode": "hold",
+    "spawnerPick": {
+     "pool": [
+      "spawner-1",
+      "spawner-2",
+      "spawner-3",
+      "spawner-5",
+      "spawner-6",
+      "spawner-7",
+      "spawner-8",
+      "spawner-9",
+      "spawner-10",
+      "spawner-11",
+      "spawner-12",
+      "spawner-13",
+      "spawner-14",
+      "spawner-15",
+      "spawner-16",
+      "spawner-18",
+      "spawner-19",
+      "spawner-21",
+      "spawner-22",
+      "spawner-24",
+      "spawner-29",
+      "spawner-30",
+      "spawner-31"
+     ],
+     "count": 15
+    }
+   },
+   "dispatchers": [
+    {
+     "id": "dispatcher-23",
+     "name": "Peeker 1",
+     "routes": [
+      {
+       "templateId": "actor-23",
+       "streak": [
+        1,
+        1
+       ]
+      }
+     ],
+     "order": "sequence",
+     "maxAlive": 1,
+     "interval": [
+      0.2,
+      1.2
+     ],
+     "faceTarget": true,
+     "trigger": {
+      "a": {
+       "x": -34.3,
+       "z": -34.1
+      },
+      "b": {
+       "x": -32.2,
+       "z": -23.6
+      }
+     },
+     "spawnDelay": [
+      0.05,
+      0.05
+     ],
+     "total": 1
+    },
+    {
+     "id": "dispatcher-25",
+     "name": "Peeker 2",
+     "routes": [
+      {
+       "templateId": "actor-25",
+       "streak": [
+        1,
+        1
+       ]
+      }
+     ],
+     "order": "sequence",
+     "maxAlive": 1,
+     "interval": [
+      0.2,
+      1.2
+     ],
+     "faceTarget": true,
+     "trigger": {
+      "a": {
+       "x": -45.1,
+       "z": -23.8
+      },
+      "b": {
+       "x": -38.9,
+       "z": -23.9
+      }
+     },
+     "spawnDelay": [
+      0.05,
+      0.05
+     ],
+     "total": 1
+    },
+    {
+     "id": "dispatcher-26",
+     "name": "Peeker 3",
+     "routes": [
+      {
+       "templateId": "actor-26",
+       "streak": [
+        1,
+        1
+       ]
+      }
+     ],
+     "order": "sequence",
+     "maxAlive": 1,
+     "interval": [
+      0.2,
+      1.2
+     ],
+     "faceTarget": true,
+     "trigger": {
+      "a": {
+       "x": -54.3,
+       "z": -9.3
+      },
+      "b": {
+       "x": -50,
+       "z": -9.2
+      }
+     },
+     "spawnDelay": [
+      0.05,
+      0.05
+     ],
+     "total": 1
+    }
+   ]
+  }
+ }
+}

@@ -1,35 +1,35 @@
 # Game files
 
-The app is a shell around the open-aim web game. To run, it needs the game's files in a
-`site/` folder at the root of the repository:
+The app is a shell around the open-aim web game. It serves the game from two folders, with
+our own rebuilt version on top of the original web game files:
 
 ```
 open-aim/
 ├─ app/
-├─ scenarios/
-├─ site/            ← game files
+│  └─ site/         ← our rebuilt game (maps, skins, patched game scripts, local modules)
+├─ base/            ← the original web game files underneath
 │  ├─ aim/
 │  ├─ aim-maps/
 │  ├─ aim-agents/
 │  ├─ _assets/
 │  └─ …
-└─ site_meta.json   ← response headers for the site files
+├─ scenarios/
+└─ site_meta.json   ← response headers for the game files
 ```
 
-`app/main.js` serves this folder on `http://127.0.0.1:8000` and opens it in the app window.
+`app/main.js` serves these on `http://127.0.0.1:8000` and opens them in the app window. For
+every request it looks in `app/site/` first and falls back to `base/` (for example a weapon skin
+in `app/site/aim-viewmodel/` replaces the one in `base/aim-viewmodel/`).
+
+Before 1.4.0 these folders were called `app/mods/` and `site/`.
 
 ## This repository is public, and includes them
 
-This repository keeps `site/` and `site_meta.json` in git so the app runs straight after a
-clone.
+This repository keeps `app/site/`, `base/` and `site_meta.json` in git so the app runs straight
+after a clone.
 
-- **Credit:** the maps were taken from the [ishoutu aim trainer](https://ishoutu.cn/aim).
-- **Size:** the site folder is about 190 MB, mostly 3D maps and textures.
-
-## Optional: mods
-
-Files in `app/mods/` replace the site file at the same path (for example a weapon skin in
-`app/mods/aim-viewmodel/`).
+- **Credit:** the original maps were taken from the [ishoutu aim trainer](https://ishoutu.cn/aim).
+- **Size:** `base/` is about 110 MB and `app/site/` about 1.3 GB, mostly 3D maps and textures.
 
 ## The long-term goal
 

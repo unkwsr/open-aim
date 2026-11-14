@@ -148,6 +148,48 @@ function runRemove(id) {
   if (fs.existsSync(file)) fs.rmSync(file);
 }
 
+// Bot library: a bot's settings saved to reuse on any drill (Studio "Save to library" on a bot,
+// "Saved bots" in the tray), one JSON file each in "<userData>/studio-bots". Position and route
+// are not saved; using a saved bot copies its settings into the drill.
+const BOT_MOVES = new Set(["still", "strafe", "peek", "cross", "patrol", "copycat"]);
+const botsDir = () => path.join(app.getPath("userData"), "studio-bots");
+const botFile = (id) => path.join(botsDir(), `${String(id).replace(/[^0-9a-f]/gi, "")}.json`);
+const botName = (name) => String(name || "").trim().slice(0, 40) || "My bot";
+const validBot = (b) => b && b.id && BOT_MOVES.has(b.move) && b.settings && typeof b.settings === "object" && !Array.isArray(b.settings);
+
+function botList() {
+  if (!fs.existsSync(botsDir())) return [];
+  return fs.readdirSync(botsDir())
+    .filter((name) => name.endsWith(".json"))
+    .map((name) => { try { return JSON.parse(fs.readFileSync(path.join(botsDir(), name), "utf-8")); } catch { return null; } })
+    .filter(validBot)
+    .sort((a, b) => String(b.created).localeCompare(String(a.created)));
+}
+
+function botSave({ name, move, settings }) {
+  const bot = { id: crypto.randomBytes(8).toString("hex"), name: botName(name), move, created: now(), settings };
+  if (!validBot(bot)) throw new Error("That isn't a bot.");
+  const body = JSON.stringify(bot);
+  if (body.length > 4 * 1024 * 1024) throw new Error("That bot is too big to save.");
+  fs.mkdirSync(botsDir(), { recursive: true });
+  fs.writeFileSync(botFile(bot.id), body);
+  return bot;
+}
+
+function botRename({ id, name }) {
+  const file = botFile(id);
+  const bot = JSON.parse(fs.readFileSync(file, "utf-8"));
+  bot.name = botName(name);
+  fs.writeFileSync(file + ".tmp", JSON.stringify(bot));
+  fs.renameSync(file + ".tmp", file);
+  return bot;
+}
+
+function botRemove(id) {
+  const file = botFile(id);
+  if (fs.existsSync(file)) fs.rmSync(file);
+}
+
 function list() {
   return all().map((e) => ({ code: e.item.shareCode, name: e.item.name, note: e.item.description, mapId: e.item.mapId, type: e.item.type, updated: e.item.updateTime, drill: e.drill }));
 }
@@ -157,15 +199,42 @@ function get(code) {
   return e ? e.drill : null;
 }
 
+// drill-rename-v1: lobby rename of an exported drill also renames its Creator drill, so a later export keeps the name.
+function rename(code, name) {
+  const file = fileOf(code), e = read(file);
+  if (!e) return false;
+  const title = String(name).slice(0, 60);
+  e.drill.name = e.item.name = e.scene.name = title;
+  fs.writeFileSync(file, JSON.stringify(e));
+  return true;
+}
+
+// rank-default-v1: a rank picked on the lobby card of an exported drill becomes every bot's "Shoots back" here.
+function setRank(code, rank) {
+  const file = fileOf(code), e = read(file);
+  if (!e) return false;
+  for (const it of e.drill.items || []) if (it && it.kind === "bot") it.shoots = rank;
+  fs.writeFileSync(file, JSON.stringify(e));
+  return true;
+}
+
 function remove(code) {
   const file = fileOf(code);
   if (fs.existsSync(file)) fs.rmSync(file);
 }
 
+let savedHook = null;
+const onSaved = (fn) => { savedHook = fn; };
+
 function register(ipcMain) {
   ipcMain.handle("aim:studio:list", () => list());
   ipcMain.handle("aim:studio:get", (_e, code) => get(code));
-  ipcMain.handle("aim:studio:save", (_e, payload) => save(payload || {}));
+  ipcMain.handle("aim:studio:save", (_e, payload) => {
+    const out = save(payload || {});
+    // studio-autoexport-v1: main.js re-exports the lobby version of this drill, if it has one.
+    if (savedHook) setImmediate(() => { try { savedHook(out.code); } catch (err) { console.warn("Creator save hook:", err); } });
+    return out;
+  });
   ipcMain.handle("aim:studio:remove", (_e, code) => remove(code));
   ipcMain.handle("aim:studio:record", (_e, payload) => record(payload || {}));
   ipcMain.handle("aim:studio:clearRecording", () => clearRecording());
@@ -173,6 +242,10 @@ function register(ipcMain) {
   ipcMain.handle("aim:studio:saveRun", (_e, payload) => runSave(payload || {}));
   ipcMain.handle("aim:studio:renameRun", (_e, payload) => runRename(payload || {}));
   ipcMain.handle("aim:studio:removeRun", (_e, id) => runRemove(id));
+  ipcMain.handle("aim:studio:bots", () => botList());
+  ipcMain.handle("aim:studio:saveBot", (_e, payload) => botSave(payload || {}));
+  ipcMain.handle("aim:studio:renameBot", (_e, payload) => botRename(payload || {}));
+  ipcMain.handle("aim:studio:removeBot", (_e, id) => botRemove(id));
 }
 
-module.exports = { all, recording, register };
+module.exports = { all, recording, register, rename, onSaved, setRank };

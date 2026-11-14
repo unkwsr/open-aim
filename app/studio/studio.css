@@ -78,12 +78,21 @@ h1, h2, h3, .brand b, .tray h4, .group > label, .field > label, .btn, .place-til
 .card:hover { border-color: #3a4d5f; transform: translateY(-2px); }
 .card .art { height: 110px; background: #1a2530 center / cover no-repeat; position: relative; }
 .card .art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 30%, rgba(15, 25, 35, 0.9)); }
+.card .art.range { background: #0a111a; }
+.card .art.range::before { content: ""; position: absolute; inset: 0; background: url('/local/training-range-thumb.png') center / cover no-repeat; filter: brightness(1.22); }
+.card .art.range::after { background: linear-gradient(180deg, rgba(7, 12, 18, .08), rgba(7, 12, 18, .08) 45%, rgba(7, 12, 18, .62)); }
 .card .place { position: absolute; left: 12px; bottom: 8px; z-index: 1; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
 .card .body { padding: 12px; flex: 1; }
 .card h3 { margin: 0 0 4px; font-size: 16px; }
 .card p { margin: 0; color: var(--muted); font-size: 13px; }
 .card .actions { display: flex; gap: 6px; padding: 0 12px 12px; }
 .card .actions .grow { flex: 1; }
+.drill-card .actions { display: flex; flex-direction: column; gap: 6px; }
+.drill-main-actions { display: flex; gap: 6px; min-width: 0; }
+.drill-main-actions .btn { flex: 1 1 0; min-width: 0; justify-content: center; padding-inline: 5px; }
+.drill-main-actions .btn.primary.small { padding-inline: 5px; }
+.drill-main-actions .btn svg { width: 15px; height: 15px; }
+.drill-utility-actions { display: flex; justify-content: flex-end; gap: 6px; }
 .new-card { display: grid; place-items: center; min-height: 230px; border: 2px dashed var(--line); background: transparent; color: var(--muted); font-weight: 700; font-size: 16px; }
 .new-card:hover { border-color: var(--red); color: var(--text); }
 .new-card span { display: grid; place-items: center; gap: 8px; }
@@ -108,7 +117,9 @@ h1, h2, h3, .brand b, .tray h4, .group > label, .field > label, .btn, .place-til
 .place-tile small { position: absolute; left: 10px; top: 8px; z-index: 1; color: var(--muted); font-size: 11px; }
 .place-tile:hover { border-color: #4a5f72; }
 .place-tile.on { border-color: var(--red); }
-.place-tile.range { background: repeating-linear-gradient(90deg, transparent 0 19px, #243444 19px 20px), repeating-linear-gradient(0deg, #1b2834 0 19px, #243444 19px 20px); }
+.place-tile.range { background: #0a111a; }
+.place-tile.range::before { content: ""; position: absolute; inset: 0; background: url('/local/training-range-thumb.png') center / cover no-repeat; filter: brightness(1.22); }
+.place-tile.range::after { background: linear-gradient(180deg, rgba(7, 12, 18, .08), rgba(7, 12, 18, .08) 45%, rgba(7, 12, 18, .65)); }
 .starters { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
 .starter { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border: 2px solid var(--line); border-radius: var(--radius); background: var(--raised); text-align: left; }
 .starter:hover { border-color: #4a5f72; }
@@ -199,14 +210,22 @@ h1, h2, h3, .brand b, .tray h4, .group > label, .field > label, .btn, .place-til
 .switch span small { display: block; color: var(--muted); font-size: 12px; }
 select.pick, input.text, textarea.text { width: 100%; height: 34px; padding: 0 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--raised); }
 textarea.text { height: 64px; padding: 8px 10px; resize: vertical; }
-.ranks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-.ranks button { height: 32px; padding: 0; border: 1px solid var(--line); border-radius: 5px; background: var(--raised); font-size: 12px; font-weight: 700; }
+.ranks { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.ranks button { height: 46px; padding: 0; border: 1px solid var(--line); border-radius: 5px; background: var(--raised); font-size: 12px; font-weight: 700; }
 .ranks button.off { grid-column: 1 / -1; }
-.ranks button.on { background: var(--amber); border-color: var(--amber); color: #1a1205; }
+.ranks button.off { height: 32px; }
+.ranks button.on { background: var(--red-wash); border-color: var(--red); box-shadow: inset 0 0 0 1px var(--red); color: var(--text); }
+.ranks button .rank-ic { width: 34px; height: 34px; }
+.rank-ic { width: 18px; height: 18px; object-fit: contain; vertical-align: middle; }
+.stat .rank-ic, .shooters .rank-ic { width: 20px; height: 20px; margin: -3px 0; }
 .ranks button:hover { border-color: #4a5f72; }
-.looks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; max-height: 182px; overflow: auto; padding-right: 2px; }
-.looks button { height: 30px; border: 1px solid var(--line); border-radius: 5px; background: var(--raised); font-size: 12px; }
-.looks button.on { border-color: var(--red); background: #2a1c24; }
+/* agent icon pickers (Looks like, Whose flash, Whose smoke) */
+.agents { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.agents button { aspect-ratio: 1; padding: 0; border: 1px solid var(--line); background: var(--raised); overflow: hidden; }
+.agents button:hover { border-color: #4a5f72; }
+.agents button.on { border: 2px solid var(--red); box-shadow: inset 0 0 0 1px var(--red); }
+.agents .agent-ic { width: 100%; height: 100%; object-fit: cover; display: block; }
+.agents .bot-ic { width: 70%; height: 70%; }
 .weapons { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
 .weapons button { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; height: 50px; border: 1px solid var(--line); border-radius: 5px; background: var(--raised); font-size: 11px; }
 .weapons button img { height: 18px; max-width: 80%; object-fit: contain; filter: brightness(1.4); }
@@ -260,10 +279,10 @@ textarea.text { height: 64px; padding: 8px 10px; resize: vertical; }
 .tool.on { border-color: var(--line); border-left-color: var(--red); background: var(--red-wash); }
 .tool b { font-size: 15px; font-weight: 800; }
 .tray h4 { color: var(--red-2); }
-.seg button, .ranks button, .looks button, .weapons button, .switch, select.pick, input.text, textarea.text, .point, .checks, .stat span, .kbd { border-radius: 0; }
+.seg button, .ranks button, .agents button, .weapons button, .switch, select.pick, input.text, textarea.text, .point, .checks, .stat span, .kbd { border-radius: 0; }
 .seg button { font-size: 14px; font-weight: 700; }
 .seg button.on { background: var(--red); border-color: var(--red); }
-.looks button.on, .weapons button.on { border-color: var(--red); background: var(--red-wash); }
+.weapons button.on { border-color: var(--red); background: var(--red-wash); }
 .insp-head h3 { font-size: 22px; font-weight: 800; font-stretch: 75%; text-transform: uppercase; }
 .inspector, .tray { background: var(--panel); }
 .group { border-top-color: var(--line); }
@@ -311,3 +330,49 @@ textarea.text { height: 64px; padding: 8px 10px; resize: vertical; }
 .run-text b { font-size: 15px; }
 .run-text small { color: var(--muted); font-size: 12px; }
 .run-text small.warn { color: var(--amber); }
+
+/* ---------- Saved bots (bot library) in the tray, one group per bot type ---------- */
+.saved-bots { margin-bottom: 4px; }
+.saved-group { margin-bottom: 6px; }
+.saved-head { display: flex; align-items: center; gap: 6px; width: 100%; padding: 6px 4px; border: 0; background: none; color: var(--text, #e8ecf1); font: inherit; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; text-align: left; cursor: pointer; }
+.saved-head:hover:not(:disabled) { background: var(--raised); }
+.saved-head:disabled { cursor: default; }
+.saved-head svg { width: 16px; height: 16px; }
+.saved-head .saved-arrow { width: 12px; height: 12px; color: var(--muted); transition: transform 0.15s; }
+.saved-group.open .saved-head .saved-arrow { transform: rotate(90deg); color: var(--text, #e8ecf1); }
+.saved-group.empty .saved-head .saved-arrow { visibility: hidden; }
+.saved-head small { margin-left: auto; min-width: 18px; padding: 0 5px; border: 1px solid var(--line); color: var(--muted); font-size: 11px; text-align: center; }
+.saved-group.empty .saved-head { opacity: 0.45; }
+.saved-bot { position: relative; }
+.saved-bot .tool.saved-tool { margin-bottom: 4px; padding: 6px 64px 6px 10px; }
+.saved-bot .tool.saved-tool b { font-size: 13px; overflow-wrap: anywhere; }
+.saved-acts { position: absolute; top: 4px; right: 4px; display: flex; gap: 2px; opacity: 0; transition: opacity 0.15s; }
+.saved-bot:hover .saved-acts, .saved-bot:focus-within .saved-acts { opacity: 1; }
+.saved-acts .btn.small.icon { width: 26px; height: 26px; }
+.saved-acts svg { width: 14px; height: 14px; }
+.saved-note { margin: 2px 4px 6px; color: var(--muted); font-size: 11px; line-height: 1.35; }
+.bot-lib-row { margin: 0 0 10px; }
+
+/* Studio home (drills and runs): the game's Target Workshop wall (/local/workshop-wall.svg, the same
+   artwork the lobby uses) behind the cards, with the lobby's dark fade so text stays readable. */
+.library {
+  background:
+    linear-gradient(180deg, rgba(5, 8, 12, .55), rgba(5, 8, 12, .1) 34%, rgba(5, 8, 12, .45)),
+    linear-gradient(90deg, rgba(5, 8, 12, .6), transparent 55%),
+    #08111b url('/local/workshop-wall.svg') center top / cover no-repeat;
+  background-attachment: local, local, fixed;
+}
+
+/* Object color picker and the five most recently chosen colors. */
+.surface-color-picker { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.surface-color-picker input[type="color"] { width: 48px; height: 34px; padding: 2px; border: 1px solid var(--line); border-radius: 4px; background: transparent; cursor: pointer; }
+.surface-color-picker output { font: 12px Consolas, monospace; }
+.surface-color-picker .btn { margin-left: auto; }
+.surface-recent-colors { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.surface-color-swatch { width: 30px; height: 30px; padding: 0; border: 1px solid var(--muted); border-radius: 4px; background: var(--swatch); cursor: pointer; }
+.surface-color-swatch:hover, .surface-color-swatch:focus-visible { outline: 2px solid var(--text, #fff); outline-offset: 2px; }
+
+/* studio-free-size: slider + number box (type any size) */
+.slider.free input.num { width: 64px; height: 28px; padding: 0 6px; border: 1px solid var(--line); border-radius: 5px; background: var(--raised); color: inherit; font: inherit; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.slider.free input.num:focus { outline: none; border-color: var(--red); }
+.slider.free output { min-width: 14px; text-align: left; }

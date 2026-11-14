@@ -6,8 +6,8 @@
 ┌──────────────── Electron app (app/main.js) ────────────────┐
 │                                                            │
 │  Local web server 127.0.0.1:8000                           │
-│    ├─ serves the game from site/                           │
-│    ├─ swaps in files from app/mods/                        │
+│    ├─ serves the game from base/                           │
+│    ├─ swaps in files from app/site/                        │
 │    ├─ adds the extra scenarios (training-set.json)         │
 │    └─ answers account and leaderboard requests locally     │
 │                                                            │

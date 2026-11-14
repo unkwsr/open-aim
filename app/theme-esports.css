@@ -30,6 +30,83 @@
   --es-cut: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
 }
 
+/* Controls added to the existing Community Workshop title row. */
+.es-workshop-toolbar { display: inline-flex; gap: 8px; align-items: center; margin-left: 22px; vertical-align: middle; }
+.es-workshop-toolbar button, .es-workshop-panel button {
+  border: 1px solid var(--es-line-2); border-radius: 0; background: var(--es-raised);
+  color: var(--es-text); padding: 8px 13px; font: 800 12px var(--es-head); cursor: pointer;
+}
+.es-workshop-toolbar button:first-child, .es-workshop-panel button.is-primary, .es-workshop-panel button.is-danger {
+  background: var(--es-red); border-color: var(--es-red); color: white;
+  clip-path: var(--es-slant-sm);
+}
+.es-workshop-toolbar button:hover, .es-workshop-panel button:hover { border-color: white; }
+.es-workshop-scrim { position: fixed; inset: 0; z-index: 2147483000; background: #000c; display: grid; place-items: center; padding: 20px; }
+.es-workshop-panel { width: min(1040px, 100%); max-height: 88vh; overflow: auto; border-top: 4px solid var(--es-red); background: var(--es-panel); padding: 22px 26px 26px; box-shadow: 0 20px 70px #0009; color: var(--es-text); }
+.es-workshop-panel p { color: var(--es-muted); }
+.es-workshop-panel button:disabled { opacity: .5; cursor: default; }
+.es-review-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 0 0 14px; }
+.es-workshop-panel .es-review-head h2 { margin: 0; font: 900 26px var(--es-head); letter-spacing: .02em; color: var(--es-text) !important; }
+.es-workshop-tabs { display: flex; gap: 8px; margin: 0 0 10px; }
+.es-workshop-tabs button[aria-pressed="true"] { border-color: var(--es-red); color: white; box-shadow: inset 0 -3px 0 var(--es-red); }
+.es-workshop-panel .es-workshop-message { margin: 0 0 12px; color: var(--es-soft); font-size: 13px; }
+
+/* Filters: map chips, author chips, sort menu. */
+.es-review-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; padding: 12px 0; border-top: 1px solid var(--es-line); }
+.es-review-tools:empty { display: none; }
+.es-review-chips, .es-review-sort { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.es-review-tools small { color: var(--es-dim); font: 800 11px var(--es-head); letter-spacing: .1em; margin-right: 2px; }
+.es-workshop-panel .es-review-chips button { padding: 5px 10px; font-size: 12px; background: transparent; color: var(--es-soft); }
+.es-workshop-panel .es-review-chips button i { font-style: normal; color: var(--es-dim); margin-left: 3px; }
+.es-workshop-panel .es-review-chips button[aria-pressed="true"] { background: var(--es-red-wash); border-color: var(--es-red); color: white; }
+.es-workshop-panel .es-review-chips button[aria-pressed="true"] i { color: var(--es-red-2); }
+.es-review-sort select { background: var(--es-raised); color: var(--es-text); border: 1px solid var(--es-line-2); border-radius: 0; padding: 5px 8px; font: 700 12px var(--es-head); }
+.es-review-sort { margin-left: auto; }
+
+/* One card per upload: map picture, name and facts, actions. */
+.es-review-list { display: grid; gap: 10px; }
+.es-review-empty { padding: 20px 0; text-align: center; }
+.es-review-card { display: grid; grid-template-columns: 168px 1fr auto; gap: 18px; align-items: center; padding: 12px; background: var(--es-raised); border: 1px solid var(--es-line); border-left: 3px solid var(--es-line-2); }
+.es-review-card:hover { border-color: var(--es-line-2); border-left-color: var(--es-red); }
+.es-review-card.is-hidden .es-review-thumb, .es-review-card.is-hidden .es-review-info { opacity: .5; }
+.es-review-thumb { position: relative; width: 168px; height: 94px; overflow: hidden; background: linear-gradient(135deg, var(--es-raised-2), var(--es-bg)); }
+.es-review-thumb.is-range { background: repeating-linear-gradient(135deg, #1b1f28 0 10px, #161a22 10px 20px); }
+.es-review-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.es-review-thumb span { position: absolute; left: 0; bottom: 0; padding: 3px 12px 3px 8px; background: #000c; color: white; font: 800 12px var(--es-head); text-transform: uppercase; letter-spacing: .06em; clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 100%, 0 100%); }
+.es-review-thumb.is-range span { position: static; display: grid; place-items: center; height: 100%; background: none; clip-path: none; color: var(--es-soft); }
+.es-review-info { min-width: 0; }
+.es-review-title { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.es-workshop-panel .es-review-title strong { color: var(--es-text) !important; font: 800 18px var(--es-head); letter-spacing: .01em; opacity: 1 !important; }
+.es-review-badge { font: 800 10px var(--es-head); font-style: normal; letter-spacing: .08em; padding: 3px 7px; border: 1px solid var(--es-line-2); color: var(--es-muted); }
+.es-review-badge.is-played { border-color: var(--es-green); color: var(--es-green); }
+.es-review-badge.is-twin { border-color: #f5b941; color: #f5b941; cursor: help; }
+.es-review-badge.is-pinned { border-color: var(--es-red); background: var(--es-red); color: white; }
+.es-review-badge.is-banned { border-color: var(--es-red); color: var(--es-red); } /* unban-v1 */
+.es-review-badge[hidden] { display: none; }
+.es-review-card.is-pinned { border-left-color: var(--es-red); background: linear-gradient(90deg, var(--es-red-wash), var(--es-raised) 40%); }
+.es-workshop-panel .es-review-actions button.is-quiet { background: transparent; border-color: transparent; color: var(--es-red-2); padding: 5px 13px; font-size: 11px; }
+.es-workshop-panel .es-review-actions button.is-quiet:hover { border-color: var(--es-red); color: white; }
+.es-workshop-panel .es-review-desc { margin: 3px 0 7px; color: var(--es-soft); font-size: 13px; }
+.es-workshop-panel .es-review-desc.is-empty { color: var(--es-dim); font-style: italic; }
+.es-review-stats { display: flex; flex-wrap: wrap; gap: 6px; }
+.es-review-stats span { display: inline-flex; align-items: baseline; gap: 6px; padding: 3px 9px; background: var(--es-bg); border: 1px solid var(--es-line); }
+.es-review-stats small { color: var(--es-dim); font: 700 10px var(--es-head); text-transform: uppercase; letter-spacing: .08em; }
+.es-review-stats b { color: var(--es-text); font: 800 13px var(--es-head); }
+.es-workshop-panel .es-review-by { margin: 7px 0 0; font-size: 12px; color: var(--es-muted); }
+.es-review-by b { color: var(--es-soft); }
+.es-review-id { margin-left: 10px; color: var(--es-dim); font-size: 11px; }
+.es-review-actions { display: flex; flex-direction: column; gap: 6px; min-width: 132px; }
+.es-review-actions[hidden], .es-review-confirm[hidden] { display: none; }
+.es-review-confirm { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; padding-top: 10px; border-top: 1px dashed var(--es-line-2); }
+.es-review-confirm span { margin-right: auto; color: var(--es-text); font: 700 13px var(--es-head); }
+@media (max-width: 760px) {
+  .es-workshop-toolbar { display: flex; margin: 8px 0 0; }
+  .es-review-card { grid-template-columns: 1fr; }
+  .es-review-thumb { width: 100%; }
+  .es-review-actions { flex-direction: row; flex-wrap: wrap; }
+  .es-review-sort { margin-left: 0; }
+}
+
 /* An app, not a web page: no highlighting text by dragging or double-clicking.
    Text boxes (names, numbers, search) can still be selected and edited. */
 html, body, body * {
@@ -190,11 +267,50 @@ html[data-aim-local]:not(#es) body :is(h1, h2, h3, .al-wk-hero-word, .al-wk-s-na
 /* ---------- lobby shell ---------- */
 html[data-aim-local]:not(#es) body .hall-topnav { background: #0c0e13 !important; border-bottom: 2px solid var(--es-red) !important; }
 html[data-aim-local]:not(#es) body .hall-bottombar { background: #0c0e13 !important; border-top: 1px solid var(--es-line) !important; }
-html[data-aim-local]:not(#es) body .es-discord-panel {
+/* Discord dock: the panel plus an arrow tab on its left edge. Collapsed, the panel slides off the
+   right edge and only the tab (Discord icon + arrow) stays visible. */
+html[data-aim-local]:not(#es) body .es-discord-dock {
   position: fixed;
   right: 22px;
   bottom: 76px;
   z-index: 35;
+  display: flex;
+  align-items: flex-start;
+  transition: transform .45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Slide by the dock's width (38px tab + panel) minus the tab, plus the 22px gap: the tab ends flush
+   with the screen edge. */
+html[data-aim-local]:not(#es) body .es-discord-dock.is-collapsed { transform: translateX(calc(100% - 16px)); }
+html[data-aim-local]:not(#es) body .es-discord-toggle {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 6px;
+  width: 30px;
+  height: 46px;
+  margin-top: 14px;
+  padding: 0;
+  color: var(--es-muted);
+  background: #10131a;
+  border: none;
+  border-radius: 0;
+  box-shadow: -8px 10px 24px rgba(0, 0, 0, .35), inset 0 0 0 1px var(--es-line-2);
+  cursor: pointer;
+  transition: color .2s ease, background-color .2s ease, height .45s cubic-bezier(0.22, 1, 0.36, 1), width .45s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+html[data-aim-local]:not(#es) body .es-discord-toggle:hover,
+html[data-aim-local]:not(#es) body .es-discord-toggle:focus-visible { color: var(--es-text); background: var(--es-raised-2); outline: none; }
+/* no red focus ring on the tab after clicking it; keyboard focus still shows the lighter background */
+html[data-aim-local]:not(#es) body .es-discord-dock .es-discord-toggle:focus-visible { outline: none !important; }
+html[data-aim-local]:not(#es) body .es-discord-toggle-icon { display: none; width: 20px; height: 20px; color: var(--es-red-2); }
+html[data-aim-local]:not(#es) body .es-discord-toggle-arrow { width: 12px; height: 12px; transition: transform .45s cubic-bezier(0.22, 1, 0.36, 1); }
+/* collapsed: a taller tab with the Discord icon, arrow pointing back in */
+html[data-aim-local]:not(#es) body .es-discord-dock.is-collapsed .es-discord-toggle { width: 38px; height: 72px; margin-top: 0; box-shadow: -8px 10px 24px rgba(0, 0, 0, .45), inset 0 0 0 1px var(--es-line-2), inset 0 3px 0 var(--es-red); }
+html[data-aim-local]:not(#es) body .es-discord-dock.is-collapsed .es-discord-toggle-icon { display: block; }
+html[data-aim-local]:not(#es) body .es-discord-dock.is-collapsed .es-discord-toggle-arrow { transform: rotate(180deg); }
+html[data-aim-local]:not(#es) body .es-discord-dock.is-collapsed .es-discord-panel { visibility: hidden; transition: visibility 0s .45s, background-color .15s ease, transform .15s ease; }
+html[data-aim-local]:not(#es) body .es-discord-panel {
+  position: relative;
   display: grid;
   gap: 11px;
   width: 252px;
@@ -220,7 +336,7 @@ html[data-aim-local]:not(#es) body .es-discord-panel-head svg { width: 21px; hei
 html[data-aim-local]:not(#es) body .es-discord-panel > strong { font: 800 19px/1.12 var(--es-head); text-transform: uppercase; }
 html[data-aim-local]:not(#es) body .es-discord-panel-action { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--es-line-2); color: var(--es-soft); font: 800 12px var(--es-head); letter-spacing: .04em; }
 html[data-aim-local]:not(#es) body .es-discord-panel-action span { color: var(--es-red-2); font-size: 16px; }
-body.al-training-active .es-discord-panel { display: none !important; }
+body.al-training-active .es-discord-dock { display: none !important; }
 
 html[data-aim-local]:not(#es) body .hall-tab {
   background: transparent !important;
@@ -237,8 +353,22 @@ html[data-aim-local]:not(#es) body .hall-tab.is-active { background: var(--es-re
 
 html[data-aim-local]:not(#es) body :is(.hall-search, .aim-local-actions) { border-radius: 0 !important; }
 
-/* name only in the top-left (no logo), no donate card, no language button */
-html[data-aim-local]:not(#es) body .hall-brand > img { display: none !important; }
+/* Lobby header logo */
+html[data-aim-local]:not(#es) body .hall-brand > img:not(.hall-brand-logo),
+html[data-aim-local]:not(#es) body .hall-brand:has(> .hall-brand-logo) > span {
+  display: none !important;
+}
+html[data-aim-local]:not(#es) body .hall-brand > .hall-brand-logo {
+  display: block !important;
+  /* openVaim wordmark (14 Nov 2026): fixed height only, the width follows the picture (about 6.3:1) so it can
+     never be stretched or squeezed, whatever the window size */
+  width: auto !important;
+  max-width: none !important;
+  height: 24px !important; /* 30 -> 24 (user, 14 Nov 2026): calmer top bar */
+  flex: none !important;
+  object-fit: contain !important;
+  border-radius: 0 !important;
+}
 html[data-aim-local]:not(#es) body .hall-brand::before { display: none !important; content: none !important; }
 html[data-aim-local]:not(#es) body :is(.aim-locale-toggle) { display: none !important; }
 
@@ -280,6 +410,66 @@ html[data-aim-local]:not(#es) body .es-bar-quick {
 html[data-aim-local]:not(#es) body .es-bar-quick:hover { background: var(--es-red-2) !important; }
 html[data-aim-local]:not(#es) body .es-bar-fps.is-on { color: #fff !important; border-bottom-color: var(--es-red) !important; }
 
+/* Discord account in the top bar (lobby-bar.js). Same type treatment as the bar buttons. */
+html[data-aim-local]:not(#es) body .es-account-slot { display: inline-flex; align-items: center; }
+html[data-aim-local]:not(#es) body .es-account { position: relative; display: inline-flex; }
+html[data-aim-local]:not(#es) body .es-account-chip {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 10px !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  border-radius: 0 !important;
+  color: var(--es-muted) !important;
+  font: 700 13px/1 var(--es-head) !important;
+  font-stretch: 75% !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+html[data-aim-local]:not(#es) body .es-account-chip:hover,
+html[data-aim-local]:not(#es) body .es-account.is-open .es-account-chip { background: var(--es-raised) !important; color: #fff !important; }
+html[data-aim-local]:not(#es) body .es-account-avatar { width: 22px; height: 22px; border-radius: 50%; display: block; flex: none; }
+html[data-aim-local]:not(#es) body .es-account-fallback {
+  width: 22px; height: 22px; border-radius: 50%; flex: none;
+  background: #5865F2; color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  font: 800 11px/1 var(--es-head);
+}
+html[data-aim-local]:not(#es) body .es-account-caret { flex: none; opacity: .7; }
+html[data-aim-local]:not(#es) body .es-account-menu {
+  position: absolute; top: calc(100% + 8px); right: 0; z-index: 80;
+  min-width: 200px;
+  background: var(--es-raised);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-top: 2px solid var(--es-red);
+  display: none;
+}
+html[data-aim-local]:not(#es) body .es-account.is-open .es-account-menu { display: block; }
+html[data-aim-local]:not(#es) body .es-account-who {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+  color: var(--es-muted);
+  font: 600 11px/1.5 var(--es-head);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+html[data-aim-local]:not(#es) body .es-account-who b { display: block; color: #fff; font-size: 13px; margin-top: 2px; }
+html[data-aim-local]:not(#es) body .es-account-menu > button {
+  display: block; width: 100%; text-align: left;
+  background: none !important; border: none !important; border-radius: 0 !important;
+  color: #fff !important;
+  font: 700 12px/1 var(--es-head) !important;
+  font-stretch: 75% !important;
+  letter-spacing: .04em; text-transform: uppercase;
+  padding: 11px 12px !important; cursor: pointer;
+}
+html[data-aim-local]:not(#es) body .es-account-menu > button:hover { background: rgba(255, 70, 85, .15) !important; color: var(--es-red) !important; }
+
 /* Video controls inherit the native choice/button styles and scoped attributes. */
 .aim-video-panel > [data-setting="frameMode"],
 .aim-video-panel > [data-setting="frameRate"],
@@ -311,6 +501,28 @@ body.al-training-active .aim-frame-meter { display:block; }
 .aim-frame-meter span { font-size: 10px; color: #9ba1ad; letter-spacing: .1em; font-weight: 700; }
 .aim-frame-meter small { display: block; font-size: 11px; line-height: 1.55; color: #c0c5cf; margin-top: 3px; }
 .aim-frame-meter small:empty { display: none; }
+/* Performance counter "On": small FPS in the top-left corner (Valorant style); "On + details" keeps the block above. */
+/* Performance counter "On": a small stat strip in the top-left corner, above the minimap. */
+.aim-frame-meter.is-compact { left: 16px; top: 6px; min-width: 0; text-shadow: none; }
+.aim-frame-meter.is-compact > div {
+  display: inline-flex; gap: 6px; align-items: baseline; flex-direction: row-reverse; justify-content: flex-end;
+  padding: 2px 7px; background: rgba(0, 0, 0, 0.42);
+}
+.aim-frame-meter.is-compact b { font: 600 11px/1.35 "Segoe UI", "Bahnschrift", sans-serif; color: #fff; min-width: 3ch; }
+.aim-frame-meter.is-compact span { font: 400 11px/1.35 "Segoe UI", "Bahnschrift", sans-serif; color: rgba(255, 255, 255, 0.62); letter-spacing: .02em; }
+.aim-frame-meter.is-compact small { display: none; }
+
+/* In-round minimap: see-through, no dark disc. The thin white ring, the map shrunk to 80% to sit inside it,
+   and the floors at 90% opacity are drawn by the Minimap component (OkAdunfX.js, marker aim-minimap-ring).
+   Sits below the FPS strip. */
+.al-aimlab-root .al-minimap {
+  top: 30px !important; left: 16px !important;
+  background: none !important; border: 0 !important; border-radius: 0 !important;
+  box-shadow: none !important; clip-path: none !important;
+  /* aim-minimap-halo-off (2026-11-13): the soft drop-shadow halo was taken out for a smoothness test. The minimap moves
+     every frame, so the browser re-blurred it (4 px + 16 px) on every frame, work the game's own frame log can't see.
+     Old rule: filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 16px rgba(0, 0, 0, 0.5)); */
+}
 
 /* "Back to Studio" (studio-launch.js): bottom-left of the lobby after playing a Studio drill */
 .es-studio-back {
@@ -378,6 +590,13 @@ html[data-aim-local]:not(#es) body .al-wk-slice { border-radius: 0 !important; c
 html[data-aim-local]:not(#es) body .al-wk-slice.is-on { box-shadow: inset 0 -4px 0 var(--es-red) !important; }
 html[data-aim-local]:not(#es) body .al-wk-s-name { font-weight: 700 !important; font-size: 17px !important; }
 
+/* The FModel drafts are exploration maps until their drill collision is built. */
+html[data-aim-local]:not(#es) body .al-wk-strip .is-locked[aria-label^="Haven:"],
+html[data-aim-local]:not(#es) body .al-wk-strip .is-locked[aria-label^="Sunset:"],
+html[data-aim-local]:not(#es) body .al-wk-strip .is-locked[aria-label^="Lotus:"],
+html[data-aim-local]:not(#es) body .al-wk-strip .is-locked[aria-label^="Ascent:"],
+html[data-aim-local]:not(#es) body .al-wk-strip .is-locked[aria-label^="Split:"],
+html[data-aim-local]:not(#es) body .al-wk-strip .is-locked[aria-label^="Bind:"] { display: none !important; }
 html[data-aim-local]:not(#es) body :is(.al-wk-chip, .al-wk-toggle, .al-wk-paddle, .al-wk-sec-more, .al-wk-split-alt, .aim-vt-difficulty-sort, .al-wk-sort button) {
   border-radius: 0 !important;
   border: none !important;
@@ -485,6 +704,9 @@ html[data-aim-local]:not(#es) body :is(.hall-ball-title, .hall-ball-head h2, .ro
 }
 html[data-aim-local]:not(#es) body .rov-card:has(.rov-btn.is-primary) { border-left: 4px solid var(--es-red) !important; }
 html[data-aim-local]:not(#es) body .hall-ball-card.is-on { border-color: var(--es-red) !important; box-shadow: inset 0 -3px 0 var(--es-red) !important; }
+html[data-aim-local]:not(#es) body canvas.hall-ball-pv {
+  background: #0a101a url('/local/target-workshop-thumbnail-clean.png') center / cover no-repeat !important;
+}
 
 /* ---------- in round: HUD chips, start cue ---------- */
 html[data-aim-local]:not(#es) body .al-hud-chip {
@@ -499,46 +721,71 @@ html[data-aim-local]:not(#es) body .al-hud-chip :is(span, small, em) { text-tran
 html[data-aim-local]:not(#es) body .al-scene-start-cue :is(h1, h2, strong, b) { font-stretch: 75% !important; text-transform: uppercase !important; font-weight: 800 !important; font-style: italic; letter-spacing: 0.03em; }
 html[data-aim-local]:not(#es) body .al-scene-start-cue :is(button, [class*="chip"], [class*="pill"]) { border-radius: 0 !important; }
 
-/* ---------- round start screen ("Click anywhere to start"): minimal, lobby look ---------- */
-html[data-aim-local]:not(#es) body .al-scene-start {
-  background: radial-gradient(60% 45% at 50% 55%, rgba(9, 11, 15, 0.7), rgba(9, 11, 15, 0.25) 60%, rgba(9, 11, 15, 0) 85%) !important;
+/* ---------- round start screen ("Click anywhere to start"): ring around the crosshair ----------
+   No dimming over the map. A thin ring circles the crosshair, one short line sits under it, and the
+   scenario name, carried-over loadout and pre-aim aids follow in small type. Back sits bottom-left. */
+html[data-aim-local]:not(#es) body .al-scene-start { background: none !important; }
+html[data-aim-local]:not(#es) body .al-scene-start::before,
+html[data-aim-local]:not(#es) body .al-scene-start::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 84px; height: 84px; margin: -42px 0 0 -42px;
+  border-radius: 50%; box-sizing: border-box; pointer-events: none;
 }
+html[data-aim-local]:not(#es) body .al-scene-start::before { border: 2px solid rgba(255, 255, 255, 0.2); }
+html[data-aim-local]:not(#es) body .al-scene-start::after {
+  border: 2px solid transparent; border-top-color: var(--es-red);
+  animation: es-start-spin 1.6s linear infinite;
+}
+html[data-aim-local]:not(#es) body .al-scene-start.is-waiting::after { border-top-color: rgba(255, 255, 255, 0.55); animation-duration: 0.8s; }
+@keyframes es-start-spin { to { transform: rotate(360deg); } }
 html[data-aim-local]:not(#es) body .al-scene-start-inner {
-  display: flex !important; flex-direction: column; align-items: center; gap: 6px;
+  position: absolute !important; left: 50% !important; top: calc(50% + 62px) !important; right: auto !important; bottom: auto !important;
+  transform: translateX(-50%) !important; margin: 0 !important; width: max-content; max-width: 70vw;
+  display: flex !important; flex-direction: column; align-items: center; gap: 4px;
   background: none !important; border: none !important; box-shadow: none !important; padding: 0 !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.85);
+}
+html[data-aim-local]:not(#es) body .al-scene-start-cue {
+  order: -1; color: #fff !important; font: 700 18px/1.2 var(--es-head) !important; font-stretch: 75% !important;
+  letter-spacing: 0.32em !important; text-transform: uppercase !important; margin-right: -0.32em; text-shadow: inherit !important;
 }
 html[data-aim-local]:not(#es) body .al-scene-start-title {
-  display: flex; align-items: center; gap: 8px;
-  color: var(--es-red-2) !important; font: 700 14px var(--es-head) !important; font-stretch: 75% !important;
-  letter-spacing: 0.14em !important; text-transform: uppercase !important;
+  margin-top: 4px; color: rgba(255, 255, 255, 0.72) !important; font: 400 13px var(--es-head) !important;
+  letter-spacing: 0.04em !important; text-transform: none !important;
 }
-html[data-aim-local]:not(#es) body .al-scene-start-title::before { content: ""; width: 4px; height: 14px; background: var(--es-red); transform: skewX(-14deg); }
-html[data-aim-local]:not(#es) body .al-scene-start-cue {
-  color: #fff !important; font: italic 800 44px/1 var(--es-head) !important; font-stretch: 75% !important;
-  letter-spacing: 0.02em !important; text-transform: uppercase !important; text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
-  animation: es-start-pulse 1.8s ease-in-out infinite;
+html[data-aim-local]:not(#es) body :is(.al-scene-start-hint, .al-scene-start-note) {
+  color: rgba(255, 255, 255, 0.5) !important; font: 700 10px var(--es-head) !important; font-stretch: 75% !important;
+  letter-spacing: 0.2em !important; text-transform: uppercase !important;
 }
-@keyframes es-start-pulse { 50% { opacity: 0.72; } }
-html[data-aim-local]:not(#es) body .al-scene-start-hint {
-  color: var(--es-muted) !important; font: 700 12px var(--es-head) !important; font-stretch: 75% !important;
-  letter-spacing: 0.16em !important; text-transform: uppercase !important;
+html[data-aim-local]:not(#es) body .al-scene-start-hint { order: -1; }
+html[data-aim-local]:not(#es) body .al-scene-start-carry { color: #8fd3ff !important; font: 400 12px var(--es-head) !important; letter-spacing: 0.04em !important; }
+html[data-aim-local]:not(#es) body :is(.al-scene-start-aids, .al-scene-start-preaim) { margin-top: 8px; }
+html[data-aim-local]:not(#es) body :is(.al-scene-start-aids, .al-scene-start-preaim) button {
+  height: 24px; padding: 0 10px !important; border: 1px solid rgba(255, 255, 255, 0.16) !important; border-radius: 0 !important;
+  background: rgba(9, 11, 15, 0.45) !important; color: rgba(255, 255, 255, 0.75) !important; box-shadow: none !important;
+  font: 700 11px var(--es-head) !important; font-stretch: 75% !important; letter-spacing: 0.12em !important; text-transform: uppercase !important;
 }
-html[data-aim-local]:not(#es) body .al-scene-start-aids { margin-top: 10px; }
-html[data-aim-local]:not(#es) body .al-scene-start-aids button {
-  height: 30px; padding: 0 12px !important; border: 1px solid var(--es-line-2) !important; border-radius: 0 !important;
-  background: rgba(9, 11, 15, 0.7) !important; color: var(--es-soft) !important; box-shadow: none !important;
-  font: 700 12px var(--es-head) !important; font-stretch: 75% !important; letter-spacing: 0.08em !important; text-transform: uppercase !important;
-}
-html[data-aim-local]:not(#es) body .al-scene-start-aids button span { margin-left: 6px; color: var(--es-red-2) !important; }
-html[data-aim-local]:not(#es) body .al-scene-start-aids button:hover { border-color: var(--es-red) !important; color: #fff !important; }
+html[data-aim-local]:not(#es) body :is(.al-scene-start-aids, .al-scene-start-preaim) button span { margin-left: 6px; color: var(--es-red-2) !important; }
+html[data-aim-local]:not(#es) body :is(.al-scene-start-aids, .al-scene-start-preaim) button:hover { border-color: var(--es-red) !important; color: #fff !important; }
+html[data-aim-local]:not(#es) body :is(.al-scene-start-aids, .al-scene-start-preaim) small { color: rgba(255, 255, 255, 0.5) !important; font-size: 11px !important; }
 html[data-aim-local]:not(#es) body .al-scene-start-back {
-  height: 40px; padding: 0 16px 0 14px !important; border: none !important; border-left: 3px solid var(--es-red) !important; border-radius: 0 !important;
-  background: rgba(9, 11, 15, 0.85) !important; color: #fff !important; box-shadow: none !important; backdrop-filter: blur(8px);
-  font: 700 13px var(--es-head) !important; font-stretch: 75% !important; letter-spacing: 0.06em !important; text-transform: uppercase !important;
+  height: 30px; padding: 0 12px !important; border: 1px solid rgba(255, 255, 255, 0.16) !important; border-radius: 0 !important;
+  background: rgba(9, 11, 15, 0.45) !important; color: rgba(255, 255, 255, 0.8) !important; box-shadow: none !important;
+  font: 700 11px var(--es-head) !important; font-stretch: 75% !important; letter-spacing: 0.12em !important; text-transform: uppercase !important;
+  text-shadow: 0 1px 6px #000;
 }
-html[data-aim-local]:not(#es) body .al-scene-start-back::before { content: "‹  "; color: var(--es-red-2); }
-html[data-aim-local]:not(#es) body .al-scene-start-back:hover { background: var(--es-red) !important; }
-html[data-aim-local]:not(#es) body .al-scene-start-back:hover::before { color: #fff; }
+html[data-aim-local]:not(#es) body .al-scene-start-back::before { content: "‹"; margin-right: 8px; color: var(--es-red-2); font-size: 14px; }
+html[data-aim-local]:not(#es) body .al-scene-start-back:hover { border-color: var(--es-red) !important; color: #fff !important; }
+/* "N change agent · B buy menu": out from under the minimap, small and bottom-left (above Back on the start screen) */
+html[data-aim-local]:not(#es) body .al-arena-tag {
+  position: fixed !important; left: 40px !important; bottom: 76px !important; top: auto !important; right: auto !important;
+  margin: 0 !important; padding: 0 !important; background: none !important; border: none !important; box-shadow: none !important;
+  color: rgba(255, 255, 255, 0.6) !important; font: 700 11px var(--es-head) !important; font-stretch: 75% !important;
+  letter-spacing: 0.12em !important; text-transform: uppercase !important; text-shadow: 0 1px 6px #000; white-space: nowrap;
+  pointer-events: none; z-index: 5;
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-aim-local]:not(#es) body .al-scene-start::after { animation: none; }
+}
 
 /* ---------- pause and Tab menus (overrides ui.css cards) ---------- */
 html[data-aim-local]:not(#es) body :is(.al-pause-lite-body, .al-pause-id, .al-pause-acts) {
@@ -1105,3 +1352,2446 @@ html[data-es-ui="performance"] .al-aimlab-root .al-scene-start-cue { animation: 
   left: 50%;
   z-index: 1;
 }
+
+/* VALORANT stretch */
+/* VALORANT stretch */
+.al-trainer-shell[style*="--game-hud-stretch"] .al-stage-column {
+  left: 0 !important;
+  right: auto !important;
+  width: calc(100vw / var(--game-hud-stretch)) !important;
+  transform: scaleX(var(--game-hud-stretch));
+  transform-origin: 0 0;
+}
+.al-trainer-shell[style*="--game-hud-stretch"] .al-stage-wrap {
+  width: 100% !important;
+}
+
+/* ================= results: broadcast recap layout =================
+   When a round has a Position map, the results become one full-screen broadcast board
+   instead of a dialog with the map beside it:
+     header banner (task, verdict) across the top
+     left:   score plate, trend, stat tiles, buttons
+     centre: the Position map with the round replay, as large as the screen allows
+     right:  the pre-aim board; picking a tile jumps the replay to that enemy
+   The dialog and its report body become "display: contents" so their parts sit straight
+   on the overlay grid. Narrow or short windows keep the old dialog layout. */
+@keyframes es-rx-in-top { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+@keyframes es-rx-in-left { from { opacity: 0; transform: translateX(-16px); } to { opacity: 1; transform: none; } }
+@keyframes es-rx-in-right { from { opacity: 0; transform: translateX(16px); } to { opacity: 1; transform: none; } }
+@keyframes es-rx-in-map { from { opacity: 0; transform: scale(0.985); } to { opacity: 1; transform: none; } }
+@keyframes es-rx-sweep { from { transform: translateX(-101%); } to { transform: translateX(101%); } }
+
+@media (min-width: 1180px) and (min-height: 680px) {
+  /* has-subtree-fix-v1 (14 Nov 2026): rules that end in "> *" or "> :not(...)" behind a :has() made Chromium restyle
+     the whole page on HUD text changes during rounds (~3.5 ms each, measured). They now test --es-pm through
+     @container style() instead; this :has() ends in a class, so only this element is rechecked. */
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) {
+    --es-pm: 1;
+    --rx-d: 0s;
+    --rx-panel: rgba(16, 19, 26, 0.88);
+    --rx-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    position: fixed !important;
+    inset: 0 !important;
+    display: grid !important;
+    grid-template-columns: clamp(270px, 21vw, 340px) minmax(0, 1fr) clamp(290px, 25vw, 400px) !important;
+    grid-template-rows: auto auto auto 1fr auto !important;
+    grid-template-areas:
+      "head head head"
+      "hero map  ps"
+      "strip map ps"
+      "note map  ps"
+      "acts map  ps" !important;
+    gap: 14px 16px !important;
+    place-items: stretch !important;
+    justify-content: center !important;
+    padding: 18px 22px !important;
+    overflow: hidden auto !important;
+    overflow-x: clip !important;
+    box-sizing: border-box !important;
+    background:
+      radial-gradient(ellipse 60% 50% at 0% 0%, rgba(255, 70, 85, 0.16), transparent 70%),
+      radial-gradient(ellipse 50% 60% at 100% 100%, rgba(255, 70, 85, 0.07), transparent 70%),
+      repeating-linear-gradient(-55deg, rgba(255, 255, 255, 0.018) 0 2px, transparent 2px 14px),
+      rgba(7, 9, 12, 0.96) !important;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-result-verdict-splash):has(> .al-pm) { --rx-d: 1.1s; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) :is(.al-result-modal, .al-run-body) {
+    display: contents !important;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) > .al-result-modal { animation: none !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) > .al-result-verdict-splash { overflow: clip !important; }
+  /* Shared panel look: dark plate, cut corner, red edge on top. */
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) :is(.al-run-hero, .al-ps, .al-pm) {
+    position: relative !important;
+    min-height: 0 !important;
+    box-sizing: border-box !important;
+    background: var(--rx-panel) !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: inset 0 0 0 1px var(--es-line), inset 0 3px 0 var(--es-red), 0 24px 60px rgba(0, 0, 0, 0.45) !important;
+    clip-path: var(--es-cut);
+  }
+
+  /* ---------- header banner ---------- */
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-result-head {
+    grid-area: head;
+    position: relative;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 24px;
+    padding: 6px 4px 12px !important;
+    background: none !important;
+    border-bottom: 1px solid var(--es-line);
+    overflow: hidden;
+    animation: es-rx-in-top 0.70s var(--rx-ease) var(--rx-d) both;
+  }
+  /* a light sweep runs once along the banner's edge as it lands */
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-result-head::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--es-red) 40%, #fff 50%, var(--es-red) 60%, transparent);
+    animation: es-rx-sweep 1.4s var(--rx-ease) calc(var(--rx-d) + 0.2s) both;
+  }
+  /* eyebrow and round facts share one line of tags above the title */
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-result-head > div:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 14px;
+    min-width: 0;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-result-head > div:first-child > h2 { order: 1; flex-basis: 100%; }
+  @container style(--es-pm: 1) { html[data-aim-local]:not(#es) body .al-result-overlay.al-result-overlay .al-result-head > div:first-child > :not(h2, .al-eyebrow, p) { order: 2; } }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-result-head .al-eyebrow {
+    display: inline-block;
+    margin: 0 !important;
+    padding: 3px 14px !important;
+    color: #fff !important;
+    background: var(--es-red) !important;
+    clip-path: var(--es-slant-sm);
+    font: 800 italic 12px/1.3 var(--es-head) !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-result-head h2 {
+    margin: 0 !important;
+    font: 800 italic clamp(30px, 3.1vw, 48px)/1 var(--es-head) !important;
+    font-stretch: 75% !important;
+    letter-spacing: 0.01em !important;
+    color: #fff !important;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-result-head :is(.al-result-sub, .al-result-paused, .al-result-dirty-note) {
+    margin: 0 !important;
+    font: 600 13px/1.3 var(--es-head) !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase;
+    color: var(--es-muted) !important;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-result-head-tools { flex: none; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-result-verdict { justify-items: end !important; gap: 6px !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-result-verdict b {
+    padding: 8px 30px 8px 34px !important;
+    font: 800 italic 34px/1 var(--es-head) !important;
+    font-stretch: 75% !important;
+    letter-spacing: 0.12em !important;
+    color: #0a0d10 !important;
+    background: var(--verdict) !important;
+    border: none !important;
+    clip-path: var(--es-slant);
+    box-shadow: none !important;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-result-verdict span {
+    font: 600 13px/1.2 var(--es-head) !important;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--es-soft) !important;
+  }
+
+  /* ---------- left: score plate ---------- */
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-hero {
+    grid-area: hero;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+    padding: 20px 20px 14px !important;
+    animation: es-rx-in-left 0.70s var(--rx-ease) calc(var(--rx-d) + 0.08s) both;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-hero::before {
+    content: "Score";
+    position: absolute;
+    top: 14px; right: 18px;
+    font: 700 11px/1 var(--es-head);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--es-dim);
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-big-score {
+    font: 800 italic 68px/0.95 var(--es-head) !important;
+    font-stretch: 75% !important;
+    letter-spacing: 0 !important;
+    color: #fff !important;
+    text-shadow: 0 0 34px rgba(255, 70, 85, 0.35);
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-big-score small {
+    font: 700 16px/1 var(--es-head) !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase;
+    color: var(--es-red-2) !important;
+    text-shadow: none;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-delta { margin-top: 10px !important; font: 600 13px/1.2 var(--es-head) !important; text-transform: uppercase; letter-spacing: 0.04em; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-delta b {
+    padding: 4px 12px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: currentColor;
+    clip-path: var(--es-slant-sm);
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-delta:is(.is-up, .is-down, .is-flat) b { -webkit-text-fill-color: #0a0d10; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-pb { margin-top: 14px !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-pb-label { font: 600 11.5px/1.2 var(--es-head) !important; letter-spacing: 0.08em; text-transform: uppercase; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-pb-track { height: 6px !important; border-radius: 0 !important; background: var(--es-raised-2) !important; transform: skewX(-20deg); }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-pb-track i { border-radius: 0 !important; background: linear-gradient(90deg, var(--es-red-d), var(--es-red)) !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-pb p { margin: 8px 0 0 !important; font-size: 12px !important; color: var(--es-muted) !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-chart { padding-top: 12px; border-top: 1px solid var(--es-line); }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-chart-top { font: 600 11px/1.2 var(--es-head) !important; letter-spacing: 0.1em; text-transform: uppercase; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-trend { height: 92px !important; }
+
+  /* ---------- left: stat tiles ---------- */
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-strip {
+    grid-area: strip;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+    border: none !important;
+    animation: es-rx-in-left 0.70s var(--rx-ease) calc(var(--rx-d) + 0.16s) both;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-strip > div {
+    padding: 9px 12px !important;
+    background: var(--rx-panel) !important;
+    border: none !important;
+    border-left: 3px solid var(--es-line-2) !important;
+    transition: border-color 0.25s var(--rx-ease), background 0.25s var(--rx-ease);
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-strip > div:hover { border-left-color: var(--es-red) !important; background: var(--es-raised) !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-strip span { margin-bottom: 4px !important; font: 600 10.5px/1.2 var(--es-head) !important; letter-spacing: 0.12em !important; text-transform: uppercase; color: var(--es-dim) !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-strip b { font: 800 italic 22px/1.1 var(--es-head) !important; font-stretch: 85% !important; color: #fff; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-strip b i { font: 700 12px/1 var(--es-head) !important; font-style: normal; }
+
+  /* ---------- left: notes and buttons ---------- */
+  @container style(--es-pm: 1) { html[data-aim-local]:not(#es) body .al-result-overlay.al-result-overlay .al-run-body > :not(.al-run-hero, .al-run-strip, .al-ps, .al-run-actions) {
+    grid-area: note;
+    align-self: start;
+    margin: 0 !important;
+    font-size: 12px;
+    color: var(--es-muted);
+  } }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-actions {
+    grid-area: acts;
+    position: static !important;
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    animation: es-rx-in-left 0.70s var(--rx-ease) calc(var(--rx-d) + 0.24s) both;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-actions .al-primary-btn { min-height: 54px !important; font-size: 20px !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-run-actions .al-secondary-btn { min-height: 40px !important; font-size: 13px !important; }
+
+  /* ---------- centre: position map + replay ---------- */
+  /* The map draws at the card's content width, so the card's width sets the map size:
+     as wide as the column, but no taller than the screen leaves room for. */
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) > .al-pm {
+    grid-area: map;
+    justify-self: center !important;
+    align-self: start !important;
+    width: min(100%, calc(100vh - 290px)) !important;
+    max-height: none !important;
+    max-width: none !important;
+    gap: 8px !important;
+    padding: 14px 18px 12px !important;
+    overflow: hidden auto !important;
+    animation: es-rx-in-map 0.75s var(--rx-ease) calc(var(--rx-d) + 0.04s) both !important;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-pm-head { display: flex; align-items: center; gap: 12px; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-pm-head h3 { font: 800 italic 18px/1 var(--es-head) !important; font-stretch: 75% !important; letter-spacing: 0.08em; text-transform: uppercase; }
+  /* The legend under the map already explains the colours. */
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-pm-head p { display: none !important; }
+  /* has-style-fix-v1: .is-off (set by round-timeline-view.mjs) instead of [style*="none"]; a :has() reading the
+     style attribute made every inline-style write restyle the whole page during rounds. */
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-pm:has(.al-tl-bar:not(.is-off)) .al-pm-head::after {
+    content: "Round replay";
+    padding: 3px 10px 3px 22px;
+    font: 700 11px/1.2 var(--es-head);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fff;
+    background: radial-gradient(circle at 10px 50%, var(--es-red) 0 3.5px, transparent 4.5px), var(--es-red-wash);
+    border: 1px solid rgba(255, 70, 85, 0.45);
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-pm-map { border-radius: 0 !important; box-shadow: inset 0 0 0 1px var(--es-line-2) !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-pm-legend { font: 600 11px/1.2 var(--es-head) !important; letter-spacing: 0.04em; text-transform: uppercase; color: var(--es-muted) !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-pm-detail { border-radius: 0 !important; border-left: 3px solid var(--es-red) !important; }
+
+  /* replay bar */
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-tl-bar {
+    gap: 8px !important;
+    margin-top: 0 !important;
+    padding: 6px 8px;
+    background: var(--es-bg);
+    box-shadow: inset 0 0 0 1px var(--es-line);
+    font: 700 12px/1 var(--es-head) !important;
+    letter-spacing: 0.04em;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-tl-btn {
+    height: 28px !important;
+    min-width: 34px !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: var(--es-raised-2) !important;
+    clip-path: var(--es-slant-sm);
+    font: 800 italic 12px/1 var(--es-head) !important;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-tl-btn[data-act="play"] { min-width: 44px !important; background: var(--es-red) !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-tl-btn:hover { background: var(--es-red-2) !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-tl-tick { top: 0 !important; width: 3px !important; height: 8px !important; border-radius: 0 !important; transform: skewX(-20deg); }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-tl-tick.is-focus { top: -3px !important; height: 14px !important; background: #fff !important; box-shadow: 0 0 8px var(--es-red); }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-tl-time { color: var(--es-soft); }
+
+  /* ---------- right: pre-aim board ---------- */
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps {
+    grid-area: ps;
+    align-self: stretch !important;
+    padding: 18px 16px 14px !important;
+    overflow: hidden auto !important;
+    scrollbar-width: thin;
+    animation: es-rx-in-right 0.70s var(--rx-ease) calc(var(--rx-d) + 0.12s) both;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-head { gap: 6px 12px !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-label { flex-basis: 100%; font: 800 italic 18px/1 var(--es-head) !important; font-stretch: 75% !important; letter-spacing: 0.08em !important; text-transform: uppercase; color: #fff !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-num { font: 800 italic 54px/1 var(--es-head) !important; font-stretch: 75% !important; color: #fff !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-num small { font: 700 16px/1 var(--es-head) !important; color: var(--es-dim) !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-tier { padding: 3px 10px; font: 700 italic 12px/1.2 var(--es-head) !important; letter-spacing: 0.08em; text-transform: uppercase; background: var(--es-raised-2); clip-path: var(--es-slant-sm); }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-delta { flex-basis: 100%; font: 600 12px/1.3 var(--es-head) !important; color: var(--es-muted) !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-parts {
+    flex-basis: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px !important;
+    margin: 6px 0 0 !important;
+  }
+  @container style(--es-pm: 1) { html[data-aim-local]:not(#es) body .al-result-overlay.al-result-overlay .al-ps-parts > * { padding: 7px 10px; background: var(--es-bg); box-shadow: inset 0 0 0 1px var(--es-line); font: 600 11px/1.3 var(--es-head); letter-spacing: 0.04em; text-transform: uppercase; } }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-parts > .al-ps-how { grid-column: 1 / -1; padding: 0; background: none; box-shadow: none; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-parts b { display: block; margin: 3px 0 0 !important; font: 800 italic 20px/1 var(--es-head) !important; color: #fff; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-tiles { grid-template-columns: repeat(auto-fill, minmax(108px, 1fr)) !important; gap: 6px !important; margin-top: 12px !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-tile {
+    border: none !important;
+    border-radius: 0 !important;
+    background: var(--es-bg) !important;
+    box-shadow: inset 0 0 0 1px var(--es-line), inset 3px 0 0 var(--tile-edge, var(--es-line-2)) !important;
+    padding: 7px 8px 7px 10px !important;
+    transition: transform 0.25s var(--rx-ease), box-shadow 0.25s var(--rx-ease), background 0.25s var(--rx-ease);
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-tile.is-ok { --tile-edge: #5ad1a0; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-tile:is(.is-fix, .is-far) { --tile-edge: #ffb84d; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-tile:hover { background: var(--es-raised) !important; transform: translateY(-1px); }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-tile.is-sel {
+    background: var(--es-red-wash) !important;
+    box-shadow: inset 0 0 0 1px var(--es-red), inset 3px 0 0 var(--es-red), 0 0 18px rgba(255, 70, 85, 0.25) !important;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-place { font: 600 11.5px/1.2 var(--es-head) !important; letter-spacing: 0.02em; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-deg { font-family: var(--es-head) !important; font-style: italic; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-say {
+    flex-wrap: wrap;
+    border: none !important;
+    border-radius: 0 !important;
+    border-left: 3px solid var(--es-red) !important;
+    background: var(--es-bg) !important;
+    font: 600 12.5px/1.35 var(--es-head) !important;
+  }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-say em { margin-left: 0 !important; flex-basis: 100%; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm) .al-ps-more { font: 600 12px/1.2 var(--es-head) !important; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none !important; color: var(--es-red-2) !important; }
+  html[data-aim-local]:not(#es) body .al-result-overlay:has(> .al-pm):has(.al-tl-bar:not(.is-off)) .al-ps::after {
+    content: "Pick a target to jump the replay to it";
+    display: block;
+    margin-top: 10px;
+    font: 600 11px/1.3 var(--es-head);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--es-dim);
+  }
+}
+
+/* ================= workshop loading screen: split layout =================
+   The game's loader (WorkshopLoading in ChJ6FlD4.js) keeps its markup and logic; this restyles it.
+   Its own composition, not the stock one:
+     left:  a solid column with everything to read: label, title, minimap, then the current step
+            with its percentage, a progress line, and the steps as a numbered checklist
+     right: the map art as a picture filling the rest, with the agent standing in it
+   No diagonal wipe, no moving edge line, no scanlines. */
+html[data-aim-local]:not(#es) body .al-wkload {
+  --wl-col: clamp(400px, 34vw, 600px);
+  --wl-pad: clamp(32px, 3.6vw, 64px);
+  font-family: var(--es-head) !important;
+  background: #0b0d12 !important;
+}
+html[data-aim-local]:not(#es) body .al-wkload :is(.al-wkload-veil, .al-wkload-edge, .al-wkload-lines) { display: none !important; }
+
+/* right: the art */
+html[data-aim-local]:not(#es) body .al-wkload-art { left: var(--wl-col) !important; width: auto !important; right: 0 !important; overflow: hidden; }
+html[data-aim-local]:not(#es) body .al-wkload-art img { filter: saturate(0.95) brightness(0.8) !important; }
+html[data-aim-local]:not(#es) body .al-wkload-scrim {
+  left: var(--wl-col) !important;
+  background:
+    linear-gradient(90deg, rgba(11, 13, 18, 0.7) 0, rgba(11, 13, 18, 0) 140px),
+    linear-gradient(0deg, rgba(11, 13, 18, 0.55) 0, rgba(11, 13, 18, 0) 30%) !important;
+}
+/* the seam between column and art */
+html[data-aim-local]:not(#es) body .al-wkload-scrim::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: rgba(255, 255, 255, 0.08); }
+html[data-aim-local]:not(#es) body .al-wkload-agent {
+  left: auto !important;
+  right: calc((100vw - var(--wl-col)) * 0.12) !important;
+  height: min(94%, 900px) !important;
+  -webkit-mask-image: linear-gradient(180deg, #000 80%, transparent 99%);
+  mask-image: linear-gradient(180deg, #000 80%, transparent 99%);
+}
+html[data-aim-local]:not(#es) body .al-wkload-agent::before { content: none !important; }
+html[data-aim-local]:not(#es) body .al-wkload-agent img { filter: drop-shadow(0 24px 50px rgba(0, 0, 0, 0.55)) !important; }
+
+/* left column: label, title, minimap */
+html[data-aim-local]:not(#es) body .al-wkload-side {
+  top: var(--wl-pad) !important;
+  left: var(--wl-pad) !important;
+  width: calc(var(--wl-col) - 2 * var(--wl-pad));
+  max-width: none;
+}
+html[data-aim-local]:not(#es) body .al-wkload-head { max-width: none !important; }
+html[data-aim-local]:not(#es) body .al-wkload-kicker { font: 600 12px/1 var(--es-head) !important; letter-spacing: 0.16em !important; color: var(--es-muted) !important; }
+html[data-aim-local]:not(#es) body .al-wkload-kicker::after { content: " / Loading"; color: var(--es-red); }
+html[data-aim-local]:not(#es) body .al-wkload-head h1 {
+  margin-top: 16px !important;
+  font: 700 clamp(28px, 2.5vw, 44px)/1.05 var(--es-head) !important;
+  letter-spacing: 0 !important;
+  text-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body .al-wkload-meta { margin-top: 12px !important; font-size: 14px !important; line-height: 1.5; color: var(--es-muted) !important; text-shadow: none !important; }
+html[data-aim-local]:not(#es) body .al-wkload-meta i { display: none !important; }
+html[data-aim-local]:not(#es) body .al-wkload-plan {
+  width: min(100%, 34vh) !important;
+  margin-top: clamp(20px, 4vh, 40px) !important;
+  padding: 0 !important;
+  background: none !important;
+  border: none !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html[data-aim-local]:not(#es) body .al-wkload-plan-top { margin-bottom: 8px !important; }
+html[data-aim-local]:not(#es) body .al-wkload-plan-top b { font: 600 12px/1 var(--es-head) !important; letter-spacing: 0.12em; text-transform: uppercase; color: var(--es-muted); }
+html[data-aim-local]:not(#es) body .al-wkload-plan-top em { display: none; }
+html[data-aim-local]:not(#es) body .al-wkload-plan-box { background: #07090c !important; outline: 1px solid rgba(255, 255, 255, 0.06); }
+html[data-aim-local]:not(#es) body .al-wkload-plan-box img { opacity: 0.75 !important; filter: invert(1) grayscale(1) contrast(1.3) !important; }
+html[data-aim-local]:not(#es) body .al-wkload-pin { background: rgba(255, 255, 255, 0.22) !important; box-shadow: none !important; }
+html[data-aim-local]:not(#es) body .al-wkload-pin.on { background: var(--es-red) !important; box-shadow: none !important; }
+html[data-aim-local]:not(#es) body .al-wkload-plan-foot { margin-top: 8px !important; font-size: 12px !important; color: var(--es-dim) !important; }
+
+/* left column, bottom: current step + %, progress line, numbered checklist */
+html[data-aim-local]:not(#es) body .al-wkload-foot {
+  left: 0 !important;
+  right: auto !important;
+  width: var(--wl-col);
+  padding: 0 var(--wl-pad) var(--wl-pad) !important;
+}
+html[data-aim-local]:not(#es) body .al-wkload-line { align-items: baseline !important; margin-bottom: 12px !important; }
+html[data-aim-local]:not(#es) body .al-wkload-stage { font: 700 17px/1.2 var(--es-head) !important; }
+html[data-aim-local]:not(#es) body .al-wkload-sub { margin-top: 4px !important; font-size: 13px !important; color: var(--es-muted) !important; }
+html[data-aim-local]:not(#es) body .al-wkload-hint { color: var(--es-dim) !important; }
+html[data-aim-local]:not(#es) body .al-wkload-pct { font: 700 30px/1 var(--es-head) !important; letter-spacing: 0 !important; text-shadow: none !important; }
+html[data-aim-local]:not(#es) body .al-wkload-pct small { margin-left: 2px !important; font-size: 15px !important; color: var(--es-muted) !important; }
+html[data-aim-local]:not(#es) body .al-wkload-track { height: 2px !important; background: rgba(255, 255, 255, 0.1) !important; }
+html[data-aim-local]:not(#es) body .al-wkload-track > i { box-shadow: none !important; }
+
+html[data-aim-local]:not(#es) body .al-wkload-ticks {
+  display: grid !important;
+  gap: 0 !important;
+  margin-top: 18px !important;
+  counter-reset: wl-step;
+  font: 500 13px/1 var(--es-head) !important;
+  color: var(--es-dim) !important;
+}
+html[data-aim-local]:not(#es) body .al-wkload-ticks span {
+  display: grid !important;
+  grid-template-columns: 30px 1fr auto;
+  align-items: center;
+  gap: 0 !important;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  counter-increment: wl-step;
+}
+html[data-aim-local]:not(#es) body .al-wkload-ticks span::before { content: counter(wl-step, decimal-leading-zero); grid-column: 1; grid-row: 1; font-size: 11px; color: var(--es-dim); font-variant-numeric: tabular-nums; }
+/* the dot element becomes the status word on the right */
+html[data-aim-local]:not(#es) body .al-wkload-ticks span > i {
+  grid-column: 3; grid-row: 1;
+  width: auto !important; height: auto !important;
+  background: none !important; box-shadow: none !important; border-radius: 0 !important;
+  font: 500 11px/1 var(--es-head); font-style: normal; color: var(--es-dim);
+}
+html[data-aim-local]:not(#es) body .al-wkload-ticks span.done { color: var(--es-muted); }
+html[data-aim-local]:not(#es) body .al-wkload-ticks span.done > i::after { content: "Done"; }
+html[data-aim-local]:not(#es) body .al-wkload-ticks span.active { color: #fff; }
+html[data-aim-local]:not(#es) body .al-wkload-ticks span.active::before { color: var(--es-red); }
+html[data-aim-local]:not(#es) body .al-wkload-ticks span.active > i::after { content: "Now"; color: var(--es-red); }
+html[data-aim-local]:not(#es) body .al-wkload-ticks span.failed { color: var(--es-red-2); }
+html[data-aim-local]:not(#es) body .al-wkload-ticks span.failed > i::after { content: "Failed"; color: var(--es-red-2); }
+html[data-aim-local]:not(#es) body .al-wkload-back { border-radius: 0 !important; font: 600 12px/1 var(--es-head) !important; }
+html[data-aim-local]:not(#es) body .al-wkload-back.is-quiet { justify-self: start; margin: 14px 0 0 !important; }
+html[data-aim-local]:not(#es) body .al-wkload-failed { flex-direction: column; align-items: flex-start !important; gap: 14px !important; }
+html[data-aim-local]:not(#es) body .al-wkload-failed p { font: 700 17px/1.4 var(--es-head) !important; }
+
+/* short windows: the column has no room for the minimap, so it moves to the top-right corner of
+   the art as a small framed inset */
+@media (max-height: 900px) and (min-width: 901px) {
+  html[data-aim-local]:not(#es) body .al-wkload-plan {
+    position: absolute !important;
+    top: 0;
+    left: calc(100vw - 2 * var(--wl-pad) + var(--wl-pad) - 32px - 210px);
+    width: 210px !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    background: rgba(11, 13, 18, 0.82) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+}
+/* narrow windows: the column takes the whole width, the art becomes a faint backdrop */
+@media (max-width: 900px) {
+  html[data-aim-local]:not(#es) body .al-wkload { --wl-col: 100vw; }
+  html[data-aim-local]:not(#es) body .al-wkload :is(.al-wkload-art, .al-wkload-scrim) { left: 0 !important; opacity: 0.25; }
+  html[data-aim-local]:not(#es) body .al-wkload-agent { display: none !important; }
+}
+
+/* ================= settings page: rail + preview + inspector =================
+   SettingsView (ChJ6FlD4.js) keeps its markup and logic; this recomposes it:
+     left rail:   title, search, sync state, the categories as a vertical list, save state at the bottom
+     middle:      the live preview (or crosshair lab), its explanation and numbers
+     right:       the settings themselves, as a narrower inspector column
+   The Controls tab has no preview, so its list takes the whole main area. */
+html[data-aim-local]:not(#es) body .hall-center.st-view {
+  --st-rail: clamp(220px, 15vw, 270px);
+  display: grid !important;
+  grid-template-columns: var(--st-rail) minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 0 !important;
+  padding: 0 !important;
+}
+
+/* ---------- left rail ---------- */
+html[data-aim-local]:not(#es) body .st-view .st-head,
+html[data-aim-local]:not(#es) body .st-view .st-tabbar {
+  grid-column: 1;
+  background: var(--es-panel);
+  box-shadow: inset -1px 0 0 var(--es-line) !important;
+}
+html[data-aim-local]:not(#es) body .st-view .st-head {
+  grid-row: 1;
+  gap: 14px !important;
+  padding: 22px 18px 16px !important;
+}
+html[data-aim-local]:not(#es) body .st-view .st-title { flex-direction: column; align-items: flex-start !important; gap: 6px !important; }
+html[data-aim-local]:not(#es) body .st-view .st-title h1 { font: 700 22px/1 var(--es-head) !important; letter-spacing: 0.02em; text-transform: uppercase; font-style: normal !important; }
+html[data-aim-local]:not(#es) body .st-view .st-title p { white-space: normal !important; font-size: 12px !important; line-height: 1.45; color: var(--es-dim) !important; }
+html[data-aim-local]:not(#es) body .st-view .st-searchrow { flex-direction: column; align-items: stretch !important; gap: 8px !important; }
+/* the box's flex-basis (560px) was meant for a row; in this column it became its height */
+html[data-aim-local]:not(#es) body .st-view .st-search-box { flex: none !important; width: 100% !important; min-width: 0 !important; max-width: none !important; }
+html[data-aim-local]:not(#es) body .st-view .st-sync { font-size: 11.5px !important; }
+
+html[data-aim-local]:not(#es) body .st-view .st-tabbar {
+  grid-row: 2;
+  display: flex !important;
+  flex-direction: column;
+  align-items: stretch !important;
+  gap: 0 !important;
+  margin: 0 !important;
+  padding: 4px 10px 16px !important;
+  overflow-y: auto;
+  min-height: 0;
+}
+html[data-aim-local]:not(#es) body .st-view .st-tabs { flex-direction: column; flex: none !important; gap: 2px !important; }
+html[data-aim-local]:not(#es) body .st-view .st-tab {
+  justify-content: flex-start;
+  height: 40px !important;
+  padding: 0 12px !important;
+  font: 600 14px/1 var(--es-head) !important;
+  letter-spacing: 0.01em;
+  text-transform: none !important;
+  font-style: normal !important;
+  border-radius: 0 !important;
+  transition: background-color .15s, color .15s;
+}
+html[data-aim-local]:not(#es) body .st-view .st-tab:hover { background: var(--es-raised); }
+html[data-aim-local]:not(#es) body .st-view .st-tab.is-active { background: var(--es-raised-2); box-shadow: inset 3px 0 0 var(--es-red); }
+html[data-aim-local]:not(#es) body .st-view .st-tab-count { margin-left: auto; border-radius: 0 !important; }
+html[data-aim-local]:not(#es) body .st-view .st-save {
+  margin: auto 0 0 !important;
+  padding: 14px 4px 0;
+  border-top: 1px solid var(--es-line);
+  font-size: 11.5px !important;
+  line-height: 1.4;
+  align-items: flex-start !important;
+}
+html[data-aim-local]:not(#es) body .st-view .st-save i { flex: none; margin-top: 4px; }
+
+/* ---------- main: preview in the middle, settings on the right ---------- */
+html[data-aim-local]:not(#es) body .st-view .st-main {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  grid-template-columns: minmax(0, 1fr) clamp(460px, 36vw, 680px) !important;
+  gap: 0 !important;
+  padding: 0 !important;
+}
+html[data-aim-local]:not(#es) body .st-view .st-main > .st-side { grid-column: 1; grid-row: 1; padding: 20px 26px; }
+html[data-aim-local]:not(#es) body .st-view .st-main > .st-list {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 18px 20px 28px !important;
+  background: rgba(16, 19, 26, 0.55);
+  box-shadow: inset 1px 0 0 var(--es-line);
+}
+html[data-aim-local]:not(#es) body .st-view .st-main.is-wide { grid-template-columns: minmax(0, 1fr) !important; }
+html[data-aim-local]:not(#es) body .st-view .st-main.is-wide > .st-list { grid-column: 1; background: none; box-shadow: none; padding: 18px 28px 28px !important; }
+html[data-aim-local]:not(#es) body .st-view .st-stack { margin: 0 auto; }
+/* the preview's hint now points the other way */
+html[data-aim-local]:not(#es) body .st-view .st-stack:not(.is-cross) .st-bar p { font-size: 0 !important; }
+html[data-aim-local]:not(#es) body .st-view .st-stack:not(.is-cross) .st-bar p::after { content: "Point at a setting on the right to see what it changes"; font-size: 12px; }
+html[data-aim-local]:not(#es) body .st-view .st-bar h2 { font: 700 13px/1 var(--es-head) !important; letter-spacing: 0.12em; text-transform: uppercase; font-style: normal !important; }
+html[data-aim-local]:not(#es) body .st-view .st-monitor-corner { display: none !important; }
+html[data-aim-local]:not(#es) body .st-view .st-monitor { box-shadow: 0 0 0 1px var(--es-line-2), 0 30px 70px -36px rgba(0, 0, 0, 0.9) !important; }
+html[data-aim-local]:not(#es) body .st-view .st-explain-card { border-radius: 0 !important; }
+html[data-aim-local]:not(#es) body .st-view .st-tele { box-shadow: none !important; padding-top: 14px !important; }
+html[data-aim-local]:not(#es) body .st-view .st-tele > div { padding: 10px 12px; background: var(--es-panel); box-shadow: inset 0 0 0 1px var(--es-line); }
+html[data-aim-local]:not(#es) body .st-view .st-tele dd { font: 700 20px/1.05 var(--es-head) !important; letter-spacing: 0 !important; }
+
+/* smaller windows: the rail narrows to icons + labels without the lead text */
+@media (max-width: 1400px) {
+  html[data-aim-local]:not(#es) body .st-view .st-title p { display: none; }
+  html[data-aim-local]:not(#es) body .st-view .st-main { grid-template-columns: minmax(0, 1fr) clamp(420px, 40vw, 520px) !important; }
+}
+
+/* settings rail, fuller: categories as two-line rows (icon tile, name, what is inside) under a
+   "Categories" label. The one-liners are short forms of each tab's own lead text. */
+html[data-aim-local]:not(#es) body .st-view .st-tabs::before {
+  content: "Categories";
+  display: block;
+  padding: 6px 12px 8px;
+  font: 600 10.5px/1 var(--es-head);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--es-dim);
+}
+html[data-aim-local]:not(#es) body .st-view .st-tabs { gap: 4px !important; }
+html[data-aim-local]:not(#es) body .st-view .st-tab {
+  display: grid !important;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  column-gap: 12px !important;
+  row-gap: 4px;
+  align-items: center;
+  height: auto !important;
+  padding: 10px 12px !important;
+  text-align: left;
+}
+html[data-aim-local]:not(#es) body .st-view .st-tab > svg {
+  grid-column: 1; grid-row: 1 / 3;
+  box-sizing: content-box;
+  width: 16px !important; height: 16px !important;
+  padding: 10px;
+  background: var(--es-raised-2);
+  color: var(--es-muted);
+  transition: background-color .15s, color .15s;
+}
+html[data-aim-local]:not(#es) body .st-view .st-tab.is-active > svg { background: var(--es-red); color: #fff !important; }
+html[data-aim-local]:not(#es) body .st-view .st-tab .st-tab-count { grid-column: 3; grid-row: 1 / 3; }
+html[data-aim-local]:not(#es) body .st-view .st-tab::after {
+  content: attr(data-tab);
+  position: static !important;
+  grid-column: 2; grid-row: 2;
+  height: auto !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font: 500 11.5px/1.2 var(--es-head);
+  color: var(--es-dim);
+  background: none !important;
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body .st-view .st-tab[data-tab="general"]::after { content: "Sensitivity, scope, minimap"; }
+html[data-aim-local]:not(#es) body .st-view .st-tab[data-tab="controls"]::after { content: "Key binds, mouse buttons, shortcuts"; }
+html[data-aim-local]:not(#es) body .st-view .st-tab[data-tab="crosshair"]::after { content: "Primary, scoped, crosshair codes"; }
+html[data-aim-local]:not(#es) body .st-view .st-tab[data-tab="video"]::after { content: "Resolution, frame rate, latency"; }
+html[data-aim-local]:not(#es) body .st-view .st-tab[data-tab="audio"]::after { content: "Shot, hit and kill sounds, volume"; }
+html[data-aim-local]:not(#es) body .st-view .st-tab[data-tab="range"]::after { content: "Gun, flashes, outlines, impacts"; }
+html[data-aim-local]:not(#es) body .st-view .st-tab.is-active::after { color: var(--es-muted); }
+/* the explanation card's idle line pointed left; the settings are on the right now */
+html[data-aim-local]:not(#es) body .st-view .st-explain-idle { font-size: 0 !important; }
+html[data-aim-local]:not(#es) body .st-view .st-explain-idle::before { content: "Point at any setting on the right (or press Tab) to see its details here."; font-size: 13px; }
+
+/* settings rail v3: the categories stretch to fill the rail as numbered cards, so the rail has no
+   dead space; the active card gets a red wash. Also two fixes found in the game:
+     - i18n/vi.css hides .st-tab.is-active::after (display:none !important), which is where the
+       subtitle lives; it is shown again here
+     - the search field inside the search box picked up the generic input box style, so it drew a
+       second box next to the icon and cut the placeholder */
+html[data-aim-local]:not(#es) body .st-view .st-tabs {
+  flex: 1 1 auto !important;
+  display: flex !important;
+  flex-direction: column;
+  gap: 0 !important;
+  min-height: 0;
+  padding-bottom: 0 !important;
+  counter-reset: st-cat;
+}
+html[data-aim-local]:not(#es) body .st-view .st-tab {
+  flex: 1 1 0;
+  min-height: 52px;
+  max-height: 120px;
+  grid-template-columns: 44px minmax(0, 1fr) auto !important;
+  column-gap: 14px !important;
+  align-content: center;
+  padding: 8px 14px !important;
+  border-bottom: 1px solid var(--es-line) !important;
+  counter-increment: st-cat;
+}
+html[data-aim-local]:not(#es) body .st-view .st-tab:first-of-type { border-top: 1px solid var(--es-line) !important; }
+html[data-aim-local]:not(#es) body .st-view .st-tab > svg { width: 18px !important; height: 18px !important; padding: 13px !important; }
+html[data-aim-local]:not(#es) body .st-view .st-tab > span { font-size: 15px; }
+html[data-aim-local]:not(#es) body .st-view .st-tab.is-active {
+  background: linear-gradient(90deg, rgba(255, 70, 85, 0.16), rgba(255, 70, 85, 0.02) 70%) !important;
+  box-shadow: inset 3px 0 0 var(--es-red) !important;
+  color: #fff !important;
+}
+html[data-aim-local]:not(#es) body .st-view .st-tab::after {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  white-space: normal !important;
+  line-height: 1.35 !important;
+}
+/* the number on the right; hidden while searching, when the match count sits there */
+html[data-aim-local]:not(#es) body .st-view .st-tab::before {
+  content: counter(st-cat, decimal-leading-zero);
+  grid-column: 3; grid-row: 1 / 3;
+  font: 700 12px/1 var(--es-head);
+  color: var(--es-line-2);
+  font-variant-numeric: tabular-nums;
+}
+html[data-aim-local]:not(#es) body .st-view .st-tab.is-active::before { color: var(--es-red); }
+html[data-aim-local]:not(#es) body .st-view .st-tab:has(.st-tab-count)::before { content: none; }
+html[data-aim-local]:not(#es) body .st-view .st-tabs::before { padding: 4px 4px 10px !important; }
+html[data-aim-local]:not(#es) body .st-view .st-tabbar { padding: 4px 0 16px !important; }
+html[data-aim-local]:not(#es) body .st-view .st-save { margin: 14px 14px 0 !important; }
+
+/* search box: one box, plain field inside, placeholder ends with an ellipsis */
+html[data-aim-local]:not(#es) body .st-view .st-search { border-radius: 0 !important; box-shadow: inset 0 0 0 1px var(--es-line-2) !important; background: var(--es-bg) !important; }
+html[data-aim-local]:not(#es) body .st-view .st-search:focus-within { box-shadow: inset 0 0 0 1px var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .st-view .st-search input {
+  min-width: 0 !important;
+  height: 100% !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  text-overflow: ellipsis;
+}
+
+/* Controls tab: no preview, so the binds flow into two columns and the whole area scrolls */
+html[data-aim-local]:not(#es) body .st-view .st-main.is-wide { display: block !important; overflow-y: auto; scrollbar-width: thin; }
+html[data-aim-local]:not(#es) body .st-view .st-main.is-wide > .st-list {
+  height: auto !important;
+  max-width: none !important;
+  overflow: visible !important;
+  column-count: 2;
+  column-gap: 48px;
+  column-rule: 1px solid var(--es-line);
+  padding: 22px 32px 32px !important;
+}
+html[data-aim-local]:not(#es) body .st-view .st-main.is-wide > .st-list > :is(.kb-head, .kb-notice) { column-span: all; }
+html[data-aim-local]:not(#es) body .st-view .st-main.is-wide > .st-list > .kb-head { margin-bottom: 18px; }
+html[data-aim-local]:not(#es) body .st-view .st-main.is-wide > .st-list > h3 { break-after: avoid; }
+html[data-aim-local]:not(#es) body .st-view .st-main.is-wide > .st-list > * { break-inside: avoid; }
+html[data-aim-local]:not(#es) body .st-view .st-main.is-wide > .st-list > h3:not(:first-of-type) { margin-top: 26px; }
+@media (max-width: 1300px) {
+  html[data-aim-local]:not(#es) body .st-view .st-main.is-wide > .st-list { column-count: 1; }
+}
+/* the full placeholder ("Search settings: sensitivity, scope, frame rate, crosshair code, FOV...")
+   doesn't fit the rail; show a short one while the field is empty */
+html[data-aim-local]:not(#es) body .st-view .st-search { position: relative; }
+html[data-aim-local]:not(#es) body .st-view .st-search input::placeholder { color: transparent !important; }
+html[data-aim-local]:not(#es) body .st-view .st-search:has(input:placeholder-shown)::after {
+  content: "Search settings…";
+  position: absolute;
+  left: 38px; /* 12px padding + 16px icon + 10px gap */
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 13.5px;
+  color: var(--es-dim);
+}
+
+/* settings-dialog-v1 */
+/* ================= in-game Settings dialog: same look as the lobby Settings page =================
+   SettingsDialog (Dc2Dm9E6.js, patched by previews/settings-dialog/patch-settings-dialog.cjs) is laid out
+   like SettingsView: a left rail with the title, search and the categories as numbered cards; the
+   explanation and number tiles in the middle; the settings on the right. The run-in-progress note sits
+   over the main area. No live 3D preview, no blur, no animation: it opens over a running round. */
+html[data-aim-local]:not(#es) body .hall-dialog-mask:has(> .hall-dialog.is-settings) {
+  padding: 24px !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  background: rgba(0, 0, 0, 0.72) !important;
+}
+html[data-aim-local]:not(#es) body .hall-dialog.is-settings {
+  position: relative;
+  max-width: min(1240px, 100vw - 96px) !important;
+  height: min(760px, 100dvh - 120px) !important;
+  background: var(--es-bg) !important;
+  border: 1px solid var(--es-line) !important;
+  box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.9) !important;
+}
+/* the title moves into the rail; only the close button stays, top right */
+html[data-aim-local]:not(#es) body .hall-dialog.is-settings > .hall-dialog-head {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+}
+html[data-aim-local]:not(#es) body .hall-dialog.is-settings > .hall-dialog-head > hgroup { display: none !important; }
+html[data-aim-local]:not(#es) body .hall-dialog.is-settings > .hall-dialog-body { padding: 0 !important; }
+html[data-aim-local]:not(#es) body .hall-dialog.is-settings > .hall-dialog-foot {
+  padding: 10px 16px !important;
+  background: var(--es-panel);
+  border-top: 1px solid var(--es-line) !important;
+}
+
+/* ---------- grid: rail | main ---------- */
+html[data-aim-local]:not(#es) body .hall-dialog .sd {
+  --st-rail: clamp(200px, 13vw, 230px);
+  display: grid !important;
+  grid-template-columns: var(--st-rail) minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr);
+  min-height: 0;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd > :is(.sd-title, .sd-searchrow, .sd-tabs) {
+  grid-column: 1;
+  margin: 0 !important;
+  background: var(--es-panel);
+  box-shadow: inset -1px 0 0 var(--es-line) !important;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd > .sd-title { grid-row: 1; display: flex; flex-direction: column; gap: 4px; padding: 16px 16px 10px; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-title h1 { margin: 0; font: 700 18px/1 var(--es-head) !important; letter-spacing: 0.02em; text-transform: uppercase; color: var(--es-text); }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-title p { margin: 0; font-size: 11px; line-height: 1.45; color: var(--es-dim); }
+html[data-aim-local]:not(#es) body .hall-dialog .sd > .sd-searchrow { grid-row: 2; flex-direction: column; align-items: stretch !important; gap: 6px !important; padding: 0 16px 12px; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-search { flex: none !important; width: 100% !important; min-width: 0 !important; height: 32px; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-live { margin: 0 !important; font-size: 11.5px !important; line-height: 1.4; color: var(--es-muted) !important; align-items: flex-start !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-live i { flex: none; margin-top: 4px; }
+/* the run-in-progress note is left out (user request); its text is unchanged in the code */
+html[data-aim-local]:not(#es) body .hall-dialog .sd > .sd-dirty { display: none !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd > .sd-main { grid-column: 2; grid-row: 1 / 4; }
+
+/* ---------- rail categories: numbered cards, as on the lobby page ---------- */
+html[data-aim-local]:not(#es) body .hall-dialog .sd > .sd-tabs {
+  grid-row: 3;
+  display: flex !important;
+  flex-direction: column;
+  min-height: 0;
+  padding: 4px 0 12px !important;
+  overflow-y: auto;
+  counter-reset: st-cat;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs::before {
+  content: "Categories";
+  display: block;
+  padding: 4px 18px 10px;
+  font: 600 10.5px/1 var(--es-head);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--es-dim);
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab {
+  flex: 1 1 0;
+  display: grid !important;
+  grid-template-columns: 32px minmax(0, 1fr) auto !important;
+  grid-template-rows: auto auto;
+  column-gap: 10px !important;
+  row-gap: 4px;
+  align-items: center;
+  align-content: center;
+  min-height: 44px;
+  max-height: 62px;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 6px 12px !important;
+  text-align: left;
+  font: 600 13.5px/1 var(--es-head) !important;
+  text-transform: none !important;
+  font-style: normal !important;
+  border-radius: 0 !important;
+  border-bottom: 1px solid var(--es-line) !important;
+  box-shadow: none !important;
+  background: none;
+  counter-increment: st-cat;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab:first-of-type { border-top: 1px solid var(--es-line) !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab:hover { background: var(--es-raised) !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab.is-active {
+  background: linear-gradient(90deg, rgba(255, 70, 85, 0.16), rgba(255, 70, 85, 0.02) 70%) !important;
+  box-shadow: inset 3px 0 0 var(--es-red) !important;
+  color: #fff !important;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab > svg {
+  grid-column: 1; grid-row: 1 / 3;
+  box-sizing: content-box;
+  width: 14px !important; height: 14px !important;
+  padding: 9px !important;
+  background: var(--es-raised-2);
+  color: var(--es-muted);
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab.is-active > svg { background: var(--es-red); color: #fff !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab > span { grid-column: 2; grid-row: 1; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab .st-tab-count { grid-column: 3; grid-row: 1 / 3; margin-left: auto; border-radius: 0 !important; }
+/* subtitle (vi.css hides .st-tab.is-active::after; shown again here) */
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab::after {
+  content: attr(data-tab);
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  position: static !important;
+  grid-column: 2; grid-row: 2;
+  width: auto !important;
+  height: auto !important;
+  overflow: hidden;
+  white-space: normal !important;
+  font: 500 11px/1.3 var(--es-head);
+  color: var(--es-dim);
+  background: none !important;
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab[data-tab="general"]::after { content: "Sensitivity, scope, minimap"; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab[data-tab="controls"]::after { content: "Key binds, mouse buttons, shortcuts"; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab[data-tab="crosshair"]::after { content: "Primary, scoped, crosshair codes"; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab[data-tab="video"]::after { content: "Resolution, frame rate, latency"; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab[data-tab="audio"]::after { content: "Shot, hit and kill sounds, volume"; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab[data-tab="range"]::after { content: "Gun, flashes, outlines, impacts"; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab.is-active::after { color: var(--es-muted); }
+/* the number on the right; hidden while searching, when the match count sits there */
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab::before {
+  content: counter(st-cat, decimal-leading-zero);
+  grid-column: 3; grid-row: 1 / 3;
+  font: 700 12px/1 var(--es-head);
+  color: var(--es-line-2);
+  font-variant-numeric: tabular-nums;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab.is-active::before { color: var(--es-red); }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab:has(.st-tab-count)::before { content: none; }
+
+/* search box: one box, plain field, short placeholder while empty */
+html[data-aim-local]:not(#es) body .hall-dialog .sd .st-search { position: relative; border-radius: 0 !important; box-shadow: inset 0 0 0 1px var(--es-line-2) !important; background: var(--es-bg) !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd .st-search:focus-within { box-shadow: inset 0 0 0 1px var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd .st-search input {
+  min-width: 0 !important;
+  height: 100% !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  text-overflow: ellipsis;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd .st-search input::placeholder { color: transparent !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd .st-search:has(input:placeholder-shown)::after {
+  content: "Search settings…";
+  position: absolute;
+  left: 38px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 13.5px;
+  color: var(--es-dim);
+}
+
+/* ---------- main: details in the middle, settings on the right ---------- */
+html[data-aim-local]:not(#es) body .hall-dialog .sd-main {
+  grid-template-columns: minmax(0, 1fr) clamp(380px, 34vw, 500px) !important;
+  gap: 0 !important;
+  min-height: 0;
+  padding: 0 !important;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd-main > .sd-side { grid-column: 1; grid-row: 1; min-height: 0; overflow-y: auto; padding: 14px 20px !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-main > .sd-list {
+  grid-column: 2;
+  grid-row: 1;
+  padding: 14px 18px 22px !important;
+  background: rgba(16, 19, 26, 0.55);
+  box-shadow: inset 1px 0 0 var(--es-line);
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd-main.is-wide { grid-template-columns: minmax(0, 1fr) !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-main.is-wide > .sd-list { grid-column: 1; background: none; box-shadow: none; padding: 18px 28px 28px !important; }
+/* the close button sits over the top right corner of the settings column */
+html[data-aim-local]:not(#es) body .hall-dialog .sd .sd-main > .sd-list { padding-top: 52px !important; }
+
+html[data-aim-local]:not(#es) body .hall-dialog .sd-bar { display: flex; gap: 12px; align-items: center; height: 40px; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-bar h2 { margin: 0; font: 700 13px/1 var(--es-head) !important; letter-spacing: 0.12em; text-transform: uppercase; color: var(--es-text); }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-bar p { margin: 0 0 0 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; color: var(--es-dim); }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-explain-card {
+  min-height: 72px;
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 0 !important;
+  background: var(--es-panel);
+  box-shadow: inset 0 0 0 1px var(--es-line);
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tele {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 14px 0 0;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tele > div { min-width: 0; padding: 10px 12px; background: var(--es-panel); box-shadow: inset 0 0 0 1px var(--es-line); }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tele dt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; color: var(--es-muted); }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tele dd { margin: 6px 0 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 700 17px/1.05 var(--es-head); color: var(--es-text); }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tele dd small { margin-left: 4px; font: 600 11px var(--es-head); color: var(--es-muted); }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tele .is-hot dd { color: var(--es-red); }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-side-tip { margin: 14px 2px 0 !important; font-size: 12px; color: var(--es-dim) !important; }
+
+/* Controls tab: no details column, so the binds flow into two columns and the whole area scrolls */
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="controls"] .sd-main.is-wide { display: block !important; overflow-y: auto; scrollbar-width: thin; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="controls"] .sd-main.is-wide > .sd-list {
+  height: auto !important;
+  overflow: visible !important;
+  column-count: 2;
+  column-gap: 48px;
+  column-rule: 1px solid var(--es-line);
+  padding: 22px 32px 32px !important;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="controls"] .sd-main.is-wide > .sd-list > :is(.kb-head, .kb-notice) { column-span: all; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="controls"] .sd-main.is-wide > .sd-list > .kb-head { margin-bottom: 18px; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="controls"] .sd-main.is-wide > .sd-list > h3 { break-after: avoid; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="controls"] .sd-main.is-wide > .sd-list > * { break-inside: avoid; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="controls"] .sd-main.is-wide > .sd-list > h3:not(:first-of-type) { margin-top: 26px; }
+
+@media (max-width: 1300px) {
+  html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="controls"] .sd-main.is-wide > .sd-list { column-count: 1; }
+}
+@media (max-width: 1400px) {
+  html[data-aim-local]:not(#es) body .hall-dialog .sd-title p { display: none; }
+  html[data-aim-local]:not(#es) body .hall-dialog .sd-main { grid-template-columns: minmax(0, 1fr) clamp(360px, 40vw, 440px) !important; }
+}
+
+/* two panels only (user request, 2026-11-07): rail on the left, the options on the right.
+   The middle "Setting details" column (explanation card, number tiles, tip) is hidden; the
+   row descriptions under each setting stay. The dialog is narrower to match. */
+html[data-aim-local]:not(#es) body .hall-dialog.is-settings { max-width: min(1040px, 100vw - 96px) !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-main > .sd-side { display: none !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-main,
+html[data-aim-local]:not(#es) body .hall-dialog .sd-main.is-wide { grid-template-columns: minmax(0, 1fr) !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-main > .sd-list {
+  grid-column: 1 !important;
+  padding: 52px 32px 28px 28px !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="controls"] .sd-main.is-wide > .sd-list { column-count: 1; padding: 52px 32px 28px 28px !important; }
+
+/* audio-mixer-v1 */
+/* ================= Audio tab, minimal (AudioPanel, patched by previews/audio-mixer) =================
+   Three plain sections split by thin lines: Master, Hit, Kill. No boxed cards. Each section title has a
+   small red mark. Everything uses the theme red. The hit sounds are a 2x2 grid of tiles; each tile
+   shows the sound's own description (its title attribute). Works in the lobby page and the in-game dialog. */
+html[data-aim-local]:not(#es) body .au { display: flex; flex-direction: column; gap: 0; padding-top: 2px; }
+html[data-aim-local]:not(#es) body .au-master,
+html[data-aim-local]:not(#es) body .au-ch {
+  --au-c: #ff4655;
+  padding: 18px 0 14px;
+  background: none;
+  box-shadow: none;
+  border-bottom: 1px solid var(--es-line);
+}
+html[data-aim-local]:not(#es) body .au-master { padding-top: 6px; }
+html[data-aim-local]:not(#es) body .au-ch[data-ch="kill"] { border-bottom: none; }
+html[data-aim-local]:not(#es) body .au-channels { display: flex; flex-direction: column; }
+
+html[data-aim-local]:not(#es) body .au-head { display: flex; align-items: center; gap: 10px; margin: 0 0 4px; min-width: 0; }
+html[data-aim-local]:not(#es) body .au-head::before { content: ""; flex: none; width: 8px; height: 8px; background: var(--au-c, #ff4655); }
+html[data-aim-local]:not(#es) body .au-head b { flex: none; font: 700 13px/1 var(--es-head); letter-spacing: 0.14em; text-transform: uppercase; color: var(--es-text); }
+html[data-aim-local]:not(#es) body .au-head small { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11.5px; color: var(--es-dim); }
+html[data-aim-local]:not(#es) body .au-ch.is-off .au-head::before { background: var(--es-line-2); }
+
+/* rows: flat, no row boxes */
+html[data-aim-local]:not(#es) body .au .hall-field {
+  padding: 10px 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body .au .hall-field small {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  white-space: normal !important;
+  font-size: 11.5px !important;
+  line-height: 1.4 !important;
+}
+/* the picker's own label repeats the section; keep only its "Current: …" line out too, the tiles say it */
+html[data-aim-local]:not(#es) body .au-ch .sound-kits > .hall-field-text { display: none !important; }
+html[data-aim-local]:not(#es) body .au-ch .sound-kits { padding-top: 4px !important; }
+
+/* hit sounds: 2x2 tiles with name and description */
+html[data-aim-local]:not(#es) body .au-ch .sound-kits-groups { margin-top: 0 !important; }
+html[data-aim-local]:not(#es) body .au-ch .sound-kits-group { flex-direction: column; align-items: stretch !important; }
+html[data-aim-local]:not(#es) body .au-ch .sound-kits-name { display: none !important; }
+html[data-aim-local]:not(#es) body .au-ch .sound-kits-chips { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px !important; }
+html[data-aim-local]:not(#es) body .au-ch .sound-kit {
+  display: grid !important;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  column-gap: 10px !important;
+  row-gap: 5px;
+  align-content: center;
+  width: 100%;
+  height: auto !important;
+  min-height: 74px;
+  padding: 12px 14px !important;
+  text-align: left;
+  border-radius: 0 !important;
+  font: 600 14px/1.1 var(--es-head) !important;
+  color: var(--es-soft) !important;
+  background: var(--es-panel) !important;
+  box-shadow: inset 0 0 0 1px var(--es-line) !important;
+  clip-path: none !important;
+  transform: none !important;
+}
+html[data-aim-local]:not(#es) body .au-ch .sound-kit > i { grid-column: 1; grid-row: 1; color: var(--au-c); }
+html[data-aim-local]:not(#es) body .au-ch .sound-kit::after {
+  content: attr(title);
+  grid-column: 1 / -1; grid-row: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font: 400 11.5px/1.4 var(--es-head);
+  color: var(--es-dim);
+}
+html[data-aim-local]:not(#es) body .au-ch .sound-kit:hover { background: var(--es-raised) !important; color: var(--es-text) !important; }
+html[data-aim-local]:not(#es) body .au-ch .sound-kit.is-active {
+  color: #fff !important;
+  background: color-mix(in srgb, var(--au-c) 10%, var(--es-panel)) !important;
+  box-shadow: inset 0 0 0 1px var(--au-c) !important;
+}
+html[data-aim-local]:not(#es) body .au-ch .sound-kit.is-active::before { content: "✓"; grid-column: 3; grid-row: 1; font-size: 12px; color: var(--au-c); }
+html[data-aim-local]:not(#es) body .au-ch .sound-kits-note { display: none; }
+
+html[data-aim-local]:not(#es) body .au-note { margin: 6px 0 0; font-size: 11.5px; line-height: 1.45; color: var(--es-dim); }
+html[data-aim-local]:not(#es) body .au-off { margin: 16px 0 0; font-size: 12.5px; color: var(--es-muted); }
+
+/* lobby page, Audio tab: no number tiles any more, so the live preview takes their space */
+html[data-aim-local]:not(#es) body .st-view[data-tab="audio"] .st-stack:not(.is-cross) { width: min(100cqw, (100cqh - 160px) * 16 / 9) !important; }
+
+/* master volume: the game's own slider (red track, square thumb), lined up with the other rows */
+html[data-aim-local]:not(#es) body .au .al-number-field,
+html[data-aim-local]:not(#es) body .au .al-number-field:hover,
+html[data-aim-local]:not(#es) body .au .al-number-field:focus-within,
+html[data-aim-local]:not(#es) body .au .hall-field:hover,
+html[data-aim-local]:not(#es) body .au .hall-field:focus-within {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body .au .al-number-field input[type=range] { width: 220px !important; }
+
+/* buy-menu-v1 */
+/* ================= buy menu in the Valorant shop look (BuyMenu in OkAdunfX.js, CSS only) =================
+   Values from the user's FModel export of UI/InGame/Shop/Shop_V2 (WBP_Panel_ShopItems, WBP_Panel_ItemDetailPanel):
+   text #ECE8E1, tiles black at 60%, 1px white hairline at 7%, hover hairline 50%, owned teal #22FFC4,
+   red #FF4655. Pictures: Valorant HUD icons in app/mods/local/equipment-icons (previews/buy-menu).
+   Layout, tiles, tags and clicks are the game's own; only the look changes. */
+html[data-aim-local]:not(#es) body .al-buy {
+  --vb-text: #ece8e1;
+  --vb-dim: rgba(236, 232, 225, 0.55);
+  --vb-line: rgba(255, 255, 255, 0.07);
+  --vb-own: #22ffc4;
+  --vb-red: #ff4655;
+  background: rgba(8, 11, 15, 0.8) !important;
+}
+html[data-aim-local]:not(#es) body .al-buy :is(.al-buy-head, .al-buy-name, .al-buy-stat, .al-buy-chip, .al-buy-orig, .al-buy-dname, .al-buy-dcat,
+  .al-buy-bar, .al-buy-bar b, .al-buy-kv, .al-buy-kv dd b, .al-buy-dmg th, .al-buy-dmg td, .al-buy-note, .al-buy-dfoot, .al-buy-foot, .al-buy-foot kbd, .al-buy-stat b) {
+  font-family: Bahnschrift, "DIN Next", "Segoe UI", sans-serif !important;
+}
+
+/* category titles: plain upper case, left aligned, no blue bar */
+html[data-aim-local]:not(#es) body .al-buy-head {
+  justify-content: flex-start !important;
+  padding-left: 2px;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--vb-dim) !important;
+}
+html[data-aim-local]:not(#es) body .al-buy-head::before { content: none !important; }
+
+/* tiles */
+html[data-aim-local]:not(#es) body .al-buy-tile {
+  background: rgba(0, 0, 0, 0.6) !important;
+  box-shadow: inset 0 0 0 1px var(--vb-line) !important;
+  border-radius: 0 !important;
+  transition: background-color .12s, box-shadow .12s;
+}
+html[data-aim-local]:not(#es) body .al-buy-tile::after { content: none !important; }
+html[data-aim-local]:not(#es) body .al-buy-tile:is(:hover, :focus-visible) {
+  background: rgba(236, 232, 225, 0.1) !important;
+  box-shadow: inset 0 0 0 1px rgba(236, 232, 225, 0.5) !important;
+}
+html[data-aim-local]:not(#es) body .al-buy-icon {
+  top: 18% !important;
+  left: 12% !important;
+  width: 76% !important;
+  height: 44% !important;
+  opacity: 0.92;
+  filter: none !important;
+}
+html[data-aim-local]:not(#es) body .al-buy-tile.is-gear .al-buy-icon { left: 50% !important; width: 46% !important; height: 46% !important; }
+html[data-aim-local]:not(#es) body .al-buy-tile:is(:hover, :focus-visible) .al-buy-icon { opacity: 1; filter: none !important; }
+
+/* name bottom left, like the shop tiles; the numbers stay in the details panel (they ran into the
+   pictures on the short tiles) */
+html[data-aim-local]:not(#es) body .al-buy-tag { inset: 0 !important; text-align: left; }
+html[data-aim-local]:not(#es) body .al-buy-name {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vb-text) !important;
+}
+html[data-aim-local]:not(#es) body .al-buy-stat { display: none !important; }
+
+/* owned / equipped: teal, like the shop's owned state */
+html[data-aim-local]:not(#es) body .al-buy-tile.is-owned,
+html[data-aim-local]:not(#es) body .al-buy-tile.is-owned:is(:hover, :focus-visible) {
+  background: linear-gradient(180deg, rgba(34, 255, 196, 0.2), rgba(34, 255, 196, 0.06)) !important;
+  box-shadow: inset 0 0 0 1px rgba(34, 255, 196, 0.7) !important;
+}
+html[data-aim-local]:not(#es) body .al-buy-tile.is-owned .al-buy-icon { opacity: 1; }
+html[data-aim-local]:not(#es) body .al-buy-chips { top: 6px !important; left: 6px !important; gap: 4px; }
+html[data-aim-local]:not(#es) body .al-buy-chip {
+  padding: 0 6px !important;
+  font-size: 10.5px !important;
+  font-weight: 700 !important;
+  line-height: 16px !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #06231b !important;
+  background: var(--vb-own) !important;
+}
+html[data-aim-local]:not(#es) body .al-buy-orig {
+  padding: 0 6px !important;
+  font-size: 10.5px !important;
+  line-height: 16px !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--vb-text) !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  box-shadow: inset 0 0 0 1px rgba(236, 232, 225, 0.45) !important;
+}
+
+/* details panel */
+html[data-aim-local]:not(#es) body .al-buy-detail {
+  padding: 16px 14px 12px !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+  box-shadow: inset 0 0 0 1px var(--vb-line) !important;
+}
+html[data-aim-local]:not(#es) body .al-buy-detail::before { height: 2px !important; background: var(--vb-text) !important; }
+html[data-aim-local]:not(#es) body .al-buy-dname { font-size: 24px !important; font-weight: 700 !important; line-height: 1.05 !important; letter-spacing: 0.02em; text-transform: uppercase; color: var(--vb-text) !important; }
+html[data-aim-local]:not(#es) body .al-buy-dcat { margin: 4px 0 8px !important; font-size: 11px !important; letter-spacing: 0.16em; text-transform: uppercase; color: var(--vb-dim) !important; }
+html[data-aim-local]:not(#es) body .al-buy-dicon { filter: none !important; opacity: 0.95; }
+html[data-aim-local]:not(#es) body .al-buy-bar { color: var(--vb-dim) !important; font-size: 11.5px !important; }
+html[data-aim-local]:not(#es) body .al-buy-bar b { color: var(--vb-text) !important; }
+html[data-aim-local]:not(#es) body .al-buy-bar > i { height: 3px !important; background: rgba(255, 255, 255, 0.1) !important; }
+html[data-aim-local]:not(#es) body .al-buy-bar > i > i { background: var(--vb-text) !important; }
+html[data-aim-local]:not(#es) body .al-buy-kv { color: var(--vb-dim) !important; }
+html[data-aim-local]:not(#es) body .al-buy-dmg th { font-size: 11px !important; color: var(--vb-dim) !important; }
+html[data-aim-local]:not(#es) body .al-buy-dmg td { border-top-color: var(--vb-line) !important; }
+html[data-aim-local]:not(#es) body .al-buy-dmg td.is-head { color: var(--vb-red) !important; }
+html[data-aim-local]:not(#es) body .al-buy-dmg td.is-leg { color: var(--vb-dim) !important; }
+html[data-aim-local]:not(#es) body .al-buy-note { color: var(--vb-dim) !important; }
+html[data-aim-local]:not(#es) body .al-buy-dfoot { color: var(--vb-dim) !important; border-top-color: var(--vb-line) !important; }
+html[data-aim-local]:not(#es) body .al-buy-dfoot.is-now { color: var(--vb-own) !important; }
+
+/* footer: the next-run note and the key help no longer run into each other */
+html[data-aim-local]:not(#es) body .al-buy-line { background: rgba(236, 232, 225, 0.18) !important; }
+html[data-aim-local]:not(#es) body .al-buy-foot { color: var(--vb-dim) !important; font-size: 12px !important; }
+html[data-aim-local]:not(#es) body .al-buy-foot.is-split { gap: 32px; }
+html[data-aim-local]:not(#es) body .al-buy-foot.is-split > span { flex: 1 1 0; min-width: 0; }
+html[data-aim-local]:not(#es) body .al-buy-foot.is-split > span + span { text-align: right; }
+html[data-aim-local]:not(#es) body .al-buy-carry { color: var(--vb-text) !important; }
+html[data-aim-local]:not(#es) body .al-buy-foot kbd { border-color: rgba(236, 232, 225, 0.4) !important; color: var(--vb-text); }
+html[data-aim-local]:not(#es) body .al-buy-foot.is-warn { color: var(--vb-red) !important; }
+
+/* target-workshop-settings-v1 */
+/* The workshop dialog keeps its live 103-degree scene preview. */
+html[data-aim-local]:not(#es) body .al-tn { place-items:safe center; padding:clamp(10px,3vh,28px); background:rgba(3,5,9,.78); }
+html[data-aim-local]:not(#es) body .al-tn-shell { width:min(1200px,100%); background:linear-gradient(135deg,#78bad3,#343c47 13%,#272d39 78%,#78bad3); }
+html[data-aim-local]:not(#es) body .al-tn-panel { grid-template-columns:minmax(310px,350px) minmax(0,1fr); gap:16px 26px; padding:20px 26px 18px; background:linear-gradient(180deg,#171b23,#10131a 48%); }
+html[data-aim-local]:not(#es) body .al-tn-head { min-height:40px; padding-bottom:3px; }
+html[data-aim-local]:not(#es) body .al-tn-head h2 { color:#f4f5f7; font-size:26px; letter-spacing:.025em; text-transform:uppercase; }
+html[data-aim-local]:not(#es) body .al-tn-proj { color:#9eabb8; }
+html[data-aim-local]:not(#es) body .al-tn-rail { min-width:0; }
+html[data-aim-local]:not(#es) body .al-tn-cap { min-height:32px; line-height:1.55; color:#a1aab7; }
+html[data-aim-local]:not(#es) body .al-tn-cell { padding:9px 12px 10px 14px; transition:background .12s ease; }
+html[data-aim-local]:not(#es) body .al-tn-cell:hover,
+html[data-aim-local]:not(#es) body .al-tn-cell:focus-within { background:#1c222d; }
+html[data-aim-local]:not(#es) body .al-tn-cell.is-changed { box-shadow:inset 2px 0 #ff4655; }
+html[data-aim-local]:not(#es) body .al-tn-name { color:#e9edf0; font-weight:650; }
+html[data-aim-local]:not(#es) body .al-tn-spin>button { min-width:28px; min-height:28px; color:#c2c9d2; }
+html[data-aim-local]:not(#es) body .al-tn-spin>button:hover { color:#090b0f; background:#ff4655; }
+html[data-aim-local]:not(#es) body .al-tn-readout input { width:70px; color:#f4f5f7; font-variant-numeric:tabular-nums; }
+html[data-aim-local]:not(#es) body .al-tn-gauge input { min-height:30px; }
+html[data-aim-local]:not(#es) body .al-tn-optic { min-height:240px; background:#0b0f14; }
+html[data-aim-local]:not(#es) body .al-tn-note { color:#a6b0bc; }
+html[data-aim-local]:not(#es) body .al-tn-tone { border:1px solid #242b36; background:#171c25; }
+html[data-aim-local]:not(#es) body .al-tn-tone-head { flex-wrap:wrap; }
+html[data-aim-local]:not(#es) body .al-tn-free { color:#83e6ae; }
+html[data-aim-local]:not(#es) body .al-tn-swatches { row-gap:9px; }
+html[data-aim-local]:not(#es) body .al-tn-follow,
+html[data-aim-local]:not(#es) body .al-tn-pick { min-height:30px; }
+html[data-aim-local]:not(#es) body .al-tn-foot { min-width:0; gap:16px; }
+html[data-aim-local]:not(#es) body .al-tn-verdict { flex:1; min-width:0; color:#a6b0bc; }
+html[data-aim-local]:not(#es) body .al-tn-acts { flex-shrink:0; }
+html[data-aim-local]:not(#es) body .al-tn-btn { min-height:40px; }
+html[data-aim-local]:not(#es) body .al-tn :is(button,input):focus-visible { outline:2px solid #ff6b78; outline-offset:2px; }
+@media(max-width:980px){
+  html[data-aim-local]:not(#es) body .al-tn-panel { grid-template-areas:"head" "rail" "view" "foot"; grid-template-columns:minmax(0,1fr); gap:14px; padding:18px; }
+  html[data-aim-local]:not(#es) body .al-tn-rail { grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 12px; }
+  html[data-aim-local]:not(#es) body .al-tn-cap { grid-column:1/-1; }
+  html[data-aim-local]:not(#es) body .al-tn-foot { flex-wrap:wrap; }
+}
+@media(max-width:620px){
+  html[data-aim-local]:not(#es) body .al-tn { padding:8px; }
+  html[data-aim-local]:not(#es) body .al-tn-panel { padding:15px 12px; }
+  html[data-aim-local]:not(#es) body .al-tn-head h2 { font-size:22px; }
+  html[data-aim-local]:not(#es) body .al-tn-rail { grid-template-columns:minmax(0,1fr); }
+  html[data-aim-local]:not(#es) body .al-tn-optic { min-height:180px; }
+  html[data-aim-local]:not(#es) body .al-tn-acts { width:100%; }
+  html[data-aim-local]:not(#es) body .al-tn-acts button { flex:1; padding-inline:8px; }
+}
+
+/* target-workshop-background-v1 */
+/* Target Workshop settings: same parameters, rebuilt as two clear control surfaces. */
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-shell { width:min(1240px,100%); }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-panel {
+  grid-template-columns:minmax(320px,380px) minmax(0,1fr);
+  gap:18px 22px;
+  padding:22px;
+  background:#0d1118;
+}
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-head {
+  padding:0 2px 14px;
+  border-bottom:1px solid #2c3440;
+}
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-head h2 { font-size:27px; letter-spacing:.08em; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-proj { padding:4px 9px; color:#b8c1cb; background:#1b2330; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-rail {
+  gap:0;
+  padding:14px;
+  background:#141a24;
+  border:1px solid #2b3442;
+}
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-cap { padding:2px 5px 11px; color:#aeb8c4; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-cell { padding:10px 8px 11px; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-cell.is-active,
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-cell:focus-within { background:#202939; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-view { gap:12px; min-width:0; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-optic { border:1px solid #3b4654; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-note { margin:0 4px; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-backdrop,
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-tone {
+  padding:14px 16px;
+  border:1px solid #2b3442;
+  background:#171e29;
+  clip-path:none;
+}
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-backdrop {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-backdrop-copy { display:grid; gap:3px; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-backdrop-copy b { font-size:14px; color:#f0f3f6; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-backdrop-copy small { font-size:11px; color:#9ca8b7; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-backdrop-choices { display:flex; gap:7px; flex-shrink:0; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-backdrop-choices button {
+  min-width:75px;
+  height:34px;
+  padding:0 10px;
+  color:#c4ccd6;
+  background:#252e3c;
+  border:1px solid #3a4655;
+  cursor:pointer;
+}
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-backdrop-choices button.is-on {
+  color:#080b10;
+  background:#ff4655;
+  border-color:#ff4655;
+  font-weight:700;
+}
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-backdrop-choices button:hover:not(.is-on) { background:#334154; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-foot {
+  padding:16px 2px 0;
+  border-top:1px solid #2c3440;
+}
+@media(max-width:980px){
+  html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-panel { grid-template-columns:minmax(0,1fr); grid-template-areas:"head" "rail" "view" "foot"; }
+}
+@media(max-width:620px){
+  html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-panel { padding:12px; }
+  html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-rail { padding:8px; grid-template-columns:minmax(0,1fr); }
+  html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-backdrop { align-items:stretch; flex-direction:column; gap:10px; }
+  html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-backdrop-choices button { flex:1; }
+}
+
+/* target-workshop-custom-color-v1 */
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-panel { grid-template-columns:minmax(390px,420px) minmax(0,1fr); }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-rail { padding:12px; gap:6px; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-cap { padding:4px 10px 10px; line-height:1.5; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-cell {
+  padding:10px 12px 9px;
+  border:1px solid #2c3746;
+  border-left:3px solid #425367;
+  background:#111821;
+  clip-path:none;
+}
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-cell.is-changed { border-left-color:#ff4655; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-cell.is-active,
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-cell:focus-within { border-color:#658aa2; background:#1b2634; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-cell-head {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  align-items:center;
+  column-gap:8px;
+  row-gap:1px;
+  min-height:31px;
+}
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-name {
+  grid-column:1;
+  grid-row:1;
+  min-width:0;
+  white-space:nowrap;
+  font-size:13px;
+  font-weight:700;
+  color:#eef3f8;
+}
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-spin { grid-column:2; grid-row:1; margin-left:0; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-undo {
+  grid-column:1 / -1;
+  grid-row:2;
+  justify-self:start;
+  margin:1px 0 2px;
+  white-space:nowrap;
+  font-size:11px;
+  color:#ff7782;
+}
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-undo:hover { color:#ffb2b9; text-decoration:underline; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-gauge-row { margin-top:4px; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-pick { min-height:34px; padding:0 9px; background:#263344; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-pick.is-on { outline:2px solid #ff4655; outline-offset:2px; }
+html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-hex { min-width:94px; }
+@media(max-width:980px){html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-panel { grid-template-columns:minmax(0,1fr); }}
+@media(max-width:620px){html[data-aim-local]:not(#es) body .hall-ball-tunables .al-tn-name { white-space:normal; }}
+
+/* original-workshop-wall-v1 */
+html[data-aim-local]:not(#es) body .hall-gunwall {
+  background:#08111b url('/local/workshop-wall.svg') center top / cover no-repeat !important;
+}
+html[data-aim-local]:not(#es) body .hall-gunwall img { display:none !important; }
+html[data-aim-local]:not(#es) body .hall-gunwall::after {
+  background:linear-gradient(180deg,rgba(5,8,12,.64),rgba(5,8,12,.08) 34%,rgba(5,8,12,.38)),linear-gradient(90deg,rgba(5,8,12,.65),transparent 52%) !important;
+}
+
+/* flyable-option-removed-v1 */
+
+/* App name: openVaim in the bottom-right footer (the site sets it in --aim-local-footer). */
+:root, html[data-aim-local] { --aim-local-footer: "openVaim · Local training" !important; }
+
+/* Community Workshop catalog: keep the focus on maps, creators, and play. */
+html[data-aim-local]:not(#es) body .pw .pw-stage {
+  height: clamp(350px, 43vh, 420px);
+  border-bottom: 1px solid #29323e;
+  border-radius: 0 !important;
+  background: #080e15;
+}
+html[data-aim-local]:not(#es) body .pw .pw-stage:has([data-role="pw-stage-intro"])::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: linear-gradient(90deg, rgba(5,10,16,.54), rgba(5,10,16,.18) 58%, rgba(5,10,16,.24)), url('/local/community-radar-background.png') center top / cover no-repeat;
+  pointer-events: none;
+}
+html[data-aim-local]:not(#es) body .pw .pw-stage:has([data-role="pw-stage-intro"])::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-image: url('/local/community-workshop-blueprint.svg');
+  background-size: min(36%, 500px) 61%;
+  background-position: right 12% top 36px;
+  background-repeat: no-repeat;
+  opacity: .74;
+  pointer-events: none;
+}
+html[data-aim-local]:not(#es) body .pw .pw-stage:has([data-role="pw-stage-intro"]) .pw-st-agent {
+  display: none !important;
+}
+html[data-aim-local]:not(#es) body .pw [data-role="pw-stage-intro"]::before {
+  content: "CREATE / SHARE / PLAY";
+  position: absolute;
+  top: 92px;
+  left: clamp(24px, 5cqi, 72px);
+  z-index: 4;
+  color: #ff7180;
+  font: 800 13px var(--pw-hud);
+  letter-spacing: .18em;
+}
+html[data-aim-local]:not(#es) body .pw [data-role="pw-stage-intro"]::after {
+  content: "SHARE YOUR SCENARIO?";
+  position: absolute;
+  top: 128px;
+  left: clamp(24px, 5cqi, 72px);
+  z-index: 4;
+  width: min(560px, 45%);
+  padding: 0;
+  color: #f2f5f8;
+  font: 900 clamp(25px, 2.6cqi, 42px)/1.18 var(--h-font, sans-serif);
+  letter-spacing: -.015em;
+  white-space: pre-line;
+  text-shadow: 0 4px 18px #000a;
+}
+html[data-aim-local]:not(#es) body .pw .pw-st-bg::after {
+  background: linear-gradient(90deg, #0b131f 0%, #0b131fe8 38%, #0b131f42 72%, #0b131fa8 100%);
+}
+html[data-aim-local]:not(#es) body .pw .pw-dchips,
+html[data-aim-local]:not(#es) body .pw .pw-card-dl,
+html[data-aim-local]:not(#es) body .pw .pw-gems,
+html[data-aim-local]:not(#es) body .pw .pw-pips {
+  display: none !important;
+}
+
+html[data-aim-local]:not(#es) body .pw .pw-all {
+  padding-top: 34px;
+  background: linear-gradient(180deg, rgba(5,10,16,.12), rgba(5,10,16,.42)), url('/local/community-radar-background.png') center bottom / cover no-repeat #080e15;
+}
+html[data-aim-local]:not(#es) body .pw .pw-all-head {
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #29323e;
+}
+html[data-aim-local]:not(#es) body .pw .pw-all-head h3 {
+  font-size: clamp(24px, 2.6cqi, 34px);
+  letter-spacing: .01em;
+}
+html[data-aim-local]:not(#es) body .pw .pw-all-n {
+  margin-left: auto;
+  color: #9dabb9;
+  font: 700 12px var(--pw-hud);
+  letter-spacing: .1em;
+}
+html[data-aim-local]:not(#es) body .pw .pw-filters {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 10px !important;
+  margin-top: 16px !important;
+  padding: 12px !important;
+  border: 1px solid #303b48 !important;
+  border-left: 3px solid #ff4655 !important;
+  border-radius: 0 !important;
+  background: rgba(16, 24, 34, .96) !important;
+  box-shadow: none !important;
+}
+html[data-aim-local]:not(#es) body .pw .pw-seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+html[data-aim-local]:not(#es) body .pw .pw-seg button {
+  height: 38px;
+  padding: 0 13px;
+  color: #b6c2cf;
+  background: #1a2531;
+  box-shadow: none;
+}
+html[data-aim-local]:not(#es) body .pw .pw-seg button + button { margin-left: 0; }
+html[data-aim-local]:not(#es) body .pw .pw-seg button.is-on {
+  color: #fff;
+  background: #a92f3e;
+}
+html[data-aim-local]:not(#es) body .pw .pw-seg button:focus-visible,
+html[data-aim-local]:not(#es) body .pw .pw-drop:focus-within,
+html[data-aim-local]:not(#es) body .pw .pw-find:focus-within {
+  outline: 2px solid #7ed0f5;
+  outline-offset: 2px;
+}
+html[data-aim-local]:not(#es) body .pw .pw-drop,
+html[data-aim-local]:not(#es) body .pw .pw-find {
+  height: 38px;
+  color: #d6e0e9;
+  background: #1a2531;
+  box-shadow: inset 0 0 0 1px #34414f;
+}
+html[data-aim-local]:not(#es) body .pw .pw-drop select,
+html[data-aim-local]:not(#es) body .pw .pw-find input { color: #e9eff5; }
+html[data-aim-local]:not(#es) body .pw .es-sort-wrap {
+  position: relative;
+  z-index: 10;
+  min-width: 156px;
+  box-shadow: none;
+}
+html[data-aim-local]:not(#es) body .pw .es-sort-wrap.is-open { z-index: 40; }
+html[data-aim-local]:not(#es) body .pw .es-sort-native {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+html[data-aim-local]:not(#es) body .pw .es-sort-wrap > .pw-icon { display: none; }
+html[data-aim-local]:not(#es) body .pw .es-sort-trigger {
+  display: flex;
+  width: 100%;
+  height: 42px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 0 12px;
+  border: 1px solid #3b4957;
+  background: #1a2531;
+  color: #eef3f8;
+  font: 800 13px var(--es-head);
+  text-align: left;
+}
+html[data-aim-local]:not(#es) body .pw .es-sort-trigger::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-right: 2px solid #aebdcb;
+  border-bottom: 2px solid #aebdcb;
+  transform: translateY(-2px) rotate(45deg);
+}
+html[data-aim-local]:not(#es) body .pw .es-sort-trigger:is(:hover, :focus-visible),
+html[data-aim-local]:not(#es) body .pw .es-sort-wrap.is-open .es-sort-trigger {
+  border-color: #ff4655;
+  outline: none;
+}
+html[data-aim-local]:not(#es) body .pw .es-sort-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 41;
+  width: max(100%, 184px);
+  padding: 5px;
+  border: 1px solid #3b4957;
+  border-top: 2px solid #ff4655;
+  background: #111923;
+  box-shadow: 0 18px 36px #0009;
+}
+html[data-aim-local]:not(#es) body .pw .es-sort-menu[hidden] { display: none; }
+html[data-aim-local]:not(#es) body .pw .es-sort-option {
+  display: block;
+  width: 100%;
+  min-height: 35px;
+  padding: 7px 10px;
+  border-left: 2px solid transparent;
+  color: #c6d2dc;
+  font: 700 13px var(--es-head);
+  text-align: left;
+}
+html[data-aim-local]:not(#es) body .pw .es-sort-option:is(:hover, :focus-visible) {
+  border-left-color: #ff4655;
+  background: #263547;
+  color: #fff;
+  outline: none;
+}
+html[data-aim-local]:not(#es) body .pw .es-sort-option[aria-selected="true"] {
+  border-left-color: #ff4655;
+  background: #812634;
+  color: #fff;
+}
+html[data-aim-local]:not(#es) body .pw .pw-find {
+  flex: 1 1 220px;
+  max-width: 360px;
+  min-width: 180px;
+  margin-left: auto;
+}
+html[data-aim-local]:not(#es) body .pw .pw-cards {
+  grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+  gap: 18px;
+  margin-top: 20px;
+}
+html[data-aim-local]:not(#es) body .pw .pw-card {
+  height: 338px;
+  background: #151f2b !important;
+  border-color: #303d4c !important;
+  border-bottom-color: #ff4655 !important;
+}
+html[data-aim-local]:not(#es) body .pw .pw-card:is(:hover, :focus-visible) {
+  border-color: #ff4655 !important;
+  box-shadow: 0 12px 28px #0005 !important;
+}
+html[data-aim-local]:not(#es) body .pw .pw-card-cv { height: 190px; }
+html[data-aim-local]:not(#es) body .pw .pw-card-play { top: 132px; }
+html[data-aim-local]:not(#es) body .pw .pw-card-heart { top: 154px; }
+html[data-aim-local]:not(#es) body .pw .pw-card-info { right: 15px; bottom: 15px; left: 15px; }
+html[data-aim-local]:not(#es) body .pw .pw-card h4 { margin-top: 7px; font-size: 22px; }
+html[data-aim-local]:not(#es) body .pw .pw-card-ln {
+  padding-top: 11px;
+  margin-top: 12px;
+  border-top: 1px solid #354354;
+}
+html[data-aim-local]:not(#es) body .pw .pw-shelves {
+  gap: 28px;
+  padding-top: 30px;
+  background: linear-gradient(180deg, rgba(5,10,16,.12), rgba(5,10,16,.42)), url('/local/community-radar-background.png') center bottom / cover no-repeat #080e15;
+}
+html[data-aim-local]:not(#es) body .pw .pw-shelf-head {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #29323e;
+}
+@container pw (max-width: 650px) {
+  html[data-aim-local]:not(#es) body .pw .pw-stage:has([data-role="pw-stage-intro"])::after {
+    background-size: 50% 61%;
+    background-position: right -55px top 36px;
+  }
+  html[data-aim-local]:not(#es) body .pw [data-role="pw-stage-intro"]::after { width: 60%; }
+  html[data-aim-local]:not(#es) body .pw .pw-find { order: 4; flex-basis: 100%; max-width: none; margin-left: 0; }
+  html[data-aim-local]:not(#es) body .pw .pw-cards { grid-template-columns: repeat(auto-fill, minmax(205px, 1fr)); }
+}
+
+/* valorant-lobby-scroll-paint-v1 */
+/* Flat surfaces avoid reblurring moving map cards beneath the pinned filter strip. */
+html[data-aim-local]:not(#es) body .al-wk :is(.al-wk-dock, .al-wk-feat, .al-wk-tag, .al-wk-paddle) {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}
+html[data-aim-local]:not(#es) body .al-wk .al-wk-dock { background: #0c1420 !important; }
+html[data-aim-local]:not(#es) body .al-wk .al-wk-feat { background: #101722 !important; }
+html[data-aim-local]:not(#es) body .al-wk :is(.al-wk-tag, .al-wk-paddle) { background: #101722 !important; }
+/* Offscreen card contents need no paint work during vertical scrolling. */
+html[data-aim-local]:not(#es) body .al-wk .al-wk-card {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 320px;
+  transform: none !important;
+}
+html[data-aim-local]:not(#es) body .al-wk .al-wk-hero-agent { filter: none !important; }
+/* 2026-11-11: settings without the live preview on every tab; the settings sit in one panel, one column,
+   like the in-round settings window. The Crosshair tab keeps a short strip on top with just the crosshair on its background
+   (no rifle sight, scope or zoom box: ChJ6FlD4.js, aim-crosshair-strip), like VALORANT's settings. */
+html[data-aim-local]:not(#es) body .st-view .st-main { display: block !important; overflow-y: auto; scrollbar-width: thin; }
+html[data-aim-local]:not(#es) body .st-view:not([data-tab="crosshair"]) .st-main > .st-side { display: none !important; }
+html[data-aim-local]:not(#es) body .st-view .st-main > .st-list {
+  height: auto !important;
+  max-width: none !important;
+  overflow: visible !important;
+  /* like the in-round settings window: categories on the left, one settings panel, one column */
+  column-count: 1 !important;
+  width: min(820px, calc(100% - 40px)) !important;
+  padding: 22px 28px 26px !important;
+  margin: 18px 20px 18px;
+  background: var(--es-panel) !important;
+  box-shadow: inset 0 0 0 1px var(--es-line) !important;
+}
+html[data-aim-local]:not(#es) body .st-view .st-main > .st-list :is(.hall-field, .hall-choice, .al-number-field, .au-head, .aim-hs-card, h3, header) { break-inside: avoid; }
+html[data-aim-local]:not(#es) body .st-view .st-main > .st-list :is(h3, header, .au-head) { break-after: avoid; }
+/* 2026-11-11: Settings uses the full width again: the panel fills the space beside the categories. */
+html[data-aim-local]:not(#es) body .st-view .st-main > .st-list { width: auto !important; max-width: none !important; }
+
+/* Crosshair tab: the crosshair lab comes first and stays pinned at the top while you scroll the settings,
+   so every change is visible right away. Order: background buttons, lab (pinned), crosshair code, settings. */
+html[data-aim-local]:not(#es) body .st-view[data-tab="crosshair"] .st-main { display: flex !important; flex-direction: column; }
+html[data-aim-local]:not(#es) body .st-view[data-tab="crosshair"] .st-main > .st-side,
+html[data-aim-local]:not(#es) body .st-view[data-tab="crosshair"] .st-stack { display: contents !important; }
+html[data-aim-local]:not(#es) body .st-view[data-tab="crosshair"] .st-bar { order: -3; margin: 16px 20px 8px !important; }
+html[data-aim-local]:not(#es) body .st-view[data-tab="crosshair"] .st-monitor { order: -2; position: sticky !important; top: 0; z-index: 3; flex: none; width: auto !important; height: 200px !important; aspect-ratio: auto !important; margin: 0 20px; }
+html[data-aim-local]:not(#es) body .st-view[data-tab="crosshair"] .st-code { order: -1; margin: 12px 20px 0 !important; }
+html[data-aim-local]:not(#es) body .st-view[data-tab="crosshair"] .st-main > .st-list { order: 0; flex: none; }
+
+/* 2026-11-12: in-round Settings window looks like the lobby Settings page (same rail, same numbered
+   category cards, settings in one boxed panel), still centred over the round with the dark background,
+   and bigger than before (was 1040 x 760). Backup: backups/round-settings-like-lobby-2026-11-12/. */
+html[data-aim-local]:not(#es) body .hall-dialog.is-settings {
+  width: min(1360px, 100vw - 80px) !important;
+  max-width: min(1360px, 100vw - 80px) !important;
+  height: min(900px, 100dvh - 80px) !important;
+}
+/* rail: lobby sizes */
+html[data-aim-local]:not(#es) body .hall-dialog .sd { --st-rail: clamp(240px, 17vw, 280px); }
+html[data-aim-local]:not(#es) body .hall-dialog .sd > .sd-title { gap: 6px; padding: 22px 18px 14px; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-title h1 { font: 700 22px/1 var(--es-head) !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-title p { display: block !important; font-size: 12px; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd > .sd-searchrow { gap: 8px !important; padding: 0 18px 16px; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-search { height: 36px; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd > .sd-tabs { padding: 4px 0 16px !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs::before { padding: 4px 18px 10px; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab {
+  grid-template-columns: 44px minmax(0, 1fr) auto !important;
+  column-gap: 14px !important;
+  min-height: 52px;
+  max-height: 120px;
+  padding: 8px 14px !important;
+  font-size: 15px !important;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab > svg { width: 18px !important; height: 18px !important; padding: 13px !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab::after { -webkit-line-clamp: 2; font-size: 11.5px; line-height: 1.35; }
+/* settings: one boxed panel beside the rail, as in the lobby; the whole area scrolls */
+html[data-aim-local]:not(#es) body .hall-dialog .sd-main,
+html[data-aim-local]:not(#es) body .hall-dialog .sd-main.is-wide { display: block !important; overflow-y: auto; scrollbar-width: thin; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-main > .sd-list,
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="controls"] .sd-main.is-wide > .sd-list {
+  height: auto !important;
+  overflow: visible !important;
+  column-count: 1 !important;
+  margin: 52px 20px 20px 20px;
+  padding: 22px 28px 26px !important;
+  background: var(--es-panel) !important;
+  box-shadow: inset 0 0 0 1px var(--es-line) !important;
+}
+
+/* 2026-11-12: in-round Crosshair tab laid out like the lobby one: "Crosshair lab" bar with Map / Bright wall /
+   Black, a wide 200 px crosshair strip pinned at the top while the settings scroll, the crosshair code box under
+   it (title and buttons on one row), then the editor. Buttons come from Dc2Dm9E6.js (aim-round-lab-bg).
+   Backup: backups/round-crosshair-like-lobby-2026-11-12/. */
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="crosshair"] .sd-list { display: flex !important; flex-direction: column; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="crosshair"] .sd-list > .hall-crosshair,
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="crosshair"] .hall-crosshair-side { display: contents !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="crosshair"] .hall-crosshair-tabs { order: -1; align-self: flex-start; margin-top: 18px !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="crosshair"] .hall-crosshair-form { order: 0; width: auto !important; max-width: none !important; flex: none !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .aim-match-crosshair-lab {
+  order: -3;
+  position: sticky !important;
+  top: -22px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  aspect-ratio: auto !important;
+  margin: -22px -28px 0;
+  padding: 16px 28px 0;
+  border: none !important;
+  background: var(--es-panel) !important;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .aim-match-crosshair-lab canvas {
+  flex: none;
+  height: 200px !important;
+  box-shadow: 0 0 0 1px var(--es-line-2);
+}
+html[data-aim-local]:not(#es) body .hall-dialog .aim-lab-bar { display: flex; align-items: center; gap: 14px; }
+html[data-aim-local]:not(#es) body .hall-dialog .aim-lab-bar > b { font: 700 13px/1 var(--es-head); letter-spacing: 0.06em; text-transform: uppercase; color: var(--es-text); }
+html[data-aim-local]:not(#es) body .hall-dialog .aim-lab-seg { display: inline-flex; padding: 3px; gap: 2px; background: var(--es-bg); box-shadow: inset 0 0 0 1px var(--es-line); }
+html[data-aim-local]:not(#es) body .hall-dialog .aim-lab-seg > button {
+  height: 26px; padding: 0 10px; border: none; border-radius: 0; cursor: pointer;
+  background: none; color: var(--es-muted); font: 600 12.5px/1 var(--es-head);
+}
+html[data-aim-local]:not(#es) body .hall-dialog .aim-lab-seg > button:hover { color: var(--es-text); }
+html[data-aim-local]:not(#es) body .hall-dialog .aim-lab-seg > button.is-active { background: rgba(255, 70, 85, 0.2); box-shadow: inset 0 0 0 1px var(--es-red); color: #fff; }
+/* code box: full width, title + buttons on one row, one-line field, hint under it */
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="crosshair"] .hall-crosshair-code {
+  order: -2;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px 12px;
+  width: auto !important;
+  margin: 12px 0 0 !important;
+  padding: 14px 14px 12px !important;
+  background: var(--es-bg) !important;
+  box-shadow: inset 0 0 0 1px var(--es-line) !important;
+}
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="crosshair"] .hall-crosshair-code > header { grid-column: 1; grid-row: 1; display: flex; align-items: center; gap: 14px; justify-content: flex-start !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="crosshair"] .hall-crosshair-code > div { grid-column: 2; grid-row: 1; display: flex; gap: 8px; margin: 0 !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="crosshair"] .hall-crosshair-code > div > button { width: auto !important; height: 32px !important; padding: 0 14px !important; flex: none !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="crosshair"] .hall-crosshair-code > textarea { grid-column: 1 / 3; grid-row: 2; height: 40px !important; min-height: 40px !important; resize: none; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="crosshair"] .hall-crosshair-code > p { grid-column: 1 / 3; grid-row: 3; margin: 0 !important; font-size: 12px; color: var(--es-dim) !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .aim-match-crosshair-lab { width: auto !important; align-self: stretch; top: 0; padding-bottom: 12px; }
+html[data-aim-local]:not(#es) body .hall-dialog .aim-match-crosshair-lab canvas { width: 100% !important; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd[data-tab="crosshair"] .hall-crosshair-code { margin-top: 0 !important; }
+
+/* 2026-11-12: Collection (collection.js), lobby tab for weapon skins, option B (full-screen picker).
+   Plain images only: no blur, no animation loop, no 3D. Old skin rows in Settings > Visuals are hidden;
+   a note there points to Collection. Backup: backups/collection-2026-11-12/. */
+.es-col {
+  position: fixed; left: 0; right: 0; top: 64px; bottom: 48px; z-index: 40;
+  display: grid; grid-template-columns: minmax(0, 1fr) 340px; grid-template-rows: auto minmax(0, 1fr) auto;
+  background: radial-gradient(ellipse at 45% 42%, #1d232e, #090b0f 68%);
+  color: var(--es-text, #f4f5f7); font-family: var(--es-head, "Bahnschrift", "Segoe UI", sans-serif);
+}
+body:has(.al-trainer-shell.al-session-active) .es-col { display: none !important; }
+.es-col-head { grid-column: 1 / 3; grid-row: 1; padding: 24px 36px 0; }
+.es-col-kicker { display: inline-flex; align-items: center; gap: 8px; font: 600 12px/1 var(--es-head); letter-spacing: .12em; text-transform: uppercase; color: var(--es-muted, #9aa1ae); }
+.es-col-kicker::before { content: ""; width: 4px; height: 12px; background: var(--es-red, #ff4655); transform: skewX(-14deg); }
+.es-col-head h1 { margin: 12px 0 0; font: 700 34px/1 var(--es-head); text-transform: uppercase; letter-spacing: .02em; }
+.es-col-head p { margin: 8px 0 0; font-size: 12.5px; color: var(--es-dim, #6b7280); }
+.es-col-stage { grid-column: 1; grid-row: 2; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 10px 40px; }
+.es-col-hero { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 30px 40px rgba(0,0,0,.55)); }
+.es-col-info { grid-column: 2; grid-row: 2; align-self: center; padding: 0 40px 0 0; text-align: right; }
+.es-col-info b { display: block; font: 700 30px/1.05 var(--es-head); text-transform: uppercase; letter-spacing: .01em; }
+.es-col-info small { display: block; margin: 10px 0 16px; font-size: 12.5px; color: var(--es-muted, #9aa1ae); }
+.es-col-swatches { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 4px; }
+.es-col-swatches button { width: 30px; height: 30px; padding: 0; border: none; cursor: pointer; background: var(--sw); box-shadow: inset 0 0 0 2px rgba(255,255,255,.14); }
+.es-col-swatches button.is-on { outline: 2px solid #fff; outline-offset: 3px; }
+.es-col-equip { display: block; width: 100%; height: 46px; margin-top: 22px; border: none; cursor: pointer; background: var(--es-red, #ff4655); color: #fff; font: 700 15px/1 var(--es-head); letter-spacing: .06em; text-transform: uppercase; }
+.es-col-equip:hover:not(:disabled) { background: var(--es-red-2, #ff6b77); }
+.es-col-equip.is-equipped { background: var(--es-raised-2, #1e232d); color: #4ade80; cursor: default; box-shadow: inset 0 0 0 1px rgba(74,222,128,.35); }
+.es-col-strip { grid-column: 1 / 3; grid-row: 3; padding: 14px 36px 18px; background: rgba(9,11,15,.88); border-top: 1px solid var(--es-line, #272d39); }
+.es-col-tabs { display: flex; gap: 4px; margin-bottom: 14px; }
+.es-col-tabs button { padding: 8px 16px; border: none; cursor: pointer; background: var(--es-raised, #171b23); color: var(--es-muted, #9aa1ae); font: 700 12.5px/1 var(--es-head); letter-spacing: .05em; text-transform: uppercase; }
+.es-col-tabs button:hover { color: var(--es-text, #f4f5f7); }
+.es-col-tabs button.is-on { background: var(--es-red, #ff4655); color: #fff; }
+.es-col-row { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: thin; padding-bottom: 2px; }
+.es-col-tile { position: relative; flex: none; width: 196px; height: 124px; padding: 0; border: none; cursor: pointer; background: var(--es-raised, #171b23); box-shadow: inset 0 0 0 1px var(--es-line, #272d39); color: #d6d9df; text-align: left; }
+.es-col-tile:hover { background: var(--es-raised-2, #1e232d); }
+.es-col-tile img { position: absolute; left: 10px; right: 10px; top: 10px; height: 76px; width: calc(100% - 20px); object-fit: contain; }
+.es-col-tile span { position: absolute; left: 10px; right: 10px; bottom: 9px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font: 600 12px/1.2 var(--es-head); }
+.es-col-tile i { position: absolute; left: 10px; top: 8px; font: 600 9.5px/1 var(--es-head); font-style: normal; letter-spacing: .08em; text-transform: uppercase; color: var(--es-dim, #6b7280); }
+.es-col-tile.is-on { background: linear-gradient(180deg, rgba(255,70,85,.2), rgba(255,70,85,.04)); box-shadow: inset 0 0 0 1px var(--es-red, #ff4655); }
+.es-col-tile.is-eq::after { content: "EQUIPPED"; position: absolute; right: 8px; top: 8px; font: 700 9.5px/1 var(--es-head); letter-spacing: .1em; color: #4ade80; }
+/* Settings > Visuals: skin rows live in Collection now */
+:is(.es-vandal-row, .es-melee-row, .es-phantom-row, .es-sheriff-row, .es-operator-row, .es-guardian-row, .es-ghost-row) { display: none !important; }
+.es-col-note { display: flex !important; align-items: center; gap: 16px; }
+.es-col-note-open { flex: none; height: 34px; padding: 0 16px; border: none; cursor: pointer; background: var(--es-red, #ff4655); color: #fff; font: 700 12.5px/1 var(--es-head); letter-spacing: .05em; text-transform: uppercase; }
+.es-col button, .es-col-note-open { border-radius: 0 !important; }
+html[data-aim-local]:not(#es) body :is(.es-col button, .es-col-note-open) { border-radius: 0 !important; }
+
+/* Community Workshop: no "Picks of the week" / "Recommended creations" tile row in the
+   banner, and the same grid background as Training History (48 px grid, soft glow top-left)
+   instead of the radar picture and blueprint drawing. */
+html[data-aim-local]:not(#es) body .pw .pw-pick { display: none !important; }
+html[data-aim-local]:not(#es) body .pw {
+  background: linear-gradient(90deg, rgba(127, 168, 201, .05) 1px, transparent 1px) 0 0 / 48px 48px,
+    linear-gradient(rgba(127, 168, 201, .05) 1px, transparent 1px) 0 0 / 48px 48px,
+    radial-gradient(110% 80% at 12% 0%, rgba(26, 44, 62, .55), transparent 60%),
+    var(--es-bg) !important;
+}
+html[data-aim-local]:not(#es) body .pw :is(.pw-stage, .pw-shelves, .pw-all) { background: transparent !important; }
+html[data-aim-local]:not(#es) body .pw .pw-stage:has([data-role="pw-stage-intro"])::before,
+html[data-aim-local]:not(#es) body .pw .pw-stage:has([data-role="pw-stage-intro"])::after { display: none !important; }
+
+/* "How it works" strip in the Community Workshop banner (community-workshop.js syncHowTo). */
+html[data-aim-local]:not(#es) body .pw .es-howto {
+  position: absolute; left: clamp(24px, 5cqi, 72px); right: clamp(24px, 5cqi, 72px); bottom: 34px; z-index: 6;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: 18px; align-items: stretch;
+  font-family: var(--es-head); color: var(--es-text);
+}
+html[data-aim-local]:not(#es) body .pw .pw-stage:not(:has([data-role="pw-stage-intro"])) .es-howto { display: none; }
+html[data-aim-local]:not(#es) body .pw .es-howto-step {
+  position: relative; display: grid; grid-template-columns: 52px 1fr; gap: 14px; align-items: center; padding: 18px 20px;
+  background: rgba(16, 19, 26, .8); border: 1px solid var(--es-line); border-top: 3px solid var(--es-red);
+}
+html[data-aim-local]:not(#es) body .pw .es-howto-step i {
+  display: grid; place-items: center; width: 52px; height: 52px; color: var(--es-red);
+  background: rgba(255, 70, 85, .09); border: 1px solid rgba(255, 70, 85, .33);
+}
+html[data-aim-local]:not(#es) body .pw .es-howto-step em {
+  position: absolute; right: 16px; top: 8px; font: 900 italic 38px var(--es-head); color: rgba(255, 255, 255, .06);
+}
+html[data-aim-local]:not(#es) body .pw .es-howto-step b {
+  display: block; font: 800 17px var(--es-head); text-transform: uppercase; letter-spacing: .03em; color: var(--es-text);
+}
+html[data-aim-local]:not(#es) body .pw .es-howto-step small { display: block; margin-top: 3px; color: var(--es-muted); font-size: 13px; }
+html[data-aim-local]:not(#es) body .pw .es-howto-go { display: grid; gap: 10px; align-content: center; min-width: 210px; }
+html[data-aim-local]:not(#es) body .pw .es-howto-go button {
+  padding: 13px 18px !important; border: 0 !important; border-radius: 0 !important; cursor: pointer;
+  font: 800 13px var(--es-head) !important; letter-spacing: .06em; color: white !important;
+  background: var(--es-raised) !important; box-shadow: inset 0 0 0 1px var(--es-line-2) !important;
+}
+html[data-aim-local]:not(#es) body .pw .es-howto-go button.is-primary {
+  background: var(--es-red) !important; box-shadow: none !important; clip-path: var(--es-slant);
+}
+html[data-aim-local]:not(#es) body .pw .es-howto-go button:hover { filter: brightness(1.12); }
+@container pw (max-width: 1100px) {
+  html[data-aim-local]:not(#es) body .pw .es-howto { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  html[data-aim-local]:not(#es) body .pw .es-howto-go { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; }
+  html[data-aim-local]:not(#es) body .pw .es-howto-step small { display: none; }
+}
+/* How review works: numbered list inside the workshop panel. */
+.es-rules { width: min(640px, 100%) !important; }
+.es-rules ol { margin: 6px 0 0; padding: 0; list-style: none; counter-reset: rule; display: grid; gap: 10px; }
+.es-rules li { counter-increment: rule; position: relative; padding: 12px 14px 12px 56px; background: var(--es-raised); border-left: 3px solid var(--es-red); }
+.es-rules li::before { content: counter(rule, decimal-leading-zero); position: absolute; left: 14px; top: 11px; font: 900 italic 22px var(--es-head); color: var(--es-red); }
+.es-rules li b { display: block; color: var(--es-text); font: 800 15px var(--es-head); text-transform: uppercase; letter-spacing: .03em; }
+.es-workshop-panel.es-rules li p { margin: 4px 0 0; color: var(--es-soft); font-size: 13px; }
+
+/* Drill panel: Like button next to Favorite, and the creator's Discord picture in place of
+   the colored hexagon (community-workshop.js syncDrawer). */
+html[data-aim-local]:not(#es) body .pw-gbtn.es-like .es-like-n { min-width: 14px; color: var(--es-muted); font-weight: 800; }
+html[data-aim-local]:not(#es) body .pw-gbtn.es-like.is-on { color: white; box-shadow: inset 0 0 0 1px var(--es-red) !important; background: rgba(255, 70, 85, .12) !important; }
+html[data-aim-local]:not(#es) body .pw-gbtn.es-like.is-on svg { color: var(--es-red); fill: rgba(255, 70, 85, .35); }
+html[data-aim-local]:not(#es) body .pw-gbtn.es-like.is-on .es-like-n { color: white; }
+/* Like click feedback: the button fills red and the thumb pops (community-workshop.js adds .es-pop). */
+html[data-aim-local]:not(#es) body .pw-gbtn.es-like { position: relative; overflow: visible; transition: background-color .18s, box-shadow .18s, color .18s; }
+html[data-aim-local]:not(#es) body .pw-gbtn.es-like.is-on { background: var(--es-red) !important; box-shadow: none !important; color: white; }
+html[data-aim-local]:not(#es) body .pw-gbtn.es-like.is-on svg { color: white; fill: rgba(255, 255, 255, .9); }
+html[data-aim-local]:not(#es) body .pw-gbtn.es-like.es-pop { animation: es-like-btn .38s ease-out; }
+html[data-aim-local]:not(#es) body .pw-gbtn.es-like.es-pop svg { animation: es-like-thumb .5s cubic-bezier(.3, 1.6, .5, 1); }
+html[data-aim-local]:not(#es) body .pw-gbtn.es-like.es-pop::after {
+  content: ""; position: absolute; inset: -2px; pointer-events: none; border: 2px solid var(--es-red);
+  animation: es-like-ring .5s ease-out forwards;
+}
+@keyframes es-like-btn { 0% { transform: scale(1); } 35% { transform: scale(.94); } 100% { transform: scale(1); } }
+@keyframes es-like-thumb { 0% { transform: scale(1) rotate(0); } 40% { transform: scale(1.55) rotate(-14deg); } 100% { transform: scale(1) rotate(0); } }
+@keyframes es-like-ring { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(1.18, 1.5); } }
+@media (prefers-reduced-motion: reduce) { html[data-aim-local]:not(#es) body .pw-gbtn.es-like.es-pop, html[data-aim-local]:not(#es) body .pw-gbtn.es-like.es-pop svg, html[data-aim-local]:not(#es) body .pw-gbtn.es-like.es-pop::after { animation: none; } }
+html[data-aim-local]:not(#es) body .pw-maker .es-maker-pic { display: none; }
+html[data-aim-local]:not(#es) body .pw-maker.es-has-pic .es-maker-pic {
+  display: block; grid-row: span 2; width: 50px; height: 50px; object-fit: cover;
+  border-radius: 50%; box-shadow: 0 0 0 2px var(--es-red), 0 4px 14px rgba(0, 0, 0, .5);
+}
+html[data-aim-local]:not(#es) body .pw-maker.es-has-pic > .pw-hex,
+html[data-aim-local]:not(#es) body .pw-maker.es-has-pic > .pw-hex-pair { display: none; }
+
+/* Review panel: change / reset a drill's cover picture (moderator). */
+.es-review-thumb .es-cover-change {
+  position: absolute; inset: 0; z-index: 2; opacity: 0; border: 0 !important; clip-path: none !important;
+  background: rgba(9, 11, 15, .72) !important; color: white !important; font: 800 11px var(--es-head) !important; letter-spacing: .08em;
+  transition: opacity .15s;
+}
+.es-review-thumb:hover .es-cover-change, .es-review-thumb .es-cover-change:focus-visible { opacity: 1; }
+.es-review-thumb .es-cover-reset {
+  position: absolute; top: 4px; right: 4px; z-index: 3; width: 22px; height: 22px; padding: 0 !important;
+  display: grid; place-items: center; border: 0 !important; clip-path: none !important;
+  background: var(--es-red) !important; color: white !important; font: 800 14px/1 var(--es-head) !important;
+}
+.es-review-thumb.has-cover::after {
+  content: "CUSTOM"; position: absolute; top: 4px; left: 4px; z-index: 1; padding: 2px 6px;
+  background: #000b; color: var(--es-soft); font: 800 9px var(--es-head); letter-spacing: .1em;
+}
+/* Four buttons (Start training, Favorite, Like, Copy link) share the panel's bottom row. */
+html[data-aim-local]:not(#es) body .pw-dr-x ~ * .pw-gbtn, html[data-aim-local]:not(#es) body .pw-gbtn:has(~ .es-like), html[data-aim-local]:not(#es) body .es-like, html[data-aim-local]:not(#es) body .es-like ~ .pw-gbtn { padding: 0 14px; }
+
+/* Like count on community cards (community-workshop.js syncCardLikes). */
+html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes {
+  flex: none; display: inline-flex; align-items: center; gap: 5px; margin-left: auto !important;
+  color: var(--es-soft); font: 800 13px var(--es-head);
+}
+html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes svg { color: var(--es-red); }
+html[data-aim-local]:not(#es) body .pw-card-ln .pw-card-pl + .es-card-likes,
+html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes + .pw-card-pl { margin-left: 0; }
+/* Drill panel, moderator only: change or reset the drill's picture. */
+html[data-aim-local]:not(#es) body .es-mod-cover {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 22px; padding: 12px 14px;
+  border: 1px dashed var(--es-line-2); background: rgba(255, 70, 85, .05);
+}
+html[data-aim-local]:not(#es) body .es-mod-cover > b { color: var(--es-red); font: 800 11px var(--es-head); letter-spacing: .12em; margin-right: 6px; }
+html[data-aim-local]:not(#es) body .es-mod-cover button {
+  padding: 8px 12px !important; border: 1px solid var(--es-line-2) !important; border-radius: 0 !important;
+  background: var(--es-raised) !important; color: white !important; font: 800 12px var(--es-head) !important; cursor: pointer;
+}
+html[data-aim-local]:not(#es) body .es-mod-cover button:first-of-type { background: var(--es-red) !important; border-color: var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .es-mod-cover small { flex-basis: 100%; color: var(--es-muted); font-size: 12px; }
+html[data-aim-local]:not(#es) body .es-mod-cover small:empty { display: none; }
+
+/* Share codes (community-workshop.js): Enter code box in the workshop header, the code chip
+   and the Share code buttons in the drill panel. */
+html[data-aim-local]:not(#es) body .es-code-box { position: relative; display: inline-flex; align-items: stretch; margin-left: 10px; }
+html[data-aim-local]:not(#es) body .es-code-box input {
+  width: 128px; padding: 7px 10px; border: 1px solid var(--es-line-2); border-right: 0; border-radius: 0;
+  background: var(--es-bg); color: white; font: 800 13px var(--es-head); letter-spacing: .12em; text-transform: uppercase; outline: none;
+}
+html[data-aim-local]:not(#es) body .es-code-box input::placeholder { color: var(--es-dim); letter-spacing: .08em; }
+html[data-aim-local]:not(#es) body .es-code-box input:focus { border-color: var(--es-red); }
+html[data-aim-local]:not(#es) body .es-code-box button { clip-path: none !important; background: var(--es-raised) !important; border-color: var(--es-line-2) !important; }
+html[data-aim-local]:not(#es) body .es-code-note {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 30; min-width: 260px; padding: 10px 12px;
+  background: var(--es-panel); border: 1px solid var(--es-line-2); border-top: 2px solid var(--es-red);
+  color: var(--es-soft); font: 600 12px var(--es-head); box-shadow: 0 10px 30px #0008;
+}
+html[data-aim-local]:not(#es) body .es-code-note[hidden] { display: none; }
+html[data-aim-local]:not(#es) body .es-code-pick { display: grid; gap: 6px; }
+html[data-aim-local]:not(#es) body .es-code-pick button { text-align: left; clip-path: none !important; background: var(--es-raised) !important; color: white !important; }
+html[data-aim-local]:not(#es) body .es-code-line { display: none !important; }
+html[data-aim-local]:not(#es) body .pw-gbtn.es-copy-link { display: none !important; }
+html[data-aim-local]:not(#es) body .es-share { display: inline-flex; }
+html[data-aim-local]:not(#es) body .es-share .es-share-main { padding: 0 14px; }
+html[data-aim-local]:not(#es) body :has(> .es-share) > .pw-lock { white-space: nowrap; padding-left: 20px; padding-right: 20px; }
+html[data-aim-local]:not(#es) body .es-share .es-share-main { min-width: 104px; }
+
+/* Drill panel "side rail" layout (design B, 2026-11-12; community-workshop.js syncRail adds .es-rail-on).
+   Like / Save / Share stack in a column on the left, Start training fills the bottom. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on { padding-left: 96px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail {
+  position: absolute; top: 0; left: 0; bottom: 0; z-index: 3; width: 96px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 86px;
+  background: var(--es-bg); box-shadow: inset 1px 0 var(--es-line-2), inset -1px 0 var(--es-line);
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail > .pw-gbtn {
+  width: 68px !important; min-width: 0 !important; height: 72px !important; padding: 0 !important; margin: 0 !important;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  clip-path: none !important; border: 0 !important; border-radius: 0 !important;
+  background: transparent !important; box-shadow: inset 0 0 0 1px var(--es-line-2) !important;
+  color: var(--es-soft); font: 800 11px var(--es-head) !important; letter-spacing: .08em; text-transform: uppercase; text-indent: 0;
+  transition: background-color .18s, box-shadow .18s, color .18s;
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail > .pw-gbtn:hover { box-shadow: inset 0 0 0 1px var(--es-red) !important; color: white; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail > .pw-gbtn svg { width: 22px; height: 22px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail .es-like .es-like-word { display: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail .es-like:has(.es-like-n:empty) .es-like-word { display: block; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail .es-like .es-like-n { min-width: 0; color: white; font: 900 15px var(--es-head); letter-spacing: 0; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail > .pw-gbtn.is-on { background: var(--es-red) !important; box-shadow: none !important; color: white; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail > .pw-gbtn.is-on svg { color: white; fill: rgba(255, 255, 255, .9); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail .es-rail-save.is-on { background: transparent !important; box-shadow: inset 0 0 0 1px var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail .es-rail-save.is-on svg { color: var(--es-red); fill: var(--es-red); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail .es-share-main svg { width: 20px; height: 20px; }
+
+/* Picture: darker towards the text, the map name drawn big and faint. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-cv { height: 230px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-cv::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg, rgba(16, 19, 26, .93), rgba(16, 19, 26, .35)), linear-gradient(180deg, transparent 55%, var(--es-panel));
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-cv-ghost {
+  position: absolute; right: -6px; bottom: -20px; z-index: 2; pointer-events: none; white-space: nowrap;
+  font: 900 118px/1 var(--es-head); text-transform: uppercase; color: transparent !important; -webkit-text-stroke: 1px rgba(255, 255, 255, .16) !important;
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body {
+  display: flex; flex-direction: column; margin-top: -200px; padding: 0 28px 26px;
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > * { order: 9; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > .pw-kind { order: 1; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > .pw-dr-title { order: 2; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > .pw-dr-tabs { order: 3; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > .pw-infos-wrap { order: 4; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > .pw-meta { order: 5; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > .pw-dr-grid { order: 6; }
+
+/* Map and spawn above the title, in red capitals. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-kind { gap: 0; margin-top: 2px; font: 800 12px var(--es-head); letter-spacing: .16em; text-transform: uppercase; color: var(--es-red); animation: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-kind > .pw-ty,
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-kind > .pw-sep,
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-kind > .pw-spot:has(+ .es-spot) { display: none !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-kind > * { background: none !important; padding: 0 !important; border: 0 !important; color: inherit !important; font: inherit !important; clip-path: none !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-kind > .es-spot::before { content: "\00B7"; margin: 0 .6em; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-title {
+  margin: 10px 60px 0 0; font: 900 38px/1.02 var(--es-head) !important; font-style: normal !important; text-transform: uppercase; letter-spacing: 0;
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-tabs:not(:has(> :nth-child(2))) { display: none; }
+
+/* Facts as chips with a red edge. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-infos-wrap { margin-top: 150px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-infos { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf {
+  display: inline-flex; align-items: center; gap: 8px; width: auto; padding: 9px 12px;
+  background: var(--es-raised); box-shadow: inset 3px 0 var(--es-red); grid-template-rows: none;
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf-sq {
+  width: 20px !important; height: 20px !important; background: none !important; box-shadow: none !important;
+  -webkit-backdrop-filter: none; backdrop-filter: none; color: var(--es-muted);
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf-sq svg { width: 18px; height: 18px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf-sq img { width: 22px; height: auto; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf-sq::before,
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf-sq::after { display: none !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf > span { color: white; font: 800 14px var(--es-head); white-space: nowrap; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf-note { margin: 16px 0 0; color: var(--es-soft); font: 600 14px/1.5 var(--es-head); }
+
+/* Difficulty / plays / likes as one quiet line. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-meta { gap: 6px 20px; margin-top: 18px; color: var(--es-muted); font: 600 13px var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-meta b { color: white; font: 800 15px var(--es-head); }
+
+/* Details list, then the creator in a box. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-grid { grid-template-columns: 1fr; gap: 18px; margin-top: 20px; padding-top: 20px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-facts {
+  display: grid !important; grid-template-columns: 120px 1fr; gap: 12px 0; margin: 0; font: 600 14px var(--es-head); text-shadow: none;
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-facts dt { color: var(--es-muted); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-facts dd { margin: 0; color: white; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-maker { padding: 14px; box-shadow: inset 0 0 0 1px var(--es-line-2); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-maker > b { font: 900 20px var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-mod-cover { margin-top: 0; }
+
+/* Bottom: Start training across the whole width; Favorite moved to the rail as Save. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-foot { padding: 18px 28px 24px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-foot > .pw-gbtn { display: none !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-foot > .pw-lock { flex: 1; width: auto; height: 60px; }
+
+/* Card thumb is a Like button (community-workshop.js cardLikeClick): red when you liked it, pops on click. */
+html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes {
+  position: relative; cursor: pointer; padding: 4px 8px; margin-right: -8px;
+  transition: background-color .18s, color .18s;
+}
+html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes:hover { background: rgba(255, 70, 85, .14); color: white; }
+html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes:focus-visible { outline: 1px solid var(--es-red); }
+html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes.is-on { background: var(--es-red); color: white; }
+html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes.is-on svg { color: white; fill: rgba(255, 255, 255, .9); }
+html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes.es-pop svg { animation: es-like-thumb .5s cubic-bezier(.3, 1.6, .5, 1); }
+html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes.es-pop::after {
+  content: ""; position: absolute; inset: -1px; pointer-events: none; border: 2px solid var(--es-red);
+  animation: es-like-ring .5s ease-out forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes.es-pop svg,
+  html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes.es-pop::after { animation: none; }
+}
+
+/* Enter code box, tidied (2026-11-12 late): one frame around the input and GO, the same height as
+   CREATE & PUBLISH, red frame while typing (no second outline), GO turns red once something is typed. */
+html[data-aim-local]:not(#es) body .es-code-box {
+  align-self: center; height: var(--es-code-h, 32px); margin-left: 10px; box-sizing: border-box;
+  border: 1px solid var(--es-line-2); background: var(--es-bg); transition: border-color .15s;
+}
+html[data-aim-local]:not(#es) body .es-code-box:focus-within { border-color: var(--es-red); }
+html[data-aim-local]:not(#es) body .es-code-box input {
+  height: 100%; width: 132px; padding: 0 12px; border: 0 !important; outline: none !important; box-shadow: none !important;
+  background: transparent; font: 800 13px var(--es-head); letter-spacing: .14em;
+}
+html[data-aim-local]:not(#es) body .es-code-box input:focus,
+html[data-aim-local]:not(#es) body .es-code-box input:focus-visible { outline: none !important; box-shadow: none !important; border: 0 !important; }
+html[data-aim-local]:not(#es) body .es-code-box button[type="submit"] {
+  height: 100% !important; min-width: 44px; padding: 0 14px !important; margin: 0 !important;
+  border: 0 !important; border-left: 1px solid var(--es-line-2) !important; border-radius: 0 !important; outline: none !important;
+  background: var(--es-raised) !important; color: var(--es-muted) !important; box-shadow: none !important;
+  font: 800 12px var(--es-head) !important; letter-spacing: .1em; cursor: pointer; transition: background-color .15s, color .15s;
+}
+html[data-aim-local]:not(#es) body .es-code-box:has(input:not(:placeholder-shown)) button[type="submit"] {
+  background: var(--es-red) !important; color: white !important; border-left-color: var(--es-red) !important;
+}
+html[data-aim-local]:not(#es) body .es-code-box button[type="submit"]:focus-visible { box-shadow: inset 0 0 0 1px white !important; }
+
+/* No blue page-loading bar while Enter code opens a drill (community-workshop.js openDrill). */
+html.es-quiet-nav #nprogress { display: none !important; }
+
+/* Workshop title row (2026-11-12 late): Create & Publish and Review uploads are tabs styled like
+   "All creations" and sit right after it; then the "Scenes made by players" line; the Enter code box
+   goes to the right end. The toolbar box itself is dissolved (display: contents) so its pieces join the
+   game's own row. */
+/* has-subtree-fix-v1: the "> :not(...)" rule tests --es-wt via @container style() (see the results screen note). */
+html[data-aim-local]:not(#es) body .pw-head:has(> .es-workshop-toolbar) { --es-wt: 1; }
+html[data-aim-local]:not(#es) body .pw-head:has(> .es-workshop-toolbar) > h2 { order: 1; }
+html[data-aim-local]:not(#es) body .pw-head:has(> .es-workshop-toolbar) > .pw-sub { order: 2; }
+html[data-aim-local]:not(#es) body .pw-head:has(> .es-workshop-toolbar) > .pw-head-lead { order: 5; }
+@container style(--es-wt: 1) { html[data-aim-local]:not(#es) body .pw-head.pw-head > :not(h2, .pw-sub, .pw-head-lead, .es-workshop-toolbar) { order: 7; } }
+html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar { display: contents; }
+html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar > .es-head-tab { order: 3; }
+html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar > .es-head-tab + .es-head-tab { order: 4; margin-left: -6px; }
+html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar > .es-code-box { order: 6; margin-left: auto; }
+html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar > .es-head-tab {
+  position: relative; padding: 6px 0 !important; margin-left: -6px; border: 0 !important; border-radius: 0 !important;
+  clip-path: none !important; background: none !important; box-shadow: none !important;
+  color: var(--h-text-muted, #ece8e19e) !important; font: 600 15px var(--es-head) !important; letter-spacing: normal; text-transform: none;
+  cursor: pointer; transition: color .15s;
+}
+html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar > .es-head-tab::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: var(--es-red);
+  transform: scaleX(0); transform-origin: left; transition: transform .18s ease-out;
+}
+html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar > .es-head-tab:hover,
+html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar > .es-head-tab:focus-visible { color: white !important; outline: none; }
+html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar > .es-head-tab:hover::after,
+html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar > .es-head-tab:focus-visible::after { transform: scaleX(1); }
+
+/* Workshop cleanup (2026-11-12 late): no "Scenes made by players" line in the title row, and the
+   "New · 2 d ago" card label has no white box (white text with a soft shadow over the picture). */
+html[data-aim-local]:not(#es) body .pw-head > .pw-head-lead { display: none !important; }
+html[data-aim-local]:not(#es) body .pw-card-badge {
+  background: none !important; box-shadow: none !important; padding: 0 !important; top: 12px; right: 12px;
+  color: white !important; font: 700 12px var(--es-head) !important; text-shadow: 0 1px 3px #000, 0 0 10px rgba(0, 0, 0, .8);
+}
+
+/* Lobby drill cards (Valorant Training): no "NO.1A8C35" code, only the small type icon stays.
+   Community Workshop cards keep their code (it is the share code). */
+html[data-aim-local]:not(#es) body .al-wk-card-no { font-size: 0 !important; letter-spacing: 0 !important; gap: 0 !important; }
+
+/* Drill panel leaderboard (community-workshop.js syncBoard): top 5 and your own best. */
+html[data-aim-local]:not(#es) body .es-board { padding: 14px 16px 12px; box-shadow: inset 0 0 0 1px var(--es-line-2); }
+html[data-aim-local]:not(#es) body .es-board > header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
+html[data-aim-local]:not(#es) body .es-board h3 { margin: 0; color: white; font: 800 13px var(--es-head); letter-spacing: .14em; text-transform: uppercase; }
+html[data-aim-local]:not(#es) body .es-board-count { color: var(--es-muted); font: 600 12px var(--es-head); }
+html[data-aim-local]:not(#es) body .es-board ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+html[data-aim-local]:not(#es) body .es-board-row {
+  display: grid; grid-template-columns: 40px minmax(0, 1fr) auto 96px; align-items: center; gap: 10px;
+  padding: 8px 10px; background: var(--es-raised); font: 600 14px var(--es-head);
+}
+html[data-aim-local]:not(#es) body .es-board-row em { font-style: normal; color: var(--es-muted); font-weight: 800; }
+html[data-aim-local]:not(#es) body .es-board-row.is-top1 em { color: var(--es-red); }
+html[data-aim-local]:not(#es) body .es-board-row b { color: white; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+html[data-aim-local]:not(#es) body .es-board-row strong { color: white; font: 900 15px var(--es-head); }
+html[data-aim-local]:not(#es) body .es-board-row small { color: var(--es-muted); font: 600 12px var(--es-head); text-align: right; white-space: nowrap; }
+html[data-aim-local]:not(#es) body .es-board-row.is-me { background: rgba(255, 70, 85, .12); box-shadow: inset 3px 0 var(--es-red); }
+html[data-aim-local]:not(#es) body .es-board-gap { text-align: center; color: var(--es-dim); font: 800 12px/1 var(--es-head); letter-spacing: .3em; padding: 2px 0; }
+html[data-aim-local]:not(#es) body .es-board-note { margin: 10px 0 0; color: var(--es-muted); font: 600 12px var(--es-head); }
+html[data-aim-local]:not(#es) body .es-board-note:empty { display: none; }
+/* "New best" note after a community round (shown over the result screen for a few seconds). */
+.es-score-toast {
+  position: fixed; top: 84px; left: 50%; z-index: 2147483600; transform: translateX(-50%); pointer-events: none;
+  padding: 10px 18px; background: #10131af2; border: 1px solid #343b4a; border-top: 2px solid #9aa1ae;
+  color: white; font: 800 14px "Bahnschrift", "Segoe UI", sans-serif; letter-spacing: .04em; box-shadow: 0 10px 30px #0009;
+  animation: es-score-toast 4.5s ease-out forwards;
+}
+.es-score-toast.is-good { border-top-color: #ff4655; }
+@keyframes es-score-toast { 0% { opacity: 0; transform: translate(-50%, -8px); } 8%, 85% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; } }
+
+/* Map-less drills use the Creator's Training range picture (BPUvDycd.js marker aim-range-card-picture);
+   brightened like the Creator shows it. */
+html[data-aim-local]:not(#es) body img[src*="training-range-thumb"] { filter: brightness(1.3); }
+
+/* Drill panel moderator box: Delete in red outline, asks with a second click; hidden/deleted drill's cards. */
+html[data-aim-local]:not(#es) body .es-mod-cover button.es-mod-delete { background: transparent !important; border-color: var(--es-red) !important; color: var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .es-mod-cover button.es-mod-delete.is-armed { background: var(--es-red) !important; color: white !important; }
+html[data-aim-local]:not(#es) body .es-mod-cover button:disabled { opacity: .45; cursor: default; }
+html[data-aim-local]:not(#es) body .pw-card.es-gone { display: none !important; }
+
+/* Community Workshop Refresh button, just left of the Enter code box (community-workshop.js refreshButton). */
+html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar > .es-refresh { order: 6; margin-left: auto; }
+html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar > .es-refresh + .es-code-box { margin-left: 8px; }
+html[data-aim-local]:not(#es) body .es-workshop-toolbar > .es-refresh {
+  display: inline-flex; align-items: center; gap: 7px; height: 32px; padding: 0 12px !important; box-sizing: border-box;
+  border: 1px solid var(--es-line-2) !important; border-radius: 0 !important; clip-path: none !important; background: transparent !important;
+  color: var(--es-muted) !important; font: 800 12px var(--es-head) !important; letter-spacing: .08em; text-transform: uppercase; cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+html[data-aim-local]:not(#es) body .es-workshop-toolbar > .es-refresh:hover { color: white !important; border-color: var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .es-workshop-toolbar > .es-refresh.is-busy { color: white !important; }
+html[data-aim-local]:not(#es) body .es-workshop-toolbar > .es-refresh.is-busy svg { animation: es-refresh-spin .7s linear infinite; }
+@keyframes es-refresh-spin { to { transform: rotate(360deg); } }
+
+/* Target Workshop settings layout */
+html[data-aim-local]:not(#es) body .al-tn.is-target-settings {
+  position: fixed;
+  z-index: 2050;
+  padding: 16px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+html[data-aim-local]:not(#es) body .is-target-settings > .al-tn-shell {
+  width: min(1160px, 100%);
+  min-height: 0;
+  padding: 0;
+  clip-path: none;
+  filter: none;
+  border: 1px solid #354050;
+  border-top: 2px solid #ff4655;
+  border-radius: 10px;
+  background: #111720;
+  box-shadow: 0 18px 48px #0008;
+}
+html[data-aim-local]:not(#es) body .is-target-settings .al-tn-panel {
+  max-height: calc(100dvh - 36px);
+  box-sizing: border-box;
+  grid-template: "head head" auto "rail view" minmax(0, 1fr) "foot foot" auto
+    / minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px 18px;
+  padding: 16px;
+  background: #111720;
+  clip-path: none;
+}
+html[data-aim-local]:not(#es) body .is-target-settings :is(.al-tn-rail, .al-tn-view) {
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  padding-right: 8px;
+}
+html[data-aim-local]:not(#es) body .is-target-settings .al-tn-rail {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  border: 0;
+  background: none;
+}
+html[data-aim-local]:not(#es) body .is-target-settings .al-tn-cap {
+  grid-column: 1 / -1;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  color: #d5deea;
+  font-size: 13px;
+  font-weight: 700;
+}
+html[data-aim-local]:not(#es) body .is-target-settings .al-tn-cell {
+  padding: 8px 10px;
+  border: 1px solid #303b4b;
+  border-radius: 6px;
+  background: #19212d;
+  clip-path: none;
+}
+html[data-aim-local]:not(#es) body .is-target-settings .al-tn-cell-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3px 6px;
+}
+html[data-aim-local]:not(#es) body .is-target-settings .al-tn-name {
+  white-space: normal;
+}
+html[data-aim-local]:not(#es) body .is-target-settings .al-tn-spin {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+}
+html[data-aim-local]:not(#es) body .is-target-settings .al-tn-readout input { width: 48px; font-size: 20px; }
+html[data-aim-local]:not(#es) body .is-target-settings .al-tn-optic {
+  min-height: 0;
+  border-radius: 6px;
+  clip-path: none;
+}
+html[data-aim-local]:not(#es) body .is-target-settings .al-tn-foot {
+  padding-top: 10px;
+  border-top: 1px solid #303b4b;
+}
+@media (max-width: 960px) {
+  html[data-aim-local]:not(#es) body .is-target-settings .al-tn-rail {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (max-width: 680px) {
+  html[data-aim-local]:not(#es) body .al-tn.is-target-settings {
+    overflow: auto;
+    align-items: start;
+  }
+  html[data-aim-local]:not(#es) body .is-target-settings .al-tn-panel {
+    max-height: none;
+    grid-template: "head" "view" "rail" "foot" / minmax(0, 1fr);
+    padding: 12px;
+  }
+  html[data-aim-local]:not(#es) body .is-target-settings :is(.al-tn-rail, .al-tn-view) {
+    overflow: visible;
+    padding-right: 0;
+  }
+  html[data-aim-local]:not(#es) body .is-target-settings .al-tn-head { flex-wrap: wrap; }
+}
+
+/* fav-corner-v1: drill card Save (bookmark) sits further into the top-right corner (the card's 24 px cut corner
+   still clears it: right + top = 25 px). The rename pencil (enemy-rank-cards.js) sits under it. */
+html[data-aim-local]:not(#es) body .al-wk-card > .al-wk-fav { top: 7px !important; right: 18px !important; }
+
+/* hero-diff-off-v1 (user, 14 Nov 2026): no Easy / Hard difficulty chip on the Recommended drill at the top of
+   VALORANT Training (the enemy rank replaces it; the cards already hide theirs). */
+html[data-aim-local]:not(#es) body .al-wk-feat .al-wk-diff { display: none !important; }

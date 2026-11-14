@@ -32,17 +32,17 @@
     ${If} ${Silent}
       Abort
     ${EndIf}
-    !insertmacro MUI_HEADER_TEXT "Uninstall AimTrainer" "Choose what to do with your saved settings."
+    !insertmacro MUI_HEADER_TEXT "Uninstall openVaim" "Choose what to do with your saved settings."
     nsDialogs::Create 1018
     Pop $0
     ${If} $0 == error
       Abort
     ${EndIf}
-    ${NSD_CreateLabel} 0 0 100% 35u "AimTrainer will be removed from this computer. You can keep your settings for the next time you install it, or remove your local data too."
+    ${NSD_CreateLabel} 0 0 100% 35u "openVaim will be removed from this computer. You can keep your settings for the next time you install it, or remove your local data too."
     Pop $0
     ${NSD_CreateRadioButton} 0 48u 100% 18u "Keep my settings and training data (recommended)"
     Pop $aimKeepRadio
-    ${NSD_CreateRadioButton} 0 75u 100% 18u "Delete my settings and all local AimTrainer data"
+    ${NSD_CreateRadioButton} 0 75u 100% 18u "Delete my settings and all local openVaim data"
     Pop $aimDeleteRadio
     ${If} $aimRemoveData == ${BST_CHECKED}
       ${NSD_Check} $aimDeleteRadio

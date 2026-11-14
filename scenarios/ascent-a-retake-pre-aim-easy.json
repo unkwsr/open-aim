@@ -1,0 +1,552 @@
+{
+ "item": {
+  "createTime": "2026-09-21 23:33:22",
+  "description": "Pure pre-aim route for an A site retake.",
+  "docBytes": 9309,
+  "featured": false,
+  "mapId": "ascent",
+  "name": "Easy-Ascent — A retake, pre-aim",
+  "parSeconds": null,
+  "playCount": 153341,
+  "sceneKey": "set-1b597bb63a48bf26",
+  "shareCode": "1b597bb63a48bf26",
+  "sort": 1,
+  "status": 1,
+  "type": "aim",
+  "updateTime": "2026-09-22 04:00:38"
+ },
+ "scene": {
+  "authorNickname": "RICK1",
+  "authorUid": "bd016527243111f1b1b5ac90fc000662",
+  "blockCount": 1,
+  "createTime": "2026-09-21 23:33:22",
+  "description": "Pure pre-aim route for an A site retake.",
+  "doc": {
+   "schemaVersion": 2,
+   "meta": {
+    "id": "scene-769102058",
+    "name": "Easy-Ascent — A retake, pre-aim",
+    "seed": 769102058,
+    "createdAt": 0
+   },
+   "environment": {
+    "skyColor": "#111820",
+    "fogNear": 14,
+    "fogFar": 33,
+    "ambientIntensity": 1.55,
+    "keyLightIntensity": 2.2,
+    "fogEnabled": false,
+    "map": "ascent"
+   },
+   "blocks": [
+    {
+     "id": "ground",
+     "shape": "plane",
+     "position": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0,
+     "size": {
+      "x": 40,
+      "y": 0.4,
+      "z": 45
+     },
+     "color": "#18222b",
+     "collidable": true
+    }
+   ],
+   "playerSpawn": {
+    "position": {
+     "x": -95.4,
+     "y": 4.513180953581964,
+     "z": -35.8
+    },
+    "yaw": -0.5235987755982988
+   },
+   "spawners": [
+    {
+     "id": "spawner-1",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -78.8,
+      "y": 8.276057782866586,
+      "z": -58.8
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-2",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -83.2,
+      "y": 8.091887474060059,
+      "z": -67.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-3",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -77.2,
+      "y": 7,
+      "z": -70.2
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-4",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -82.9,
+      "y": 8,
+      "z": -39.8
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-5",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -79.5,
+      "y": 8.091887474060059,
+      "z": -52.7
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-6",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -77.2,
+      "y": 5.000000031789144,
+      "z": -51.8
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-7",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -55.9,
+      "y": 4.0000004233383555,
+      "z": -50
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-8",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -44.7,
+      "y": 4.000000421206156,
+      "z": -58.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-9",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -44.8,
+      "y": 4.000000413258871,
+      "z": -63.7
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-10",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -72.6,
+      "y": 5.106415235044401,
+      "z": -52.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-11",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -69.7,
+      "y": 5.000000329812368,
+      "z": -63.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-12",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -66.5,
+      "y": 5.000000456968944,
+      "z": -55.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-13",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -82.8,
+      "y": 5.000000114440918,
+      "z": -56.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-14",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -83,
+      "y": 5.000000095367431,
+      "z": -65.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-15",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -65.2,
+      "y": 5.2884901671730375,
+      "z": -69.1
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-16",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -64.1,
+      "y": 4.000000041868629,
+      "z": -49.8
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-17",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -69.8,
+      "y": 5.000000325838725,
+      "z": -66.2
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-18",
+     "kind": "area",
+     "actorTemplateId": "actor-1",
+     "position": {
+      "x": -79.8,
+      "y": 5.000000400543213,
+      "z": -66
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    },
+    {
+     "id": "spawner-19",
+     "kind": "area",
+     "actorTemplateId": "actor-2",
+     "position": {
+      "x": -77.3,
+      "y": 6,
+      "z": -68.4
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.2,
+      0.5
+     ],
+     "groundSnap": true,
+     "faceTarget": true
+    }
+   ],
+   "actors": [
+    {
+     "id": "actor-1",
+     "name": "Enemy template 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "kr"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ]
+    },
+    {
+     "id": "actor-2",
+     "name": "Enemy template 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "kr",
+      "motion": "crouch"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ]
+    }
+   ],
+   "rules": {
+    "duration": 60,
+    "scoring": "clicking",
+    "weapon": "vandal",
+    "playerMovable": true,
+    "fireMode": "hold"
+   }
+  },
+  "docBytes": 9309,
+  "name": "Easy-Ascent — A retake, pre-aim",
+  "playCount": 109961,
+  "sceneHash": "97997f98c20fd5ab",
+  "sceneKey": "set-1b597bb63a48bf26",
+  "schemaVersion": 2,
+  "shareCode": "1b597bb63a48bf26",
+  "updateTime": "2026-09-22 04:00:38"
+ }
+}

@@ -1,0 +1,1160 @@
+{
+ "item": {
+  "createTime": "2026-11-08 22:18:28",
+  "description": "Trades: kill one and the next swings in. Bots shoot back.",
+  "docBytes": 10016,
+  "featured": false,
+  "mapId": "juliett",
+  "name": "Sunset hold site",
+  "parSeconds": null,
+  "playCount": 0,
+  "sceneKey": "set-f39e3d384b4c914d",
+  "shareCode": "f39e3d384b4c914d",
+  "sort": 1,
+  "status": 1,
+  "type": "hold",
+  "updateTime": "2026-11-14 07:09:27"
+ },
+ "scene": {
+  "authorNickname": "openVaim",
+  "authorUid": "creator",
+  "blockCount": 0,
+  "createTime": "2026-11-08 22:18:28",
+  "description": "Trades: kill one and the next swings in. Bots shoot back.",
+  "docBytes": 10016,
+  "name": "Sunset hold site",
+  "playCount": 0,
+  "sceneHash": "dfb50728f45c32c7",
+  "sceneKey": "set-f39e3d384b4c914d",
+  "schemaVersion": 2,
+  "shareCode": "f39e3d384b4c914d",
+  "updateTime": "2026-11-14 07:09:27",
+  "aimShuffle": {
+   "groups": [
+    {
+     "actors": [
+      "actor-3"
+     ]
+    },
+    {
+     "actors": [
+      "actor-5"
+     ],
+     "keepLook": true
+    },
+    {
+     "actors": [
+      "actor-1"
+     ],
+     "keepLook": true
+    },
+    {
+     "actors": [
+      "actor-2"
+     ],
+     "keepLook": true
+    },
+    {
+     "actors": [
+      "actor-4"
+     ],
+     "keepLook": true
+    }
+   ]
+  },
+  "doc": {
+   "schemaVersion": 2,
+   "meta": {
+    "id": "studio-8e5ecd6c588c3be3",
+    "name": "Sunset hold site",
+    "seed": 1714196943,
+    "createdAt": 0
+   },
+   "environment": {
+    "skyColor": "#111820",
+    "fogNear": 14,
+    "fogFar": 33,
+    "ambientIntensity": 2,
+    "keyLightIntensity": 3,
+    "fogEnabled": false,
+    "map": "juliett"
+   },
+   "blocks": [],
+   "playerSpawn": {
+    "position": {
+     "x": 45.4,
+     "y": 1,
+     "z": -13.2
+    },
+    "yaw": 0.855
+   },
+   "spawners": [
+    {
+     "id": "spawner-3",
+     "name": "Strafer 1",
+     "kind": "area",
+     "actorTemplateId": "actor-3",
+     "position": {
+      "x": 42.4,
+      "y": 1.3,
+      "z": -24.4
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.262,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      2.3,
+      2.3
+     ]
+    },
+    {
+     "id": "spawner-5",
+     "name": "Peeker 4",
+     "kind": "area",
+     "actorTemplateId": "actor-5",
+     "position": {
+      "x": 29.6,
+      "y": 2.25,
+      "z": -19.9
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.17,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0,
+      0.25
+     ],
+     "afterKill": [
+      "actor-1",
+      "actor-1-spot2",
+      "actor-1-spot3",
+      "actor-1-spot4",
+      "actor-1-spot5",
+      "actor-1-spot6",
+      "actor-1-spot7",
+      "actor-1-spot8",
+      "actor-1-spot9",
+      "actor-1-spot10",
+      "actor-1-spot11",
+      "actor-1-spot12",
+      "actor-1-spot13",
+      "actor-1-spot14",
+      "actor-1-spot15",
+      "actor-1-spot16",
+      "actor-1-spot17",
+      "actor-1-spot18",
+      "actor-1-spot19",
+      "actor-1-spot20",
+      "actor-1-spot21",
+      "actor-1-spot22",
+      "actor-1-spot23",
+      "actor-1-spot24",
+      "actor-1-spot25",
+      "actor-1-spot26",
+      "actor-1-spot27",
+      "actor-1-spot28",
+      "actor-1-spot29",
+      "actor-1-spot30",
+      "actor-1-spot31",
+      "actor-1-spot32",
+      "actor-1-spot33",
+      "actor-1-spot34",
+      "actor-1-spot35",
+      "actor-1-spot36",
+      "actor-1-spot37",
+      "actor-1-spot38",
+      "actor-1-spot39",
+      "actor-1-spot40",
+      "actor-1-spot41",
+      "actor-1-spot42",
+      "actor-1-spot43",
+      "actor-1-spot44",
+      "actor-1-spot45",
+      "actor-1-spot46",
+      "actor-1-spot47",
+      "actor-1-spot48",
+      "actor-1-spot49",
+      "actor-1-spot50",
+      "actor-1-spot51",
+      "actor-1-spot52",
+      "actor-1-spot53",
+      "actor-1-spot54",
+      "actor-1-spot55",
+      "actor-1-spot56",
+      "actor-1-spot57",
+      "actor-1-spot58",
+      "actor-1-spot59",
+      "actor-1-spot60",
+      "actor-1-spot61",
+      "actor-1-spot62",
+      "actor-1-spot63",
+      "actor-1-spot64"
+     ]
+    }
+   ],
+   "actors": [
+    {
+     "id": "actor-3",
+     "name": "Strafer 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "waylay",
+      "weapon": "phantom"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "strafe",
+       "speed": [
+        5.4,
+        5.4
+       ],
+       "dwell": [
+        0.15,
+        0.6
+       ],
+       "travel": [
+        1.92,
+        3.2
+       ],
+       "counterStrafe": true
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.9,
+        1.1
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 9,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        6.5,
+        6.8
+       ],
+       "mode": "reSpawner"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-5",
+     "name": "Peeker 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "breach",
+      "weapon": "phantom"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": 29.6,
+         "y": 1.95,
+         "z": -19.9
+        },
+        {
+         "x": 29.58,
+         "y": 1.95,
+         "z": -19.1
+        },
+        {
+         "x": 29.5,
+         "y": 1,
+         "z": -15.9
+        },
+        {
+         "x": 29.383,
+         "y": 1,
+         "z": -15.21
+        },
+        {
+         "x": 29.584,
+         "y": 1,
+         "z": -16.393
+        },
+        {
+         "x": 29.4,
+         "y": 1,
+         "z": -15.308
+        },
+        {
+         "x": 29.617,
+         "y": 1,
+         "z": -16.59
+        },
+        {
+         "x": 29.433,
+         "y": 1,
+         "z": -15.506
+        },
+        {
+         "x": 29.6,
+         "y": 1,
+         "z": -16.492
+        },
+        {
+         "x": 29.383,
+         "y": 1,
+         "z": -15.21
+        },
+        {
+         "x": 29.584,
+         "y": 1,
+         "z": -16.393
+        },
+        {
+         "x": 29.4,
+         "y": 1,
+         "z": -15.308
+        },
+        {
+         "x": 29.617,
+         "y": 1,
+         "z": -16.59
+        },
+        {
+         "x": 29.433,
+         "y": 1,
+         "z": -15.506
+        },
+        {
+         "x": 29.6,
+         "y": 1,
+         "z": -16.492
+        },
+        {
+         "x": 29.6,
+         "y": 1.95,
+         "z": -19.9
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1,
+        1.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 2,
+         "wait": 0.1
+        },
+        {
+         "at": 3,
+         "wait": 0.15
+        },
+        {
+         "at": 4,
+         "wait": 0.25
+        },
+        {
+         "at": 5,
+         "wait": 0.2
+        },
+        {
+         "at": 6,
+         "wait": 0.15
+        },
+        {
+         "at": 7,
+         "wait": 0.25
+        },
+        {
+         "at": 8,
+         "wait": 0.2
+        },
+        {
+         "at": 9,
+         "wait": 0.15
+        },
+        {
+         "at": 10,
+         "wait": 0.25
+        },
+        {
+         "at": 11,
+         "wait": 0.2
+        },
+        {
+         "at": 12,
+         "wait": 0.15
+        },
+        {
+         "at": 13,
+         "wait": 0.25
+        },
+        {
+         "at": 14,
+         "wait": 0.2
+        }
+       ],
+       "flashStops": [
+        {
+         "at": 1,
+         "target": {
+          "x": 33,
+          "y": 3.25,
+          "z": -11.1
+         },
+         "wait": 0.4,
+         "agent": "breach"
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.9,
+        1.1
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 9,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150,
+     "studioCrouch": {
+      "duration": [
+       0.5,
+       1.2
+      ],
+      "interval": [
+       2,
+       2.8
+      ],
+      "still": true
+     }
+    },
+    {
+     "id": "actor-1",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "reyna",
+      "weapon": "phantom"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": 30.2,
+         "y": 1,
+         "z": -10.8
+        },
+        {
+         "x": 30.38,
+         "y": 1,
+         "z": -11.3
+        },
+        {
+         "x": 31.1,
+         "y": 1,
+         "z": -13.3
+        },
+        {
+         "x": 31.095,
+         "y": 1,
+         "z": -12.6
+        },
+        {
+         "x": 31.103,
+         "y": 1,
+         "z": -13.8
+        },
+        {
+         "x": 31.096,
+         "y": 1,
+         "z": -12.7
+        },
+        {
+         "x": 31.105,
+         "y": 1,
+         "z": -14
+        },
+        {
+         "x": 31.097,
+         "y": 1,
+         "z": -12.9
+        },
+        {
+         "x": 31.104,
+         "y": 1,
+         "z": -13.9
+        },
+        {
+         "x": 31.095,
+         "y": 1,
+         "z": -12.6
+        },
+        {
+         "x": 31.103,
+         "y": 1,
+         "z": -13.8
+        },
+        {
+         "x": 31.096,
+         "y": 1,
+         "z": -12.7
+        },
+        {
+         "x": 31.105,
+         "y": 1,
+         "z": -14
+        },
+        {
+         "x": 31.097,
+         "y": 1,
+         "z": -12.9
+        },
+        {
+         "x": 31.104,
+         "y": 1,
+         "z": -13.9
+        },
+        {
+         "x": 30.2,
+         "y": 1,
+         "z": -10.8
+        }
+       ],
+       "speed": 5.4,
+       "respawn": true,
+       "interval": [
+        0.4,
+        0.9
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "killDelay": [
+        8,
+        8.3
+       ],
+       "pauses": [
+        {
+         "at": 2,
+         "wait": 0.1
+        },
+        {
+         "at": 3,
+         "wait": 0.15
+        },
+        {
+         "at": 4,
+         "wait": 0.25
+        },
+        {
+         "at": 5,
+         "wait": 0.2
+        },
+        {
+         "at": 6,
+         "wait": 0.15
+        },
+        {
+         "at": 7,
+         "wait": 0.25
+        },
+        {
+         "at": 8,
+         "wait": 0.2
+        },
+        {
+         "at": 9,
+         "wait": 0.15
+        },
+        {
+         "at": 10,
+         "wait": 0.25
+        },
+        {
+         "at": 11,
+         "wait": 0.2
+        },
+        {
+         "at": 12,
+         "wait": 0.15
+        },
+        {
+         "at": 13,
+         "wait": 0.25
+        },
+        {
+         "at": 14,
+         "wait": 0.2
+        }
+       ],
+       "flashStops": [
+        {
+         "at": 1,
+         "target": {
+          "x": 30.8,
+          "y": 6,
+          "z": -13.2
+         },
+         "wait": 0.8,
+         "agent": "reyna"
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.9,
+        1.1
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 9,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-2",
+     "name": "Peeker 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "bulldog"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": 49.9,
+         "y": 2.001,
+         "z": -23.2
+        },
+        {
+         "x": 49.24,
+         "y": 2.001,
+         "z": -23.18
+        },
+        {
+         "x": 46.6,
+         "y": 1,
+         "z": -23.1
+        },
+        {
+         "x": 45.905,
+         "y": 1,
+         "z": -23.184
+        },
+        {
+         "x": 47.096,
+         "y": 1,
+         "z": -23.04
+        },
+        {
+         "x": 46.004,
+         "y": 1,
+         "z": -23.172
+        },
+        {
+         "x": 47.295,
+         "y": 1,
+         "z": -23.016
+        },
+        {
+         "x": 46.203,
+         "y": 1,
+         "z": -23.148
+        },
+        {
+         "x": 47.196,
+         "y": 1,
+         "z": -23.028
+        },
+        {
+         "x": 45.905,
+         "y": 1,
+         "z": -23.184
+        },
+        {
+         "x": 47.096,
+         "y": 1,
+         "z": -23.04
+        },
+        {
+         "x": 46.004,
+         "y": 1,
+         "z": -23.172
+        },
+        {
+         "x": 47.295,
+         "y": 1,
+         "z": -23.016
+        },
+        {
+         "x": 46.203,
+         "y": 1,
+         "z": -23.148
+        },
+        {
+         "x": 47.196,
+         "y": 1,
+         "z": -23.028
+        },
+        {
+         "x": 45.905,
+         "y": 1,
+         "z": -23.184
+        },
+        {
+         "x": 49.9,
+         "y": 2.001,
+         "z": -23.2
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 2,
+         "wait": 0.1
+        },
+        {
+         "at": 3,
+         "wait": 0.15
+        },
+        {
+         "at": 4,
+         "wait": 0.25
+        },
+        {
+         "at": 5,
+         "wait": 0.2
+        },
+        {
+         "at": 6,
+         "wait": 0.15
+        },
+        {
+         "at": 7,
+         "wait": 0.25
+        },
+        {
+         "at": 8,
+         "wait": 0.2
+        },
+        {
+         "at": 9,
+         "wait": 0.15
+        },
+        {
+         "at": 10,
+         "wait": 0.25
+        },
+        {
+         "at": 11,
+         "wait": 0.2
+        },
+        {
+         "at": 12,
+         "wait": 0.15
+        },
+        {
+         "at": 13,
+         "wait": 0.25
+        },
+        {
+         "at": 14,
+         "wait": 0.2
+        },
+        {
+         "at": 15,
+         "wait": 0.15
+        }
+       ],
+       "flashStops": [
+        {
+         "at": 1,
+         "target": {
+          "x": 47.3,
+          "y": 5.501,
+          "z": -22.3
+         },
+         "wait": 0.5,
+         "curve": "right"
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.9,
+        1.1
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 9,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-4",
+     "name": "Peeker 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "breach",
+      "weapon": "phantom"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": 38.7,
+         "y": 1,
+         "z": -27.5
+        },
+        {
+         "x": 39.28,
+         "y": 1,
+         "z": -27.52
+        },
+        {
+         "x": 41.6,
+         "y": 1,
+         "z": -27.6
+        },
+        {
+         "x": 38.7,
+         "y": 1,
+         "z": -27.5
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 2,
+         "wait": 8.1
+        }
+       ],
+       "flashStops": [
+        {
+         "at": 1,
+         "target": {
+          "x": 44.9,
+          "y": 3,
+          "z": -16.2
+         },
+         "wait": 0.3,
+         "agent": "breach"
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.9,
+        1.1
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 9,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      }
+     ],
+     "health": 150
+    }
+   ],
+   "rules": {
+    "duration": 90,
+    "scoring": "clicking",
+    "weapon": "vandal",
+    "playerMovable": true,
+    "fireMode": "hold",
+    "playerDeath": "endRound"
+   },
+   "dispatchers": [
+    {
+     "id": "dispatcher-1",
+     "name": "Peeker 1",
+     "routes": [
+      {
+       "templateId": "actor-1",
+       "streak": [
+        1,
+        1
+       ]
+      }
+     ],
+     "order": "sequence",
+     "maxAlive": 1,
+     "interval": [
+      0.4,
+      1.4
+     ],
+     "faceTarget": true,
+     "killDelay": [
+      8,
+      8.3
+     ]
+    },
+    {
+     "id": "dispatcher-2",
+     "name": "Peeker 2",
+     "routes": [
+      {
+       "templateId": "actor-2",
+       "streak": [
+        1,
+        1
+       ]
+      }
+     ],
+     "order": "sequence",
+     "maxAlive": 1,
+     "interval": [
+      0.2,
+      1
+     ],
+     "faceTarget": true,
+     "afterKill": [
+      "actor-3",
+      "actor-3-spot2",
+      "actor-3-spot3",
+      "actor-3-spot4",
+      "actor-3-spot5",
+      "actor-3-spot6",
+      "actor-3-spot7",
+      "actor-3-spot8",
+      "actor-3-spot9",
+      "actor-3-spot10",
+      "actor-3-spot11",
+      "actor-3-spot12",
+      "actor-3-spot13",
+      "actor-3-spot14",
+      "actor-3-spot15",
+      "actor-3-spot16",
+      "actor-3-spot17",
+      "actor-3-spot18",
+      "actor-3-spot19",
+      "actor-3-spot20",
+      "actor-3-spot21",
+      "actor-3-spot22",
+      "actor-3-spot23",
+      "actor-3-spot24",
+      "actor-3-spot25",
+      "actor-3-spot26",
+      "actor-3-spot27",
+      "actor-3-spot28",
+      "actor-3-spot29",
+      "actor-3-spot30",
+      "actor-3-spot31",
+      "actor-3-spot32",
+      "actor-3-spot33",
+      "actor-3-spot34",
+      "actor-3-spot35",
+      "actor-3-spot36",
+      "actor-3-spot37",
+      "actor-3-spot38",
+      "actor-3-spot39",
+      "actor-3-spot40",
+      "actor-3-spot41",
+      "actor-3-spot42",
+      "actor-3-spot43",
+      "actor-3-spot44",
+      "actor-3-spot45",
+      "actor-3-spot46",
+      "actor-3-spot47",
+      "actor-3-spot48",
+      "actor-3-spot49",
+      "actor-3-spot50",
+      "actor-3-spot51",
+      "actor-3-spot52",
+      "actor-3-spot53",
+      "actor-3-spot54",
+      "actor-3-spot55",
+      "actor-3-spot56",
+      "actor-3-spot57",
+      "actor-3-spot58",
+      "actor-3-spot59",
+      "actor-3-spot60",
+      "actor-3-spot61",
+      "actor-3-spot62",
+      "actor-3-spot63",
+      "actor-3-spot64"
+     ],
+     "spawnDelay": [
+      0.05,
+      0.25
+     ]
+    },
+    {
+     "id": "dispatcher-4",
+     "name": "Peeker 3",
+     "routes": [
+      {
+       "templateId": "actor-4",
+       "streak": [
+        1,
+        1
+       ]
+      }
+     ],
+     "order": "sequence",
+     "maxAlive": 1,
+     "interval": [
+      0.2,
+      0.7
+     ],
+     "faceTarget": true,
+     "afterKill": [
+      "actor-2",
+      "actor-2-spot2",
+      "actor-2-spot3",
+      "actor-2-spot4",
+      "actor-2-spot5",
+      "actor-2-spot6",
+      "actor-2-spot7",
+      "actor-2-spot8",
+      "actor-2-spot9",
+      "actor-2-spot10",
+      "actor-2-spot11",
+      "actor-2-spot12",
+      "actor-2-spot13",
+      "actor-2-spot14",
+      "actor-2-spot15",
+      "actor-2-spot16",
+      "actor-2-spot17",
+      "actor-2-spot18",
+      "actor-2-spot19",
+      "actor-2-spot20",
+      "actor-2-spot21",
+      "actor-2-spot22",
+      "actor-2-spot23",
+      "actor-2-spot24",
+      "actor-2-spot25",
+      "actor-2-spot26",
+      "actor-2-spot27",
+      "actor-2-spot28",
+      "actor-2-spot29",
+      "actor-2-spot30",
+      "actor-2-spot31",
+      "actor-2-spot32",
+      "actor-2-spot33",
+      "actor-2-spot34",
+      "actor-2-spot35",
+      "actor-2-spot36",
+      "actor-2-spot37",
+      "actor-2-spot38",
+      "actor-2-spot39",
+      "actor-2-spot40",
+      "actor-2-spot41",
+      "actor-2-spot42",
+      "actor-2-spot43",
+      "actor-2-spot44",
+      "actor-2-spot45",
+      "actor-2-spot46",
+      "actor-2-spot47",
+      "actor-2-spot48",
+      "actor-2-spot49",
+      "actor-2-spot50",
+      "actor-2-spot51",
+      "actor-2-spot52",
+      "actor-2-spot53",
+      "actor-2-spot54",
+      "actor-2-spot55",
+      "actor-2-spot56",
+      "actor-2-spot57",
+      "actor-2-spot58",
+      "actor-2-spot59",
+      "actor-2-spot60",
+      "actor-2-spot61",
+      "actor-2-spot62",
+      "actor-2-spot63",
+      "actor-2-spot64"
+     ],
+     "spawnDelay": [
+      0.2,
+      0.3
+     ]
+    }
+   ]
+  }
+ }
+}

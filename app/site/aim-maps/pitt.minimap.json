@@ -1,0 +1,55 @@
+{
+  "map": "pitt",
+  "image": "pitt.minimap.png",
+  "transform": {
+    "scaleU": 0.00782414,
+    "scaleV": 0.00782414,
+    "offsetU": 0.480253,
+    "offsetV": 0.917097
+  },
+  "callouts": [
+    {
+      "id": "pitt:shooterteamstart-attacker1",
+      "name": "ShooterTeamStart_Attacker1",
+      "x": 6.5,
+      "z": 2.2448159999999997
+    },
+    {
+      "id": "pitt:shooterteamstart-defender1",
+      "name": "ShooterTeamStart_Defender1",
+      "x": 8.460146,
+      "z": -110.382
+    },
+    {
+      "id": "pitt:a-site",
+      "name": "A-site",
+      "x": 47.878342840576174,
+      "z": -77.69519526195472
+    },
+    {
+      "id": "pitt:b-site",
+      "name": "B-site",
+      "x": -37.619638,
+      "z": -65.74545
+    },
+    {
+      "id": "pitt:mid",
+      "name": "Mid",
+      "x": 7,
+      "z": -51
+    },
+    {
+      "id": "pitt:mid-to-b-floor",
+      "name": "Mid-to-B-floor",
+      "x": -7.334819,
+      "z": -55.794969
+    },
+    {
+      "id": "pitt:attacker-mid-floor",
+      "name": "Attacker-mid-floor",
+      "x": -8,
+      "z": -30
+    }
+  ],
+  "note": "Image: game texture UI/InGame/Minimap/Maps/Pitt/TX_Map_Pitt_FogOfWar. Transform fitted to the old collision-generated minimap (Pitt_UIData was not in the export)."
+}

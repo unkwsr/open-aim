@@ -41,6 +41,11 @@ for (const file of fs.readdirSync(SCENARIOS).filter((f) => f.endsWith(".json")).
   if (item.sceneKey !== `set-${item.shareCode}`) fail(`item.sceneKey must be "set-${item.shareCode}"`);
   if (scene.shareCode !== item.shareCode) fail("scene.shareCode must match item.shareCode");
   if (scene.doc === undefined) fail('scene has no "doc" (the scenario itself)');
+  // "doc" may be written as plain JSON (easier to read and edit); the game gets it as a JSON string, as before.
+  if (scene.doc && typeof scene.doc === "object") {
+    scene.doc = JSON.stringify(scene.doc);
+    scene.docBytes = item.docBytes = Buffer.byteLength(scene.doc, "utf-8");
+  }
   if (typeof item.sort !== "number") fail("item.sort must be a number (its position in the lobby list)");
   if (item.mapId !== null && typeof item.mapId !== "string") fail("item.mapId must be a map name or null for an empty arena");
 

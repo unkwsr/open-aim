@@ -7,14 +7,14 @@
   if (window.__aimTools) return;
 
   // ---------- shared panel ----------
-  let open = null;
+  let currentPanel = null;
 
   function closePanel() {
-    open?.remove();
-    open = null;
+    currentPanel?.remove();
+    currentPanel = null;
   }
 
-  function panel(title, subtitle) {
+  function showPanel(title, subtitle) {
     closePanel();
     const shade = document.createElement("div");
     shade.className = "es-tool-shade";
@@ -22,55 +22,55 @@
       <header class="es-tool-head"><div><h2>${title}</h2><p>${subtitle}</p></div>
       <button type="button" class="es-tool-x" aria-label="Close">✕</button></header>
       <div class="es-tool-body"></div></section>`;
-    shade.addEventListener("mousedown", (e) => { if (e.target === shade) closePanel(); });
+    shade.addEventListener("mousedown", (event) => { if (event.target === shade) closePanel(); });
     shade.querySelector(".es-tool-x").addEventListener("click", closePanel);
     // Keys typed here belong to the panel, not the game's shortcuts.
     for (const type of ["keydown", "keyup", "keypress"]) {
-      shade.addEventListener(type, (e) => {
-        if (type === "keydown" && e.key === "Escape") closePanel();
-        e.stopPropagation();
+      shade.addEventListener(type, (event) => {
+        if (type === "keydown" && event.key === "Escape") closePanel();
+        event.stopPropagation();
       });
     }
     document.body.appendChild(shade);
-    open = shade;
+    currentPanel = shade;
     return shade.querySelector(".es-tool-body");
   }
 
   // In-panel confirmation (instead of the browser's confirm popup).
-  function ask(body, text, yes) {
+  function confirmInPanel(body, text, confirmLabel) {
     return new Promise((resolve) => {
       body.querySelector(".es-tool-ask")?.remove();
-      const bar = document.createElement("div");
-      bar.className = "es-tool-ask";
-      bar.innerHTML = `<p>${esc(text).replace(/\n/g, "<br>")}</p><div><button type="button" class="es-tool-primary" data-ask="yes">${esc(yes)}</button><button type="button" data-ask="no">Cancel</button></div>`;
-      bar.addEventListener("click", (e) => {
-        const b = e.target.closest("[data-ask]");
-        if (!b) return;
-        e.stopPropagation();
-        bar.remove();
-        resolve(b.dataset.ask === "yes");
+      const confirmBar = document.createElement("div");
+      confirmBar.className = "es-tool-ask";
+      confirmBar.innerHTML = `<p>${escapeHtml(text).replace(/\n/g, "<br>")}</p><div><button type="button" class="es-tool-primary" data-ask="yes">${escapeHtml(confirmLabel)}</button><button type="button" data-ask="no">Cancel</button></div>`;
+      confirmBar.addEventListener("click", (event) => {
+        const choice = event.target.closest("[data-ask]");
+        if (!choice) return;
+        event.stopPropagation();
+        confirmBar.remove();
+        resolve(choice.dataset.ask === "yes");
       });
-      body.prepend(bar);
+      body.prepend(confirmBar);
     });
   }
 
-  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+  const escapeHtml = (value) => String(value).replace(/[&<>"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[character]);
 
   // ---------- backups ----------
-  const api = () => window.__aimDesktop && window.__aimDesktop.backups;
-  const REASONS = { launch: "Automatic (app start)", manual: "Saved by you", export: "Exported", imported: "Imported", "before restore": "Before a restore" };
+  const backupsApi = () => window.__aimDesktop && window.__aimDesktop.backups;
+  const BACKUP_REASON_LABELS = { launch: "Automatic (app start)", manual: "Saved by you", export: "Exported", imported: "Imported", "before restore": "Before a restore" };
 
-  function when(ms) {
-    const d = new Date(ms);
+  function formatBackupTime(ms) {
+    const date = new Date(ms);
     const today = new Date();
-    const time = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    if (d.toDateString() === today.toDateString()) return `Today ${time}`;
-    return `${d.toLocaleDateString([], { day: "numeric", month: "short", year: "numeric" })} ${time}`;
+    const time = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    if (date.toDateString() === today.toDateString()) return `Today ${time}`;
+    return `${date.toLocaleDateString([], { day: "numeric", month: "short", year: "numeric" })} ${time}`;
   }
 
   async function openBackups() {
-    const body = panel("Backups", "Your training history, personal bests, settings and studio scenes. A backup is made every time the app starts (the last 10 are kept).");
-    if (!api()) {
+    const body = showPanel("Backups", "Your training history, personal bests, settings and studio scenes. A backup is made every time the app starts (the last 10 are kept).");
+    if (!backupsApi()) {
       body.innerHTML = `<p class="es-tool-note">Backups are only available in the desktop app.</p>`;
       return;
     }
@@ -83,52 +83,52 @@
       <p class="es-tool-status" role="status"></p>
       <div class="es-tool-list"></div>`;
     const status = body.querySelector(".es-tool-status");
-    const listEl = body.querySelector(".es-tool-list");
-    const say = (text, bad) => { status.textContent = text; status.classList.toggle("is-bad", !!bad); };
+    const backupList = body.querySelector(".es-tool-list");
+    const showStatus = (text, isError) => { status.textContent = text; status.classList.toggle("is-bad", !!isError); };
 
-    async function refresh() {
-      const items = await api().list();
-      if (!items.length) {
-        listEl.innerHTML = `<p class="es-tool-note">No backups yet.</p>`;
+    async function refreshBackupList() {
+      const backups = await backupsApi().list();
+      if (!backups.length) {
+        backupList.innerHTML = `<p class="es-tool-note">No backups yet.</p>`;
         return;
       }
-      listEl.innerHTML = items.map((b) => `<div class="es-tool-row">
-          <div><b>${esc(when(b.created))}</b><span>${esc(REASONS[b.reason] || b.reason)} · ${(b.size / 1048576).toFixed(1)} MB</span></div>
-          <button type="button" data-act="restore" data-id="${esc(b.id)}">Restore</button>
-          <button type="button" data-act="export-one" data-id="${esc(b.id)}" title="Save a copy of this backup to a folder">Export</button>
+      backupList.innerHTML = backups.map((backup) => `<div class="es-tool-row">
+          <div><b>${escapeHtml(formatBackupTime(backup.created))}</b><span>${escapeHtml(BACKUP_REASON_LABELS[backup.reason] || backup.reason)} · ${(backup.size / 1048576).toFixed(1)} MB</span></div>
+          <button type="button" data-act="restore" data-id="${escapeHtml(backup.id)}">Restore</button>
+          <button type="button" data-act="export-one" data-id="${escapeHtml(backup.id)}" title="Save a copy of this backup to a folder">Export</button>
         </div>`).join("");
     }
 
-    body.addEventListener("click", async (e) => {
-      const btn = e.target.closest("button[data-act]");
-      if (!btn) return;
-      const { act, id } = btn.dataset;
+    body.addEventListener("click", async (event) => {
+      const button = event.target.closest("button[data-act]");
+      if (!button) return;
+      const { act, id } = button.dataset;
       try {
         if (act === "create") {
-          await api().create();
-          say("Backup saved.");
-          await refresh();
+          await backupsApi().create();
+          showStatus("Backup saved.");
+          await refreshBackupList();
         } else if (act === "folder") {
-          await api().openFolder();
+          await backupsApi().openFolder();
         } else if (act === "export" || act === "export-one") {
-          const dest = await api().exportTo(act === "export-one" ? id : undefined);
-          if (dest) say(`Exported to ${dest}`);
-          await refresh();
+          const exportFolder = await backupsApi().exportTo(act === "export-one" ? id : undefined);
+          if (exportFolder) showStatus(`Exported to ${exportFolder}`);
+          await refreshBackupList();
         } else if (act === "import") {
-          if (!(await ask(body, "Import a backup folder?\nYour current data is backed up first, then the app restarts with the imported data.", "Choose folder"))) return;
-          const done = await api().importFrom();
-          if (done) say("Imported. Restarting…");
+          if (!(await confirmInPanel(body, "Import a backup folder?\nYour current data is backed up first, then the app restarts with the imported data.", "Choose folder"))) return;
+          const imported = await backupsApi().importFrom();
+          if (imported) showStatus("Imported. Restarting…");
         } else if (act === "restore") {
-          const row = btn.closest(".es-tool-row").querySelector("b").textContent;
-          if (!(await ask(body, `Restore the backup from ${row}?\nYour current data is backed up first, then the app restarts with this backup.`, "Restore and restart"))) return;
-          await api().restore(id);
-          say("Restoring. Restarting…");
+          const backupTime = button.closest(".es-tool-row").querySelector("b").textContent;
+          if (!(await confirmInPanel(body, `Restore the backup from ${backupTime}?\nYour current data is backed up first, then the app restarts with this backup.`, "Restore and restart"))) return;
+          await backupsApi().restore(id);
+          showStatus("Restoring. Restarting…");
         }
-      } catch (err) {
-        say(String((err && err.message) || err).replace(/^Error invoking remote method '[^']+': (Error: )?/, ""), true);
+      } catch (error) {
+        showStatus(String((error && error.message) || error).replace(/^Error invoking remote method '[^']+': (Error: )?/, ""), true);
       }
     });
-    await refresh();
+    await refreshBackupList();
   }
 
   // ---------- sensitivity ----------
@@ -143,19 +143,19 @@
   ];
   const DPI_KEY = "es-mouse-dpi";
 
-  function sensInput() {
+  function trainerSensInput() {
     return document.querySelector(".hall-sens input");
   }
 
-  function currentSens() {
-    const v = parseFloat(sensInput()?.value);
-    if (v > 0) return v;
-    try { const s = parseFloat(localStorage.getItem("al-sensitivity-v1")); if (s > 0) return s; } catch {}
+  function currentTrainerSens() {
+    const typedSens = parseFloat(trainerSensInput()?.value);
+    if (typedSens > 0) return typedSens;
+    try { const savedSens = parseFloat(localStorage.getItem("al-sensitivity-v1")); if (savedSens > 0) return savedSens; } catch {}
     return 0.4;
   }
 
-  function useSens(value) {
-    const input = sensInput();
+  function setTrainerSens(value) {
+    const input = trainerSensInput();
     if (!input) return false;
     const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value").set;
     setter.call(input, String(value));
@@ -166,15 +166,15 @@
     return true;
   }
 
-  const fmt = (n, d = 3) => (Number.isFinite(n) ? String(+n.toFixed(d)) : "–");
+  const formatNumber = (value, digits = 3) => (Number.isFinite(value) ? String(+value.toFixed(digits)) : "–");
 
   function openSens() {
-    const body = panel("Sensitivity tools", "Work out eDPI and cm/360, and convert your sensitivity from or to other games (same mouse DPI).");
+    const body = showPanel("Sensitivity tools", "Work out eDPI and cm/360, and convert your sensitivity from or to other games (same mouse DPI).");
     let dpi = 800;
     try { dpi = parseInt(localStorage.getItem(DPI_KEY), 10) || 800; } catch {}
     body.innerHTML = `<div class="es-sens-grid">
         <label>Mouse DPI<input type="number" min="50" max="32000" step="50" data-f="dpi" value="${dpi}"></label>
-        <label>VALORANT sensitivity<input type="number" min="0.01" max="20" step="0.001" data-f="val" value="${currentSens()}"></label>
+        <label>VALORANT sensitivity<input type="number" min="0.01" max="20" step="0.001" data-f="val" value="${currentTrainerSens()}"></label>
       </div>
       <div class="es-sens-stats">
         <div><span>eDPI</span><b data-o="edpi">–</b></div>
@@ -183,7 +183,7 @@
       </div>
       <h3>Convert from another game</h3>
       <div class="es-sens-grid">
-        <label>Game<select data-f="game">${GAMES.filter((g) => g.id !== "valorant").map((g) => `<option value="${g.id}">${g.name}</option>`).join("")}</select></label>
+        <label>Game<select data-f="game">${GAMES.filter((game) => game.id !== "valorant").map((game) => `<option value="${game.id}">${game.name}</option>`).join("")}</select></label>
         <label>Sensitivity in that game<input type="number" min="0.001" max="100" step="0.001" data-f="other" placeholder="e.g. 1.2"></label>
       </div>
       <div class="es-sens-convert"><span>VALORANT equivalent</span><b data-o="conv">–</b><button type="button" class="es-tool-primary" data-act="use-conv">Use in trainer</button></div>
@@ -191,46 +191,46 @@
       <div class="es-tool-list es-sens-table"></div>
       <div class="es-tool-actions"><button type="button" class="es-tool-primary" data-act="use-val">Use this sensitivity in the trainer</button></div>
       <p class="es-tool-status" role="status"></p>`;
-    const f = (name) => body.querySelector(`[data-f="${name}"]`);
-    const o = (name) => body.querySelector(`[data-o="${name}"]`);
+    const field = (name) => body.querySelector(`[data-f="${name}"]`);
+    const output = (name) => body.querySelector(`[data-o="${name}"]`);
     const status = body.querySelector(".es-tool-status");
 
-    function update() {
-      const d = parseFloat(f("dpi").value);
-      const v = parseFloat(f("val").value);
-      try { if (d > 0) localStorage.setItem(DPI_KEY, String(Math.round(d))); } catch {}
-      const counts360 = 360 / (v * 0.07); // mouse counts for a full turn
-      const inches = counts360 / d;
-      o("edpi").textContent = d > 0 && v > 0 ? fmt(d * v, 1) : "–";
-      o("cm").textContent = d > 0 && v > 0 ? fmt(inches * 2.54, 1) : "–";
-      o("in").textContent = d > 0 && v > 0 ? fmt(inches, 2) : "–";
-      const game = GAMES.find((g) => g.id === f("game").value);
-      const other = parseFloat(f("other").value);
-      o("conv").textContent = other > 0 ? fmt((other * game.yaw) / 0.07) : "–";
-      body.querySelector(".es-sens-table").innerHTML = GAMES.filter((g) => g.id !== "valorant")
-        .map((g) => `<div class="es-tool-row"><div><b>${g.name}</b></div><b class="es-sens-num">${v > 0 ? fmt((v * 0.07) / g.yaw) : "–"}</b></div>`)
+    function updateResults() {
+      const mouseDpi = parseFloat(field("dpi").value);
+      const valorantSens = parseFloat(field("val").value);
+      try { if (mouseDpi > 0) localStorage.setItem(DPI_KEY, String(Math.round(mouseDpi))); } catch {}
+      const counts360 = 360 / (valorantSens * 0.07); // mouse counts for a full turn
+      const inches = counts360 / mouseDpi;
+      output("edpi").textContent = mouseDpi > 0 && valorantSens > 0 ? formatNumber(mouseDpi * valorantSens, 1) : "–";
+      output("cm").textContent = mouseDpi > 0 && valorantSens > 0 ? formatNumber(inches * 2.54, 1) : "–";
+      output("in").textContent = mouseDpi > 0 && valorantSens > 0 ? formatNumber(inches, 2) : "–";
+      const selectedGame = GAMES.find((game) => game.id === field("game").value);
+      const otherSens = parseFloat(field("other").value);
+      output("conv").textContent = otherSens > 0 ? formatNumber((otherSens * selectedGame.yaw) / 0.07) : "–";
+      body.querySelector(".es-sens-table").innerHTML = GAMES.filter((game) => game.id !== "valorant")
+        .map((game) => `<div class="es-tool-row"><div><b>${game.name}</b></div><b class="es-sens-num">${valorantSens > 0 ? formatNumber((valorantSens * 0.07) / game.yaw) : "–"}</b></div>`)
         .join("");
     }
 
-    body.addEventListener("input", update);
-    body.addEventListener("change", update);
-    body.addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-act]");
-      if (!btn) return;
-      const value = btn.dataset.act === "use-conv" ? parseFloat(o("conv").textContent) : parseFloat(f("val").value);
+    body.addEventListener("input", updateResults);
+    body.addEventListener("change", updateResults);
+    body.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-act]");
+      if (!button) return;
+      const value = button.dataset.act === "use-conv" ? parseFloat(output("conv").textContent) : parseFloat(field("val").value);
       if (!(value > 0)) { status.textContent = "Enter a sensitivity first."; status.classList.add("is-bad"); return; }
       const rounded = +value.toFixed(3);
-      if (useSens(rounded)) {
+      if (setTrainerSens(rounded)) {
         status.textContent = `Trainer sensitivity set to ${rounded}.`;
         status.classList.remove("is-bad");
-        f("val").value = rounded;
-        update();
+        field("val").value = rounded;
+        updateResults();
       } else {
         status.textContent = "Open the lobby to change the trainer's sensitivity.";
         status.classList.add("is-bad");
       }
     });
-    update();
+    updateResults();
   }
 
   window.__aimTools = { openBackups, openSens, close: closePanel };

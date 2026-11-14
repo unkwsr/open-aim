@@ -15,12 +15,15 @@ const NAV_LIFT = 0.07; // the navigation mesh floats this far above the floor
 function triangles(collision, setNames, keep) {
   const tris = []; // flat: ax ay az bx by bz cx cy cz
   const up = []; // 1 if the triangle faces up (a floor), 0 otherwise
+  const piece = []; // which collision piece (one box, slope, ...) the triangle belongs to
+  let pieces = 0;
   for (const setName of setNames) {
     const set = collision.sets[setName];
     if (!set) continue;
     for (let n = 0; n < set.count; n++) {
       const prim = collision.prims[set.prim[n]];
       if (!keep(prim)) continue;
+      pieces++;
       const m = set.m.slice(n * 12, n * 12 + 12);
       const det =
         m[0] * (m[5] * m[10] - m[6] * m[9]) - m[1] * (m[4] * m[10] - m[6] * m[8]) + m[2] * (m[4] * m[9] - m[5] * m[8]);
@@ -41,10 +44,11 @@ function triangles(collision, setNames, keep) {
         const len = Math.hypot(nx, ny, nz) || 1;
         tris.push(...a, ...b, ...c);
         up.push(-ny / len > 0.55 ? 1 : 0);
+        piece.push(pieces);
       }
     }
   }
-  return { tris, up };
+  return { tris, up, piece };
 }
 
 function bucket({ tris, up }) {
@@ -65,13 +69,44 @@ function bucket({ tris, up }) {
   return { tris, up, grid };
 }
 
+// Blocking volumes ("Box_For_Volumes" etc.) are most of the player collision on every map: crates, boxes,
+// walls, ledges. On maps with a navigation mesh they used to be left out because some of them cap the sky,
+// so on Lotus, Haven, Icebox and Fracture (little or no "greybox" prop data) nothing could be placed on a
+// box. 13 Nov 2026 (studio-volume-tops): their tops count when they are at most VOLUME_TOP metres above
+// walkable floor at or near them (crates, walls, ledges); higher ones (sky caps, tall invisible blockers)
+// stay out of placement. Their sides and undersides always count as ceilings for the headroom check.
+const VOLUME_TOP = 6;
+const NEAR_RING = [[0, 0], [1.5, 0], [-1.5, 0], [0, 1.5], [0, -1.5], [3, 0], [-3, 0], [0, 3], [0, -3], [2.1, 2.1], [-2.1, 2.1], [2.1, -2.1], [-2.1, -2.1]];
+
 function buildFloors(collision) {
   const nav = triangles(collision, ["gameplay"], (prim) => /navmesh/i.test(prim.name));
-  // Player collision: boxes, ledges and floors. With a navigation mesh, the invisible
-  // blocking volumes are left out (they also cap the sky); without one they are kept,
-  // since some maps build their floors from them.
-  const solid = triangles(collision, [...(collision.walkSets || ["pawn"]), "greybox"], (prim) => !nav.up.length || !/volume/i.test(prim.name));
-  return { nav: nav.up.length ? bucket(nav) : null, solid: bucket(solid) };
+  const sets = [...(collision.walkSets || ["pawn"]), "greybox"];
+  if (!nav.up.length) {
+    // No navigation mesh: all player collision, volumes included (some maps build their floors from them).
+    return { nav: null, solid: bucket(triangles(collision, sets, () => true)) };
+  }
+  const navB = bucket(nav);
+  const base = triangles(collision, sets, (prim) => !/volume/i.test(prim.name));
+  const vol = triangles(collision, sets, (prim) => /volume/i.test(prim.name));
+  for (let t = 0; t < vol.up.length; t++) {
+    if (!vol.up[t]) continue;
+    const o = t * 9, T = vol.tris;
+    const x = (T[o] + T[o + 3] + T[o + 6]) / 3, y = Math.max(T[o + 1], T[o + 4], T[o + 7]), z = (T[o + 2] + T[o + 5] + T[o + 8]) / 3;
+    const span = Math.max(Math.abs(T[o] - T[o + 3]), Math.abs(T[o] - T[o + 6]), Math.abs(T[o + 2] - T[o + 5]), Math.abs(T[o + 2] - T[o + 8]));
+    // Walkable floor under or beside it (nav meshes leave holes under props), within VOLUME_TOP below.
+    const ok = span < 60 && NEAR_RING.some(([dx, dz]) => surfacesAt(navB, x + dx, z + dz).some((s) => { const d = y - (s.y - NAV_LIFT); return d > -0.5 && d <= VOLUME_TOP; }));
+    // 2: a real top, but too high to be clicked blind (studio-placement: the Detailed view, which knows
+    // what you see, can still stand things on it).
+    if (!ok) vol.up[t] = 2;
+  }
+  // studio-placement: the whole of every blocking box, slope or pillar whose top can be clicked onto, for the
+  // 3D view to draw. They used to be invisible there, so a bot put on one looked like it stood in the air.
+  const solid = bucket({ tris: base.tris.concat(vol.tris), up: base.up.concat(vol.up) });
+  const floors = { nav: navB, solid }, shown = new Set(), off = base.up.length;
+  for (let t = 0; t < vol.up.length; t++) if (vol.up[t] === 1 && !shown.has(vol.piece[t]) && hasFloorBelow(floors, solid.tris, off + t)) shown.add(vol.piece[t]);
+  floors.volumes = [];
+  for (let t = 0; t < vol.up.length; t++) if (shown.has(vol.piece[t])) for (let k = 0; k < 9; k++) floors.volumes.push(vol.tris[t * 9 + k]);
+  return floors;
 }
 
 // What the 3D view draws: the walkable floor and a few low pieces, not every prop.
@@ -160,12 +195,126 @@ function gridFloor(floors, mask, lowest) {
   return out;
 }
 
-function displayMeshes(collision, floors, inside, mask) {
+// Pearl: the same kind of floor, but measured at the grid's corners and drawn with marching
+// squares, so outlines cut across cells (diagonal and curved walls come out as straight lines,
+// not staircases) and ramps slope between corners instead of stepping down cell by cell.
+const SMOOTH_FLOOR = new Set(["pitt"]);
+const WALL = 3.5; // height of the walls drawn along the floor's outer edge
+const WALL_T = 0.6; // their thickness
+const STEP = 0.6; // corners further apart than this in height are a ledge, not one floor
+function smoothFloor(floors, mask, lowest, walls = []) {
+  const { x0, z0, x1, z1 } = mask.bounds;
+  const nx = Math.ceil((x1 - x0) / GRID) + 1, nz = Math.ceil((z1 - z0) / GRID) + 1;
+  const H = new Float32Array(nx * nz).fill(NaN);
+  for (let j = 0; j < nz; j++) for (let i = 0; i < nx; i++) {
+    const x = x0 + i * GRID, z = z0 + j * GRID;
+    if (!mask.at(x, z)) continue;
+    const y = levelsAt(floors, x, z).find((l) => l >= lowest - 1 && l <= lowest + BAND);
+    if (y !== undefined) H[j * nx + i] = y;
+  }
+  // Tiny islands (box tops, pillars, stray ledges): take the floor around them, or drop them.
+  const seen = new Uint8Array(nx * nz);
+  for (let start = 0; start < H.length; start++) {
+    if (seen[start] || Number.isNaN(H[start])) continue;
+    const pts = [start], border = [];
+    seen[start] = 1;
+    for (let q = 0; q < pts.length; q++) {
+      const c = pts[q], ci = c % nx, cj = (c - ci) / nx;
+      for (const [di, dj] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        const i = ci + di, j = cj + dj;
+        if (i < 0 || j < 0 || i >= nx || j >= nz) continue;
+        const n = j * nx + i;
+        if (Number.isNaN(H[n])) continue;
+        if (Math.abs(H[n] - H[c]) > STEP) { border.push(H[n]); continue; }
+        if (!seen[n]) { seen[n] = 1; pts.push(n); }
+      }
+    }
+    if (pts.length >= ISLAND) continue;
+    const fill = border.length ? Math.min(...border) : NaN;
+    for (const c of pts) H[c] = fill;
+  }
+  const out = [];
+  const tri = (a, b, c) => out.push(...a, ...b, ...c);
+  const quad = (a, b, c, d) => { tri(a, b, c); tri(a, c, d); };
+  for (let j = 0; j + 1 < nz; j++) for (let i = 0; i + 1 < nx; i++) {
+    // Corners around the square, in order: (i,j) (i+1,j) (i+1,j+1) (i,j+1).
+    const cx = [x0 + i * GRID, x0 + (i + 1) * GRID, x0 + (i + 1) * GRID, x0 + i * GRID];
+    const cz = [z0 + j * GRID, z0 + j * GRID, z0 + (j + 1) * GRID, z0 + (j + 1) * GRID];
+    const ch = [H[j * nx + i], H[j * nx + i + 1], H[(j + 1) * nx + i + 1], H[(j + 1) * nx + i]];
+    const valid = ch.map((y) => !Number.isNaN(y));
+    if (!valid.some(Boolean)) continue;
+    // Corners joined along the square's sides at about the same height are one floor piece.
+    const group = [-1, -1, -1, -1];
+    let groups = 0;
+    for (let k = 0; k < 4; k++) {
+      if (!valid[k] || group[k] >= 0) continue;
+      group[k] = groups;
+      for (let changed = true; changed; ) {
+        changed = false;
+        for (let m = 0; m < 4; m++) {
+          if (group[m] !== groups) continue;
+          for (const n of [(m + 1) % 4, (m + 3) % 4]) {
+            if (valid[n] && group[n] < 0 && Math.abs(ch[n] - ch[m]) <= STEP) { group[n] = groups; changed = true; }
+          }
+        }
+      }
+      groups++;
+    }
+    for (let g = 0; g < groups; g++) {
+      // Walk around the square: this piece's corners, plus the middle of each side it leaves on.
+      const poly = []; // [x, y, z, isCut]
+      for (let k = 0; k < 4; k++) {
+        const n = (k + 1) % 4;
+        if (group[k] === g) poly.push([cx[k], ch[k], cz[k], false]);
+        if ((group[k] === g) !== (group[n] === g)) {
+          const own = group[k] === g ? k : n;
+          poly.push([(cx[k] + cx[n]) / 2, ch[own], (cz[k] + cz[n]) / 2, true]);
+        }
+      }
+      for (let t = 1; t + 1 < poly.length; t++) tri(poly[0].slice(0, 3), poly[t].slice(0, 3), poly[t + 1].slice(0, 3));
+      // Edge of the piece inside the square (between two side middles): a slab face down to the
+      // floor beside it, or SLAB deep where nothing is.
+      const others = ch.filter((y, k) => valid[k] && group[k] !== g);
+      for (let t = 0; t < poly.length; t++) {
+        const a = poly[t], b = poly[(t + 1) % poly.length];
+        if (!a[3] || !b[3]) continue;
+        const y = Math.min(a[1], b[1]);
+        const n = others.length ? Math.max(...others) : NaN;
+        if (!Number.isNaN(n) && n > y - 0.3) continue;
+        const drop = Number.isNaN(n) ? SLAB : Math.min(SLAB, y - n);
+        // Where the floor just ends (nothing beside it), a wall stands on the edge, like the
+        // walls other maps show.
+        if (!others.length) {
+          // A thick wall with a flat top, set just outside the floor's edge.
+          const own = poly.filter((p) => !p[3]);
+          const gx = own.reduce((s, p) => s + p[0], 0) / own.length, gz = own.reduce((s, p) => s + p[2], 0) / own.length;
+          let ox = -(b[2] - a[2]), oz = b[0] - a[0];
+          const ol = Math.hypot(ox, oz) || 1;
+          ox /= ol; oz /= ol;
+          if (ox * ((a[0] + b[0]) / 2 - gx) + oz * ((a[2] + b[2]) / 2 - gz) < 0) { ox = -ox; oz = -oz; }
+          const ia = [a[0], a[1] - drop, a[2]], ib = [b[0], b[1] - drop, b[2]];
+          const ta = [a[0], a[1] + WALL, a[2]], tb = [b[0], b[1] + WALL, b[2]];
+          const oa = [a[0] + ox * WALL_T, a[1] + WALL, a[2] + oz * WALL_T], ob = [b[0] + ox * WALL_T, b[1] + WALL, b[2] + oz * WALL_T];
+          const fa = [oa[0], ia[1], oa[2]], fb = [ob[0], ib[1], ob[2]];
+          for (const [p, q, r, s] of [[ia, ib, tb, ta], [ta, tb, ob, oa], [oa, ob, fb, fa]]) walls.push(...p, ...q, ...r, ...p, ...r, ...s);
+        }
+        quad([a[0], a[1], a[2]], [b[0], b[1], b[2]], [b[0], b[1] - drop, b[2]], [a[0], a[1] - drop, a[2]]);
+      }
+    }
+  }
+  return out;
+}
+
+function displayMeshes(collision, floors, inside, mask, smooth) {
   if (floors.nav) {
     const { tris } = triangles(collision, collision.walkSets || ["pawn"], (prim) => !/volume/i.test(prim.name));
-    return { nav: floors.nav.tris, solid: tris };
+    return { nav: floors.nav.tris, solid: tris.concat(floors.volumes || []) };
   }
   const lowest = lowestFloor(floors.solid, inside);
+  if (mask && smooth) {
+    const walls = [];
+    return { nav: smoothFloor(floors, mask, lowest, walls), solid: walls };
+  }
   if (mask) return { nav: gridFloor(floors, mask, lowest), solid: [] };
   const { tris, up } = floors.solid;
   const out = [];
@@ -259,7 +408,7 @@ function surfacesAt(floors, x, z) {
     const l2 = ((cz - az) * (x - cx) + (ax - cx) * (z - cz)) / d;
     const l3 = 1 - l1 - l2;
     if (l1 < -1e-6 || l2 < -1e-6 || l3 < -1e-6) continue;
-    out.push({ y: l1 * ay + l2 * by + l3 * cy, floor: floors.up[t] === 1 });
+    out.push({ y: l1 * ay + l2 * by + l3 * cy, floor: floors.up[t] === 1, top: floors.up[t] > 0 });
   }
   return out.sort((a, b) => a.y - b.y);
 }
@@ -303,24 +452,63 @@ export function levelsAt(floors, x, z) {
   return merge(here.length || tops.length ? [...here, ...tops] : near, 0.4);
 }
 
+// A top is clickable when some floor (navigation mesh, or another upward collision face) lies 0.3 to
+// VOLUME_TOP metres below it, straight under it or within 3 m beside it.
+function hasFloorBelow(floors, T, t) {
+  const o = t * 9, y = Math.max(T[o + 1], T[o + 4], T[o + 7]);
+  const x = (T[o] + T[o + 3] + T[o + 6]) / 3, z = (T[o + 2] + T[o + 5] + T[o + 8]) / 3;
+  const span = Math.max(Math.abs(T[o] - T[o + 3]), Math.abs(T[o] - T[o + 6]), Math.abs(T[o + 2] - T[o + 5]), Math.abs(T[o + 2] - T[o + 8]));
+  if (span >= 60) return false;
+  const below = (s, lift) => { const d = y - (s.y - lift); return d > 0.3 && d <= VOLUME_TOP; };
+  for (const [dx, dz] of NEAR_RING) {
+    if (floors.nav && surfacesAt(floors.nav, x + dx, z + dz).some((s) => d0(y, s.y - NAV_LIFT))) return true;
+    if (surfacesAt(floors.solid, x + dx, z + dz).some((s) => s.floor && below(s, 0))) return true;
+  }
+  return false;
+}
+const d0 = (y, f) => y - f > -0.5 && y - f <= VOLUME_TOP;
+
 // Loads everything the Studio needs for one map. load(url) returns parsed JSON.
 export async function loadMap(id, load) {
   const [mini, collision] = await Promise.all([load(`/aim-maps/${id}.minimap.json`), load(`/aim-maps/${id}.collision.json`)]);
   const floors = buildFloors(collision);
   const t = mini.transform;
   const mask = await readMask(`/aim-maps/${mini.image}`, t);
+  let topTris = null;
   return {
     id,
+    // Upward faces of the map's collision (box and pillar tops, ledges, floors), flat x,y,z list.
+    // The 3D view clicks onto these, so you can place things on top of them like in 2D.
+    get topTris() {
+      if (!topTris) {
+        // studio-volume-tops: only tops with a floor at most VOLUME_TOP below them (at or beside the spot),
+        // so roofs-over-roofs and invisible sky caps (Pearl, Corrode) don't catch clicks meant for the box below.
+        const { tris, up } = floors.solid, out = [];
+        for (let t = 0; t < up.length; t++) if (up[t] === 1 && hasFloorBelow(floors, tris, t)) for (let k = 0; k < 9; k++) out.push(tris[t * 9 + k]);
+        topTris = new Float32Array(out);
+      }
+      return topTris;
+    },
     image: `/aim-maps/${mini.image}`,
     // world (x, z) -> picture (u, v) in 0..1, and back
     toUV: (x, z) => ({ u: x * t.scaleU + t.offsetU, v: z * t.scaleV + t.offsetV }),
     fromUV: (u, v) => ({ x: (u - t.offsetU) / t.scaleU, z: (v - t.offsetV) / t.scaleV }),
     levelsAt: (x, z) => levelsAt(floors, x, z),
+    // Every upward collision face at (x, z), however high (tall crates, walls, roofs). The
+    // editor keeps a bot on one of these when its height matches (placed there in 3D).
+    topsAt: (x, z) => surfacesAt(floors.solid, x, z).filter((s) => s.floor).map((s) => s.y),
+    // studio-placement: every height something can stand on at exactly (x, z), lowest first: the walkable
+    // floor there plus every upward collision face (no headroom or height filter). The 3D view matches the
+    // surface under the mouse against these.
+    spotsAt: (x, z) => [
+      ...(floors.nav ? navLevels(floors, x, z) : []),
+      ...surfacesAt(floors.solid, x, z).filter((s) => s.top).map((s) => s.y),
+    ].map((y) => Math.round(y * 100) / 100).sort((a, b) => a - b),
     // Triangles for the 3D view: walkable floors and a few solid pieces (flat x,y,z lists).
     meshes: displayMeshes(collision, floors, (x, z) => {
       const u = x * t.scaleU + t.offsetU, v = z * t.scaleV + t.offsetV;
       return u >= 0 && u <= 1 && v >= 0 && v <= 1;
-    }, mask),
+    }, mask, SMOOTH_FLOOR.has(id)),
     // Playable area from the minimap picture (null outside the browser).
     mask,
   };

@@ -169,7 +169,7 @@ Read the full [1.3.0 changelog](CHANGELOG.md) for all additions and fixes.
 
 ## Run it from source
 
-You need [Node.js](https://nodejs.org) 20+ and the game files in `site/`
+You need [Node.js](https://nodejs.org) 20+ and the game files in `base/` and `app/site/`
 (see [docs/game-files.md](docs/game-files.md)).
 
 ```bash

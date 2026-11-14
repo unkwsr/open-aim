@@ -25,21 +25,29 @@
   function keepTake() {
     const take = globalThis.__aimStudioTake;
     if (!take || take.scene !== `studio-${recordingCode}`) return;
-    try { sessionStorage.setItem("studio-take", JSON.stringify({ dt: take.dt, last: take.last, ticks: take.ticks.slice(0, take.last + 1) })); } catch {}
+    // smokes: { tick: [x, y, z] } where your Cloudburst smokes landed (copycat-jett-v1).
+    const smokes = {};
+    for (const [tick, at] of Object.entries(take.smokes || {})) if (Number(tick) <= take.last && Array.isArray(at)) smokes[tick] = at;
+    try { sessionStorage.setItem("studio-take", JSON.stringify({ dt: take.dt, last: take.last, ticks: take.ticks.slice(0, take.last + 1), smokes })); } catch {}
   }
 
   function check() {
     const params = new URLSearchParams(location.hash.slice(1));
     const record = params.get("studio-record");
-    const code = record || params.get("studio-play");
+    // A moderator trying out an upload (community-workshop.js) leaves its code here and
+    // reloads the lobby; the drill starts the same way but leaving it stays in the lobby.
+    let review = null;
+    try { review = sessionStorage.getItem("review-play"); sessionStorage.removeItem("review-play"); } catch {}
+    if (review && !/^[a-f0-9]{16}$/i.test(review)) review = null;
+    const code = record || params.get("studio-play") || review;
     if (!code) return;
-    creatorLaunch = true;
+    creatorLaunch = !review || !!record || !!params.get("studio-play");
     enteredSession = false;
     recordingCode = record;
     delete globalThis.__aimStudioTake;
     history.replaceState(null, "", location.pathname + location.search);
     // A recording has no "Back to Studio" pill; leaving it always returns.
-    if (!record) try { sessionStorage.setItem(KEY, code); } catch {}
+    if (!record && creatorLaunch) try { sessionStorage.setItem(KEY, code); } catch {}
     start(code);
   }
   check();

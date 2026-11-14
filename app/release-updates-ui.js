@@ -36,7 +36,7 @@
     panel = document.createElement("div"); panel.className = "aim-update-shade";
     panel.previousFocus = document.activeElement;
     panel.innerHTML = `<section role="dialog" aria-modal="true" aria-labelledby="aim-update-title" class="aim-update-panel">
-      <header><h2 id="aim-update-title">AimTrainer updates</h2><button type="button" data-close aria-label="Close">×</button></header>
+      <header><h2 id="aim-update-title">openVaim updates</h2><button type="button" data-close aria-label="Close">×</button></header>
       <p data-version></p><p data-description></p>
       <div class="aim-update-notes" data-notes hidden></div>
       <div data-folder><label>Installation folder</label><div class="aim-update-folder"><output></output><button type="button" data-browse>Change folder…</button></div>
@@ -75,7 +75,7 @@
     panel.querySelector("output").textContent = state.directory;
     panel.querySelector("[data-browse]").disabled = busy;
     const progress = panel.querySelector("progress"); progress.hidden = state.status !== "downloading"; progress.value = state.progress;
-    panel.querySelector("[role=status]").textContent = state.error || ({ checking: "Checking GitHub…", latest: "No newer release is available.", downloading: `Downloading and verifying installer… ${state.progress}%`, installing: "Opening the installer. AimTrainer will close to finish updating." }[state.status] || "");
+    panel.querySelector("[role=status]").textContent = state.error || ({ checking: "Checking GitHub…", latest: "No newer release is available.", downloading: `Downloading and verifying installer… ${state.progress}%`, installing: "Opening the installer. openVaim will close to finish updating." }[state.status] || "");
     const actions = panel.querySelector(".aim-update-actions");
     // Leave focused action buttons intact when download progress changes.
     const mode = `${state.status}:${!!state.release}:${state.supported}`;
@@ -102,7 +102,7 @@
         document.querySelector('[role="dialog"], .hall-dialog, .es-tool-shade, .es-startup, .al-wkload, .aim-loading-compact, .al-aimlab-root')) { toast?.remove(); toast = null; return; }
     if (toast) return;
     toast = document.createElement("aside"); toast.className = "aim-update-toast"; toast.setAttribute("aria-label", "Update available");
-    const text = document.createElement("p"); text.textContent = `AimTrainer ${state.release.version} is available.`;
+    const text = document.createElement("p"); text.textContent = `openVaim ${state.release.version} is available.`;
     toast.append(text, button("Update now…", open), button("Remind me in 7 days", () => run(api.snooze)), button("Skip this version", () => run(api.skip)));
     lobby.appendChild(toast);
   }

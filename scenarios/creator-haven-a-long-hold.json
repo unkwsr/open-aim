@@ -1,0 +1,1430 @@
+{
+ "item": {
+  "createTime": "2026-11-13 14:12:18",
+  "description": "Trades: kill one and the next swings in. Bots don't shoot.",
+  "docBytes": 12371,
+  "featured": false,
+  "mapId": "triad",
+  "name": "Haven A long HOLD",
+  "parSeconds": null,
+  "playCount": 0,
+  "sceneKey": "set-7495fd101ae3bdf1",
+  "shareCode": "7495fd101ae3bdf1",
+  "sort": 1,
+  "status": 1,
+  "type": "aim",
+  "updateTime": "2026-11-13 15:11:02"
+ },
+ "scene": {
+  "authorNickname": "openVaim",
+  "authorUid": "creator",
+  "blockCount": 1,
+  "createTime": "2026-11-13 14:12:18",
+  "description": "Trades: kill one and the next swings in. Bots don't shoot.",
+  "docBytes": 12371,
+  "name": "Haven A long HOLD",
+  "playCount": 0,
+  "sceneHash": "4e287b4f4c2f728c",
+  "sceneKey": "set-7495fd101ae3bdf1",
+  "schemaVersion": 2,
+  "shareCode": "7495fd101ae3bdf1",
+  "updateTime": "2026-11-13 15:11:02",
+  "aimShuffle": {
+   "groups": [
+    {
+     "actors": [
+      "actor-2"
+     ],
+     "keepLook": true
+    },
+    {
+     "actors": [
+      "actor-3",
+      "actor-3-spot2"
+     ],
+     "keepLook": true
+    },
+    {
+     "actors": [
+      "actor-4",
+      "actor-4-spot2",
+      "actor-4-spot3",
+      "actor-4-spot4",
+      "actor-4-spot5",
+      "actor-4-spot6",
+      "actor-4-spot7",
+      "actor-4-spot8"
+     ]
+    }
+   ]
+  },
+  "doc": {
+   "schemaVersion": 2,
+   "meta": {
+    "id": "studio-fd921ef9dab4414c",
+    "name": "Haven A long HOLD",
+    "seed": 1719229795,
+    "createdAt": 0
+   },
+   "environment": {
+    "skyColor": "#111820",
+    "fogNear": 14,
+    "fogFar": 33,
+    "ambientIntensity": 2,
+    "keyLightIntensity": 3,
+    "fogEnabled": false,
+    "map": "triad"
+   },
+   "blocks": [
+    {
+     "id": "wall-1",
+     "shape": "box",
+     "position": {
+      "x": -65.92,
+      "y": 7.48,
+      "z": -56.5
+     },
+     "rotationY": 0.384,
+     "size": {
+      "x": 7.4,
+      "y": 12.9,
+      "z": 0.3
+     },
+     "color": "#59606b",
+     "collidable": true,
+     "bulletCollidable": false,
+     "transparent": true
+    }
+   ],
+   "playerSpawn": {
+    "position": {
+     "x": -73.8,
+     "y": 1.03,
+     "z": -67.9
+    },
+    "yaw": 3.7
+   },
+   "spawners": [],
+   "actors": [
+    {
+     "id": "actor-2",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "weapon": "phantom"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -60.2,
+         "y": 3,
+         "z": -39.5
+        },
+        {
+         "x": -60.82,
+         "y": 3,
+         "z": -39.52
+        },
+        {
+         "x": -63.3,
+         "y": 3,
+         "z": -39.6
+        },
+        {
+         "x": -62.456,
+         "y": 3,
+         "z": -39.913
+        },
+        {
+         "x": -63.903,
+         "y": 3,
+         "z": -39.376
+        },
+        {
+         "x": -62.577,
+         "y": 3,
+         "z": -39.868
+        },
+        {
+         "x": -64.144,
+         "y": 3,
+         "z": -39.287
+        },
+        {
+         "x": -62.818,
+         "y": 3,
+         "z": -39.779
+        },
+        {
+         "x": -64.023,
+         "y": 3,
+         "z": -39.332
+        },
+        {
+         "x": -62.456,
+         "y": 3,
+         "z": -39.913
+        },
+        {
+         "x": -63.903,
+         "y": 3,
+         "z": -39.376
+        },
+        {
+         "x": -62.577,
+         "y": 3,
+         "z": -39.868
+        },
+        {
+         "x": -64.144,
+         "y": 3,
+         "z": -39.287
+        },
+        {
+         "x": -62.818,
+         "y": 3,
+         "z": -39.779
+        },
+        {
+         "x": -64.023,
+         "y": 3,
+         "z": -39.332
+        },
+        {
+         "x": -62.456,
+         "y": 3,
+         "z": -39.913
+        },
+        {
+         "x": -63.903,
+         "y": 3,
+         "z": -39.376
+        },
+        {
+         "x": -62.577,
+         "y": 3,
+         "z": -39.868
+        },
+        {
+         "x": -64.144,
+         "y": 3,
+         "z": -39.287
+        },
+        {
+         "x": -62.818,
+         "y": 3,
+         "z": -39.779
+        },
+        {
+         "x": -64.023,
+         "y": 3,
+         "z": -39.332
+        },
+        {
+         "x": -62.456,
+         "y": 3,
+         "z": -39.913
+        },
+        {
+         "x": -63.903,
+         "y": 3,
+         "z": -39.376
+        },
+        {
+         "x": -62.577,
+         "y": 3,
+         "z": -39.868
+        },
+        {
+         "x": -64.144,
+         "y": 3,
+         "z": -39.287
+        },
+        {
+         "x": -60.2,
+         "y": 3,
+         "z": -39.5
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1,
+        1.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 2,
+         "wait": 0.1
+        },
+        {
+         "at": 3,
+         "wait": 0.15
+        },
+        {
+         "at": 4,
+         "wait": 0.25
+        },
+        {
+         "at": 5,
+         "wait": 0.2
+        },
+        {
+         "at": 6,
+         "wait": 0.15
+        },
+        {
+         "at": 7,
+         "wait": 0.25
+        },
+        {
+         "at": 8,
+         "wait": 0.2
+        },
+        {
+         "at": 9,
+         "wait": 0.15
+        },
+        {
+         "at": 10,
+         "wait": 0.25
+        },
+        {
+         "at": 11,
+         "wait": 0.2
+        },
+        {
+         "at": 12,
+         "wait": 0.15
+        },
+        {
+         "at": 13,
+         "wait": 0.25
+        },
+        {
+         "at": 14,
+         "wait": 0.2
+        },
+        {
+         "at": 15,
+         "wait": 0.15
+        },
+        {
+         "at": 16,
+         "wait": 0.25
+        },
+        {
+         "at": 17,
+         "wait": 0.2
+        },
+        {
+         "at": 18,
+         "wait": 0.15
+        },
+        {
+         "at": 19,
+         "wait": 0.25
+        },
+        {
+         "at": 20,
+         "wait": 0.2
+        },
+        {
+         "at": 21,
+         "wait": 0.15
+        },
+        {
+         "at": 22,
+         "wait": 0.25
+        },
+        {
+         "at": 23,
+         "wait": 0.2
+        },
+        {
+         "at": 24,
+         "wait": 0.15
+        }
+       ],
+       "flashStops": [
+        {
+         "at": 1,
+         "target": {
+          "x": -64.17,
+          "y": 6.5,
+          "z": -41.944
+         },
+         "wait": 0.6,
+         "curve": "left"
+        }
+       ]
+      }
+     ],
+     "health": 150,
+     "hitSlow": true
+    },
+    {
+     "id": "actor-3",
+     "name": "Peeker 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "reyna",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -67.5,
+         "y": 3.03,
+         "z": -39.4
+        },
+        {
+         "x": -66.74,
+         "y": 3.03,
+         "z": -39.64
+        },
+        {
+         "x": -63.7,
+         "y": 3.03,
+         "z": -40.6
+        },
+        {
+         "x": -63.043,
+         "y": 3.03,
+         "z": -40.843
+        },
+        {
+         "x": -64.169,
+         "y": 3.03,
+         "z": -40.427
+        },
+        {
+         "x": -63.137,
+         "y": 3.03,
+         "z": -40.808
+        },
+        {
+         "x": -64.357,
+         "y": 3.03,
+         "z": -40.357
+        },
+        {
+         "x": -63.325,
+         "y": 3.03,
+         "z": -40.739
+        },
+        {
+         "x": -64.263,
+         "y": 3.03,
+         "z": -40.392
+        },
+        {
+         "x": -63.043,
+         "y": 3.03,
+         "z": -40.843
+        },
+        {
+         "x": -64.169,
+         "y": 3.03,
+         "z": -40.427
+        },
+        {
+         "x": -63.137,
+         "y": 3.03,
+         "z": -40.808
+        },
+        {
+         "x": -64.357,
+         "y": 3.03,
+         "z": -40.357
+        },
+        {
+         "x": -63.325,
+         "y": 3.03,
+         "z": -40.739
+        },
+        {
+         "x": -64.263,
+         "y": 3.03,
+         "z": -40.392
+        },
+        {
+         "x": -63.043,
+         "y": 3.03,
+         "z": -40.843
+        },
+        {
+         "x": -64.169,
+         "y": 3.03,
+         "z": -40.427
+        },
+        {
+         "x": -63.137,
+         "y": 3.03,
+         "z": -40.808
+        },
+        {
+         "x": -64.357,
+         "y": 3.03,
+         "z": -40.357
+        },
+        {
+         "x": -63.325,
+         "y": 3.03,
+         "z": -40.739
+        },
+        {
+         "x": -64.263,
+         "y": 3.03,
+         "z": -40.392
+        },
+        {
+         "x": -63.043,
+         "y": 3.03,
+         "z": -40.843
+        },
+        {
+         "x": -64.169,
+         "y": 3.03,
+         "z": -40.427
+        },
+        {
+         "x": -63.137,
+         "y": 3.03,
+         "z": -40.808
+        },
+        {
+         "x": -64.357,
+         "y": 3.03,
+         "z": -40.357
+        },
+        {
+         "x": -63.325,
+         "y": 3.03,
+         "z": -40.739
+        },
+        {
+         "x": -64.263,
+         "y": 3.03,
+         "z": -40.392
+        },
+        {
+         "x": -67.5,
+         "y": 3.03,
+         "z": -39.4
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 2,
+         "wait": 0.1
+        },
+        {
+         "at": 3,
+         "wait": 0.15
+        },
+        {
+         "at": 4,
+         "wait": 0.25
+        },
+        {
+         "at": 5,
+         "wait": 0.2
+        },
+        {
+         "at": 6,
+         "wait": 0.15
+        },
+        {
+         "at": 7,
+         "wait": 0.25
+        },
+        {
+         "at": 8,
+         "wait": 0.2
+        },
+        {
+         "at": 9,
+         "wait": 0.15
+        },
+        {
+         "at": 10,
+         "wait": 0.25
+        },
+        {
+         "at": 11,
+         "wait": 0.2
+        },
+        {
+         "at": 12,
+         "wait": 0.15
+        },
+        {
+         "at": 13,
+         "wait": 0.25
+        },
+        {
+         "at": 14,
+         "wait": 0.2
+        },
+        {
+         "at": 15,
+         "wait": 0.15
+        },
+        {
+         "at": 16,
+         "wait": 0.25
+        },
+        {
+         "at": 17,
+         "wait": 0.2
+        },
+        {
+         "at": 18,
+         "wait": 0.15
+        },
+        {
+         "at": 19,
+         "wait": 0.25
+        },
+        {
+         "at": 20,
+         "wait": 0.2
+        },
+        {
+         "at": 21,
+         "wait": 0.15
+        },
+        {
+         "at": 22,
+         "wait": 0.25
+        },
+        {
+         "at": 23,
+         "wait": 0.2
+        },
+        {
+         "at": 24,
+         "wait": 0.15
+        },
+        {
+         "at": 25,
+         "wait": 0.25
+        },
+        {
+         "at": 26,
+         "wait": 0.2
+        }
+       ],
+       "flashStops": [
+        {
+         "at": 1,
+         "target": {
+          "x": -64.567,
+          "y": 6.53,
+          "z": -42.945
+         },
+         "wait": 0.4,
+         "agent": "reyna"
+        }
+       ]
+      }
+     ],
+     "health": 150,
+     "hitSlow": true
+    },
+    {
+     "id": "actor-3-spot2",
+     "name": "Peeker 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "reyna",
+      "weapon": "vandal"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -67.5,
+         "y": 3.03,
+         "z": -39.4
+        },
+        {
+         "x": -66.74,
+         "y": 3.03,
+         "z": -39.64
+        },
+        {
+         "x": -63.7,
+         "y": 3.03,
+         "z": -40.6
+        },
+        {
+         "x": -67.5,
+         "y": 3.03,
+         "z": -39.4
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        0.2,
+        0.7
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 2,
+         "wait": 15.4
+        }
+       ],
+       "flashStops": [
+        {
+         "at": 1,
+         "target": {
+          "x": -64.567,
+          "y": 6.53,
+          "z": -42.945
+         },
+         "wait": 0.4,
+         "agent": "reyna"
+        }
+       ]
+      }
+     ],
+     "health": 150,
+     "hitSlow": true
+    },
+    {
+     "id": "actor-4",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -60.3,
+         "y": 3.03,
+         "z": -38.1
+        },
+        {
+         "x": -65.2,
+         "y": 3.06,
+         "z": -43.5
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 14.9
+        }
+       ]
+      }
+     ],
+     "health": 150,
+     "hitSlow": true
+    },
+    {
+     "id": "actor-4-spot2",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -62,
+         "y": 3.03,
+         "z": -38
+        },
+        {
+         "x": -63.2,
+         "y": 3.07,
+         "z": -45.3
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 14.9
+        }
+       ]
+      }
+     ],
+     "health": 150,
+     "hitSlow": true
+    },
+    {
+     "id": "actor-4-spot3",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -66,
+         "y": 3.03,
+         "z": -38.7
+        },
+        {
+         "x": -62.1,
+         "y": 3.11,
+         "z": -44
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 14.9
+        }
+       ]
+      }
+     ],
+     "health": 150,
+     "hitSlow": true
+    },
+    {
+     "id": "actor-4-spot4",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -66.5,
+         "y": 3.03,
+         "z": -39.8
+        },
+        {
+         "x": -62.3,
+         "y": 3,
+         "z": -43.5
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 14.9
+        }
+       ]
+      }
+     ],
+     "health": 150,
+     "hitSlow": true
+    },
+    {
+     "id": "actor-4-spot5",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -60.8,
+         "y": 3.03,
+         "z": -38.9
+        },
+        {
+         "x": -64.2,
+         "y": 3.03,
+         "z": -40.5
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 14.9
+        }
+       ]
+      }
+     ],
+     "health": 150,
+     "hitSlow": true
+    },
+    {
+     "id": "actor-4-spot6",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -65.2,
+         "y": 3.03,
+         "z": -38.3
+        },
+        {
+         "x": -64.9,
+         "y": 2.75,
+         "z": -47.4
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 14.9
+        }
+       ]
+      }
+     ],
+     "health": 150,
+     "hitSlow": true
+    },
+    {
+     "id": "actor-4-spot7",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -65,
+         "y": 3.03,
+         "z": -38.1
+        },
+        {
+         "x": -62.3,
+         "y": 3,
+         "z": -45.7
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 14.9
+        }
+       ]
+      }
+     ],
+     "health": 150,
+     "hitSlow": true
+    },
+    {
+     "id": "actor-4-spot8",
+     "name": "Runner 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "look": "cypher"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "cross",
+       "waypoints": [
+        {
+         "x": -63.8,
+         "y": 3.03,
+         "z": -38.4
+        },
+        {
+         "x": -62.2,
+         "y": 2.88,
+         "z": -46.6
+        }
+       ],
+       "speed": 5.4,
+       "respawn": false,
+       "interval": [
+        1.5,
+        2.5
+       ],
+       "killImmediate": false,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 1,
+         "wait": 14.9
+        }
+       ]
+      }
+     ],
+     "health": 150,
+     "hitSlow": true
+    }
+   ],
+   "rules": {
+    "duration": 60,
+    "scoring": "clicking",
+    "weapon": "vandal",
+    "playerMovable": true,
+    "fireMode": "hold"
+   },
+   "dispatchers": [
+    {
+     "id": "dispatcher-2",
+     "name": "Peeker 1",
+     "routes": [
+      {
+       "templateId": "actor-2",
+       "streak": [
+        1,
+        1
+       ]
+      }
+     ],
+     "order": "sequence",
+     "maxAlive": 1,
+     "interval": [
+      1,
+      1.6
+     ],
+     "faceTarget": true,
+     "afterKill": [
+      "actor-3",
+      "actor-3-spot2",
+      "actor-3-spot3",
+      "actor-3-spot4",
+      "actor-3-spot5",
+      "actor-3-spot6",
+      "actor-3-spot7",
+      "actor-3-spot8",
+      "actor-3-spot9",
+      "actor-3-spot10",
+      "actor-3-spot11",
+      "actor-3-spot12",
+      "actor-3-spot13",
+      "actor-3-spot14",
+      "actor-3-spot15",
+      "actor-3-spot16",
+      "actor-3-spot17",
+      "actor-3-spot18",
+      "actor-3-spot19",
+      "actor-3-spot20",
+      "actor-3-spot21",
+      "actor-3-spot22",
+      "actor-3-spot23",
+      "actor-3-spot24",
+      "actor-3-spot25",
+      "actor-3-spot26",
+      "actor-3-spot27",
+      "actor-3-spot28",
+      "actor-3-spot29",
+      "actor-3-spot30",
+      "actor-3-spot31",
+      "actor-3-spot32",
+      "actor-3-spot33",
+      "actor-3-spot34",
+      "actor-3-spot35",
+      "actor-3-spot36",
+      "actor-3-spot37",
+      "actor-3-spot38",
+      "actor-3-spot39",
+      "actor-3-spot40",
+      "actor-3-spot41",
+      "actor-3-spot42",
+      "actor-3-spot43",
+      "actor-3-spot44",
+      "actor-3-spot45",
+      "actor-3-spot46",
+      "actor-3-spot47",
+      "actor-3-spot48",
+      "actor-3-spot49",
+      "actor-3-spot50",
+      "actor-3-spot51",
+      "actor-3-spot52",
+      "actor-3-spot53",
+      "actor-3-spot54",
+      "actor-3-spot55",
+      "actor-3-spot56",
+      "actor-3-spot57",
+      "actor-3-spot58",
+      "actor-3-spot59",
+      "actor-3-spot60",
+      "actor-3-spot61",
+      "actor-3-spot62",
+      "actor-3-spot63",
+      "actor-3-spot64"
+     ],
+     "spawnDelay": [
+      0.3,
+      1
+     ],
+     "afterKillFirst": [
+      0.6,
+      1.7
+     ]
+    },
+    {
+     "id": "dispatcher-3",
+     "name": "Peeker 2",
+     "routes": [
+      {
+       "templateId": "actor-3",
+       "streak": [
+        1,
+        1
+       ],
+       "group": 0
+      },
+      {
+       "templateId": "actor-3-spot2",
+       "streak": [
+        1,
+        1
+       ],
+       "group": 0
+      }
+     ],
+     "order": "sequence",
+     "maxAlive": 1,
+     "interval": [
+      0.2,
+      1.2
+     ],
+     "faceTarget": true,
+     "afterKill": [
+      "actor-2",
+      "actor-2-spot2",
+      "actor-2-spot3",
+      "actor-2-spot4",
+      "actor-2-spot5",
+      "actor-2-spot6",
+      "actor-2-spot7",
+      "actor-2-spot8",
+      "actor-2-spot9",
+      "actor-2-spot10",
+      "actor-2-spot11",
+      "actor-2-spot12",
+      "actor-2-spot13",
+      "actor-2-spot14",
+      "actor-2-spot15",
+      "actor-2-spot16",
+      "actor-2-spot17",
+      "actor-2-spot18",
+      "actor-2-spot19",
+      "actor-2-spot20",
+      "actor-2-spot21",
+      "actor-2-spot22",
+      "actor-2-spot23",
+      "actor-2-spot24",
+      "actor-2-spot25",
+      "actor-2-spot26",
+      "actor-2-spot27",
+      "actor-2-spot28",
+      "actor-2-spot29",
+      "actor-2-spot30",
+      "actor-2-spot31",
+      "actor-2-spot32",
+      "actor-2-spot33",
+      "actor-2-spot34",
+      "actor-2-spot35",
+      "actor-2-spot36",
+      "actor-2-spot37",
+      "actor-2-spot38",
+      "actor-2-spot39",
+      "actor-2-spot40",
+      "actor-2-spot41",
+      "actor-2-spot42",
+      "actor-2-spot43",
+      "actor-2-spot44",
+      "actor-2-spot45",
+      "actor-2-spot46",
+      "actor-2-spot47",
+      "actor-2-spot48",
+      "actor-2-spot49",
+      "actor-2-spot50",
+      "actor-2-spot51",
+      "actor-2-spot52",
+      "actor-2-spot53",
+      "actor-2-spot54",
+      "actor-2-spot55",
+      "actor-2-spot56",
+      "actor-2-spot57",
+      "actor-2-spot58",
+      "actor-2-spot59",
+      "actor-2-spot60",
+      "actor-2-spot61",
+      "actor-2-spot62",
+      "actor-2-spot63",
+      "actor-2-spot64"
+     ],
+     "spawnDelay": [
+      0.4,
+      0.8
+     ]
+    },
+    {
+     "id": "dispatcher-4",
+     "name": "Runner 1",
+     "routes": [
+      {
+       "templateId": "actor-4",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-4-spot2",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-4-spot3",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-4-spot4",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-4-spot5",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-4-spot6",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-4-spot7",
+       "streak": [
+        1,
+        1
+       ]
+      },
+      {
+       "templateId": "actor-4-spot8",
+       "streak": [
+        1,
+        1
+       ]
+      }
+     ],
+     "order": "random",
+     "maxAlive": 1,
+     "interval": [
+      1.5,
+      1.8
+     ],
+     "faceTarget": true,
+     "afterKill": [
+      "actor-2",
+      "actor-2-spot2",
+      "actor-2-spot3",
+      "actor-2-spot4",
+      "actor-2-spot5",
+      "actor-2-spot6",
+      "actor-2-spot7",
+      "actor-2-spot8",
+      "actor-2-spot9",
+      "actor-2-spot10",
+      "actor-2-spot11",
+      "actor-2-spot12",
+      "actor-2-spot13",
+      "actor-2-spot14",
+      "actor-2-spot15",
+      "actor-2-spot16",
+      "actor-2-spot17",
+      "actor-2-spot18",
+      "actor-2-spot19",
+      "actor-2-spot20",
+      "actor-2-spot21",
+      "actor-2-spot22",
+      "actor-2-spot23",
+      "actor-2-spot24",
+      "actor-2-spot25",
+      "actor-2-spot26",
+      "actor-2-spot27",
+      "actor-2-spot28",
+      "actor-2-spot29",
+      "actor-2-spot30",
+      "actor-2-spot31",
+      "actor-2-spot32",
+      "actor-2-spot33",
+      "actor-2-spot34",
+      "actor-2-spot35",
+      "actor-2-spot36",
+      "actor-2-spot37",
+      "actor-2-spot38",
+      "actor-2-spot39",
+      "actor-2-spot40",
+      "actor-2-spot41",
+      "actor-2-spot42",
+      "actor-2-spot43",
+      "actor-2-spot44",
+      "actor-2-spot45",
+      "actor-2-spot46",
+      "actor-2-spot47",
+      "actor-2-spot48",
+      "actor-2-spot49",
+      "actor-2-spot50",
+      "actor-2-spot51",
+      "actor-2-spot52",
+      "actor-2-spot53",
+      "actor-2-spot54",
+      "actor-2-spot55",
+      "actor-2-spot56",
+      "actor-2-spot57",
+      "actor-2-spot58",
+      "actor-2-spot59",
+      "actor-2-spot60",
+      "actor-2-spot61",
+      "actor-2-spot62",
+      "actor-2-spot63",
+      "actor-2-spot64"
+     ],
+     "spawnDelay": [
+      0.3,
+      1
+     ]
+    }
+   ]
+  }
+ }
+}

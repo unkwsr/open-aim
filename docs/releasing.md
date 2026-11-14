@@ -2,7 +2,7 @@
 
 Every release ships two files: the installer (`AimTrainer-Setup.exe`) and the portable app
 (`AimTrainer.exe`). Releases are built on the maintainer's PC, because the build needs the
-game files in `site/`.
+game files in `base/` and `app/site/`.
 
 ## Steps
 

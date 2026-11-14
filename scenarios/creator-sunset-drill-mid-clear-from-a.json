@@ -1,0 +1,2133 @@
+{
+ "item": {
+  "createTime": "2026-11-09 16:41:46",
+  "description": "12 of 18 spots each round, new spots every round. Bots shoot back.",
+  "docBytes": 17319,
+  "featured": false,
+  "mapId": "juliett",
+  "name": "Sunset drill mid clear from a",
+  "parSeconds": null,
+  "playCount": 0,
+  "sceneKey": "set-0831f3a05a93ade7",
+  "shareCode": "0831f3a05a93ade7",
+  "sort": 1,
+  "status": 1,
+  "type": "hold",
+  "updateTime": "2026-11-14 07:09:27"
+ },
+ "scene": {
+  "authorNickname": "openVaim",
+  "authorUid": "creator",
+  "blockCount": 2,
+  "createTime": "2026-11-09 16:41:46",
+  "description": "12 of 18 spots each round, new spots every round. Bots shoot back.",
+  "docBytes": 17319,
+  "name": "Sunset drill mid clear from a",
+  "playCount": 0,
+  "sceneHash": "d9fe6f246d7f7757",
+  "sceneKey": "set-0831f3a05a93ade7",
+  "schemaVersion": 2,
+  "shareCode": "0831f3a05a93ade7",
+  "updateTime": "2026-11-14 07:09:27",
+  "aimShuffle": {
+   "groups": [
+    {
+     "actors": [
+      "actor-2"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-3"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-4"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-5"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-6"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-7"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-8"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-10"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-11"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-12"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-13"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-14"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-15"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-16"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-17"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-19"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-20"
+     ]
+    },
+    {
+     "actors": [
+      "actor-22"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-9",
+      "actor-9-spot2"
+     ],
+     "crouchable": true
+    },
+    {
+     "actors": [
+      "actor-18",
+      "actor-18-spot2",
+      "actor-18-spot3"
+     ],
+     "crouchable": true
+    }
+   ],
+   "crouch": 8
+  },
+  "doc": {
+   "schemaVersion": 2,
+   "meta": {
+    "id": "studio-0d0f5f582231e1b6",
+    "name": "Sunset drill mid clear from a",
+    "seed": 457797736,
+    "createdAt": 0
+   },
+   "environment": {
+    "skyColor": "#111820",
+    "fogNear": 14,
+    "fogFar": 33,
+    "ambientIntensity": 2,
+    "keyLightIntensity": 3,
+    "fogEnabled": false,
+    "map": "juliett"
+   },
+   "blocks": [
+    {
+     "id": "wall-1",
+     "shape": "box",
+     "position": {
+      "x": 4.4,
+      "y": 11.15,
+      "z": 15.5
+     },
+     "rotationY": 1.588,
+     "size": {
+      "x": 4.8,
+      "y": 18.5,
+      "z": 0.3
+     },
+     "color": "#59606b",
+     "collidable": true,
+     "bulletCollidable": false,
+     "transparent": true
+    },
+    {
+     "id": "wall-21",
+     "shape": "box",
+     "position": {
+      "x": -14.5,
+      "y": 13.2,
+      "z": -8
+     },
+     "rotationY": 1.536,
+     "size": {
+      "x": 4.6,
+      "y": 22.4,
+      "z": 0.3
+     },
+     "color": "#59606b",
+     "collidable": true,
+     "bulletCollidable": false,
+     "transparent": true
+    }
+   ],
+   "playerSpawn": {
+    "position": {
+     "x": 23.7,
+     "y": 0,
+     "z": 13.6
+    },
+    "yaw": 0
+   },
+   "spawners": [
+    {
+     "id": "spawner-2",
+     "name": "Holder 1",
+     "kind": "area",
+     "actorTemplateId": "actor-2",
+     "position": {
+      "x": 11.3,
+      "y": 1.3,
+      "z": 5.9
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.015,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-3",
+     "name": "Holder 2",
+     "kind": "area",
+     "actorTemplateId": "actor-3",
+     "position": {
+      "x": 6.8,
+      "y": 1.3,
+      "z": 9.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.338,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-4",
+     "name": "Holder 3",
+     "kind": "area",
+     "actorTemplateId": "actor-4",
+     "position": {
+      "x": 7.8,
+      "y": 1.53,
+      "z": 13.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 8.639,
+     "faceTarget": false,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-5",
+     "name": "Holder 4",
+     "kind": "area",
+     "actorTemplateId": "actor-5",
+     "position": {
+      "x": 15.5,
+      "y": 1.3,
+      "z": 13.7
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 3.159,
+     "faceTarget": false,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-6",
+     "name": "Holder 5",
+     "kind": "area",
+     "actorTemplateId": "actor-6",
+     "position": {
+      "x": 13.4,
+      "y": 1.3,
+      "z": 1.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.705,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-7",
+     "name": "Holder 6",
+     "kind": "area",
+     "actorTemplateId": "actor-7",
+     "position": {
+      "x": 6.6,
+      "y": 1.3,
+      "z": -1.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.854,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-8",
+     "name": "Holder 7",
+     "kind": "area",
+     "actorTemplateId": "actor-8",
+     "position": {
+      "x": 8,
+      "y": 1.47,
+      "z": -5.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 6.615,
+     "faceTarget": false,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-10",
+     "name": "Holder 9",
+     "kind": "area",
+     "actorTemplateId": "actor-10",
+     "position": {
+      "x": -4.1,
+      "y": 2.3,
+      "z": -7.7
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 7.854,
+     "faceTarget": false,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-11",
+     "name": "Holder 10",
+     "kind": "area",
+     "actorTemplateId": "actor-11",
+     "position": {
+      "x": -18.3,
+      "y": 2.3,
+      "z": -6.1
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 8.151,
+     "faceTarget": false,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-12",
+     "name": "Holder 11",
+     "kind": "area",
+     "actorTemplateId": "actor-12",
+     "position": {
+      "x": -26.3,
+      "y": 2.3,
+      "z": -6.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 8.098,
+     "faceTarget": false,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-13",
+     "name": "Holder 12",
+     "kind": "area",
+     "actorTemplateId": "actor-13",
+     "position": {
+      "x": -11.2,
+      "y": 5.3,
+      "z": -17.1
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.849,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-14",
+     "name": "Holder 13",
+     "kind": "area",
+     "actorTemplateId": "actor-14",
+     "position": {
+      "x": -6.5,
+      "y": 2.3,
+      "z": 5.4
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.306,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-15",
+     "name": "Holder 14",
+     "kind": "area",
+     "actorTemplateId": "actor-15",
+     "position": {
+      "x": 3.2,
+      "y": 2.34,
+      "z": 6.2
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.224,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-16",
+     "name": "Holder 15",
+     "kind": "area",
+     "actorTemplateId": "actor-16",
+     "position": {
+      "x": -3.3,
+      "y": 4.3,
+      "z": -22.6
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.641,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-17",
+     "name": "Holder 16",
+     "kind": "area",
+     "actorTemplateId": "actor-17",
+     "position": {
+      "x": -7.2,
+      "y": 5.3,
+      "z": -31.2
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.604,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-19",
+     "name": "Holder 18",
+     "kind": "area",
+     "actorTemplateId": "actor-19",
+     "position": {
+      "x": -3.3,
+      "y": 3.1,
+      "z": -17
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.723,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    },
+    {
+     "id": "spawner-20",
+     "name": "Peeker 1",
+     "kind": "area",
+     "actorTemplateId": "actor-20",
+     "position": {
+      "x": -25.8,
+      "y": 2.3,
+      "z": -11.3
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 1.105,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ],
+     "trigger": {
+      "a": {
+       "x": 14.1,
+       "z": -4.7
+      },
+      "b": {
+       "x": 8,
+       "z": -4.7
+      }
+     }
+    },
+    {
+     "id": "spawner-22",
+     "name": "Holder 19",
+     "kind": "area",
+     "actorTemplateId": "actor-22",
+     "position": {
+      "x": -11.4,
+      "y": 2.3,
+      "z": -15.5
+     },
+     "size": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+     },
+     "rotationY": 0.879,
+     "faceTarget": true,
+     "groundSnap": true,
+     "maxAlive": 1,
+     "spawnDelay": [
+      0.05,
+      0.05
+     ]
+    }
+   ],
+   "actors": [
+    {
+     "id": "actor-2",
+     "name": "Holder 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-3",
+     "name": "Holder 2",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "motion": "crouch"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-4",
+     "name": "Holder 3",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-5",
+     "name": "Holder 4",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "motion": "crouch"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-6",
+     "name": "Holder 5",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "motion": "crouch"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-7",
+     "name": "Holder 6",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-8",
+     "name": "Holder 7",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-10",
+     "name": "Holder 9",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-11",
+     "name": "Holder 10",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-12",
+     "name": "Holder 11",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-13",
+     "name": "Holder 12",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-14",
+     "name": "Holder 13",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-15",
+     "name": "Holder 14",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "motion": "crouch"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-16",
+     "name": "Holder 15",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-17",
+     "name": "Holder 16",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "motion": "crouch"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-19",
+     "name": "Holder 18",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0,
+      "motion": "crouch"
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-20",
+     "name": "Peeker 1",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "path",
+       "waypoints": [
+        {
+         "x": -25.8,
+         "y": 2,
+         "z": -11.3
+        },
+        {
+         "x": -26,
+         "y": 2,
+         "z": -9
+        },
+        {
+         "x": -26.29,
+         "y": 2,
+         "z": -8.363
+        },
+        {
+         "x": -25.793,
+         "y": 2,
+         "z": -9.455
+        },
+        {
+         "x": -26.248,
+         "y": 2,
+         "z": -8.454
+        },
+        {
+         "x": -25.71,
+         "y": 2,
+         "z": -9.637
+        },
+        {
+         "x": -26.166,
+         "y": 2,
+         "z": -8.636
+        },
+        {
+         "x": -25.752,
+         "y": 2,
+         "z": -9.546
+        },
+        {
+         "x": -26.29,
+         "y": 2,
+         "z": -8.363
+        },
+        {
+         "x": -25.793,
+         "y": 2,
+         "z": -9.455
+        },
+        {
+         "x": -26.248,
+         "y": 2,
+         "z": -8.454
+        },
+        {
+         "x": -25.71,
+         "y": 2,
+         "z": -9.637
+        },
+        {
+         "x": -26.166,
+         "y": 2,
+         "z": -8.636
+        },
+        {
+         "x": -25.752,
+         "y": 2,
+         "z": -9.546
+        },
+        {
+         "x": -26.29,
+         "y": 2,
+         "z": -8.363
+        },
+        {
+         "x": -25.793,
+         "y": 2,
+         "z": -9.455
+        },
+        {
+         "x": -26.248,
+         "y": 2,
+         "z": -8.454
+        },
+        {
+         "x": -25.71,
+         "y": 2,
+         "z": -9.637
+        },
+        {
+         "x": -26.166,
+         "y": 2,
+         "z": -8.636
+        },
+        {
+         "x": -25.752,
+         "y": 2,
+         "z": -9.546
+        },
+        {
+         "x": -26.29,
+         "y": 2,
+         "z": -8.363
+        },
+        {
+         "x": -25.793,
+         "y": 2,
+         "z": -9.455
+        },
+        {
+         "x": -26.248,
+         "y": 2,
+         "z": -8.454
+        },
+        {
+         "x": -25.71,
+         "y": 2,
+         "z": -9.637
+        },
+        {
+         "x": -26.166,
+         "y": 2,
+         "z": -8.636
+        },
+        {
+         "x": -25.752,
+         "y": 2,
+         "z": -9.546
+        },
+        {
+         "x": -26.29,
+         "y": 2,
+         "z": -8.363
+        },
+        {
+         "x": -25.793,
+         "y": 2,
+         "z": -9.455
+        },
+        {
+         "x": -26.248,
+         "y": 2,
+         "z": -8.454
+        },
+        {
+         "x": -25.71,
+         "y": 2,
+         "z": -9.637
+        },
+        {
+         "x": -26.166,
+         "y": 2,
+         "z": -8.636
+        },
+        {
+         "x": -25.752,
+         "y": 2,
+         "z": -9.546
+        },
+        {
+         "x": -26.29,
+         "y": 2,
+         "z": -8.363
+        },
+        {
+         "x": -25.793,
+         "y": 2,
+         "z": -9.455
+        },
+        {
+         "x": -26.248,
+         "y": 2,
+         "z": -8.454
+        },
+        {
+         "x": -25.71,
+         "y": 2,
+         "z": -9.637
+        },
+        {
+         "x": -26.166,
+         "y": 2,
+         "z": -8.636
+        },
+        {
+         "x": -25.752,
+         "y": 2,
+         "z": -9.546
+        },
+        {
+         "x": -26.29,
+         "y": 2,
+         "z": -8.363
+        },
+        {
+         "x": -25.793,
+         "y": 2,
+         "z": -9.455
+        },
+        {
+         "x": -26.248,
+         "y": 2,
+         "z": -8.454
+        },
+        {
+         "x": -25.71,
+         "y": 2,
+         "z": -9.637
+        },
+        {
+         "x": -26.166,
+         "y": 2,
+         "z": -8.636
+        },
+        {
+         "x": -25.752,
+         "y": 2,
+         "z": -9.546
+        },
+        {
+         "x": -26.29,
+         "y": 2,
+         "z": -8.363
+        },
+        {
+         "x": -25.793,
+         "y": 2,
+         "z": -9.455
+        },
+        {
+         "x": -26.248,
+         "y": 2,
+         "z": -8.454
+        },
+        {
+         "x": -25.71,
+         "y": 2,
+         "z": -9.637
+        },
+        {
+         "x": -26.166,
+         "y": 2,
+         "z": -8.636
+        }
+       ],
+       "loop": true,
+       "speed": 5.4,
+       "counterStrafe": true,
+       "pauses": [
+        {
+         "at": 0,
+         "wait": 2
+        },
+        {
+         "at": 1,
+         "wait": 0.1
+        },
+        {
+         "at": 2,
+         "wait": 0.15
+        },
+        {
+         "at": 3,
+         "wait": 0.25
+        },
+        {
+         "at": 4,
+         "wait": 0.2
+        },
+        {
+         "at": 5,
+         "wait": 0.15
+        },
+        {
+         "at": 6,
+         "wait": 0.25
+        },
+        {
+         "at": 7,
+         "wait": 0.2
+        },
+        {
+         "at": 8,
+         "wait": 0.15
+        },
+        {
+         "at": 9,
+         "wait": 0.25
+        },
+        {
+         "at": 10,
+         "wait": 0.2
+        },
+        {
+         "at": 11,
+         "wait": 0.15
+        },
+        {
+         "at": 12,
+         "wait": 0.25
+        },
+        {
+         "at": 13,
+         "wait": 0.2
+        },
+        {
+         "at": 14,
+         "wait": 0.15
+        },
+        {
+         "at": 15,
+         "wait": 0.25
+        },
+        {
+         "at": 16,
+         "wait": 0.2
+        },
+        {
+         "at": 17,
+         "wait": 0.15
+        },
+        {
+         "at": 18,
+         "wait": 0.25
+        },
+        {
+         "at": 19,
+         "wait": 0.2
+        },
+        {
+         "at": 20,
+         "wait": 0.15
+        },
+        {
+         "at": 21,
+         "wait": 0.25
+        },
+        {
+         "at": 22,
+         "wait": 0.2
+        },
+        {
+         "at": 23,
+         "wait": 0.15
+        },
+        {
+         "at": 24,
+         "wait": 0.25
+        },
+        {
+         "at": 25,
+         "wait": 0.2
+        },
+        {
+         "at": 26,
+         "wait": 0.15
+        },
+        {
+         "at": 27,
+         "wait": 0.25
+        },
+        {
+         "at": 28,
+         "wait": 0.2
+        },
+        {
+         "at": 29,
+         "wait": 0.15
+        },
+        {
+         "at": 30,
+         "wait": 0.25
+        },
+        {
+         "at": 31,
+         "wait": 0.2
+        },
+        {
+         "at": 32,
+         "wait": 0.15
+        },
+        {
+         "at": 33,
+         "wait": 0.25
+        },
+        {
+         "at": 34,
+         "wait": 0.2
+        },
+        {
+         "at": 35,
+         "wait": 0.15
+        },
+        {
+         "at": 36,
+         "wait": 0.25
+        },
+        {
+         "at": 37,
+         "wait": 0.2
+        },
+        {
+         "at": 38,
+         "wait": 0.15
+        },
+        {
+         "at": 39,
+         "wait": 0.25
+        },
+        {
+         "at": 40,
+         "wait": 0.2
+        },
+        {
+         "at": 41,
+         "wait": 0.15
+        },
+        {
+         "at": 42,
+         "wait": 0.25
+        },
+        {
+         "at": 43,
+         "wait": 0.2
+        },
+        {
+         "at": 44,
+         "wait": 0.15
+        },
+        {
+         "at": 45,
+         "wait": 0.25
+        },
+        {
+         "at": 46,
+         "wait": 0.2
+        },
+        {
+         "at": 47,
+         "wait": 0.15
+        },
+        {
+         "at": 48,
+         "wait": 0.25
+        }
+       ]
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-22",
+     "name": "Holder 19",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-9",
+     "name": "Holder 8",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-9-spot2",
+     "name": "Holder 8",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-18",
+     "name": "Holder 17",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-18-spot2",
+     "name": "Holder 17",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    },
+    {
+     "id": "actor-18-spot3",
+     "name": "Holder 17",
+     "body": {
+      "shape": "humanoid",
+      "headSize": 1,
+      "bodyWidth": 0.44,
+      "bodyHeight": 0
+     },
+     "color": "#ff4655",
+     "behaviors": [
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
+      },
+      {
+       "kind": "respawn",
+       "delay": [
+        0.4,
+        0.9
+       ],
+       "mode": "never"
+      }
+     ],
+     "health": 150
+    }
+   ],
+   "rules": {
+    "duration": 120,
+    "scoring": "clicking",
+    "weapon": "vandal",
+    "playerMovable": true,
+    "fireMode": "hold",
+    "spawnerPick": {
+     "pool": [
+      "spawner-2",
+      "spawner-3",
+      "spawner-4",
+      "spawner-5",
+      "spawner-6",
+      "spawner-7",
+      "spawner-8",
+      "spawner-10",
+      "spawner-11",
+      "spawner-12",
+      "spawner-13",
+      "spawner-14",
+      "spawner-15",
+      "spawner-16",
+      "spawner-17",
+      "spawner-19",
+      "spawner-20",
+      "spawner-22"
+     ],
+     "count": 12
+    }
+   },
+   "dispatchers": [
+    {
+     "id": "dispatcher-9",
+     "name": "Holder 8",
+     "routes": [
+      {
+       "templateId": "actor-9",
+       "streak": [
+        1,
+        1
+       ],
+       "at": {
+        "x": 13.3,
+        "y": 1,
+        "z": -9.2
+       },
+       "rotationY": 5.986,
+       "point": true
+      },
+      {
+       "templateId": "actor-9-spot2",
+       "streak": [
+        1,
+        1
+       ],
+       "at": {
+        "x": 13.7,
+        "y": 1,
+        "z": -4.4
+       },
+       "rotationY": 5.986,
+       "point": true
+      }
+     ],
+     "order": "random",
+     "maxAlive": 1,
+     "interval": [
+      1.5,
+      1.8
+     ],
+     "faceTarget": false,
+     "total": 1
+    },
+    {
+     "id": "dispatcher-18",
+     "name": "Holder 17",
+     "routes": [
+      {
+       "templateId": "actor-18",
+       "streak": [
+        1,
+        1
+       ],
+       "at": {
+        "x": 5.9,
+        "y": 1.97,
+        "z": 17.1
+       },
+       "rotationY": 1.765,
+       "point": true
+      },
+      {
+       "templateId": "actor-18-spot2",
+       "streak": [
+        1,
+        1
+       ],
+       "at": {
+        "x": 9.8,
+        "y": 1,
+        "z": 17.5
+       },
+       "rotationY": 1.844,
+       "point": true
+      },
+      {
+       "templateId": "actor-18-spot3",
+       "streak": [
+        1,
+        1
+       ],
+       "at": {
+        "x": 12.4,
+        "y": 1,
+        "z": 17.3
+       },
+       "rotationY": 1.887,
+       "point": true
+      }
+     ],
+     "order": "random",
+     "maxAlive": 1,
+     "interval": [
+      1.5,
+      1.8
+     ],
+     "faceTarget": true,
+     "total": 1
+    }
+   ]
+  }
+ }
+}

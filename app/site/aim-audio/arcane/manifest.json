@@ -1,0 +1,103 @@
+{
+  "files": {
+    "event-0": "event-0.wav",
+    "event-1": "event-1.wav",
+    "event-2": "event-2.wav",
+    "event-3": "event-3.wav",
+    "event-4": "event-4.wav",
+    "event-6": "event-6.wav",
+    "event-7": "event-7.wav",
+    "event-8": "event-8.wav",
+    "event-9": "event-9.wav",
+    "event-10": "event-10.wav",
+    "event-11": "event-11.wav",
+    "event-12": "event-12.wav",
+    "event-14": "event-14.wav",
+    "fire-transient": "fire-transient.wav",
+    "fire-body": "fire-body.wav",
+    "fire-tail": "fire-tail.wav"
+  },
+  "actions": {
+    "equip": [
+      {
+        "time": 0.012156,
+        "slot": "event-0"
+      },
+      {
+        "time": 0.07416544,
+        "slot": "event-1"
+      },
+      {
+        "time": 0.49648973,
+        "slot": "event-2"
+      }
+    ],
+    "reload": [
+      {
+        "time": 0.016314,
+        "slot": "event-3"
+      },
+      {
+        "time": 0.16337477,
+        "slot": "event-4"
+      },
+      {
+        "time": 0.35089633,
+        "slot": "event-6"
+      },
+      {
+        "time": 0.371429,
+        "slot": "event-7"
+      },
+      {
+        "time": 0.9116881,
+        "slot": "event-8"
+      },
+      {
+        "time": 0.9462773,
+        "slot": "event-9"
+      },
+      {
+        "time": 1.249351,
+        "slot": "event-10"
+      },
+      {
+        "time": 1.553247,
+        "slot": "event-11"
+      },
+      {
+        "time": 1.587013,
+        "slot": "event-12"
+      }
+    ],
+    "inspect": [
+      {
+        "time": 0.056829274,
+        "slot": "event-14"
+      },
+      {
+        "time": 1.0723307,
+        "slot": "event-14"
+      },
+      {
+        "time": 2.434026,
+        "slot": "event-14"
+      }
+    ]
+  },
+  "fire": [
+    {
+      "slot": "fire-transient",
+      "gain": 0.5
+    },
+    {
+      "slot": "fire-body",
+      "gain": 0.32
+    },
+    {
+      "slot": "fire-tail",
+      "gain": 0.32
+    }
+  ],
+  "limits": "Native notify times and event-linked samples. Wwise mixing/randomization are approximated."
+}
