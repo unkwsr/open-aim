@@ -202,7 +202,6 @@ Want to add a drill to the built-in list? See [docs/scenario-format.md](docs/sce
 Credit to the [ishoutu aim trainer](https://ishoutu.cn/aim) for the original idea and for the
 map compression methods openVaim builds on.
 
-Thanks to [@firedevill](https://github.com/firedevill) and [@odykyi](https://github.com/odykyi) for their fixes.
 
 <br>
 
