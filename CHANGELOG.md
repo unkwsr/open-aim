@@ -1,6 +1,96 @@
 # Changelog
 
-All notable changes to open-aim. Newest first.
+All notable changes to openVaim (formerly AimTrainer). Newest first.
+
+## [1.4.0] - 2026-11-14
+
+AimTrainer is now openVaim. This one's big: I rebuilt the maps, added Pearl and Icebox, moved the game to its own thread, and added the Community Workshop, Chamber, Blade Storm, a bunch of skins and a lot of Creator stuff.
+
+Your settings, drills and history carry over when you update.
+
+### Maps
+- New maps: Pearl and Icebox. Both have drills, map art and a minimap, and you can build on them in the Creator.
+- Every map is rebuilt from scratch.
+
+### Performance
+- The game now runs on its own thread, separate from the menus, so frames are steadier.
+- Fixed mouse movement sometimes showing up a frame late, which made aim feel jerky.
+- New Smooth aim option in Settings > Video (off by default). It smooths out your mouse a little more and only adds about 2-3 ms. Clicks and shots aren't delayed.
+- Rounds start faster, and the stutter right at the start is mostly gone.
+- No more freeze the first time a gun, skin or smoke shows up, or when a round has a lot of bots.
+- Map culling option in Settings > Video, for slower PCs.
+- Frame rate defaults to Match display, which feels the smoothest.
+- Lobby scrolling is smoother.
+
+### Community Workshop
+- Publish your drills from the Creator and play other people's.
+- Sign in with Discord to publish, like drills and post scores.
+- Every drill has a 6-character code you can share. Use Enter code to open one.
+- Every Workshop drill has its own leaderboard.
+- Uploads get checked by a moderator before they go public.
+- Bookmark drills to save them to Favorites.
+
+### Training
+- 104 drills on 11 maps: Abyss, Ascent, Bind, Corrode, Haven, Icebox, Lotus, Pearl, Split, Summit and Sunset.
+- 35 new drills on Pearl, Icebox, Sunset, Haven, Ascent, Bind and Lotus. Bots spawn in different spots each round.
+- You can pick the enemy rank on each drill, from Iron to Radiant. Each rank has its own records.
+- If the bots shoot back and you die, the round ends. On Immortal and up (Diamond on site holds) you get your HP back on every kill.
+- Rename drills with the pencil on the card. New drills have a NEW tag.
+
+### Agents
+- Press N in a round to switch between Jett, Neon and Chamber.
+- Chamber is new: Headhunter on Q, Tour de Force on X, with his own arms.
+- Jett now has Blade Storm.
+- Neon slides with right-click while sprinting, same as in VALORANT.
+- Each agent has their own keybinds in Settings > Controls.
+- You can't ADS while dashing, during Updraft or in High Gear.
+
+### Skins
+- New Collection tab in the lobby to look at and equip skins.
+- New skins:
+  - Vandal: Primordium (Base, Cobalt), Kuronami, RGX Blue
+  - Phantom: Recon (Base, Red Camo), Helix
+  - Sheriff: Arcane
+  - Melee: Kuronami no Yaiba, Soulstrife Scythe, Champions 2024 Blade, VCT 2026 Sigil
+- Guns without their own kill effect now have one (kill sound + banner for 1 to 5 kills). Same for Smite Ghost, Headhunter, Tour de Force and Blade Storm.
+- New default skins: Kuronami knife, Champions 2021 Vandal, Recon Phantom (Red Camo), Arcane Sheriff.
+- Default Phantom and Spectre have a proper silencer now.
+
+### Weapons
+- Bucky right-click does the air burst.
+- New Scope 2x zoom key in Settings > Controls. Also fixed accidentally going to 2x when you click twice fast.
+- Left-handed guns show on the left right away.
+- Gun sounds don't lag the first time you shoot a new gun anymore.
+- Hit sound: Porphyr, or use your own file (Settings > Audio).
+- Bots don't flash green when you hit them anymore.
+
+### Creator
+- You can put bots on boxes, crates, containers and walls on every map, right where you click.
+- Trigger lines: a bot appears when you walk over a line.
+- Trades: a bot appears when you kill another one. Two bots can trade each other.
+- Random zones, random spots and random starts, so rounds don't repeat.
+- More peeker options: strafe width, random strafe or hold, random wait.
+- Save bots to a library and reuse them.
+- HP refill on kill, drills up to 30 minutes, and longer smokes.
+- Resize the arena by dragging its edges, any piece size, invisible floors.
+- Multi-select with Shift, fly around in 3D with WASD / Space / Ctrl, and preview only the bots you pick.
+- Bots show their real character models in the Detailed view.
+
+### Other stuff
+- After a round you can replay it on the position map: your route, the bots and every kill.
+- Pre-aim aids are redone: a line to the next bot, a height marker next to your crosshair, kill-order dots and bots on the minimap. They're off for new players.
+- Target Workshop is redone, with a preview that shows the real target size.
+- Square minimap, VALORANT-style FPS counter, cleaner start screen.
+- Stretched resolutions stretch the HUD too.
+- The in-game settings look like the lobby settings now, with a crosshair preview.
+- The installer lets you pick where to install again, and uninstalling asks if you want to keep your settings.
+- The Discord button now goes to the openVaim server.
+- You can start the game on another port with `--port=<number>` if 8000 is taken.
+- Fixed a security issue in the game's local server.
+
+### Special thanks
+- [@firedevill](https://github.com/firedevill) for finding the left-handed gun bug and sending the fix ([#5](https://github.com/unkwsr/open-aim/issues/5)).
+- [@odykyi](https://github.com/odykyi) for the `--port` option ([#9](https://github.com/unkwsr/open-aim/pull/9)).
 
 ## [1.3.0] - 2026-10-29
 
