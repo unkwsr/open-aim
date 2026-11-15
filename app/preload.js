@@ -49,6 +49,8 @@ contextBridge.exposeInMainWorld("__aimDesktop", {
     setVsync: on => ipcRenderer.invoke("aim:valorant:vsync", on),
   },
   fullscreen: () => ipcRenderer.send("aim:fullscreen"),
+  // Exit button (exit-button.js).
+  quit: () => ipcRenderer.send("aim:app:quit"),
   // Backups panel (lobby-bar.js); see backups.js.
   backups: {
     list: () => ipcRenderer.invoke("aim:backups:list"),

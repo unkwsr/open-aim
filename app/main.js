@@ -109,6 +109,8 @@ const PAGE_WATCH_JS = fs.readFileSync(path.join(__dirname, "page-watch.js"), "ut
 const VIDEO_SETTINGS_JS = fs.readFileSync(path.join(__dirname, "video-settings.js"), "utf-8");
 // Interface: Performance / Enhanced (Settings > Video > Smoothness).
 const INTERFACE_MODE_JS = fs.readFileSync(path.join(__dirname, "interface-mode.js"), "utf-8");
+// Exit button in the top-right corner of the lobby.
+const EXIT_BUTTON_JS = fs.readFileSync(path.join(__dirname, "exit-button.js"), "utf-8");
 // Backups and sensitivity panels opened from the top bar.
 const SNIPER_SCOPES_JS = fs.readFileSync(path.join(__dirname,"sniper-scopes.js"),"utf-8");
 const FAN_AUDIO_JS = fs.readFileSync(path.join(__dirname,"fan-audio.js"),"utf-8");
@@ -157,6 +159,7 @@ const UI_SCRIPTS = [
   ["ANGLE AIDS", ANGLE_AIDS_JS],
   ["PLAYER TOOLS", PLAYER_TOOLS_JS],
   ["INTERFACE MODE", INTERFACE_MODE_JS],
+  ["EXIT BUTTON", EXIT_BUTTON_JS],
   // Normal gameplay skips recording; the diagnostic launcher sets AIM_FRAME_LOG=1.
   ...(FRAME_LOG_ENABLED ? [["FRAME LOG", FRAME_LOG_JS]] : []),
   ["FRAME METER", FRAME_METER_JS],
@@ -928,6 +931,11 @@ function createWindow(url) {
 ipcMain.on("aim:fullscreen", (event) => {
   const win = BrowserWindow.fromWebContents(event.sender);
   if (win && !win.isFullScreen()) win.setFullScreen(true);
+});
+
+// Exit button (exit-button.js): only the trainer's own window may close the app.
+ipcMain.on("aim:app:quit", (event) => {
+  if (mainWindow && event.sender === mainWindow.webContents) app.quit();
 });
 
 // Desktop shell info for window.aimDesktop (preload.js): VSync state and the
