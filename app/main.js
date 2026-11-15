@@ -109,6 +109,7 @@ const PAGE_WATCH_JS = fs.readFileSync(path.join(__dirname, "page-watch.js"), "ut
 const VIDEO_SETTINGS_JS = fs.readFileSync(path.join(__dirname, "video-settings.js"), "utf-8");
 // Interface: Performance / Enhanced (Settings > Video > Smoothness).
 const INTERFACE_MODE_JS = fs.readFileSync(path.join(__dirname, "interface-mode.js"), "utf-8");
+const SPOT_MODE_CARDS_JS = fs.readFileSync(path.join(__dirname, "spot-mode-cards.js"), "utf-8");
 // Backups and sensitivity panels opened from the top bar.
 const SNIPER_SCOPES_JS = fs.readFileSync(path.join(__dirname,"sniper-scopes.js"),"utf-8");
 const FAN_AUDIO_JS = fs.readFileSync(path.join(__dirname,"fan-audio.js"),"utf-8");
@@ -157,6 +158,7 @@ const UI_SCRIPTS = [
   ["ANGLE AIDS", ANGLE_AIDS_JS],
   ["PLAYER TOOLS", PLAYER_TOOLS_JS],
   ["INTERFACE MODE", INTERFACE_MODE_JS],
+  ["SPOT MODE CARDS", SPOT_MODE_CARDS_JS],
   // Normal gameplay skips recording; the diagnostic launcher sets AIM_FRAME_LOG=1.
   ...(FRAME_LOG_ENABLED ? [["FRAME LOG", FRAME_LOG_JS]] : []),
   ["FRAME METER", FRAME_METER_JS],
@@ -454,6 +456,13 @@ function saveEnemyRanks() {
   try { fs.writeFileSync(ENEMY_RANK_FILE, JSON.stringify(enemyRanks)); } catch (err) { console.log(`ENEMY RANK: ${err}`); }
 }
 
+// spot-mode: "fixed" or "random" bot spots per drill, picked on the lobby card (spot-mode-cards.js).
+const spotMode = require("./spot-mode.js");
+const SPOT_MODE_FILE = path.join(app.getPath("userData"), "spot-modes.json");
+let spotModes = {};
+try { spotModes = JSON.parse(fs.readFileSync(SPOT_MODE_FILE, "utf-8")) || {}; } catch {}
+const itemOf = (code) => trainingSet.items.find((i) => i.shareCode === code);
+
 function sendJson(req, res, value) {
   const body = Buffer.from(JSON.stringify(value), "utf-8");
   res.writeHead(200, { "Content-Type": "application/json", "Content-Length": body.length, "Cache-Control": "no-cache" });
@@ -709,6 +718,27 @@ async function handle(req, res) {
     }
     return;
   }
+  // spot-mode: lobby cards ask which drills can switch bot spots (?codes=a,b,...) and save a pick
+  // (?code=..&set=fixed|random, only with the X-Aim-Local header so another page can't change it).
+  if (requested === "/api/local/spot-mode") {
+    const set = url.searchParams.get("set"), code = url.searchParams.get("code") || "";
+    if (set !== null) {
+      const item = itemOf(code), scene = trainingSet.scenes[code];
+      if (req.headers["x-aim-local"] !== "1" || (set !== "fixed" && set !== "random") || !item || !spotMode.info(scene, item).eligible) { res.writeHead(400).end(); return; }
+      spotModes[code] = set;
+      try { fs.writeFileSync(SPOT_MODE_FILE, JSON.stringify(spotModes)); } catch (err) { console.log(`SPOT MODE: ${err}`); }
+      sendJson(req, res, { [code]: spotMode.info(scene, item, set) });
+      return;
+    }
+    const out = {};
+    for (const c of (url.searchParams.get("codes") || "").split(",").slice(0, 300)) {
+      if (!/^[a-z0-9-]{1,64}$/i.test(c)) continue;
+      const item = itemOf(c);
+      out[c] = item ? spotMode.info(trainingSet.scenes[c], item, spotModes[c]) : { eligible: false };
+    }
+    sendJson(req, res, { cards: out });
+    return;
+  }
   // enemy-rank-v1: lobby cards ask which drills can have an enemy rank (?codes=a,b,...) and save a pick
   // (?code=..&set=<rank>, only with the X-Aim-Local header so another page can't change it).
   if (requested === "/api/local/enemy-rank") {
@@ -772,7 +802,7 @@ async function handle(req, res) {
     let scene = own ? own.scene : bundled || online;
     if (bundled && drillNames[code]) scene = { ...scene, name: drillNames[code] }; // drill-names-v1
     if (scene) {
-      sendJson(req, res, { code: "00000", data: enemyRank.sceneWithRank(drillShuffle.shuffleScene(scene, Math.random, code),enemyRanks[code], enemyRank.isHoldSite(scene, (trainingSet.items.find((i) => i.shareCode === code) || own?.item || {}).type)), msg: "", local: true });
+      sendJson(req, res, { code: "00000", data: enemyRank.sceneWithRank(drillShuffle.shuffleScene(bundled ? spotMode.apply(scene, itemOf(code), spotModes[code], trainingSet) : scene, Math.random, code),enemyRanks[code], enemyRank.isHoldSite(scene, (trainingSet.items.find((i) => i.shareCode === code) || own?.item || {}).type)), msg: "", local: true });
       return;
     }
     // enemy-rank-v1: a shipped scene file with a picked rank is sent with the rank applied.
