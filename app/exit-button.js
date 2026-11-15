@@ -7,12 +7,12 @@
 
   const css = document.createElement("style");
   css.textContent = `
-.es-exit{position:fixed;top:0;right:0;z-index:2147482000;width:40px;height:40px;padding:0;border:0;
+.es-exit{position:fixed;top:0;right:0;z-index:2147482000;width:44px;height:62px;padding:0;border:0;
   background:transparent;color:#aeb2ba;cursor:pointer;display:grid;place-items:center}
 .es-exit:hover,.es-exit:focus-visible{background:#ff4655;color:#fff;outline:none}
 .es-exit svg{pointer-events:none}
 body.al-training-active .es-exit{display:none}
-/* Leave room so the top bar's right edge (Sens box) is not under the button. */
+/* 62px = the top bar's height, so the X is centred on the same line as the Sens box. Leave room for it. */
 .hall-topnav{padding-right:44px!important;box-sizing:border-box}`;
   document.head.append(css);
 
