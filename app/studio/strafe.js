@@ -3,8 +3,15 @@
 // distance and timing), short pauses, and a mix of short taps and longer strafes.
 // tap: [chance, min m, max m] - a tap moves a short distance from where the bot stands (the game's
 // counter-strafe reads it, /* aim-strafe-taps */ in BiMsX6Xn.js); other legs cross to the far side.
+// bot-speed-v1 (19 Nov 2026): every moving bot (not copycat) has a speed slider like copycat's, 0.75x-3x of Walk / Run.
+export const SPEED_SCALE = [0.75, 3];
+// bot-speed-default-v1: speedScale null = default: 1.25x with no gun (your own knife speed, 6.75 m/s), 1x with a gun
+// in hand (5.4 m/s, your Vandal speed). A value the user picks on the slider is kept as it is.
+export const defaultSpeedScale = (bot) => (bot.weapon ? 1 : 1.25);
+export const speedScale = (bot) => Math.max(SPEED_SCALE[0], Math.min(SPEED_SCALE[1], Number.isFinite(bot.speedScale) ? bot.speedScale : defaultSpeedScale(bot)));
+export const botSpeed = (bot) => Math.round((bot.speed === 'walk' ? 2.97 : 5.4) * speedScale(bot) * 100) / 100;
 export function strafeSettings(bot) {
-  const speed = bot.speed === 'walk' ? 2.97 : 5.4;
+  const speed = botSpeed(bot);
   const width = Math.max(.4, Math.min(12, bot.width || 3));
   const round = n => Math.round(n * 100) / 100;
   return bot.unpredictable === true

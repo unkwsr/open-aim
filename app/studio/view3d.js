@@ -2,11 +2,12 @@
 // It only draws and answers "what is under the mouse"; editing stays in studio.js, which
 // passes in everything it needs (drill, selection, helpers) and handles the results.
 import * as THREE from "./vendor/three.module.js";
-import { arenaBlocks, surfaceFor, darkArena, targetColor } from './arena.js';
+import { arenaBlocks, surfaceFor, darkArena, targetColor, arenaColor } from './arena.js';
 import { dimensions, wallDepth } from './transform.js';
 import { aimApplySurface, aimSurfaceSpec } from '/_assets/r20261021-1/next/js/CnrSARj_.js';
 import { loadDetailedMap } from './detailed-map.js';
 import { agentModel, agentModelNow } from './agent-models.js';
+import { isDot, dotRadius, dotHeight } from './drill.js';
 
 const RED = 0xe0646f, RED_SHOOT = 0xff4655, GREEN = 0x4ade80, ORANGE = 0xffb547, TEAL = 0x2fe0c8, AIR = 0x7fd8ff, SPOT = 0xb98cff;
 const rad = (d) => (d * Math.PI) / 180;
@@ -130,7 +131,7 @@ export function createView3D(container, { redraw = () => {} } = {}) {
 
   // ---------- world: training range floor or the map's collision as a blockout ----------
   function setWorld(map, rangeSize, drill, detailed = false) {
-    const k = map ? `map:${map.id}:${drill.arenaTheme}:${detailed}` : [rangeSize, drill.arenaWallHeight, drill.arenaTheme, drill.floorSurface, drill.wallSurface, drill.floorTileScale, drill.wallTileScale].join('|');
+    const k = map ? `map:${map.id}:${drill.arenaTheme}:${detailed}` : [rangeSize, drill.arenaWallHeight, drill.arenaTheme, drill.floorSurface, drill.wallSurface, drill.floorTileScale, drill.wallTileScale, JSON.stringify(drill.arenaColors || null)].join('|');
     if (k === worldKey) return;
     worldKey = k;
     detail.clear();
@@ -147,7 +148,7 @@ export function createView3D(container, { redraw = () => {} } = {}) {
     // The game's map shaders expect the game's own fog; the editor fog would black them out.
     scene.fog = map && detailed ? null : editorFog;
     status.hidden = true;
-    const backdrop = !map && !darkArena(drill) ? 0xc1c5cb : 0x07090c;
+    const backdrop = map ? 0x07090c : new THREE.Color(arenaColor(drill, 'sky')).getHex();
     renderer.setClearColor(backdrop); editorFog.color.setHex(backdrop);
     disposeGroup(world);
     surfaces.length = 0;
@@ -365,8 +366,30 @@ export function createView3D(container, { redraw = () => {} } = {}) {
     return group;
   }
 
-  function addBot(it, y, selected, h) {
+  function addBot(it, y, selected, h, drill) {
     const g = new THREE.Group();
+    if (isDot(it)) {
+      // dot-bots-v1: the ball at its height over a thin stand line; the group stays on the floor like a bot.
+      const r = dotRadius(it), up = dotHeight(it);
+      const ball = pickable(new THREE.Mesh(sharedGeometry('dot-ball:' + r, () => new THREE.SphereGeometry(r, 20, 14)), new THREE.MeshBasicMaterial({ color: new THREE.Color(targetColor(drill)) })), { type: "item", id: it.id });
+      ball.position.y = up;
+      // An invisible bigger ball so a small dot is still easy to click and drag.
+      const grab = pickable(new THREE.Mesh(sharedGeometry('dot-grab', () => new THREE.SphereGeometry(0.45, 12, 8)), HIDDEN), { type: "item", id: it.id });
+      grab.position.y = up;
+      // dot-bots-v3: just the ball (no stand or floor ring); selected: a soft white shell around it.
+      g.add(ball, grab);
+      if (selected) { const shell = new THREE.Mesh(sharedGeometry('dot-shell:' + r, () => new THREE.SphereGeometry(r + 0.08, 20, 14)), glow(0xffffff, 0.3)); shell.position.y = up; g.add(shell); }
+      // dot-bots-v4: white arrows above (higher) and below (lower) the ball; drag them to set its height.
+      if (selected) for (const sign of [1, -1]) {
+        const at = { x: it.x, y: y + up + sign * (r + 0.25), z: it.z };
+        arrowHandle(at.x, at.y, at.z, { x: 0, y: sign, z: 0 }, 0xffffff, { type: 'transform', id: it.id, action: 'resize', dimension: 'height', sign, origin: at, axis: { x: 0, y: sign, z: 0 } }, 1);
+      }
+      g.position.set(it.x, y, it.z);
+      things.add(g);
+      bots.set(it.id, { group: g, y, item: it });
+      labelList.push({ text: h.label(it), pos: new THREE.Vector3(it.x, y + up + r + 0.35, it.z), strong: selected, follow: it.id });
+      return;
+    }
     const tall = it.crouch ? 1.15 : 1.75;
     const bodyMat = mat(it.shoots !== "off" ? RED_SHOOT : RED, { emissive: selected ? 0x553333 : 0x000000 });
     const body = pickable(new THREE.Mesh(new THREE.CapsuleGeometry(0.3, tall - 0.6, 4, 12), bodyMat), { type: "item", id: it.id });
@@ -385,10 +408,13 @@ export function createView3D(container, { redraw = () => {} } = {}) {
     g.position.set(it.x, y, it.z);
     g.rotation.y = rad(h.facingOf(it));
     things.add(g);
-    bots.set(it.id, { group: g, y, item: it });
+    const entry = { group: g, y, item: it, body, nose, tall, mesh: null, low: it.crouch && it.move !== "copycat" };
+    bots.set(it.id, entry);
     if (showModels) {
       const wear = (model) => {
-        g.add(new THREE.Mesh(model.geometry, model.material));
+        entry.mesh = new THREE.Mesh(model.geometry, model.material);
+        g.add(entry.mesh);
+        if (it.move === "copycat") entry.low = undefined; // copycatPose picks the pose on the next frame
         // The pill stays as the invisible thing you click and drag.
         body.material = HIDDEN; nose.visible = false;
       };
@@ -477,6 +503,12 @@ export function createView3D(container, { redraw = () => {} } = {}) {
     for (const it of drill.items.filter((i) => i.kind === "bot")) {
       const isSel = it.id === sel;
       const y = Y(it.x, it.z, it.y);
+      // waves-tabs-v1: a bot of another wave than the one being edited: a faint see-through body, still clickable.
+      if (h.faded && h.faded(it)) {
+        const ghost = pickable(new THREE.Mesh(sharedGeometry('spot-body', () => new THREE.CylinderGeometry(0.3, 0.3, 1.75, 16).translate(0, 0.875, 0)), glow(0xb8c0c8, 0.12)), { type: "item", id: it.id });
+        ghost.position.set(it.x, y, it.z); things.add(ghost);
+        continue;
+      }
       if (it.route) {
         const pts = it.route.map((p) => ({ x: p.x, y: Y(p.x, p.z, p.y) + 0.08, z: p.z }));
         polyline(it.move === "patrol" && pts.length > 2 ? [...pts, pts[0]] : pts, isSel ? ORANGE : 0x8a6a3a, true);
@@ -486,7 +518,21 @@ export function createView3D(container, { redraw = () => {} } = {}) {
       // Drag the ring/body (or point 1) to move the whole spot; points 2+ move on their own.
       if (Array.isArray(it.spots)) it.spots.forEach((s, j) => {
         const sy = Y(s.x, s.z, s.y), move = { type: "spotMove", id: it.id, spot: j, index: s.route ? 0 : -1 };
-        const ring = pickable(new THREE.Mesh(sharedGeometry('spot-ring', () => new THREE.RingGeometry(0.45, 0.62, 32).rotateX(-Math.PI / 2)), glow(SPOT, isSel ? 0.85 : 0.45)), move);
+        if (isDot(it)) {
+          // dot-spots-v1: a dot's spot is a see-through purple ball at its own height (on its wall if it has one).
+          const r = dotRadius(it), up = Number.isFinite(s.dotHeight) ? s.dotHeight : dotHeight(it);
+          const ball = pickable(new THREE.Mesh(new THREE.SphereGeometry(Math.max(r, 0.12), 20, 14), glow(SPOT, isSel ? 0.55 : 0.3)), move);
+          ball.position.set(s.x, sy + up, s.z); things.add(ball);
+          const grab = pickable(new THREE.Mesh(new THREE.SphereGeometry(0.45, 10, 8), new THREE.MeshBasicMaterial({ visible: false })), move);
+          grab.position.copy(ball.position); things.add(grab);
+          // dot-spots-v2: white up / down arrows on each spot of the selected dot: drag to set that spot's height.
+          if (isSel) for (const sign of [1, -1]) {
+            const at = { x: s.x, y: sy + up + sign * (r + 0.25), z: s.z };
+            arrowHandle(at.x, at.y, at.z, { x: 0, y: sign, z: 0 }, 0xffffff, { type: 'transform', id: it.id, action: 'resize', dimension: 'height', sign, spot: j, origin: at, axis: { x: 0, y: sign, z: 0 } }, 1);
+          }
+          return;
+        }
+        const ring =pickable(new THREE.Mesh(sharedGeometry('spot-ring', () => new THREE.RingGeometry(0.45, 0.62, 32).rotateX(-Math.PI / 2)), glow(SPOT, isSel ? 0.85 : 0.45)), move);
         ring.position.set(s.x, sy + 0.05, s.z); things.add(ring);
         const ghost = pickable(new THREE.Mesh(sharedGeometry('spot-body', () => new THREE.CylinderGeometry(0.3, 0.3, 1.75, 16).translate(0, 0.875, 0)), glow(SPOT, isSel ? 0.22 : 0.1)), move);
         ghost.position.set(s.x, sy, s.z); things.add(ghost);
@@ -497,7 +543,7 @@ export function createView3D(container, { redraw = () => {} } = {}) {
         } else if (isSel) handle(s.x, sy + 0.15, s.z, SPOT, move, 0.28);
         // A peeker's A-D strafe at this spot's peek point; drag an end for this spot's own width.
         if (it.move === "peek" && it.peekStrafe && s.route && s.route[1]) {
-          const sp = s.route[1], a = h.across(sp), half = h.spotPeekWidth(it, s) / 2, py = Y(sp.x, sp.z, sp.y);
+          const sp = s.route[1], a = h.across(it, sp), half = h.spotPeekWidth(it, s) / 2, py = Y(sp.x, sp.z, sp.y);
           polyline([{ x: sp.x - a.x * half, y: py + 0.1, z: sp.z - a.z * half }, { x: sp.x + a.x * half, y: py + 0.1, z: sp.z + a.z * half }], SPOT, it.peekStrafe === "random");
           if (isSel) for (const k of [-1, 1]) endArrow({ x: sp.x + a.x * half * k, z: sp.z + a.z * half * k }, py + 0.15, { x: a.x * k, z: a.z * k }, ORANGE, { type: "spotPeekWidth", id: it.id, spot: j });
         }
@@ -509,19 +555,20 @@ export function createView3D(container, { redraw = () => {} } = {}) {
         polyline(pts, isSel ? ORANGE : 0x8a6a3a);
       }
       if (it.move === "strafe") {
-        const a = h.across(it), half = it.width / 2;
+        const a = h.across(it), half = it.width / 2, y = isDot(it) ? Y(it.x, it.z, it.y) + dotHeight(it) : Y(it.x, it.z, it.y);
         polyline([{ x: it.x - a.x * half, y: y + 0.08, z: it.z - a.z * half }, { x: it.x + a.x * half, y: y + 0.08, z: it.z + a.z * half }], isSel ? ORANGE : 0x8a6a3a);
         if (isSel) for (const s of [-1, 1]) endArrow({ x: it.x + a.x * half * s, z: it.z + a.z * half * s }, y + 0.15, { x: a.x * s, z: a.z * s }, ORANGE, { type: "width", id: it.id });
       }
       // A peeker's A-D strafe at its peek spot (point 2); drag an end to set how wide.
       if (it.move === "peek" && it.peekStrafe && it.route && it.route[1]) {
-        const sp = it.route[1], a = h.across(sp), half = h.peekWidth(it) / 2, sy = Y(sp.x, sp.z, sp.y);
+        const sp = it.route[1], a = h.across(it, sp), half = h.peekWidth(it) / 2, sy = Y(sp.x, sp.z, sp.y);
         polyline([{ x: sp.x - a.x * half, y: sy + 0.1, z: sp.z - a.z * half }, { x: sp.x + a.x * half, y: sy + 0.1, z: sp.z + a.z * half }], isSel ? ORANGE : 0x8a6a3a, it.peekStrafe === "random");
         if (isSel) for (const s of [-1, 1]) endArrow({ x: sp.x + a.x * half * s, z: sp.z + a.z * half * s }, sy + 0.15, { x: a.x * s, z: a.z * s }, ORANGE, { type: "peekWidth", id: it.id });
       }
-      if (isSel && h.fixedFacing(it)) {
-        const f = h.dir(it.facing);
-        handle(it.x + f.x * 2.2, y + 1.5, it.z + f.z * 2.2, 0xffffff, { type: "botTurn", id: it.id });
+      if (isSel && h.fixedFacing(it) && !isDot(it)) {
+        // peek-facing-v2: a peeker's turn handle sits at its peek spot (point 2), where its direction matters.
+        const f = h.dir(h.facingOf(it)), o = h.turnFrom(it), oy = o === it ? y : Y(o.x, o.z, o.y);
+        handle(o.x + f.x * 2.2, oy + 1.5, o.z + f.z * 2.2, 0xffffff, { type: "botTurn", id: it.id });
       }
       const fl = h.flashPath(it);
       if (fl) {
@@ -542,7 +589,7 @@ export function createView3D(container, { redraw = () => {} } = {}) {
         const pop = fl.flight ? fl.flight.at : { x: fl.target.x, y: fl.toY, z: fl.target.z };
         flashes.push({ id: it.id, pts, ball, burst, at: new THREE.Vector3(pop.x, pop.y, pop.z), fly: fl.flight?.fly, glow: fl.flight?.glow });
       }
-      addBot(it, y, isSel, h);
+      addBot(it, y, isSel, h, drill);
     }
 
     // you
@@ -569,15 +616,32 @@ export function createView3D(container, { redraw = () => {} } = {}) {
     pruneMaterials();
   }
 
+  // copycat-pose-v1 (19 Nov 2026): a copycat crouches in the preview when its recording does, like it
+  // does in the game: the crouching model (or a shorter pill) while the run's crouch is past half.
+  // Jumps already show as height; the Studio has only the standing and crouching models, no jump clip.
+  function copycatPose(b, crouch) {
+    if (b.item.move !== "copycat" || !b.body) return;
+    const low = (crouch ?? 0) > 0.5;
+    if (low === b.low) return;
+    b.low = low;
+    const k = low ? 1.15 / b.tall : 1;
+    b.body.scale.y = k; b.body.position.y = (b.tall * k) / 2; b.nose.position.y = b.tall * k - 0.25;
+    if (!b.mesh) return;
+    const ready = agentModelNow(b.item.look, low);
+    if (ready) { b.mesh.geometry = ready.geometry; b.mesh.material = ready.material; }
+    else if (ready === undefined) agentModel(b.item.look, low).then(() => { b.low = !low; redraw(); }); // swaps once loaded
+  }
+
   // ---------- preview: move bots and flashes ----------
   function animate(t, h) {
     for (const [id, b] of bots) {
       const at = h.previewPos(b.item, t);
+      copycatPose(b, at.crouch);
       b.group.visible = at.shown;
       // A copycat's height comes from its recording (jumps), others stand on the floor.
       b.group.position.set(at.x, at.y ?? h.floorAt(at.x, at.z, b.y) ?? b.y, at.z);
       const lab = labelList.find((l) => l.follow === id);
-      if (lab) lab.pos.set(at.x, b.group.position.y + 2.1, at.z);
+      if (lab) lab.pos.set(at.x, b.group.position.y + (isDot(b.item) ? dotHeight(b.item) + dotRadius(b.item) + 0.35 : 2.1), at.z);
       const fl = flashes.find((f) => f.id === id);
       if (fl) {
         const age = at.flashAge, fly = fl.fly ?? h.FUSE, glow = fl.glow ?? 0.6;
@@ -591,11 +655,12 @@ export function createView3D(container, { redraw = () => {} } = {}) {
   function still(h) {
     for (const b of bots.values()) {
       const at = h.stillPos(b.item);
+      copycatPose(b, at ? at.crouch : 0);
       b.group.visible = true;
       b.group.position.set(at ? at.x : b.item.x, at ? at.y : b.y, at ? at.z : b.item.z);
     }
     for (const f of flashes) { f.ball.visible = false; f.burst.visible = false; }
-    for (const l of labelList) if (l.follow) { const b = bots.get(l.follow); if (b) l.pos.set(b.group.position.x, b.group.position.y + (b.item.crouch ? 1.5 : 2.1), b.group.position.z); }
+    for (const l of labelList) if (l.follow) { const b = bots.get(l.follow); if (b) l.pos.set(b.group.position.x, b.group.position.y + (isDot(b.item) ? dotHeight(b.item) + dotRadius(b.item) + 0.35 : b.item.crouch ? 1.5 : 2.1), b.group.position.z); }
   }
 
   function render() {

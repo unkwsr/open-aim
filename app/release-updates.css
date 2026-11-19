@@ -68,9 +68,14 @@
 }
 .aim-update-toast p { margin: 0 0 10px; font-size: 15px; font-weight: 700; }
 .aim-update-toast button { margin: 4px 6px 0 0; }
-/* Updates button in the lobby bar (lobby-bar.js): a red dot while an update is available. */
+/* update-badge-v1: Updates button in the lobby bar (lobby-bar.js): a red "!" circle while an update is waiting,
+   also after "Remind me in 7 days". Static (no animation, no filter), so it costs nothing per frame. */
 html[data-aim-update-available] .es-bar-updates { position: relative; color: #fff !important; }
-html[data-aim-update-available] .es-bar-updates::after { content: ""; position: absolute; top: 6px; right: 6px; width: 7px; height: 7px; background: #ff4655; box-shadow: 0 0 0 2px #090b0f; }
+html[data-aim-update-available] .es-bar-updates::after {
+  content: "!"; position: absolute; top: -2px; right: 0; width: 14px; height: 14px; border-radius: 50%;
+  background: #ff4655; color: #fff; box-shadow: 0 0 0 2px #090b0f; pointer-events: none;
+  font: 800 10px/14px "Bahnschrift", "Segoe UI", sans-serif; font-stretch: normal; letter-spacing: 0; text-align: center;
+}
 
 /* "What's new": the release's notes from GitHub. Each "## Heading" becomes a section
    under a slanted red bar, e.g. "## New map", "## New skins", "## Fixes". */

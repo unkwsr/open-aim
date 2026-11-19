@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const os = require('node:os');
 const crypto = require('node:crypto');
-const { createUpdater, parseRelease, newer, installerArguments, WEEK } = require('../app/release-updates');
+const { createUpdater, parseRelease, newer, installerArguments } = require('../app/release-updates');
 const payload = Buffer.from('a test installer, never executed');
 function release(tag = 'v1.2.0') {
   return { tag_name: tag, draft: false, prerelease: false, assets: [{ name: 'AimTrainer-Setup.exe', state: 'uploaded', size: payload.length,
@@ -34,20 +34,24 @@ test('stable versions and official uploaded installer with SHA-256 only', () => 
     const r = release(); Object.assign(r.assets[0], change); assert.throws(() => parseRelease(r, '1.1.1'), /verified Windows installer/);
   }
 });
-test('skip survives restart, applies to one version, manual check overrides it', async t => {
-  const f = fixture(t); await f.updater.check(); f.updater.dismiss('skip');
-  const restarted = createUpdater(f.options); assert.equal((await restarted.check()).release, null);
-  assert.equal((await restarted.check(true)).release.version, '1.2.0');
-  const next = createUpdater({ ...f.options, fetchImpl: async () => new Response(JSON.stringify(release('v1.3.0'))) });
-  assert.equal((await next.check()).release.version, '1.3.0');
+// update-prompt-v1: no remind / skip any more. Old saved snooze / skip prefs must not hide the update.
+test('every launch offers the update; old snooze and skip prefs are ignored', async t => {
+  const f = fixture(t);
+  fs.writeFileSync(path.join(f.data, 'release-updates.json'), JSON.stringify({ snoozeUntil: Date.now() + 1e9, ignoredVersion: '1.2.0' }));
+  const restarted = createUpdater(f.options);
+  assert.equal(restarted.dismiss, undefined);
+  assert.equal((await restarted.check()).status, 'available');
+  assert.equal(restarted.snapshot().pendingVersion, '1.2.0');
 });
-test('seven-day snooze survives restart, expires, and manual checks bypass it', async t => {
-  let time = 1000000; const f = fixture(t, { now: () => time });
-  await f.updater.check(); f.updater.dismiss('snooze');
-  const restarted = createUpdater(f.options), count = f.calls.length;
-  time += WEEK - 1; await restarted.check(); assert.equal(f.calls.length, count);
-  assert.equal((await restarted.check(true)).status, 'available');
-  time++; assert.equal((await restarted.check()).status, 'available');
+test('pendingVersion (the "!" badge) survives restart until installed or nothing newer', async t => {
+  const f = fixture(t); await f.updater.check();
+  assert.equal(createUpdater(f.options).snapshot().pendingVersion, '1.2.0');
+  assert.equal(createUpdater({ ...f.options, currentVersion: '1.2.0' }).snapshot().pendingVersion, null);
+  const offline = createUpdater({ ...f.options, fetchImpl: async () => { throw Error('fetch failed'); } });
+  await offline.check(); assert.equal(offline.snapshot().pendingVersion, '1.2.0');
+  const latest = createUpdater({ ...f.options, fetchImpl: async () => new Response(JSON.stringify(release('v1.1.1'))) });
+  await latest.check(); assert.equal(latest.snapshot().pendingVersion, null);
+  assert.equal(createUpdater(f.options).snapshot().pendingVersion, null);
 });
 test('verified update uses selected folder, flushes before launching, preserves settings', async t => {
   const f = fixture(t, { beforeInstall: async () => f.calls.push('flush') });

@@ -1,21 +1,28 @@
-// Adapt the reflected Wushu Glide force settings to metre-based movement.
-// Force-module execution is unavailable; these bounded-force semantics are
-// a reconstruction, not recovered Blueprint code.
+// Jett glide = ForceModule_Wushu_Glide Blueprint (FModel export with ReadScriptData, 2026-11-16), cm -> m.
+// glide-bp-v1. Decompiled with tools/kismet/decompile.cjs:
+//  DetermineCanGlide: BounceOffDisableTimeRemaining <= 0 && jump held && !Disarmed && !Suppressed
+//                     && MovementMode == Falling && Velocity.Z <= GlideMaxVerticalSpeed (0)
+//  TickForceModule:   modifiers (Gravity x0.06, MaxSpeed x0.8) are on whenever CanGlide
+//  ShouldApplyForce:  CanGlide && FindFloor distance >= MinimumFloorDistance (35 cm)
+//  GetDesiredVelocity: (CurrentAcceleration * BaseGlideSpeed).xy, FMax(Velocity.Z, MaxDownwardSpeed)
+//  GetAppliedForce:   ClampVectorSize((desired - Velocity) * ForceMultiplier, 0, MaxForce)
+// Not in the Blueprint (native ShooterCharacterMovement, assumed): acceleration = input direction (unit),
+// force is applied as velocity += force * dt after gravity.
 export const glideTuning=Object.freeze({gravityScale:.06,maxSpeedRatio:.8,baseSpeed:5.2,
  maxDownwardSpeed:-2.1,maxAcceleration:5.5,response:30,minimumFloorDistance:.35,wallDisableSeconds:.1});
-export function stepGlideVelocity(p,input,dt,runSpeed,gravity,previousVertical){
- const t=glideTuning,verticalForce=Math.max(-t.maxAcceleration,Math.min(t.maxAcceleration,
-  gravity+(t.maxDownwardSpeed-previousVertical)*t.response));
- // Gravity was integrated by the solver immediately before this force.
- p.verticalVelocity+=verticalForce*dt;
- const maxSpeed=Math.min(t.baseSpeed,Math.max(0,runSpeed)*t.maxSpeedRatio);
- const length=Math.hypot(input.strafe,input.forward),speed=Math.hypot(p.velocity.x,p.velocity.y);
- let x=p.velocity.x,y=p.velocity.y;
+export function stepGlideVelocity(p,input,dt,runSpeed,_gravity,_previousVertical){
+ if(p.glideForce===0)return; // under 35 cm: modifiers only, no force
+ const t=glideTuning,speed=Math.min(t.baseSpeed,Math.max(0,runSpeed)*t.maxSpeedRatio);
+ const length=Math.hypot(input.strafe,input.forward);
+ let wx=0,wy=0;
  if(length>0){const right=input.strafe/length,forward=input.forward/length;
-  x=(Math.cos(p.yaw)*right-Math.sin(p.yaw)*forward)*maxSpeed;
-  y=(-Math.sin(p.yaw)*right-Math.cos(p.yaw)*forward)*maxSpeed;
- }else if(speed>maxSpeed&&speed>0){x*=maxSpeed/speed;y*=maxSpeed/speed;}
- const dx=x-p.velocity.x,dy=y-p.velocity.y,distance=Math.hypot(dx,dy),step=Math.min(1,
-  t.response*dt,distance>0?t.maxAcceleration*dt/distance:1);
- p.velocity.x+=dx*step;p.velocity.y+=dy*step;
+  wx=(Math.cos(p.yaw)*right-Math.sin(p.yaw)*forward)*speed;
+  wy=(-Math.sin(p.yaw)*right-Math.cos(p.yaw)*forward)*speed;
+ }
+ const wz=Math.max(p.verticalVelocity,t.maxDownwardSpeed);
+ let fx=(wx-p.velocity.x)*t.response,fy=(wy-p.velocity.y)*t.response,fz=(wz-p.verticalVelocity)*t.response;
+ const size=Math.hypot(fx,fy,fz);
+ if(size>t.maxAcceleration){const k=t.maxAcceleration/size;fx*=k;fy*=k;fz*=k;}
+ const k=Math.min(dt,1/t.response); // response * dt < 1 at the game's tick rate: never steps past the target
+ p.velocity.x+=fx*k;p.velocity.y+=fy*k;p.verticalVelocity+=fz*k;
 }

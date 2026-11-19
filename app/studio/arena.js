@@ -24,8 +24,16 @@ export const SURFACES = [['plain', 'Flat'], ['tile', 'Grid'], ['industrial', 'In
 export const CHARCOAL = { floor: '#1a1a1e', wall: '#202024', seam: '#333338', floorScale: 2.4, wallScale: 1.2 };
 export const LIGHT = { ...CHARCOAL, floor: '#c6c8cc', wall: '#d9dbdf', seam: '#a7abb1' };
 export const darkArena = drill => drill.arenaTheme !== 'light';
-export const targetColor = drill => darkArena(drill) ? '#ffffff' : '#000000';
-export const arenaPalette = drill => darkArena(drill) ? CHARCOAL : LIGHT;
+// arena-colors-v1 (19 Nov 2026): drill.arenaColors { floor, wall, seam, target } (each optional, '#rrggbb')
+// override the Dark / Light mode colors. Walls and blocks with their own color keep it. The sky always follows the mode.
+export const ARENA_COLOR_KEYS = [['floor', 'Floor'], ['wall', 'Walls and blocks'], ['seam', 'Grid lines'], ['target', 'Targets']];
+const EDITABLE = new Set(ARENA_COLOR_KEYS.map(([k]) => k));
+const hex = v => typeof v === 'string' && /^#[0-9a-f]{6}$/i.test(v);
+export const customArenaColor = (drill, key) => EDITABLE.has(key) && hex(drill.arenaColors?.[key]) ? drill.arenaColors[key].toLowerCase() : null;
+export const themeArenaColor = (drill, key) => key === 'sky' ? (darkArena(drill) ? '#14171c' : '#c1c5cb') : key === 'target' ? (darkArena(drill) ? '#ffffff' : '#000000') : (darkArena(drill) ? CHARCOAL : LIGHT)[key];
+export const arenaColor = (drill, key) => customArenaColor(drill, key) || themeArenaColor(drill, key);
+export const targetColor = drill => arenaColor(drill, 'target');
+export const arenaPalette = drill => ({ ...(darkArena(drill) ? CHARCOAL : LIGHT), floor: arenaColor(drill, 'floor'), wall: arenaColor(drill, 'wall'), seam: arenaColor(drill, 'seam') });
 export const arenaSurface = drill => drill.floorSurface === 'industrial' ? 'industrial' : drill.floorSurface === 'plain' || (drill.arenaTheme === 'original' && !drill.floorSurface) ? 'plain' : 'tile';
 export function setArenaSurface(drill, surface) {
   drill.floorSurface = drill.wallSurface = surface === 'industrial' ? 'industrial' : surface === 'plain' ? 'plain' : 'tile';
@@ -38,7 +46,8 @@ export function surfaceFor(drill, item = null, floor = false) {
   const industrial = selected === 'industrial';
   const pattern = selected === 'plain' ? 'plain' : 'tile';
   const customColor = /^#[0-9a-f]{6}$/i.test(item?.surfaceColor || '') ? item.surfaceColor : null;
-  const themeColor = industrial ? (floor ? '#343d42' : '#48606d') : (floor ? palette.floor : palette.wall);
+  const own = customArenaColor(drill, floor ? 'floor' : 'wall');
+  const themeColor = own || (industrial ? (floor ? '#343d42' : '#48606d') : (floor ? palette.floor : palette.wall));
   const color = customColor || themeColor;
   const result = { color };
   if (pattern === 'tile') {

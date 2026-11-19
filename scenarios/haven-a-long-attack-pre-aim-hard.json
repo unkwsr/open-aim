@@ -529,11 +529,11 @@
        "kind": "shooter",
        "difficulty": "easy",
        "reaction": [
-        0.2,
-        0.4
+        0.9,
+        1.1
        ],
        "cadence": "weapon",
-       "aimErrorDeg": 4,
+       "aimErrorDeg": 9,
        "maxRangeM": 60,
        "engage": "stop",
        "resumeDelay": [

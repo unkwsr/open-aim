@@ -6,7 +6,6 @@ const { spawn } = require("node:child_process");
 
 const API = "https://api.github.com/repos/unkwsr/open-aim/releases/latest";
 const RELEASES = "https://github.com/unkwsr/open-aim/releases";
-const WEEK = 7 * 24 * 60 * 60 * 1000;
 const MAX_INSTALLER = 2 * 1024 * 1024 * 1024;
 const INSTALLER_NAMES = ["openVaim-Setup.exe", "AimTrainer-Setup.exe"];
 const APP_EXE_NAMES = ["openvaim.exe", "aimtrainer.exe"]; // either marks an existing install folder
@@ -55,8 +54,15 @@ function createUpdater(options) {
   } catch {}
   let prefs = {};
   try { const saved = JSON.parse(fs.readFileSync(prefFile, "utf8")); if (saved && typeof saved === "object" && !Array.isArray(saved)) prefs = saved; } catch {}
+  // update-badge-v1: pendingVersion = a newer release the player has not installed. It stays set after "Cancel"
+  // (and app restarts, via prefs) so the lobby's Updates button keeps its "!". Cleared by a check that finds
+  // nothing newer, or once that version is installed.
+  // update-prompt-v1: no "Remind me in 7 days" / "Skip this version" any more; old snoozeUntil / ignoredVersion
+  // prefs are ignored, so every launch asks again ("Update now" / "Cancel").
+  const savedPending = typeof prefs.pendingVersion === "string" && newer(prefs.pendingVersion, currentVersion)
+    ? prefs.pendingVersion : null;
   let state = { status: "idle", currentVersion, directory: installDirectory, supported,
-    release: null, progress: 0, error: "" };
+    release: null, progress: 0, error: "", pendingVersion: savedPending };
   let release = null, checking = null, controller = null, installing = false;
   const snapshot = () => ({ ...state, release: state.release && { ...state.release } });
   function update(values) { Object.assign(state, values); notify(snapshot()); return snapshot(); }
@@ -66,10 +72,14 @@ function createUpdater(options) {
     fs.writeFileSync(prefFile + ".tmp", JSON.stringify(next, null, 2));
     fs.renameSync(prefFile + ".tmp", prefFile); prefs = next;
   }
-  async function check(manual = false) {
+  function rememberPending(version) {
+    state.pendingVersion = version;
+    if ((prefs.pendingVersion || null) === version) return;
+    try { save({ pendingVersion: version }); } catch {} // the badge is a reminder; never fail a check over it
+  }
+  async function check() {
     if (controller || installing) return snapshot();
     if (checking) return checking;
-    if (!manual && Number(prefs.snoozeUntil) > now()) return snapshot();
     checking = (async () => {
       update({ status: "checking", error: "" });
       try {
@@ -87,21 +97,14 @@ function createUpdater(options) {
           }
           release = parseRelease(JSON.parse(Buffer.concat(chunks).toString("utf8")), currentVersion);
         }
-        const hidden = release && !manual && prefs.ignoredVersion === release.version;
-        return update({ status: release && !hidden ? "available" : "latest", release: release && !hidden ? { version: release.version, name: release.name, notes: release.notes } : null });
+        rememberPending(release ? release.version : null);
+        return update({ status: release ? "available" : "latest", release: release ? { version: release.version, name: release.name, notes: release.notes } : null });
       } catch (error) {
         release = null;
         return update({ status: "error", release: null, error: error.message === "fetch failed" ? "Could not reach GitHub. Check your connection and try again." : error.message || "Could not check for updates." });
       }
     })();
     try { return await checking; } finally { checking = null; }
-  }
-  function dismiss(action) {
-    if (controller || installing) return snapshot();
-    if (action === "skip" && release) save({ ignoredVersion: release.version });
-    else if (action === "snooze") save({ snoozeUntil: now() + WEEK });
-    else throw new Error("Unknown update preference.");
-    return update({ status: "idle", release: null, error: "" });
   }
   function selectDirectory(directory) {
     if (controller || installing) throw new Error("Wait for the current update to finish.");
@@ -151,7 +154,7 @@ function createUpdater(options) {
         ? "Download cancelled. Nothing was installed." : error.message });
     } finally { controller = null; }
   }
-  return { snapshot, check, dismiss, selectDirectory, install,
+  return { snapshot, check, selectDirectory, install,
     cancel() { if (!installing) controller?.abort(); },
     dispose() { if (!installing) controller?.abort(); } };
 }
@@ -190,7 +193,12 @@ function register(getWindow) {
   const { app, ipcMain, dialog, shell, session } = require("electron");
   // Test launchers start Electron with a script, where app.getVersion() is Electron's own version;
   // the game's version is the one in package.json (an installed build reports the same).
-  const gameVersion = app.isPackaged ? app.getVersion() : require("./package.json").version;
+  // update-preview-v1: test launchers only (never the installed app): AIM_UPDATE_PREVIEW_VERSION=1.3.0 pretends this
+  // build is that version and checks GitHub at start, so the real lobby prompt / "!" can be seen. Installing stays
+  // off because the build is not packaged ("Update now" opens the panel with the GitHub link).
+  const previewVersion = !app.isPackaged && /^\d+\.\d+\.\d+$/.test(process.env.AIM_UPDATE_PREVIEW_VERSION || "")
+    ? process.env.AIM_UPDATE_PREVIEW_VERSION : null;
+  const gameVersion = previewVersion || (app.isPackaged ? app.getVersion() : require("./package.json").version);
   const updater = createUpdater({ currentVersion: gameVersion, userData: app.getPath("userData"),
     installDirectory: path.dirname(process.env.PORTABLE_EXECUTABLE_FILE || app.getPath("exe")),
     supported: app.isPackaged && process.platform === "win32" && !process.env.PORTABLE_EXECUTABLE_FILE,
@@ -207,8 +215,6 @@ function register(getWindow) {
   }
   handle("state", () => updater.snapshot());
   handle("check", () => updater.check(true));
-  handle("skip", () => updater.dismiss("skip"));
-  handle("snooze", () => updater.dismiss("snooze"));
   handle("cancel", () => updater.cancel());
   handle("install", () => updater.install());
   handle("releases", () => shell.openExternal(RELEASES));
@@ -218,11 +224,11 @@ function register(getWindow) {
     return result.canceled ? updater.snapshot() : updater.selectDirectory(result.filePaths[0]);
   });
   // No network traffic from source checkouts, and no polling on the game loop.
-  const initial = app.isPackaged ? setTimeout(() => updater.check(), 10000) : null;
+  const initial = app.isPackaged || previewVersion ? setTimeout(() => updater.check(), previewVersion ? 3000 : 10000) : null;
   const interval = app.isPackaged ? setInterval(() => updater.check(), 6 * 60 * 60 * 1000) : null;
   initial?.unref(); interval?.unref();
   app.once("will-quit", () => { clearTimeout(initial); clearInterval(interval); updater.dispose(); });
   return updater;
 }
 
-module.exports = { createUpdater, parseRelease, newer, installerArguments, validateDirectory, register, WEEK };
+module.exports = { createUpdater, parseRelease, newer, installerArguments, validateDirectory, register };

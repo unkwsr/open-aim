@@ -87,15 +87,20 @@
         if (state.supported) {
           const install = button("Update and restart now", () => run(api.install)); install.className = "aim-update-primary"; actions.append(install);
         }
-        actions.append(button("Remind me in 7 days", () => run(api.snooze).then(ok => ok && close())), button("Skip this version", () => run(api.skip).then(ok => ok && close())));
+        actions.append(button("Cancel", close)); // update-prompt-v1: no remind / skip; it asks again next launch
       }
       actions.append(button("Check for updates", () => run(api.check)), button("View GitHub releases", () => run(api.releases)));
     }
   }
   function mount() {
     if (toast && !toast.isConnected) toast = null;
-    // The Updates button in the lobby bar (lobby-bar.js) shows a dot while one is available.
-    document.documentElement.toggleAttribute("data-aim-update-available", state?.status === "available");
+    // update-badge-v1: the Updates button in the lobby bar (lobby-bar.js) shows a red "!" while a newer version
+    // is waiting, also after "Remind me in 7 days" (state.pendingVersion, kept by release-updates.js).
+    const waiting = state?.status === "available" ? state.release?.version : state?.pendingVersion;
+    document.documentElement.toggleAttribute("data-aim-update-available", !!waiting);
+    const updatesButton = document.querySelector(".es-bar-updates");
+    const title = waiting ? `openVaim ${waiting} is available` : "Check for updates";
+    if (updatesButton && updatesButton.title !== title) updatesButton.title = title;
     if (state?.status !== "available" || dismissed || panel) { toast?.remove(); toast = null; return; }
     const lobby = document.querySelector(".hall-root");
     if (!lobby || !lobby.getClientRects().length || document.pointerLockElement ||
@@ -103,7 +108,12 @@
     if (toast) return;
     toast = document.createElement("aside"); toast.className = "aim-update-toast"; toast.setAttribute("aria-label", "Update available");
     const text = document.createElement("p"); text.textContent = `openVaim ${state.release.version} is available.`;
-    toast.append(text, button("Update now…", open), button("Remind me in 7 days", () => run(api.snooze)), button("Skip this version", () => run(api.skip)));
+    // update-prompt-v1: asked on every launch. "Update now" starts the download + install right away in the
+    // installed app (the panel shows progress); portable / dev builds get the panel with the GitHub link.
+    // "Cancel" hides it until the next launch; the "!" on the Updates button stays.
+    const updateNow = button("Update now", () => { open(); if (state?.supported) run(api.install); });
+    updateNow.className = "aim-update-primary";
+    toast.append(text, updateNow, button("Cancel", () => { dismissed = true; toast?.remove(); toast = null; }));
     lobby.appendChild(toast);
   }
   function receive(next) {

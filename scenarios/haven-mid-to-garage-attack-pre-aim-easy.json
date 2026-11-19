@@ -703,13 +703,13 @@
       },
       {
        "kind": "shooter",
-       "difficulty": "easy",
+       "difficulty": "hard",
        "reaction": [
-        0.9,
-        1.1
+        0.34,
+        0.44
        ],
        "cadence": "weapon",
-       "aimErrorDeg": 9,
+       "aimErrorDeg": 2.8,
        "maxRangeM": 80,
        "engage": "stop",
        "resumeDelay": [

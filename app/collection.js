@@ -8,7 +8,7 @@
   window.__aimCollection = true;
 
   const IMG = (weapon, id) => `/aim-ui/collection/${weapon}--${id}.webp`;
-  // family: skins shown as one tile, the variants as colour swatches
+  // family: skins shown as one tile with a variant picker
   const WEAPONS = [
     { id: "ghost", label: "Ghost", key: "es-ghost-skin", global: "__aimGhostSkin", fallback: "default", skins: [
       { id: "default", name: "Ghost" },
@@ -26,9 +26,11 @@
       { id: "rgx-vandal-blue", name: "RGX 11z Pro Vandal", family: "rgx", swatch: "#2f7bff", variant: "Blue" },
       { id: "gaia-vandal-orange", name: "Gaia's Vengeance Vandal", family: "gaia", swatch: "#e2551d", variant: "Orange" },
       { id: "gaia-vandal-white", name: "Gaia's Vengeance Vandal", family: "gaia", swatch: "#e9ecf2", variant: "White" },
+      { id: "gaia-vandal-blue", name: "Gaia's Vengeance Vandal", family: "gaia", swatch: "#36bde9", variant: "Blue" },
       { id: "primordium-vandal", name: "Primordium Vandal", family: "primordium", swatch: "#c9a45a", variant: "Base" },
       { id: "primordium-vandal-cobalt", name: "Primordium Vandal", family: "primordium", swatch: "#3e64d8", variant: "Cobalt" },
-      { id: "kuronami-vandal-white", name: "Kuronami Vandal" },
+      { id: "kuronami-vandal-standard", name: "Kuronami Vandal", family: "kuronami-vandal", swatch: "#306a93", variant: "Standard" },
+      { id: "kuronami-vandal-black-red", name: "Kuronami Vandal", family: "kuronami-vandal", swatch: "#8f343b", variant: "Black" },
     ] },
     { id: "phantom", label: "Phantom", key: "es-phantom-skin", global: "__aimPhantomSkin", fallback: "blastx-phantom", skins: [
       { id: "default", name: "Phantom" },
@@ -43,22 +45,34 @@
     ] },
     { id: "operator", label: "Operator", key: "es-operator-skin", global: "__aimOperatorSkin", fallback: "default", skins: [
       { id: "default", name: "Operator" },
-      { id: "araxys-operator", name: "Araxys Operator" },
       { id: "rogue-operator", name: "Rogue Operator" },
     ] },
-    { id: "melee", label: "Melee", key: "es-melee-skin", global: "__aimMeleeSkin", fallback: "silkleaf-fan", skins: [
+    { id: "melee", label: "Melee", key: "es-melee-skin", global: "__aimMeleeSkin", fallback: "default", skins: [
       { id: "default", name: "Tactical Knife" },
-      { id: "silkleaf-fan", name: "Silkleaf Fan" },
       { id: "blackmarket-butterfly", name: "Black Market Butterfly Knife" },
-      { id: "orange-butterfly", name: "Orange Butterfly Knife" },
       { id: "prime-axe", name: "Prime Axe" },
       { id: "soulstrife", name: "Soulstrife Scythe" },
       { id: "kuronami", name: "Kuronami no Yaiba" },
+      /* xenohunter-knife */
+      { id: "xenohunter-knife", name: "Xenohunter Knife" },
       { id: "champions-2024-blade", name: "Champions 2024 Blade" },
-      { id: "vct-2026-sigil-purple-red", name: "VCT 2026 Sigil", family: "vct-2026-sigil", swatch: "#a72c64", variant: "Purple / Red (CN)" },
-      { id: "vct-2026-sigil-green", name: "VCT 2026 Sigil", family: "vct-2026-sigil", swatch: "#87b623", variant: "Green (EMEA)" },
+      ...[
+        ["standard", "Standard", "#ebd2a2"],
+        ["purple-red", "CN", "#a72c64"],
+        ["pacific", "Pacific", "#1ebca8"],
+        ["americas", "Americas", "#dd542b"],
+        ["green", "EMEA", "#87b623"]
+      ].flatMap(([color, label, swatch]) => {
+        const family = "vct-2026-sigil";
+        const id = family + "-" + color;
+        return [
+          { id, name: "VCT 2026 Sigil", family, swatch, variant: label },
+          { id: id + "-mvp", name: "VCT 2026 Sigil", family, variant: label + " MVP" }
+        ];
+      }),
       { id: "half-life-crowbar", name: "Half Life Crowbar" },
-      { id: "damascus-karambit", name: "Karambit Damascus Steel" },
+      { id: "damascus-karambit", name: "Champions 2021 Karambit", family: "champions-2021-karambit", variant: "Normal" },
+      { id: "champions-2021-karambit-mvp", name: "Champions 2021 Karambit", family: "champions-2021-karambit", variant: "MVP" },
     ] },
   ];
 
@@ -88,9 +102,52 @@
     return out;
   }
 
+  function enableDragScroll(row) {
+    let drag = null;
+    let suppressClick = false;
+
+    row.addEventListener("pointerdown", (event) => {
+      suppressClick = false;
+      if (!event.isPrimary || event.pointerType === "touch" || event.button !== 0 ||
+          row.scrollWidth <= row.clientWidth) return;
+      drag = { pointerId: event.pointerId, startX: event.clientX, scrollLeft: row.scrollLeft };
+    });
+    row.addEventListener("pointermove", (event) => {
+      if (drag?.pointerId !== event.pointerId) return;
+      const distance = event.clientX - drag.startX;
+      if (!suppressClick) {
+        if (Math.abs(distance) < 6) return;
+        suppressClick = true;
+        row.setPointerCapture(event.pointerId);
+        row.classList.add("is-dragging");
+      }
+      row.scrollLeft = drag.scrollLeft - distance;
+    });
+
+    function stopDrag(event) {
+      if (drag?.pointerId !== event.pointerId) return;
+      drag = null;
+      row.classList.remove("is-dragging");
+    }
+    row.addEventListener("pointerup", stopDrag);
+    row.addEventListener("pointercancel", stopDrag);
+    row.addEventListener("lostpointercapture", stopDrag);
+    row.addEventListener("pointerleave", (event) => {
+      if (!suppressClick) stopDrag(event);
+    });
+    row.addEventListener("click", (event) => {
+      if (suppressClick && event.detail > 0) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }, true);
+  }
+
   function render() {
     if (!page) return;
     const w = WEAPONS.find((x) => x.id === state.weapon);
+    const previousRow = page.querySelector(".es-col-row");
+    const scrollLeft = previousRow?.dataset.weapon === w.id ? previousRow.scrollLeft : 0;
     const on = equipped(w);
     const cur = w.skins.find((s) => s.id === state.preview) || w.skins.find((s) => s.id === on);
     state.preview = cur.id;
@@ -102,18 +159,21 @@
       <div class="es-col-stage"><img class="es-col-hero" alt="" src="${IMG(w.id, cur.id)}" decoding="async"></div>
       <div class="es-col-info">
         <b>${cur.name}</b>
-        ${fam.length ? `<small>Variant · ${cur.variant}</small><div class="es-col-swatches" role="radiogroup" aria-label="Variant">${fam.map((s) => `<button type="button" role="radio" aria-checked="${s.id === cur.id}" class="${s.id === cur.id ? "is-on" : ""}" data-skin="${s.id}" title="${s.variant}" style="--sw:${s.swatch}"></button>`).join("")}</div>` : `<small>${isOn ? "Equipped" : "Not equipped"}</small>`}
+        ${fam.length ? `<small>Variant · ${cur.variant}</small><div class="es-col-swatches" role="radiogroup" aria-label="Variant">${fam.map((s) => `<button type="button" role="radio" aria-checked="${s.id === cur.id}" class="${s.id === cur.id ? "is-on " : ""}${s.swatch ? "" : "es-col-variant-text"}" data-skin="${s.id}" title="${s.variant}"${s.swatch ? ` style="--sw:${s.swatch}"` : ""}>${s.swatch ? "" : s.variant}</button>`).join("")}</div>` : `<small>${isOn ? "Equipped" : "Not equipped"}</small>`}
         <button type="button" class="es-col-equip${isOn ? " is-equipped" : ""}" ${isOn ? "disabled" : ""}>${isOn ? "Equipped" : "Equip"}</button>
       </div>
       <div class="es-col-strip">
         <div class="es-col-tabs" role="tablist">${WEAPONS.map((x) => `<button type="button" role="tab" aria-selected="${x.id === w.id}" class="${x.id === w.id ? "is-on" : ""}" data-weapon="${x.id}">${x.label}</button>`).join("")}</div>
-        <div class="es-col-row">${tiles(w).map((group) => {
+        <div class="es-col-row" data-weapon="${w.id}">${tiles(w).map((group) => {
           const show = group.find((s) => s.id === cur.id) || group.find((s) => s.id === on) || group[0];
           const sel = group.some((s) => s.id === cur.id), eq = group.some((s) => s.id === on);
           const label = group[0].family ? group[0].name : show.name;
-          return `<button type="button" class="es-col-tile${sel ? " is-on" : ""}${eq ? " is-eq" : ""}" data-skin="${show.id}"><img alt="" loading="lazy" decoding="async" src="${IMG(w.id, show.id)}"><span>${label}</span>${group.length > 1 ? `<i>${group.length} variants</i>` : ""}</button>`;
+          return `<button type="button" class="es-col-tile${sel ? " is-on" : ""}${eq ? " is-eq" : ""}" data-skin="${show.id}"><img alt="" draggable="false" loading="lazy" decoding="async" src="${IMG(w.id, show.id)}"><span>${label}</span>${group.length > 1 ? `<i>${group.length} variants</i>` : ""}</button>`;
         }).join("")}</div>
       </div>`;
+    const row = page.querySelector(".es-col-row");
+    row.scrollLeft = scrollLeft;
+    enableDragScroll(row);
   }
 
   function onPageClick(e) {

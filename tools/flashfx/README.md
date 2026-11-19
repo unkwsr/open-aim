@@ -2,7 +2,7 @@
 
 The game's flash renderer (OkAdunfX.js: Em/Lm, xm/bm) draws bot flashes from packs served at
 `/aim-viewmodel/flashfx.<key>.json` plus textures `flashfx.tex.<name>.png` (keys: rey, brc, sky, yru, vys).
-The other dev's packs live in `base/aim-viewmodel/`; ours go in `app/site/aim-viewmodel/` (app/site overrides base).
+The other dev's packs live in `site/aim-viewmodel/`; ours go in `app/site/aim-viewmodel/` (mods override site).
 
 - `build-pack.mjs` - FModel JSON exports of Cascade particle systems -> pack. `list` shows emitters; `build <recipe> <out>` writes one.
 - `glb.mjs` - reads FModel .glb meshes (pack meshes = glTF [x, z, y] * 100, Unreal cm).

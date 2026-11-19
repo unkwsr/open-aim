@@ -1,7 +1,9 @@
 import {createSMAAShaders} from './vendor/smaa/SMAAShader.mjs';
+import {readPotato} from './potato.mjs';
 
 export const ANTI_ALIASING_KEY='aim-anti-aliasing-v1';
 export function readAntiAliasing(storage=globalThis.localStorage){
+ /* potato-mode-v1: Potato = anti-aliasing off (the saved choice is kept for when Potato is off) */if(readPotato(storage))return 'off';
  try{const mode=storage?.getItem(ANTI_ALIASING_KEY);return ['smaa','msaa','off'].includes(mode)?mode:'smaa';}catch{return 'smaa';}
 }
 class Vec2{constructor(x=0,y=0){this.x=x;this.y=y;this.isVector2=true;}set(x,y){this.x=x;this.y=y;return this;}}

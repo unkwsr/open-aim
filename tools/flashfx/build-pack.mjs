@@ -187,7 +187,7 @@ function build(recipeFile, outDir) {
           // projectile speed when present.
           const spu = e.modules.find((m) => m.type === 'SpawnPerUnit' && m.on)?.props;
           const perCm = spu ? constOf(dist(spu.SpawnPerUnit, s), 1) / (spu.UnitScalar || 50) : 0;
-          Object.assign(out, { local: false, align: 'PSA_Square', spawnRate: round(Math.min(240, Math.max(60, perCm * (recipe.trailSpeedCm ?? 2900)))), duration: 1, loops: 0 });
+          Object.assign(out, { local: false, align: 'PSA_Square', spawnRate: round(recipe.ribbonRate ?? Math.min(240, Math.max(60, perCm * (recipe.trailSpeedCm ?? 2900)))), duration: 1, loops: 0 });
           report.push(`${sysName}: ribbon ${e.name} -> trail sprites at ${out.spawnRate}/s`);
         }
         emitters.push(out);

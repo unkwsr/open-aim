@@ -32,8 +32,6 @@ contextBridge.exposeInMainWorld("__aimDesktop", {
   updates: {
     state: () => ipcRenderer.invoke("aim:updates:state"),
     check: () => ipcRenderer.invoke("aim:updates:check"),
-    skip: () => ipcRenderer.invoke("aim:updates:skip"),
-    snooze: () => ipcRenderer.invoke("aim:updates:snooze"),
     directory: () => ipcRenderer.invoke("aim:updates:directory"),
     install: () => ipcRenderer.invoke("aim:updates:install"),
     cancel: () => ipcRenderer.invoke("aim:updates:cancel"),
@@ -49,7 +47,7 @@ contextBridge.exposeInMainWorld("__aimDesktop", {
     setVsync: on => ipcRenderer.invoke("aim:valorant:vsync", on),
   },
   fullscreen: () => ipcRenderer.send("aim:fullscreen"),
-  // Exit button (exit-button.js).
+  // exit-button-v1 (exit-button.js): close the app (main.js checks it comes from the trainer window).
   quit: () => ipcRenderer.send("aim:app:quit"),
   // Backups panel (lobby-bar.js); see backups.js.
   backups: {
@@ -95,9 +93,12 @@ contextBridge.exposeInMainWorld("__aimDesktop", {
     submitScore: (code, round) => ipcRenderer.invoke("aim:workshop:submitScore", code, round),
     setCover: (code, image, type) => ipcRenderer.invoke("aim:workshop:cover", code, image, type),
     publish: (code) => ipcRenderer.invoke("aim:workshop:publish", code),
+    own: (code, action, value) => ipcRenderer.invoke("aim:workshop:own", code, action, value ?? null),
     pending: () => ipcRenderer.invoke("aim:workshop:pending"),
     moderate: (code, action) => ipcRenderer.invoke("aim:workshop:moderate", code, action),
     published: () => ipcRenderer.invoke("aim:workshop:published"),
+    settings: () => ipcRenderer.invoke("aim:workshop:settings"),
+    setSettings: (value) => ipcRenderer.invoke("aim:workshop:setSettings", value),
     banned: () => ipcRenderer.invoke("aim:workshop:banned"),
     unban: (accountId) => ipcRenderer.invoke("aim:workshop:unban", accountId),
     preview: (code) => ipcRenderer.invoke("aim:workshop:preview", code),

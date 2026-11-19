@@ -9,6 +9,11 @@ import {attachMapInstanceVisibility} from './map-instance-visibility.mjs';
 import {gameClock as recordingClock} from './recording-clock.mjs';
 import {detailedCapture} from './performance-capture.mjs';
 import {attachGpuFenceRecovery} from './gpu-fence-recovery.mjs';
+/* settings-to-worker-v1 (14 Nov 2026): apply the saved display settings (enemy outline colour/width/on-off, target pulse,
+   hit bursts, ball colour) in the worker's copy of the game. On the page this is done by a Vue settings store the worker
+   never creates, so outlines stayed yellow. Runs at start and whenever the page saves al-display-settings-v1
+   (threaded-game-bridge.mjs forwards it). b5 = read saved settings, b7/b8/b9 = pulse/bursts/ball colour. */
+function applyDisplaySettings(){try{if(!core)return;const d=core.b5();core.__aimApplyEnemyOutline?.(d);core.b7?.(d);core.b8?.(d);core.b9?.(d);send?.({type:'callback',method:'onWorkerDisplaySettings',args:[{enemyHighlightEnabled:d.enemyHighlightEnabled,enemyHighlightColor:d.enemyHighlightColor,enemyHighlightWidth:d.enemyHighlightWidth}]});}catch(e){console.warn('[worker] display settings',e?.message)}}
 let dom,settings,instance,viewport,core,init,chain=Promise.resolve(),sequence=0,hud=null,outputs=[],lastBatch=0,frameTimes=[],lastHealth=0,healthFrames=0,activeCommand=null;
 const requests=new Map(),controllers=new Map(),aborted=new Set();
 const performanceHeld=new Set();let performanceLook=-Infinity;
@@ -27,7 +32,7 @@ function makeAudio(){
  for(const name of ['__aimLocalAudio','__aimMeleeAudio','__aimArcaneAudio'])Object.defineProperty(globalThis,name,{configurable:true,get:()=>nested(name),set(){}});
  const audio={
   $workerAudio:true,ensure(){audioNotify('audio','ensure',[]);return null;},
-  jettAudio:new Proxy({}, {get:(_t,method)=>(...args)=>{if(method==='warm')return hostRequest('jettAudio.warm',[],'audio');if(method==='observe'&&args[0]){const s=args[0];args[0]={tick:s.tick,player:s.player,jett:s.jett,neon:s.neon,chamber:s.chamber};}audioNotify('audio','jettAudio.'+method,args);}}),
+  jettAudio:new Proxy({}, {get:(_t,method)=>(...args)=>{if(method==='warm')return hostRequest('jettAudio.warm',[],'audio');if(method==='observe'&&args[0]){const s=args[0];args[0]={tick:s.tick,player:s.player,jett:s.jett,neon:s.neon,chamber:s.chamber,waves:s.waves/*wave-hud-worker-v1: the wave counter (wave-hud.mjs) on the page*/};}audioNotify('audio','jettAudio.'+method,args);}}),
   flash:new Proxy({}, {get:(_t,method)=>(...args)=>audioNotify('audio','flash.'+method,args)}),
  };
  return new Proxy(audio,{get(target,method){if(method in target)return target[method];if(method==='then')return undefined;if(method==='weaponSounds')return null;return(...args)=>{if(/^warm/.test(method))return hostRequest(method,args,'audio');audioNotify('audio',method,args);return true;};}});
@@ -35,7 +40,7 @@ function makeAudio(){
 function flush(force=false){
  if(!settings)return;const now=performance.now();if(!force&&now-lastBatch<16)return;lastBatch=now;
  const refs={};for(const key of outputs)if(settings[key])refs[key]=settings[key].current;
- let health=null;if(now-lastHealth>=1000){const scene=globalThis.__aimWorkerScene,s=scene?.snapshot();health={scope:globalThis.constructor.name,offscreen:scene?.stage.canvas instanceof OffscreenCanvas,fps:Math.round(1000*healthFrames/Math.max(1,now-lastHealth)),tick:s?.tick,bots:s?.actors.filter(a=>a.alive&&a.visible).length,position:s?.player.position,grounded:s?.player.grounded,jett:s?.jett,phase:settings.phase.current,command:activeCommand?.method??null,progress:activeCommand?.progress??null,waiting:[...requests.values()].map(r=>({method:r.method,domain:r.domain})),mapSections:scene?.stage.mapSectionVisibility?.snapshot(),corrodeRanges:scene?.stage.corrodeRangeVisibility?.snapshot(),cullMode:scene?.stage.mapSectionVisibility?.enabled?'chunks':(scene?.stage.corrodeRangeVisibility?.possible&&scene?.stage.corrodeRangeVisibility?.on)?'ranges':'off',rangesPossible:!!scene?.stage.corrodeRangeVisibility?.possible,attrs:scene?.stage.renderer.getContext().getContextAttributes()};lastHealth=now;healthFrames=0;}
+ let health=null;if(now-lastHealth>=1000){const scene=globalThis.__aimWorkerScene,s=scene?.snapshot();health={scope:globalThis.constructor.name,potato:globalThis.__aimPotatoInfo??null,render:(()=>{const r=scene?.stage.renderer;if(!r)return null;const gl=r.getContext();return {shadowMap:r.shadowMap.enabled,pixelRatio:r.getPixelRatio(),buffer:[gl.drawingBufferWidth,gl.drawingBufferHeight],aa:scene.stage.antiAliasingStats?.()??null,calls:r.info.render.calls,programs:r.info.programs?.length??null}})()/*potato-matrix-v1: read-only, once per second*/,offscreen:scene?.stage.canvas instanceof OffscreenCanvas,fps:Math.round(1000*healthFrames/Math.max(1,now-lastHealth)),tick:s?.tick,bots:s?.actors.filter(a=>a.alive&&a.visible).length,position:s?.player.position,grounded:s?.player.grounded,jett:s?.jett,phase:settings.phase.current,command:activeCommand?.method??null,progress:activeCommand?.progress??null,waiting:[...requests.values()].map(r=>({method:r.method,domain:r.domain})),mapSections:scene?.stage.mapSectionVisibility?.snapshot(),corrodeRanges:scene?.stage.corrodeRangeVisibility?.snapshot(),cullMode:scene?.stage.mapSectionVisibility?.enabled?'chunks':(scene?.stage.corrodeRangeVisibility?.possible&&scene?.stage.corrodeRangeVisibility?.on)?'ranges':'off',rangesPossible:!!scene?.stage.corrodeRangeVisibility?.possible,attrs:scene?.stage.renderer.getContext().getContextAttributes()};/* bot-skeleton-counter-v1: bot bone updates in the last second (only while bots are drawn) */{const S=globalThis.__aimSkelStats;if(S&&S.calls>0){detailedCapture.event('bot-skeletons',{frames:healthFrames,calls:S.calls,skipped:S.skipped,updated:S.updated,byPose:S.byPose,byMove:S.byMove,ms:Math.round(S.ms*1000)/1000,maxMs:Math.round(S.maxMs*1000)/1000});S.calls=S.skipped=S.updated=S.byPose=S.byMove=S.ms=S.maxMs=0;}}lastHealth=now;healthFrames=0;}
  send({type:'batch',refs:wire(refs),hud,frames:frameTimes,health});hud=null;frameTimes=[];
 }
 async function initialize(message){
@@ -53,7 +58,7 @@ async function initialize(message){
  settings=Object.fromEntries(Object.entries(message.settings).map(([key,value])=>[key,{current:value}]));
  let opening=[];settings.openingLoadout={current:()=>opening};outputs=message.outputs;
  const audio=makeAudio();
- const native=await import(message.runtimeURL);core=await import(new URL('./BiMsX6Xn.js',message.runtimeURL).href);
+ const native=await import(message.runtimeURL);core=await import(new URL('./BiMsX6Xn.js',message.runtimeURL).href);applyDisplaySettings();
  const callbacks=new Proxy({
   onHud(value){hud=value},
   onPhaseChange(value){settings.phase.current=value;send({type:'callback',method:'onPhaseChange',args:[value]});flush(true);},
@@ -147,7 +152,7 @@ addEventListener('message',({data:message})=>{
  if(message.type==='settings'){if(settings)for(const[key,value]of Object.entries(message.values))if(settings[key]){if(['renderScale','renderResolution','aspectRatio','renderEveryNthFrame','frameMode','maxFps','lowLatency','shadows','viewModel','tracers','flashLook'].includes(key))detailedCapture.event('settings-change',{[key]:value});settings[key].current=value;}return;}
  if(message.type==='recording-speed'){recordingClock.setRate(message.rate);return;}
  if(message.type==='preferences'){if(dom){for(const[key,value]of Object.entries(message.storage))dom.storage.set(key,value);Object.assign(globalThis,message.globals)}return;}
- if(message.type==='event'){
+ if(message.type==='event'){if(message.event==='storage'&&message.data?.key==='al-display-settings-v1')applyDisplaySettings();
   /* shared-mouse-v1: movement written before this event is read first; mouse-retime-v1: a press (or losing the
      pointer lock) applies all of it so a shot uses the latest aim, other events only read it */
   drainMouse(undefined,message.event==='mousedown'||message.event==='pointerlockchange'||message.event==='blur'?'flush':'pull');

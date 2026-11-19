@@ -2,6 +2,7 @@
 // Neon's sounds (neon.mjs) ride on the same audio object: the game only creates this one.
 import { createNeonAudio } from './neon.mjs';
 import { createNeonHud } from '../local/neon-hud.mjs';
+import { createWaveHud } from '../local/wave-hud.mjs'; // wave-hud-v1
 import { createChamberHud } from '../local/chamber-hud.mjs';
 export const JETT_AUDIO_FILES=['prime','updraft','equip','throw','dash','smoke-throw','smoke-flight','smoke-form','smoke-loop','equip-weapon','equip-dash','equip-smoke','burst-1','burst-2','burst-3','burst-4','burst-5','burst-last'];
 const FILES=JETT_AUDIO_FILES,bytes=new Map(),contexts=new WeakMap();
@@ -33,13 +34,14 @@ export function createJettAudio({ensure,settings}){
  function loop(name,key,offset,point,player){let voice=loops.get(key);if(!voice)voice=play(name,{loopKey:key,offset,point,player,level:.18});voice?.update(point,player);}
  const hide=()=>{if(document.hidden)clear(false);};
  if(typeof document!=='undefined')document.addEventListener('visibilitychange',hide);
- const neon=createNeonAudio({ensure,settings}),neonHud=createNeonHud(),chamberHud=createChamberHud();
+ const neon=createNeonAudio({ensure,settings}),neonHud=createNeonHud(),chamberHud=createChamberHud(),waveHud=createWaveHud();
  return{
   warm(){neon.warm().catch(e=>console.warn('Neon audio:',e));if(disposed||!enabled())return Promise.resolve();const a=ensure();return a?warmJettAudio(a.context):Promise.resolve();},
-  phase(phase){neon.phase(phase);if(phase!=='running')neonHud.hide(),chamberHud.hide();if(phase!=='running'||!enabled())clear(false);},
+  phase(phase){neon.phase(phase);if(phase!=='running')neonHud.hide(),chamberHud.hide(),waveHud.hide();if(phase!=='running'||!enabled())clear(false);},
   observe(snapshot,events=[]){
    neon.observe(snapshot,events);if(!disposed)try{neonHud.update(snapshot.neon,snapshot.tick);}catch(e){neonHud.failed??=(console.warn('Neon HUD:',e),true);}
    if(!disposed)try{chamberHud.update(snapshot.chamber,snapshot.tick);}catch(e){chamberHud.failed??=(console.warn('Chamber HUD:',e),true);}
+   if(!disposed)try{waveHud.update(snapshot.waves);}catch(e){waveHud.failed??=(console.warn('Wave HUD:',e),true);}
    if(disposed)return;if(snapshot.tick<lastTick)clear();lastTick=snapshot.tick;
    const p=snapshot.player,tick=snapshot.tick;
    if(!snapshot.jett||p.health!==undefined&&p.health<=0){clear(false);return;}
@@ -67,7 +69,7 @@ export function createJettAudio({ensure,settings}){
    previous={bsActive:p.bsActive,twPhase:p.twPhase,cbBlock:p.cbBlock};
   },
   clear(reset){neon.clear(reset);clear(reset);},
-  dispose(){neon.dispose();neonHud.dispose();chamberHud.dispose();if(disposed)return;disposed=true;clear();if(typeof document!=='undefined')document.removeEventListener('visibilitychange',hide);},
+  dispose(){neon.dispose();neonHud.dispose();chamberHud.dispose();waveHud.dispose();if(disposed)return;disposed=true;clear();if(typeof document!=='undefined')document.removeEventListener('visibilitychange',hide);},
   stats:()=>({activeVoices:voices.size,loops:loops.size,seen:seen.size,disposed,played:{...played},neon:neon.stats()}),
  };
 }
