@@ -202,6 +202,11 @@ h1, h2, h3, .brand b, .tray h4, .group > label, .field > label, .btn, .place-til
 .slider { display: flex; align-items: center; gap: 10px; }
 .slider input[type=range] { flex: 1; accent-color: var(--red); }
 .slider output { min-width: 58px; text-align: right; font-variant-numeric: tabular-nums; font-weight: 700; }
+/* wave-panel-v2: since every slider also has a number box, slider + box + readout were wider than the side bar
+   (the inspector scrolled sideways). The range shrinks, the readout is small, on one line and cut with "…". */
+.slider { gap: 8px; min-width: 0; }
+.slider input[type=range] { min-width: 0; }
+.slider output { min-width: 0; max-width: 42%; flex: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; color: var(--muted); }
 .switch { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 5px; background: var(--raised); text-align: left; }
 .switch i { position: relative; width: 36px; height: 20px; border-radius: 10px; background: #3a4855; flex: none; transition: background 0.15s; }
 .switch i::after { content: ""; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; border-radius: 50%; background: #fff; transition: transform 0.15s var(--ease); }
@@ -376,3 +381,128 @@ textarea.text { height: 64px; padding: 8px 10px; resize: vertical; }
 .slider.free input.num { width: 64px; height: 28px; padding: 0 6px; border: 1px solid var(--line); border-radius: 5px; background: var(--raised); color: inherit; font: inherit; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
 .slider.free input.num:focus { outline: none; border-color: var(--red); }
 .slider.free output { min-width: 14px; text-align: left; }
+
+/* studio-adad-controls-v1: settings under "Reward A-D and Dash", indented under their switch */
+.dodge-sub { margin: 2px 0 6px 6px; padding-left: 12px; border-left: 2px solid var(--line); }
+
+/* studio-slider-number-v1: number box next to every slider (same look as the size box above) */
+.slider input.slider-num { width: 64px; height: 28px; padding: 0 6px; border: 1px solid var(--line); border-radius: 5px; background: var(--raised); color: inherit; font: inherit; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; -moz-appearance: textfield; }
+.slider input.slider-num::-webkit-inner-spin-button, .slider input.slider-num::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.slider input.slider-num:focus { outline: none; border-color: var(--red); }
+.point .slider input.slider-num { width: 52px; height: 24px; font-size: 12px; }
+
+/* studio-waves-v1: wave plans in Drill settings > Bots show up */
+.waves { margin-top: 10px; }
+.waves > label { display: block; margin-bottom: 7px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #b9c2cb; }
+.wave-plan { margin: 0 0 10px; padding: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--raised); }
+.wave-plan-head { display: flex; gap: 6px; align-items: center; margin-bottom: 8px; }
+.wave-plan-head input.text { flex: 1; min-width: 0; height: 30px; }
+.wave-bots { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+/* waves-groups-v1: groups inside a wave; one row per bot: name, "after [ ] s", remove */
+.wave-group { margin: 0 0 8px; padding: 8px; border: 1px solid var(--line); border-radius: 5px; background: rgba(0,0,0,0.18); }
+.wave-group-head { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; font-size: 12px; }
+.wave-group-head b { text-transform: uppercase; letter-spacing: 0.06em; color: #e6ebf0; }
+.wave-group-head span { flex: 1; color: #8f99a3; }
+.wave-bot { display: flex; gap: 6px; align-items: center; }
+.wave-bot-at { display: flex; gap: 4px; align-items: center; font-size: 12px; color: #8f99a3; white-space: nowrap; }
+.wave-add-group { width: 100%; }
+/* waves-tabs-v1: one tab per wave; the active group is outlined and takes the bots you place */
+.wave-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.wave-tab { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; min-width: 74px; padding: 6px 10px; cursor: pointer;
+  font: 700 13px Bahnschrift, "Segoe UI", sans-serif; letter-spacing: 0.04em; text-transform: uppercase; color: #d6dce2;
+  background: var(--raised); border: 1px solid var(--line); border-radius: 5px; }
+.wave-tab small { font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-transform: none; color: #8f99a3; }
+.wave-tab:hover { border-color: #ff6b77; }
+.wave-tab.on { background: rgba(255, 70, 85, 0.16); border-color: #ff4655; color: #fff; }
+.wave-tab.add { justify-content: center; align-items: center; color: #9aa3ad; border-style: dashed; }
+.wave-group { cursor: pointer; }
+.wave-group.on { cursor: default; border-color: #ff4655; box-shadow: inset 3px 0 0 #ff4655; }
+.wave-here { margin: 0 0 6px; font-size: 11px; color: #ff8a94; }
+.wave-here.off { color: #6f7882; }
+/* wave-panel-v2: the compact wave panel (studio.js wavesBox, preview previews/wave-panel/index.html) */
+.wv { min-width: 0; }
+.wv-hint { margin: 6px 0 0; font-size: 12px; line-height: 1.35; color: var(--faint); }
+.wv-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.wv-tab { display: grid; grid-template-columns: auto auto; align-items: baseline; justify-content: start; gap: 0 6px; min-width: 62px; padding: 6px 10px; text-align: left; background: var(--raised); border: 1px solid var(--line); cursor: pointer; }
+.wv-tab b { font-size: 16px; font-weight: 700; }
+.wv-tab em { font-style: normal; font-size: 11px; font-weight: 700; color: var(--red-2); }
+.wv-tab small { grid-column: 1 / -1; font-size: 11px; color: var(--muted); }
+.wv-tab:hover { border-color: var(--red-2); }
+.wv-tab.on { background: var(--red-wash); border-color: var(--red); }
+.wv-tab.add { display: grid; place-items: center; min-width: 40px; color: var(--muted); border-style: dashed; }
+.wv-tab.add svg { width: 16px; height: 16px; }
+.wv-card { margin-top: 10px; padding: 10px; background: var(--raised); border: 1px solid var(--line); min-width: 0; }
+.wv-row { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.wv-name { flex: 1; min-width: 0; height: 30px; }
+.wv-name::placeholder { color: var(--text); opacity: 0.9; }
+.wv-icon { flex: none; width: 30px; height: 30px; padding: 0; justify-content: center; color: var(--muted); }
+.wv-icon svg { width: 15px; height: 15px; }
+.wv-plays { justify-content: space-between; margin: 10px 0 2px; }
+.wv-plays > span { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #b9c2cb; }
+.wv-stepper { display: flex; align-items: center; border: 1px solid var(--line); background: var(--bg); }
+.wv-stepper button { display: grid; place-items: center; width: 28px; height: 28px; padding: 0; background: none; border: 0; color: var(--muted); cursor: pointer; }
+.wv-stepper button:hover:not(:disabled) { color: #fff; }
+.wv-stepper button:disabled { opacity: 0.35; cursor: default; }
+.wv-stepper svg { width: 14px; height: 14px; }
+.wv-stepper output { min-width: 36px; text-align: center; font-weight: 700; }
+.wv-group { margin-top: 8px; padding: 8px 8px 8px 10px; border: 1px solid var(--line); background: #0f1218; cursor: pointer; min-width: 0; }
+.wv-group.on { border-color: var(--red); box-shadow: inset 3px 0 0 var(--red); cursor: default; }
+.wv-ghead { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.wv-num { flex: none; display: grid; place-items: center; width: 20px; height: 20px; font-size: 12px; font-weight: 700; background: var(--raised-2); }
+.wv-group.on .wv-num { background: var(--red); }
+.wv-when { flex: 1; min-width: 0; font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wv-tag { flex: none; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red-2); }
+.wv-x { flex: none; display: grid; place-items: center; width: 22px; height: 22px; padding: 0; background: none; border: 0; color: var(--faint); font-size: 15px; line-height: 1; cursor: pointer; }
+.wv-x:hover { color: var(--red-2); }
+.wv-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+.wv-chip { display: inline-flex; align-items: center; max-width: 100%; min-width: 0; background: var(--raised-2); border: 1px solid var(--line); }
+.wv-chip-name { min-width: 0; padding: 3px 2px 3px 8px; background: none; border: 0; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+.wv-chip-name:hover { color: #fff; }
+.wv-chip .wv-x { width: 20px; height: 20px; font-size: 13px; }
+.wv-addbot { position: relative; display: inline-flex; align-items: center; height: 24px; padding: 0 8px; font-size: 12px; color: var(--muted); border: 1px dashed var(--line); cursor: pointer; }
+.wv-addbot:hover { color: #fff; border-color: #343b4a; }
+.wv-addbot select { position: absolute; inset: 0; width: 100%; opacity: 0; cursor: pointer; }
+.wv-empty { margin: 6px 0 0; font-size: 12px; color: var(--faint); display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.wv-addgroup { width: 100%; height: 30px; margin-top: 8px; font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: transparent; border: 1px dashed var(--line); cursor: pointer; }
+.wv-addgroup:hover { color: #fff; border-color: var(--red-2); }
+.wv-sect { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--line); }
+.wv-sect h4 { margin: 0 0 6px; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #b9c2cb; }
+.wv-trow { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 4px 0; font-size: 13px; }
+.wv-trow > span:first-child { min-width: 0; }
+.wv-trow small { display: block; font-size: 11px; color: var(--faint); }
+.wv-num-in { flex: none; display: flex; align-items: center; border: 1px solid var(--line); background: var(--bg); }
+.wv-num-in .slider-num { width: 52px; height: 28px; border: 0; background: transparent; }
+.wv-num-in i { padding: 0 8px 0 2px; font-style: normal; font-size: 12px; color: var(--muted); }
+.wv-sect .switch { width: 100%; }
+.wave-bot-name { flex: 1; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wave-add { margin-top: 2px; }
+.wave-plan .slider { gap: 8px; }
+.wave-plan .slider input[type=range] { min-width: 0; }
+.wave-plan .slider output { min-width: 0; font-size: 12px; white-space: nowrap; }
+
+/* arena-colors-v1: Drill settings > Colors, one compact row per arena part. */
+.arena-colors { display: grid; gap: 6px; }
+.arena-color-row { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 42px; padding: 5px 8px; background: var(--raised); border: 1px solid var(--line); cursor: pointer; }
+.arena-color-row:hover { border-color: #3a4252; }
+.arena-color-row input[type="color"] { width: 30px; height: 30px; padding: 0; border: 1px solid #5a6375; border-radius: 3px; background: transparent; cursor: pointer; }
+.arena-color-row input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+.arena-color-row input[type="color"]::-webkit-color-swatch { border: none; border-radius: 2px; }
+.arena-color-name { display: flex; flex-direction: column; min-width: 0; font-size: 13px; font-weight: 600; color: var(--text); }
+.arena-color-value { font: 11px Consolas, monospace; color: var(--faint); }
+.arena-color-row.custom .arena-color-value { color: var(--muted); }
+.arena-color-row .btn.small { height: 26px; padding: 0 9px; font-size: 12px; }
+.arena-colors-foot { display: flex; align-items: flex-start; gap: 10px; }
+.arena-colors-foot .help { flex: 1; }
+.arena-colors-foot .btn.small { margin-top: 4px; height: 26px; padding: 0 9px; font-size: 12px; }
+
+/* dot-bots-v4: Dot height arrows */
+.dot-height { display: flex; align-items: center; gap: 10px; }
+.dot-height b { min-width: 52px; text-align: center; font-size: 14px; }
+.dot-height .btn.small { width: 36px; justify-content: center; padding: 0; }
+
+/* dot-spots-v2: one height row per random spot of a dot */
+.dot-spot-rows { display: grid; gap: 4px; margin: 6px 0; }
+.dot-spot-rows .dot-height { justify-content: flex-start; }
+.dot-spot-rows .dot-height.picked { outline: 1px solid rgba(185,140,255,.7); border-radius: 4px; }
+.dot-spot-name { min-width: 120px; font-weight: 700; }
+.dot-spot-name small { font-weight: 400; opacity: .7; }

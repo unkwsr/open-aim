@@ -1,25 +1,33 @@
 // Weapon skin choices, and the sounds that come with a skin (RGX, Gaia and Champions Vandal, BlastX
-// Recon and Helix Phantom, Singularity Sheriff, Araxys Operator, Prime Guardian).
+// Recon and Helix Phantom, Singularity Sheriff, Prime Guardian).
 (() => {
   if (window.__aimLocalAudio) return;
   window.__aimPlayerModel = localStorage.getItem('es-player-model') || 'jett';
   const SKIN = 'es-vandal-skin';
-  if(localStorage.getItem(SKIN)==='kuronami-vandal-black-red')localStorage.setItem(SKIN,'kuronami-vandal-white');
-  if(localStorage.getItem(SKIN)&&!['default-vandal','champions-vandal','rgx-vandal-yellow','rgx-vandal-blue','gaia-vandal-orange','gaia-vandal-white','primordium-vandal','primordium-vandal-cobalt','kuronami-vandal-white'].includes(localStorage.getItem(SKIN)))localStorage.setItem(SKIN,'default-vandal');
-  if(localStorage.getItem('es-melee-skin')==='reaver-karambit')localStorage.setItem('es-melee-skin','damascus-karambit');
-  window.__aimMeleeSkin = localStorage.getItem('es-melee-skin') || 'silkleaf-fan';
+  const savedVandal = localStorage.getItem(SKIN);
+  if (['kuronami-vandal-white', 'kuronami-vandal-purple'].includes(savedVandal)) localStorage.setItem(SKIN, 'kuronami-vandal-standard');
+  else if(savedVandal&&!['default-vandal','champions-vandal','rgx-vandal-yellow','rgx-vandal-blue','gaia-vandal-orange','gaia-vandal-white','gaia-vandal-blue','primordium-vandal','primordium-vandal-cobalt','kuronami-vandal-standard','kuronami-vandal-black-red'].includes(savedVandal))localStorage.setItem(SKIN,'default-vandal');
+  const savedMelee = localStorage.getItem('es-melee-skin');
+  if (savedMelee === 'reaver-karambit') localStorage.setItem('es-melee-skin', 'damascus-karambit');
+  else if (['silkleaf-fan', 'orange-butterfly'].includes(savedMelee)) localStorage.setItem('es-melee-skin', 'default');
+  window.__aimMeleeSkin = localStorage.getItem('es-melee-skin') || 'default';
   if(localStorage.getItem('es-phantom-skin')&&!['default','blastx-phantom','recon-phantom','recon-phantom-red','helix-phantom-purple'].includes(localStorage.getItem('es-phantom-skin')))localStorage.setItem('es-phantom-skin','default');
   window.__aimPhantomSkin = localStorage.getItem('es-phantom-skin') || 'blastx-phantom';
   window.__aimSheriffSkin = ['singularity-sheriff','arcane-sheriff'].includes(localStorage.getItem('es-sheriff-skin')) ? localStorage.getItem('es-sheriff-skin') : 'default';
-  window.__aimOperatorSkin = ['araxys-operator','rogue-operator'].includes(localStorage.getItem('es-operator-skin')) ? localStorage.getItem('es-operator-skin') : 'default';
+  const operatorSkinKey = 'es-operator-skin';
+  const savedOperator = localStorage.getItem(operatorSkinKey);
+  window.__aimOperatorSkin = savedOperator === 'rogue-operator' ? savedOperator : 'default';
+  if (savedOperator !== null && savedOperator !== window.__aimOperatorSkin) {
+    localStorage.setItem(operatorSkinKey, window.__aimOperatorSkin);
+  }
   window.__aimGuardianSkin = localStorage.getItem('es-guardian-skin') === 'prime-guardian' ? 'prime-guardian' : 'default';
   localStorage.setItem('es-classic-skin','default');
   window.__aimClassicSkin = 'default';
   window.__aimGhostSkin = localStorage.getItem('es-ghost-skin') === 'smite-ghost' ? 'smite-ghost' : 'default';
   window.__aimVandalSkin = localStorage.getItem(SKIN) || 'rgx-vandal-yellow';
   const primordiumReady=import('/local/primordium-audio.mjs').then(module=>window.__aimPrimordiumAudio=module);
-  let decoder, killVoice, gaiaFireBuffer, araxysFireBuffer;
-  const voices = new Set(), blastBuffers = new Map(), singularityBuffers = new Map(), araxysBuffers = new Map(), rgxBuffers = new Map(), gaiaKills = new Map();
+  let decoder, killVoice, gaiaFireBuffer;
+  const voices = new Set(), blastBuffers = new Map(), singularityBuffers = new Map(), rgxBuffers = new Map(), gaiaKills = new Map();
   function lazyAudio(load){let promise;return {then(resolve,reject){return (promise??=load()).then(resolve,reject)}};}
   function context() { return decoder ||= new AudioContext(); }
   const ids = ['fire', 'kill1', 'kill2', 'kill3', 'kill4', 'kill5'];
@@ -50,8 +58,6 @@
   const championsBuffers=new Map();
   const championsReady= lazyAudio(()=>Promise.all(['fire','kill1','kill2','kill3','kill4','kill5'].map(async name=>{try{const response=await fetch('/media/champions-vandal/'+name+(name==='fire'?'.wav':'.mp3'));if(!response.ok)throw Error('Missing Champions sound '+name);championsBuffers.set(name,await context().decodeAudioData(await response.arrayBuffer()));}catch(error){console.warn('Champions audio:',name,error);}})));
   const singularityReady = lazyAudio(()=>Promise.all(ids.map(async name=>{try{const response=await fetch('/media/singularity-sheriff/'+name+(name==='fire'?'.wav':'.mp3'));if(!response.ok)throw Error('Missing Singularity sound '+name);singularityBuffers.set(name,await context().decodeAudioData(await response.arrayBuffer()));}catch(error){console.warn('Singularity audio:',error);}})));
-  const araxysReady = lazyAudio(()=>fetch('/media/araxys-operator/fire.wav').then(r=>{if(!r.ok)throw Error('Araxys firing sound unavailable');return r.arrayBuffer();}).then(bytes=>context().decodeAudioData(bytes)).then(buffer=>{araxysFireBuffer=buffer;}).catch(error=>console.warn('Araxys firing sound:',error)));
-  const araxysKillsReady = lazyAudio(()=>Promise.all([1,2,3,4,5].map(async stage=>{try{const response=await fetch('/media/araxys-operator/kill'+stage+'.mp3');if(!response.ok)throw Error('Missing Araxys kill sound '+stage);araxysBuffers.set('kill'+stage,await context().decodeAudioData(await response.arrayBuffer()));}catch(error){console.warn('Araxys kill sound:',stage,error);}})));
   const rogueBuffers=new Map();
   const rogueReady= lazyAudio(()=>Promise.all(ids.map(async name=>{try{const response=await fetch('/media/rogue-operator/'+name+(name==='fire'?'.wav':'.mp3'));if(!response.ok)throw Error('Missing Rogue sound '+name);rogueBuffers.set(name,await context().decodeAudioData(await response.arrayBuffer()));}catch(error){console.warn('Rogue audio:',error);}})));
   const guardianBuffers=new Map(),guardianBuses=new WeakMap(),guardianVoices=new Set(),guardianActions=new Map();
@@ -74,16 +80,15 @@
     const jobs=[tourReady,buckyAltReady,defaultKillsReady];
     const vandal=window.__aimVandalSkin,phantom=window.__aimPhantomSkin,sheriff=window.__aimSheriffSkin,operator=window.__aimOperatorSkin;
     if(vandal?.startsWith('rgx-vandal-'))jobs.push(rgxReady);
-    if(vandal?.startsWith('gaia-vandal'))jobs.push(skinReady,gaiaKillsReady);
+    if(vandal?.startsWith('gaia-vandal-'))jobs.push(skinReady,gaiaKillsReady);
     if(vandal==='champions-vandal')jobs.push(championsReady);
     if(vandal?.startsWith('primordium-vandal'))jobs.push(primordiumFireReady,primordiumKillsReady);
-    if(vandal==='kuronami-vandal-white')jobs.push(kuronamiFireReady,kuronamiKillsReady);
+    if(vandal?.startsWith('kuronami-vandal-'))jobs.push(kuronamiFireReady,kuronamiKillsReady);
     if(phantom==='blastx-phantom')jobs.push(blastReady);
     if(phantom?.startsWith('recon-phantom'))jobs.push(reconReady);
     if(phantom==='helix-phantom-purple')jobs.push(helixKillsReady,helixFireReady);
     if(sheriff==='singularity-sheriff')jobs.push(singularityReady);
     if(sheriff==='arcane-sheriff')jobs.push(arcaneKillsReady,window.__aimArcaneAudio?.ready);
-    if(operator==='araxys-operator')jobs.push(araxysReady,araxysKillsReady);
     if(operator==='rogue-operator')jobs.push(rogueReady);
     if(window.__aimGuardianSkin==='prime-guardian')jobs.push(guardianReady);
     return Promise.all(jobs);
@@ -154,16 +159,16 @@
     get ready(){return prepareSelectedAudio();},
     warmGuardian,updateGuardian,stopGuardian,
     guardianInfo:()=>({loaded:[...guardianBuffers.keys()],voices:guardianVoices.size,actions:[...guardianActions.keys()]}),
-    playSkinFire: (ctx, destination, weapon='vandal') => {if(weapon==='bucky-alt')return play('bucky-alt-fire',ctx,destination,false,buckyAltBuffers[buckyAltIndex++%3],.5);if(weapon==='vandal'&&window.__aimVandalSkin==='kuronami-vandal-white')return play('kuronami-fire',ctx,destination,false,kuronamiFireBuffers[kuronamiFireIndex++%5],0.8);return weapon==='vandal'&&window.__aimVandalSkin?.startsWith('primordium-vandal') ? play('primordium-fire',ctx,destination,false,primordiumFireBuffer,.65) : weapon==='sheriff'&&window.__aimSheriffSkin==='arcane-sheriff' ? (window.__aimArcaneAudio?.playFire(ctx,destination)??false) : weapon==='tourdeforce' ? play('tour-de-force-fire',ctx,destination,false,tourFireBuffers[tourFireIndex++%5],.85) : weapon==='vandal'&&['gaia-vandal-orange','gaia-vandal-white'].includes(window.__aimVandalSkin) ? play('gaia-fire',ctx,destination,false,gaiaFireBuffer,0.55) : weapon==='vandal'&&window.__aimVandalSkin?.startsWith('rgx-vandal-') ? play('rgx-fire',ctx,destination,false,rgxBuffers.get('fire'),RGX_VOLUME) : weapon==='vandal'&&window.__aimVandalSkin==='champions-vandal' ? play('champions-fire',ctx,destination,false,championsBuffers.get('fire'),0.75) : weapon==='phantom'&&window.__aimPhantomSkin==='blastx-phantom' ? play('blastx-fire',ctx,destination,false,blastBuffers.get('fire'),1) : weapon==='phantom'&&window.__aimPhantomSkin==='helix-phantom-purple' ? play('helix-fire',ctx,destination,false,helixFireBuffer,1) : weapon==='sheriff'&&window.__aimSheriffSkin==='singularity-sheriff' ? play('singularity-fire',ctx,destination,false,singularityBuffers.get('fire'),1) : weapon==='operator'&&window.__aimOperatorSkin==='rogue-operator' ? play('rogue-fire',ctx,destination,false,rogueBuffers.get('fire'),1.15) : weapon==='operator'&&window.__aimOperatorSkin==='araxys-operator' ? play('araxys-fire',ctx,destination,false,araxysFireBuffer,1) : weapon==='guardian'&&window.__aimGuardianSkin==='prime-guardian' ? playGuardian('fire',ctx,destination) : false;},
+    playSkinFire: (ctx, destination, weapon='vandal') => {if(weapon==='bucky-alt')return play('bucky-alt-fire',ctx,destination,false,buckyAltBuffers[buckyAltIndex++%3],.5);if(weapon==='vandal'&&window.__aimVandalSkin?.startsWith('kuronami-vandal-'))return play('kuronami-fire',ctx,destination,false,kuronamiFireBuffers[kuronamiFireIndex++%5],0.8);return weapon==='vandal'&&window.__aimVandalSkin?.startsWith('primordium-vandal') ? play('primordium-fire',ctx,destination,false,primordiumFireBuffer,.65) : weapon==='sheriff'&&window.__aimSheriffSkin==='arcane-sheriff' ? (window.__aimArcaneAudio?.playFire(ctx,destination)??false) : weapon==='tourdeforce' ? play('tour-de-force-fire',ctx,destination,false,tourFireBuffers[tourFireIndex++%5],.85) : weapon==='vandal'&&window.__aimVandalSkin?.startsWith('gaia-vandal-') ? play('gaia-fire',ctx,destination,false,gaiaFireBuffer,0.55) : weapon==='vandal'&&window.__aimVandalSkin?.startsWith('rgx-vandal-') ? play('rgx-fire',ctx,destination,false,rgxBuffers.get('fire'),RGX_VOLUME) : weapon==='vandal'&&window.__aimVandalSkin==='champions-vandal' ? play('champions-fire',ctx,destination,false,championsBuffers.get('fire'),0.75) : weapon==='phantom'&&window.__aimPhantomSkin==='blastx-phantom' ? play('blastx-fire',ctx,destination,false,blastBuffers.get('fire'),1) : weapon==='phantom'&&window.__aimPhantomSkin==='helix-phantom-purple' ? play('helix-fire',ctx,destination,false,helixFireBuffer,1) : weapon==='sheriff'&&window.__aimSheriffSkin==='singularity-sheriff' ? play('singularity-fire',ctx,destination,false,singularityBuffers.get('fire'),1) : weapon==='operator'&&window.__aimOperatorSkin==='rogue-operator' ? play('rogue-fire',ctx,destination,false,rogueBuffers.get('fire'),1.15) : weapon==='guardian'&&window.__aimGuardianSkin==='prime-guardian' ? playGuardian('fire',ctx,destination) : false;},
     playSkinKill: (ctx,destination,count,weapon) => {
       const slot='kill'+((Math.max(1,Math.floor(count))-1)%5+1);
       if(weapon==='sheriff'&&window.__aimSheriffSkin==='arcane-sheriff')return play('arcane-'+slot,ctx,destination,true,arcaneKills.get(slot),.65);
       if(weapon==='vandal'&&window.__aimVandalSkin?.startsWith('primordium-vandal'))return play('primordium-'+slot,ctx,destination,true,primordiumKills.get(slot),.65);
-      if(weapon==='vandal'&&['gaia-vandal-orange','gaia-vandal-white'].includes(window.__aimVandalSkin))return play('gaia-'+slot,ctx,destination,true,gaiaKills.get(slot),.65);
+      if(weapon==='vandal'&&window.__aimVandalSkin?.startsWith('gaia-vandal-'))return play('gaia-'+slot,ctx,destination,true,gaiaKills.get(slot),.65);
       if(weapon==='guardian'&&window.__aimGuardianSkin==='prime-guardian')return playGuardian(slot,ctx,destination);
       if(weapon==='vandal'&&window.__aimVandalSkin?.startsWith('rgx-vandal-'))return play('rgx-'+slot,ctx,destination,true,rgxBuffers.get(slot),RGX_VOLUME);
       if(weapon==='vandal'&&window.__aimVandalSkin==='champions-vandal')return play('champions-'+slot,ctx,destination,true,championsBuffers.get(slot),0.65);
-      if(weapon==='vandal'&&window.__aimVandalSkin==='kuronami-vandal-white'){
+      if(weapon==='vandal'&&window.__aimVandalSkin?.startsWith('kuronami-vandal-')){
         showSkinKillIcon(Number(slot.slice(4)),kuronamiKillIcons);
         return play('kuronami-'+slot,ctx,destination,true,kuronamiKillBuffers.get(slot),0.65);
       }
@@ -174,7 +179,6 @@
         return play('helix-'+slot,ctx,destination,true,helixKillBuffers.get(slot),0.65);
       }
       if(weapon==='sheriff'&&window.__aimSheriffSkin==='singularity-sheriff')return play('singularity-'+slot,ctx,destination,true,singularityBuffers.get(slot),0.65);
-      if(weapon==='operator'&&window.__aimOperatorSkin==='araxys-operator')return play('araxys-'+slot,ctx,destination,true,araxysBuffers.get(slot),0.65);
       if(weapon==='operator'&&window.__aimOperatorSkin==='rogue-operator')return play('rogue-'+slot,ctx,destination,true,rogueBuffers.get(slot),0.52);
       // default-kills-v1: everything else except melee.
       if(!weapon||weapon==='melee'||weapon==='knife')return false;
@@ -191,7 +195,12 @@
     const row=document.createElement('div');row.className='hall-field hall-choice es-melee-row';
     for(const a of anchor.attributes)if(a.name.startsWith('data-v-'))row.setAttribute(a.name,a.value);
     row.innerHTML='<span class="hall-field-text"><b>Melee skin</b><small>Existing agent arms. Equip, attacks and inspect (Y). Applied when entering a scene.</small></span><div class="es-skin-select" role="radiogroup" aria-label="Melee skin"></div>';
-    for(const [id,label]of [['default','Default knife'],['silkleaf-fan','Silkleaf Fan'],['blackmarket-butterfly','Black Market Butterfly'],['prime-axe','Prime Axe'],['soulstrife','Soulstrife Scythe'],['kuronami','Kuronami no Yaiba'],['champions-2024-blade','Champions 2024 Blade'],['half-life-crowbar','Half Life Crowbar'],['orange-butterfly','Orange Butterfly'],['damascus-karambit','Karambit Damascus Steel']]){const b=document.createElement('button');b.type='button';b.textContent=label;b.dataset.melee=id;b.setAttribute('role','radio');const active=window.__aimMeleeSkin===id;b.classList.toggle('is-active',active);b.setAttribute('aria-checked',String(active));b.onclick=()=>{localStorage.setItem('es-melee-skin',id);window.__aimMeleeSkin=id;for(const item of row.querySelectorAll('button')){const on=item===b;item.classList.toggle('is-active',on);item.setAttribute('aria-checked',String(on));}};row.lastChild.append(b);}anchor.after(row);
+    for(const [id,label]of [['default','Default knife'],['blackmarket-butterfly','Black Market Butterfly'],['prime-axe','Prime Axe'],['soulstrife','Soulstrife Scythe'],['kuronami','Kuronami no Yaiba'],['champions-2024-blade','Champions 2024 Blade'],['half-life-crowbar','Half Life Crowbar'],/* xenohunter-knife */['xenohunter-knife','Xenohunter Knife'],['damascus-karambit','Champions 2021 Karambit'],['champions-2021-karambit-mvp','Champions 2021 Karambit (MVP)'],...[
+      ['standard','Standard'], ['purple-red','CN'], ['pacific','Pacific'], ['americas','Americas'], ['green','EMEA']
+    ].flatMap(([color, label]) => {
+      const id = 'vct-2026-sigil-' + color;
+      return [[id, 'VCT 2026 Sigil (' + label + ')'], [id + '-mvp', 'VCT 2026 Sigil (' + label + ' MVP)']];
+    })]){const b=document.createElement('button');b.type='button';b.textContent=label;b.dataset.melee=id;b.setAttribute('role','radio');const active=window.__aimMeleeSkin===id;b.classList.toggle('is-active',active);b.setAttribute('aria-checked',String(active));b.onclick=()=>{localStorage.setItem('es-melee-skin',id);window.__aimMeleeSkin=id;for(const item of row.querySelectorAll('button')){const on=item===b;item.classList.toggle('is-active',on);item.setAttribute('aria-checked',String(on));}};row.lastChild.append(b);}anchor.after(row);
   }
   function addPhantomChoice() {
     const anchor=document.querySelector('.es-vandal-row');if(!anchor||document.querySelector('.es-phantom-row'))return;
@@ -218,7 +227,7 @@
     const row=document.createElement('div');row.className='hall-field hall-choice es-operator-row';
     for(const a of anchor.attributes)if(a.name.startsWith('data-v-'))row.setAttribute(a.name,a.value);
     row.innerHTML='<span class="hall-field-text"><b>Operator skin</b><small>Applied the next time you enter a scene.</small></span><div class="es-skin-select" role="radiogroup" aria-label="Operator skin"></div>';
-    for(const [id,label]of [['default','Default'],['araxys-operator','Araxys'],['rogue-operator','Rogue']]){
+    for(const [id,label]of [['default','Default'],['rogue-operator','Rogue']]){
       const button=document.createElement('button');button.type='button';button.textContent=label;button.dataset.operator=id;button.setAttribute('role','radio');
       const active=window.__aimOperatorSkin===id;button.classList.toggle('is-active',active);button.setAttribute('aria-checked',String(active));
       button.onclick=()=>{localStorage.setItem('es-operator-skin',id);window.__aimOperatorSkin=id;prepareSelectedAudio();for(const item of row.querySelectorAll('button')){const on=item===button;item.classList.toggle('is-active',on);item.setAttribute('aria-checked',String(on));}};
@@ -264,7 +273,7 @@
       for(const a of native.attributes) if(a.name.startsWith('data-v-'))row.setAttribute(a.name,'');
       row.innerHTML='<span class="hall-field-text"><b>Vandal skin</b><small>Applied the next time you enter a scene.</small></span><div class="es-skin-select" role="radiogroup" aria-label="Weapon skin"></div>';
       let selected=localStorage.getItem(SKIN)||'rgx-vandal-yellow';
-      for(const [id,label] of [['default-vandal','Default'],['champions-vandal','Champions 2021'],['rgx-vandal-yellow','RGX Yellow'],['rgx-vandal-blue','RGX Blue'],['gaia-vandal-orange','Gaia Orange'],['gaia-vandal-white','Gaia White'],['primordium-vandal','Primordium'],['primordium-vandal-cobalt','Primordium Cobalt'],['kuronami-vandal-white','Kuronami White/Blue']]) {
+      for(const [id,label] of [['default-vandal','Default'],['champions-vandal','Champions 2021'],['rgx-vandal-yellow','RGX Yellow'],['rgx-vandal-blue','RGX Blue'],['gaia-vandal-orange','Gaia Orange'],['gaia-vandal-white','Gaia White'],['gaia-vandal-blue','Gaia Blue'],['primordium-vandal','Primordium'],['primordium-vandal-cobalt','Primordium Cobalt'],['kuronami-vandal-standard','Kuronami Standard'],['kuronami-vandal-black-red','Kuronami Black']]) {
         const b=document.createElement('button');b.type='button';b.textContent=label;b.setAttribute('role','radio');
         const update=()=>{for(const item of row.querySelectorAll('button')){const on=item===b;item.classList.toggle('is-active',on);item.setAttribute('aria-checked',String(on));}};
         b.classList.toggle('is-active',selected===id);b.setAttribute('aria-checked',String(selected===id));

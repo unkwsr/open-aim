@@ -95,19 +95,28 @@ function isHoldSite(scene, type) {
   } catch { return false; }
 }
 const healFrom = (scene, type) => (isHoldSite(scene, type) ? HEAL_FROM_HOLD_SITE : HEAL_FROM);
-function rankRules(doc, id, holdSite) {
+function rankRules(doc, id, holdSite, ownDrill = false) {
   if (id === "off") return false;
+  // rules-split-v1 (17 Nov 2026, user: "separate this so these issues stop happening"). Two kinds of drill, two
+  // rule sets, never mixed:
+  //  - YOUR OWN Creator drill (played from the Creator / your own drills): its own settings ONLY. "Bots can kill me",
+  //    "Refill HP when I kill a bot" and "HP per kill" are exactly what you set; the rank never touches them.
+  //  - Every other drill (main page, Workshop, the game's own): the RANK decides. Bots that shoot can kill you; HP
+  //    refill (full) only from Immortal (Diamond on hold sites), never below, whatever the drill file says.
+  // (Replaces studio-heal-keep-v1 / studio-death-keep-v1 / lobby-death-fix-v1, which mixed the two.)
+  if (ownDrill) return false;
   const rules = doc.rules || (doc.rules = {});
   const heal = IDS.indexOf(id) >= IDS.indexOf(holdSite ? HEAL_FROM_HOLD_SITE : HEAL_FROM);
-  const changed = rules.playerDeath !== "endRound" || !!rules.healOnKill !== heal;
+  const before = JSON.stringify([rules.playerDeath, rules.healOnKill, rules.healAmount]);
   rules.playerDeath = "endRound";
   if (heal) rules.healOnKill = true; else delete rules.healOnKill;
-  return changed;
+  delete rules.healAmount; // main-page refill is always full HP
+  return JSON.stringify([rules.playerDeath, rules.healOnKill, rules.healAmount]) !== before;
 }
 
 // The scene sent to the game: the picked rank's shooting (if it differs from how the drill was made) and the
 // rank's rules (rankRules). The sceneHash only changes with the shooting, so records stay per rank as before.
-function sceneWithRank(scene, picked, holdSite = isHoldSite(scene)) {
+function sceneWithRank(scene, picked, holdSite = isHoldSite(scene), ownDrill = false) {
   if (!scene) return scene;
   let doc;
   try { doc = parseDoc(scene); } catch { return scene; }
@@ -115,7 +124,7 @@ function sceneWithRank(scene, picked, holdSite = isHoldSite(scene)) {
   const made = defaultRank(doc);
   const id = isRank(picked) ? picked : made;
   const next = id === made ? JSON.parse(JSON.stringify(doc)) : applyRank(doc, id);
-  if (!rankRules(next, id, holdSite) && id === made) return scene;
+  if (!rankRules(next, id, holdSite, ownDrill) && id === made) return scene;
   const text = JSON.stringify(next);
   return {
     ...scene,

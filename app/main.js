@@ -109,6 +109,8 @@ const PAGE_WATCH_JS = fs.readFileSync(path.join(__dirname, "page-watch.js"), "ut
 const VIDEO_SETTINGS_JS = fs.readFileSync(path.join(__dirname, "video-settings.js"), "utf-8");
 // Interface: Performance / Enhanced (Settings > Video > Smoothness).
 const INTERFACE_MODE_JS = fs.readFileSync(path.join(__dirname, "interface-mode.js"), "utf-8");
+// exit-button-v1: X in the top-right corner of the lobby that closes the app (open-aim PR 11 by s-bawaskar, + confirm).
+const EXIT_BUTTON_JS = fs.readFileSync(path.join(__dirname, "exit-button.js"), "utf-8");
 // Backups and sensitivity panels opened from the top bar.
 const SNIPER_SCOPES_JS = fs.readFileSync(path.join(__dirname,"sniper-scopes.js"),"utf-8");
 const FAN_AUDIO_JS = fs.readFileSync(path.join(__dirname,"fan-audio.js"),"utf-8");
@@ -157,6 +159,7 @@ const UI_SCRIPTS = [
   ["ANGLE AIDS", ANGLE_AIDS_JS],
   ["PLAYER TOOLS", PLAYER_TOOLS_JS],
   ["INTERFACE MODE", INTERFACE_MODE_JS],
+  ["EXIT BUTTON", EXIT_BUTTON_JS],
   // Normal gameplay skips recording; the diagnostic launcher sets AIM_FRAME_LOG=1.
   ...(FRAME_LOG_ENABLED ? [["FRAME LOG", FRAME_LOG_JS]] : []),
   ["FRAME METER", FRAME_METER_JS],
@@ -772,7 +775,7 @@ async function handle(req, res) {
     let scene = own ? own.scene : bundled || online;
     if (bundled && drillNames[code]) scene = { ...scene, name: drillNames[code] }; // drill-names-v1
     if (scene) {
-      sendJson(req, res, { code: "00000", data: enemyRank.sceneWithRank(drillShuffle.shuffleScene(scene, Math.random, code),enemyRanks[code], enemyRank.isHoldSite(scene, (trainingSet.items.find((i) => i.shareCode === code) || own?.item || {}).type)), msg: "", local: true });
+      sendJson(req, res, { code: "00000", data: enemyRank.sceneWithRank(drillShuffle.shuffleScene(scene, Math.random, code),enemyRanks[code], enemyRank.isHoldSite(scene, (trainingSet.items.find((i) => i.shareCode === code) || own?.item || {}).type), !!own), msg: "", local: true });
       return;
     }
     // enemy-rank-v1: a shipped scene file with a picked rank is sent with the rank applied.
@@ -928,6 +931,11 @@ function createWindow(url) {
 ipcMain.on("aim:fullscreen", (event) => {
   const win = BrowserWindow.fromWebContents(event.sender);
   if (win && !win.isFullScreen()) win.setFullScreen(true);
+});
+
+// exit-button-v1 (exit-button.js): only the trainer's own window may close the app.
+ipcMain.on("aim:app:quit", (event) => {
+  if (mainWindow && event.sender === mainWindow.webContents) app.quit();
 });
 
 // Desktop shell info for window.aimDesktop (preload.js): VSync state and the
@@ -1136,6 +1144,30 @@ ipcMain.handle("aim:workshop:cover", async (_event, code, image, type) => {
     communityCache = { at: 0, promise: null };
   }
 });
+// creator-tools-v1: the drill's creator changes its picture (base64 or null to reset), renames or deletes it.
+// The service checks that the signed-in account uploaded the drill.
+ipcMain.handle("aim:workshop:own", async (_event, code, action, value) => {
+  if (!/^[a-f0-9]{16}$/i.test(String(code || "")) || !["cover", "rename", "delete"].includes(action)) throw new Error("Invalid request.");
+  let body = null;
+  if (action === "cover") {
+    if (value !== null && (typeof value?.image !== "string" || value.image.length > 290000 || value.type !== "image/jpeg")) {
+      throw new Error("Use a JPEG, PNG or WebP picture of at most 200 KB.");
+    }
+    body = value === null ? { image: null } : { image: value.image, type: value.type };
+  }
+  if (action === "rename") {
+    if (typeof value !== "string" || !value.trim() || value.length > 80) throw new Error("The drill name must be 1 to 80 characters.");
+    body = { title: value };
+  }
+  try {
+    return await workshopRequest("/v1/own/" + String(code).toLowerCase() + "/" + action, { method: "POST", authorized: true, body });
+  } catch (error) {
+    if (/^not found\.?$/i.test(error.message || "")) throw new Error("The workshop server has not been updated for creator tools yet. Deploy the new worker first.");
+    throw error;
+  } finally {
+    communityCache = { at: 0, promise: null }; // the catalog just changed
+  }
+});
 ipcMain.handle("aim:workshop:like", async (_event, code, on) => {
   if (!/^[a-f0-9]{16}$/i.test(String(code || "")) || typeof on !== "boolean") throw new Error("Invalid like request.");
   const result = await workshopRequest("/v1/workshop/" + String(code).toLowerCase() + "/like",
@@ -1174,6 +1206,16 @@ ipcMain.handle("aim:workshop:moderate", (_event, code, action) => {
     .finally(() => { communityCache = { at: 0, promise: null }; }); // the catalog just changed
 });
 ipcMain.handle("aim:workshop:published", () => workshopRequest("/v1/mod/published", { authorized: true }));
+// auto-approve-v1: the moderator's auto-approve switch (kept by the workshop service, checked there).
+const oldServiceForAuto = (error) => {
+  if (/^not found.?$/i.test(error.message || "")) throw new Error("The workshop server has not been updated for Auto-approve yet.");
+  throw error;
+};
+ipcMain.handle("aim:workshop:settings", () => workshopRequest("/v1/mod/settings", { authorized: true }).catch(oldServiceForAuto));
+ipcMain.handle("aim:workshop:setSettings", (_event, value) => workshopRequest("/v1/mod/settings", { method: "POST", authorized: true,
+  body: { autoApprove: value?.autoApprove === true, approveWaiting: value?.approveWaiting === true } })
+  .catch(oldServiceForAuto)
+  .finally(() => { communityCache = { at: 0, promise: null }; }));
 // unban-v1: banned accounts (moderator only, checked by the service) and unbanning one by its Discord ID.
 const oldServiceForBan = (error) => {
   if (/^not found.?$/i.test(error.message || "")) throw new Error("The workshop server has not been updated for Unban yet. Deploy the new worker first.");

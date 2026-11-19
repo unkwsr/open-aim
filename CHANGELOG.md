@@ -2,6 +2,45 @@
 
 All notable changes to openVaim (formerly AimTrainer). Newest first.
 
+## [1.4.1] - 2026-11-19
+
+Lots of Creator stuff (waves, Dot bots, more bot controls), smoother frames with bots on screen, a Potato graphics mode for slower PCs, and a bunch of fixes.
+
+Your settings, drills and history carry over when you update.
+
+### Creator
+- New "Bots show up: In waves" mode. Build waves A, B, C, each with groups of bots: the next group comes when the one before is dead. Trades work inside a group, and each wave can play more than once. A wave counter shows on the HUD.
+- After the last wave the round can end or start again. Wave refills can give back a set amount of HP.
+- New Dot card: a floating ball to shoot, like in Aim Lab. One hit kills it. It can hold still or slide side to side, stick to walls and boxes, float up to 30 m high, and use random spots and a random zone (on a wall the zone stays on that wall).
+- Speed multiplier for every moving bot, up to 3x. Bots without a gun now move at your knife speed by default.
+- Peekers can face a direction you pick, so they strafe or hold an angle instead of always facing you.
+- Arena colors: change the floor, walls, grid lines and target colors.
+- The Creator now warns you when a bot's path goes through a wall and keeps strafes inside the room they have.
+- Your own drills keep their own death, refill and HP-per-kill settings.
+- Fixed dragging a peek spot in 3D jumping back to the bot.
+
+### Community Workshop
+- New drill panel: your standing on the leaderboard, a goal to beat, plays and likes, and who made it.
+- Creators can rename their drills, change the picture or delete them from the panel.
+
+### Performance
+- Smoother with lots of bots on screen, especially when bots shoot back.
+- Less stutter from movement and collision.
+- New Potato graphics option in Settings > Video for slower PCs. The Compatibility preset turns it on.
+- Graphics presets now really change the render resolution.
+
+### Agents and flashes
+- Phoenix's curveball looks and pops like the real one. The wall bounce was taken out because it broke some drills.
+- KAY/O's flash has its real look, flight and timing.
+- Jett's dash, updraft and glide feel closer to the real thing.
+- Fixed Chamber keeping Jett's arms.
+
+### Fixes
+- Fixed bots getting you to 0 HP without you dying.
+- Fixed getting stuck on grass along the tracks in Corrode A Main, and on the lily pads at Lotus C.
+- Exit button in the lobby.
+- The update prompt now shows Update now or Cancel when you start the game, and the Updates button gets a red mark when an update is waiting.
+
 ## [1.4.0] - 2026-11-14
 
 AimTrainer is now openVaim. This one's big: I rebuilt the maps, added Pearl and Icebox, moved the game to its own thread, and added the Community Workshop, Chamber, Blade Storm, a bunch of skins and a lot of Creator stuff.

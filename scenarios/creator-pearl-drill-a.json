@@ -732,6 +732,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -755,6 +771,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -777,6 +809,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -799,6 +847,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -821,6 +885,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -843,6 +923,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -865,6 +961,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -887,6 +999,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -910,6 +1038,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -933,6 +1077,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -955,6 +1115,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -977,6 +1153,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -999,6 +1191,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1021,6 +1229,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1043,6 +1267,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1066,6 +1306,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1088,6 +1344,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1111,6 +1383,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1133,6 +1421,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1155,6 +1459,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1177,6 +1497,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1199,6 +1535,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1221,6 +1573,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1243,6 +1611,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1265,6 +1649,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1287,6 +1687,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150
@@ -1309,6 +1725,22 @@
         0.9
        ],
        "mode": "never"
+      },
+      {
+       "kind": "shooter",
+       "difficulty": "easy",
+       "reaction": [
+        0.5,
+        0.62
+       ],
+       "cadence": "weapon",
+       "aimErrorDeg": 4.5,
+       "maxRangeM": 80,
+       "engage": "stop",
+       "resumeDelay": [
+        0.4,
+        0.8
+       ]
       }
      ],
      "health": 150

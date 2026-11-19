@@ -1305,7 +1305,6 @@ html[data-es-ui="performance"] *::after {
 body:has(.al-trainer-shell.al-session-active) > #app { content-visibility: hidden; }
 /* No looping pulse on "Click anywhere to start". */
 html[data-es-ui="performance"] .al-aimlab-root .al-scene-start-cue { animation: none !important; }
-/* The Araxys sniper tab previews the scope housing and its current centre dot. */
 .hall-portal .hall-crosshair-side,
 .hall-root .hall-crosshair-side {
   flex: 0 1 52%;
@@ -1337,16 +1336,6 @@ html[data-es-ui="performance"] .al-aimlab-root .al-scene-start-cue { animation: 
   overflow: hidden;
 }
 .hall-crosshair.es-rifle-ads-settings .hall-crosshair-preview .al-center-crosshair {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-}
-.hall-crosshair.es-araxys-scope-settings .hall-crosshair-preview {
-  background: #263b44 url('/media/araxys-operator/scope-map-preview.png') center / cover no-repeat;
-  overflow: hidden;
-}
-.hall-crosshair.es-araxys-scope-settings .hall-crosshair-preview .al-center-crosshair {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -3267,9 +3256,10 @@ body:has(.al-trainer-shell.al-session-active) .es-col { display: none !important
 .es-col-info { grid-column: 2; grid-row: 2; align-self: center; padding: 0 40px 0 0; text-align: right; }
 .es-col-info b { display: block; font: 700 30px/1.05 var(--es-head); text-transform: uppercase; letter-spacing: .01em; }
 .es-col-info small { display: block; margin: 10px 0 16px; font-size: 12.5px; color: var(--es-muted, #9aa1ae); }
-.es-col-swatches { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 4px; }
+.es-col-swatches { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-bottom: 4px; }
 .es-col-swatches button { width: 30px; height: 30px; padding: 0; border: none; cursor: pointer; background: var(--sw); box-shadow: inset 0 0 0 2px rgba(255,255,255,.14); }
 .es-col-swatches button.is-on { outline: 2px solid #fff; outline-offset: 3px; }
+.es-col-swatches .es-col-variant-text { width: auto; min-width: 56px; padding: 0 12px; color: #eef1f5; background: #222b36; }
 .es-col-equip { display: block; width: 100%; height: 46px; margin-top: 22px; border: none; cursor: pointer; background: var(--es-red, #ff4655); color: #fff; font: 700 15px/1 var(--es-head); letter-spacing: .06em; text-transform: uppercase; }
 .es-col-equip:hover:not(:disabled) { background: var(--es-red-2, #ff6b77); }
 .es-col-equip.is-equipped { background: var(--es-raised-2, #1e232d); color: #4ade80; cursor: default; box-shadow: inset 0 0 0 1px rgba(74,222,128,.35); }
@@ -3278,7 +3268,9 @@ body:has(.al-trainer-shell.al-session-active) .es-col { display: none !important
 .es-col-tabs button { padding: 8px 16px; border: none; cursor: pointer; background: var(--es-raised, #171b23); color: var(--es-muted, #9aa1ae); font: 700 12.5px/1 var(--es-head); letter-spacing: .05em; text-transform: uppercase; }
 .es-col-tabs button:hover { color: var(--es-text, #f4f5f7); }
 .es-col-tabs button.is-on { background: var(--es-red, #ff4655); color: #fff; }
-.es-col-row { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: thin; padding-bottom: 2px; }
+.es-col-row { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; cursor: grab; user-select: none; }
+.es-col-row::-webkit-scrollbar { display: none; }
+.es-col-row.is-dragging, .es-col-row.is-dragging .es-col-tile { cursor: grabbing; }
 .es-col-tile { position: relative; flex: none; width: 196px; height: 124px; padding: 0; border: none; cursor: pointer; background: var(--es-raised, #171b23); box-shadow: inset 0 0 0 1px var(--es-line, #272d39); color: #d6d9df; text-align: left; }
 .es-col-tile:hover { background: var(--es-raised-2, #1e232d); }
 .es-col-tile img { position: absolute; left: 10px; right: 10px; top: 10px; height: 76px; width: calc(100% - 20px); object-fit: contain; }
@@ -3375,7 +3367,7 @@ html[data-aim-local]:not(#es) body .pw-gbtn.es-like.es-pop::after {
 html[data-aim-local]:not(#es) body .pw-maker .es-maker-pic { display: none; }
 html[data-aim-local]:not(#es) body .pw-maker.es-has-pic .es-maker-pic {
   display: block; grid-row: span 2; width: 50px; height: 50px; object-fit: cover;
-  border-radius: 50%; box-shadow: 0 0 0 2px var(--es-red), 0 4px 14px rgba(0, 0, 0, .5);
+  border-radius: 50%;
 }
 html[data-aim-local]:not(#es) body .pw-maker.es-has-pic > .pw-hex,
 html[data-aim-local]:not(#es) body .pw-maker.es-has-pic > .pw-hex-pair { display: none; }
@@ -3446,103 +3438,178 @@ html[data-aim-local]:not(#es) body .es-share .es-share-main { padding: 0 14px; }
 html[data-aim-local]:not(#es) body :has(> .es-share) > .pw-lock { white-space: nowrap; padding-left: 20px; padding-right: 20px; }
 html[data-aim-local]:not(#es) body .es-share .es-share-main { min-width: 104px; }
 
-/* Drill panel "side rail" layout (design B, 2026-11-12; community-workshop.js syncRail adds .es-rail-on).
-   Like / Save / Share stack in a column on the left, Start training fills the bottom. */
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on { padding-left: 96px; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail {
-  position: absolute; top: 0; left: 0; bottom: 0; z-index: 3; width: 96px;
-  display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 86px;
-  background: var(--es-bg); box-shadow: inset 1px 0 var(--es-line-2), inset -1px 0 var(--es-line);
-}
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail > .pw-gbtn {
-  width: 68px !important; min-width: 0 !important; height: 72px !important; padding: 0 !important; margin: 0 !important;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
-  clip-path: none !important; border: 0 !important; border-radius: 0 !important;
-  background: transparent !important; box-shadow: inset 0 0 0 1px var(--es-line-2) !important;
-  color: var(--es-soft); font: 800 11px var(--es-head) !important; letter-spacing: .08em; text-transform: uppercase; text-indent: 0;
+/* Drill panel layout "D" (2026-11-19; community-workshop.js syncLayout adds .es-d-on).
+   Like / Save / Share by the close X, creator byline under the title, facts as one segmented bar,
+   your standing + leaderboard, then Rules next to plays / likes / 7 days. Start training fills the bottom. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts { position: absolute; top: 12px; right: 60px; z-index: 5; display: flex; gap: 6px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts > .pw-gbtn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 40px !important; height: 40px !important;
+  padding: 0 11px !important; margin: 0 !important; clip-path: none !important; border: 0 !important; border-radius: 0 !important;
+  background: rgba(8, 12, 18, .6) !important; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .2) !important;
+  color: white; font: 800 13px var(--es-head) !important; letter-spacing: 0; text-transform: none; text-indent: 0;
   transition: background-color .18s, box-shadow .18s, color .18s;
 }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail > .pw-gbtn:hover { box-shadow: inset 0 0 0 1px var(--es-red) !important; color: white; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail > .pw-gbtn svg { width: 22px; height: 22px; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail .es-like .es-like-word { display: none; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail .es-like:has(.es-like-n:empty) .es-like-word { display: block; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail .es-like .es-like-n { min-width: 0; color: white; font: 900 15px var(--es-head); letter-spacing: 0; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail > .pw-gbtn.is-on { background: var(--es-red) !important; box-shadow: none !important; color: white; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail > .pw-gbtn.is-on svg { color: white; fill: rgba(255, 255, 255, .9); }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail .es-rail-save.is-on { background: transparent !important; box-shadow: inset 0 0 0 1px var(--es-red) !important; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail .es-rail-save.is-on svg { color: var(--es-red); fill: var(--es-red); }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-rail .es-share-main svg { width: 20px; height: 20px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts > .pw-gbtn:hover { box-shadow: inset 0 0 0 1px var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts > .pw-gbtn svg { width: 18px; height: 18px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts .es-like .es-like-word { display: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts .es-like:has(.es-like-n:empty) .es-like-word { display: inline; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts .es-like .es-like-n { min-width: 0; color: white; font: 800 14px var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts .es-like.is-on { background: var(--es-red) !important; box-shadow: none !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts .es-like.is-on svg { color: white; fill: rgba(255, 255, 255, .9); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts .es-act-save > span { display: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts .es-act-save.is-on { box-shadow: inset 0 0 0 1px var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts .es-act-save.is-on svg { color: var(--es-red); fill: var(--es-red); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts .es-share-main { min-width: 40px !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts .es-share-main .es-share-word { display: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts .es-share-main.is-flash .es-share-word { display: inline; }
 
-/* Picture: darker towards the text, the map name drawn big and faint. */
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-cv { height: 230px; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-cv::after {
+/* creator-tools-v2: Edit (pencil) button and its menu, under the corner buttons. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts { flex-wrap: nowrap; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-acts .es-act-edit.is-open { background: var(--es-red) !important; box-shadow: none !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-menu {
+  position: absolute; top: calc(100% + 6px); right: 0; z-index: 6; width: 268px; padding: 6px;
+  background: #0b0e14; box-shadow: inset 0 0 0 1px var(--es-line-2), 0 18px 40px rgba(0, 0, 0, .55);
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-menu h4 { margin: 4px 10px 6px; color: var(--es-dim); font: 800 11px var(--es-head); letter-spacing: .16em; text-transform: uppercase; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-item {
+  display: block; width: 100%; padding: 9px 10px; border: 0; border-radius: 0; background: transparent; text-align: left; cursor: pointer;
+  color: white; font: 700 14px var(--es-head); clip-path: none;
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-item:hover, html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-item:focus-visible { background: var(--es-raised); outline: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-item b { display: block; font-weight: 700; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-item small { display: block; margin-top: 2px; color: var(--es-muted); font: 600 12px var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-sep { height: 1px; margin: 6px 4px; border: 0; background: var(--es-line); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-item.is-danger b { color: var(--es-red); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-item.is-danger.is-armed { background: var(--es-red); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-item.is-danger.is-armed b, html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-item.is-danger.is-armed small { color: white; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-edit-item:disabled { opacity: .6; cursor: default; }
+/* Rename: the title turns into a name box in the same size. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on.es-renaming .pw-dr-title { display: none !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-body > .es-title-edit { order: 2; margin-top: 6px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-title-edit > div { display: flex; align-items: center; gap: 8px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-title-edit input {
+  flex: 1; min-width: 0; height: 50px; padding: 0 12px; border: 0; border-radius: 0; outline: none;
+  background: rgba(8, 12, 18, .7); box-shadow: inset 0 -2px var(--es-red), inset 0 0 0 1px var(--es-line-2);
+  color: white; font: 900 32px var(--es-head); text-transform: uppercase;
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-title-edit button {
+  height: 50px; padding: 0 16px; border: 0; border-radius: 0; cursor: pointer; clip-path: none;
+  font: 800 13px var(--es-head); letter-spacing: .06em; text-transform: uppercase; color: white;
+}
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-title-edit .es-title-save { background: var(--es-red); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-title-edit .es-title-cancel { background: transparent; box-shadow: inset 0 0 0 1px var(--es-line-2); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-title-edit button:disabled { opacity: .6; cursor: default; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-title-hint { display: block; margin-top: 6px; color: var(--es-muted); font: 600 12px var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-title-hint.is-bad { color: var(--es-red); }
+
+/* Picture: darker towards the bottom, where the title sits. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-cv { height: 236px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-cv::after {
   content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(90deg, rgba(16, 19, 26, .93), rgba(16, 19, 26, .35)), linear-gradient(180deg, transparent 55%, var(--es-panel));
+  background: linear-gradient(180deg, rgba(15, 18, 25, .3) 0%, rgba(15, 18, 25, .8) 62%, var(--es-panel) 100%);
 }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-cv-ghost {
-  position: absolute; right: -6px; bottom: -20px; z-index: 2; pointer-events: none; white-space: nowrap;
-  font: 900 118px/1 var(--es-head); text-transform: uppercase; color: transparent !important; -webkit-text-stroke: 1px rgba(255, 255, 255, .16) !important;
-}
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body {
-  display: flex; flex-direction: column; margin-top: -200px; padding: 0 28px 26px;
-}
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > * { order: 9; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > .pw-kind { order: 1; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > .pw-dr-title { order: 2; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > .pw-dr-tabs { order: 3; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > .pw-infos-wrap { order: 4; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > .pw-meta { order: 5; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-body > .pw-dr-grid { order: 6; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-body { display: flex; flex-direction: column; margin-top: -132px; padding: 0 24px 22px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-body > * { order: 9; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-body > .pw-kind { order: 1; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-body > .pw-dr-title { order: 2; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-body > .es-byline { order: 3; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-body > .pw-dr-tabs { order: 4; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-body > .pw-infos-wrap { order: 5; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-body > .pw-desc { order: 6; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-body > .pw-best-row { order: 7; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-body > .pw-meta { order: 8; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-body > .pw-dr-grid { order: 10; }
 
-/* Map and spawn above the title, in red capitals. */
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-kind { gap: 0; margin-top: 2px; font: 800 12px var(--es-head); letter-spacing: .16em; text-transform: uppercase; color: var(--es-red); animation: none; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-kind > .pw-ty,
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-kind > .pw-sep,
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-kind > .pw-spot:has(+ .es-spot) { display: none !important; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-kind > * { background: none !important; padding: 0 !important; border: 0 !important; color: inherit !important; font: inherit !important; clip-path: none !important; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-kind > .es-spot::before { content: "\00B7"; margin: 0 .6em; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-title {
-  margin: 10px 60px 0 0; font: 900 38px/1.02 var(--es-head) !important; font-style: normal !important; text-transform: uppercase; letter-spacing: 0;
-}
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-tabs:not(:has(> :nth-child(2))) { display: none; }
+/* Map and spawn above the title in red capitals, then the title and "by <creator>". */
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-kind { gap: 0; margin: 0; font: 800 12px var(--es-head); letter-spacing: .16em; text-transform: uppercase; color: var(--es-red); animation: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-kind > .pw-ty,
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-kind > .pw-sep,
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-kind > .pw-spot:has(+ .es-spot) { display: none !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-kind > * { background: none !important; padding: 0 !important; border: 0 !important; color: inherit !important; font: inherit !important; clip-path: none !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-kind > .es-spot::before { content: "\00B7"; margin: 0 .6em; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-title { margin: 6px 0 0; font: 900 40px/1.02 var(--es-head) !important; font-style: normal !important; text-transform: uppercase; letter-spacing: 0; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-tabs:not(:has(> :nth-child(2))) { display: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-byline { display: flex; align-items: center; gap: 8px; margin-top: 12px; color: var(--es-soft); font: 600 14px var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-byline b { color: white; font-weight: 800; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-byline > b ~ span { color: var(--es-muted); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-byline-pic { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; flex: none; }
 
-/* Facts as chips with a red edge. */
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-infos-wrap { margin-top: 150px; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-infos { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf {
-  display: inline-flex; align-items: center; gap: 8px; width: auto; padding: 9px 12px;
-  background: var(--es-raised); box-shadow: inset 3px 0 var(--es-red); grid-template-rows: none;
+/* Facts as one segmented bar across the panel, then the description. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-infos-wrap { display: block !important; margin-top: 24px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-infos { display: flex; flex-wrap: wrap; gap: 0; margin: 0; box-shadow: inset 0 0 0 1px var(--es-line-2); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-inf {
+  flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: auto; min-width: max-content;
+  height: 44px; padding: 0 12px; background: none; box-shadow: inset 1px 0 var(--es-line-2); grid-template-rows: none; animation: none;
 }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf-sq {
-  width: 20px !important; height: 20px !important; background: none !important; box-shadow: none !important;
-  -webkit-backdrop-filter: none; backdrop-filter: none; color: var(--es-muted);
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-inf:first-child { box-shadow: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-inf-sq {
+  width: 18px !important; height: 18px !important; background: none !important; box-shadow: none !important;
+  -webkit-backdrop-filter: none; backdrop-filter: none; color: var(--es-red);
 }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf-sq svg { width: 18px; height: 18px; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf-sq img { width: 22px; height: auto; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf-sq::before,
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf-sq::after { display: none !important; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf > span { color: white; font: 800 14px var(--es-head); white-space: nowrap; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-inf-note { margin: 16px 0 0; color: var(--es-soft); font: 600 14px/1.5 var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-inf-sq svg { width: 18px; height: 18px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-inf-sq img { width: 20px; height: auto; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-inf-sq::before,
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-inf-sq::after { display: none !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-inf > span { color: white; font: 700 14px var(--es-head); white-space: nowrap; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-inf-note { margin: 14px 0 0; color: var(--es-soft); font: 600 15px/1.45 var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-desc { margin: 8px 0 0; color: var(--es-muted); font: 600 14px/1.5 var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-best-row { margin-top: 10px; color: var(--es-muted); font: 600 12.5px var(--es-head); }
+/* Plays / likes move to the stats card; anything else in the row (difficulty, ratings) stays. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-meta { margin-top: 10px; gap: 6px 16px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-meta > .pw-stat:not(.is-rating) { display: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-meta:not(:has(> :not(.pw-stat:not(.is-rating)))) { display: none; }
 
-/* Difficulty / plays / likes as one quiet line. */
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-meta { gap: 6px 20px; margin-top: 18px; color: var(--es-muted); font: 600 13px var(--es-head); }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-meta b { color: white; font: 800 15px var(--es-head); }
+/* Grid: standing + leaderboard, Rules + counts, dates. The old details list and creator box are hidden. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-grid { display: flex; flex-direction: column; gap: 0; margin-top: 18px; padding-top: 0; box-shadow: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-grid > .pw-facts,
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-grid > .pw-maker { display: none !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board { order: 1; padding: 0; box-shadow: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-split { order: 2; display: grid; grid-template-columns: 1.4fr 1fr; gap: 10px; margin-top: 16px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-dates { order: 3; margin: 10px 0 0; color: var(--es-dim); font: 600 12.5px var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-dates:empty { display: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-mod-cover { order: 4; margin-top: 18px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-card { padding: 11px 14px; background: var(--es-raised); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-rules h3 { margin: 0; color: var(--es-soft); font: 800 12px var(--es-head); letter-spacing: .16em; text-transform: uppercase; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-rules dl { display: grid; grid-template-columns: auto 1fr; gap: 5px 14px; margin: 8px 0 0; font: 600 13.5px var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-rules dt { color: var(--es-muted); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-rules dd { margin: 0; color: white; font-weight: 700; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-stats { display: grid; grid-template-columns: repeat(3, 1fr); align-content: center; text-align: center; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-stats b { display: block; color: white; font: 800 24px var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-stats small { color: var(--es-muted); font: 600 11px var(--es-head); letter-spacing: .08em; text-transform: uppercase; }
 
-/* Details list, then the creator in a box. */
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-grid { grid-template-columns: 1fr; gap: 18px; margin-top: 20px; padding-top: 20px; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-facts {
-  display: grid !important; grid-template-columns: 120px 1fr; gap: 12px 0; margin: 0; font: 600 14px var(--es-head); text-shadow: none;
+/* Your standing: rank, best, gap to #1. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-stand {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 18px; margin-bottom: 16px; padding: 13px 18px;
+  background: linear-gradient(90deg, #3a1720, #1a1219 70%); box-shadow: inset 0 0 0 1px rgba(255, 70, 85, .4);
 }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-facts dt { color: var(--es-muted); }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-facts dd { margin: 0; color: white; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-maker { padding: 14px; box-shadow: inset 0 0 0 1px var(--es-line-2); }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-maker > b { font: 900 20px var(--es-head); }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .es-mod-cover { margin-top: 0; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-stand-rank { color: var(--es-red); font: 900 40px/1 var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-stand-rank small { color: var(--es-muted); font: 700 14px var(--es-head); letter-spacing: 0; text-transform: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-stand-best small,
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-stand-gap small { display: block; color: var(--es-muted); font: 600 11px var(--es-head); letter-spacing: .12em; text-transform: uppercase; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-stand-best b { color: white; font: 900 26px var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-stand-best span { margin-left: 8px; color: var(--es-muted); font: 600 13px var(--es-head); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-stand-gap { text-align: right; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-stand-gap b { color: #f5c451; font: 900 18px var(--es-head); }
+/* Leaderboard rows with a score bar behind them, gold #1, an open spot under a short board. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board > header { margin-bottom: 6px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board h3 { color: var(--es-soft); font-size: 12px; letter-spacing: .16em; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board-row { position: relative; overflow: hidden; height: 44px; padding: 0 14px; grid-template-columns: 40px minmax(0, 1fr) auto 104px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board-row > :not(.es-board-bar) { position: relative; z-index: 1; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board-bar { position: absolute; left: 0; top: 0; bottom: 0; z-index: 0; background: rgba(255, 255, 255, .04); pointer-events: none; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board-row.is-top1 em,
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board-row.is-top1 strong { color: #f5c451; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board-row.is-me { background: #251a20; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board-you { color: var(--es-red); font-weight: 600; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board-row.is-open { background: transparent; box-shadow: inset 0 0 0 1px var(--es-line-2); }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board-row.is-open b,
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-board-row.is-open em { color: var(--es-dim); font-weight: 600; }
 
-/* Bottom: Start training across the whole width; Favorite moved to the rail as Save. */
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-foot { padding: 18px 28px 24px; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-foot > .pw-gbtn { display: none !important; }
-html[data-aim-local]:not(#es) body .pw-drawer.es-rail-on .pw-dr-foot > .pw-lock { flex: 1; width: auto; height: 60px; }
+/* Bottom: Start training across the whole width, with the goal under it. Favorite moved up as Save. */
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-foot { padding: 12px 24px 18px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-foot > .pw-gbtn { display: none !important; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-foot > .pw-lock { flex: 1; width: auto; height: 64px; font: 800 19px var(--es-head) !important; letter-spacing: .06em !important; text-indent: 0 !important; text-transform: uppercase; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .pw-dr-foot > .pw-lock.es-has-goal { flex-wrap: wrap; align-content: center; row-gap: 2px; }
+html[data-aim-local]:not(#es) body .pw-drawer.es-d-on .es-go-goal { flex-basis: 100%; text-align: center; text-indent: 0; text-transform: none; color: rgba(255, 255, 255, .88); font: 600 12px var(--es-head); letter-spacing: .04em; }
 
 /* Card thumb is a Like button (community-workshop.js cardLikeClick): red when you liked it, pops on click. */
 html[data-aim-local]:not(#es) body .pw-card-ln .es-card-likes {
@@ -3669,6 +3736,15 @@ html[data-aim-local]:not(#es) body .es-mod-cover button.es-mod-delete { backgrou
 html[data-aim-local]:not(#es) body .es-mod-cover button.es-mod-delete.is-armed { background: var(--es-red) !important; color: white !important; }
 html[data-aim-local]:not(#es) body .es-mod-cover button:disabled { opacity: .45; cursor: default; }
 html[data-aim-local]:not(#es) body .pw-card.es-gone { display: none !important; }
+/* creator-tools-v1: the creator's "Your drill" box (same look as the moderator box) and the Rename name box. */
+html[data-aim-local]:not(#es) body .es-mod-cover.es-own-tools { border-style: solid; background: rgba(255, 255, 255, .02); }
+html[data-aim-local]:not(#es) body .es-mod-cover.is-renaming > button { display: none; }
+html[data-aim-local]:not(#es) body .es-mod-cover .es-rename { display: flex; flex: 1 1 100%; gap: 8px; }
+html[data-aim-local]:not(#es) body .es-mod-cover .es-rename input {
+  flex: 1; min-width: 0; height: 36px; padding: 0 10px; border: 1px solid var(--es-line-2); border-radius: 0;
+  background: #0b0e14; color: white; font: 700 14px var(--es-head); outline: none;
+}
+html[data-aim-local]:not(#es) body .es-mod-cover .es-rename input:focus { border-color: var(--es-red); }
 
 /* Community Workshop Refresh button, just left of the Enter code box (community-workshop.js refreshButton). */
 html[data-aim-local]:not(#es) body .pw-head > .es-workshop-toolbar > .es-refresh { order: 6; margin-left: auto; }

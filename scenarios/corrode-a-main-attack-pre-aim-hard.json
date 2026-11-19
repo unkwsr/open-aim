@@ -559,22 +559,6 @@
         0.9
        ],
        "mode": "never"
-      },
-      {
-       "kind": "shooter",
-       "difficulty": "hard",
-       "reaction": [
-        0.3,
-        0.5
-       ],
-       "cadence": "weapon",
-       "aimErrorDeg": 4,
-       "maxRangeM": 60,
-       "engage": "stop",
-       "resumeDelay": [
-        0.4,
-        0.8
-       ]
       }
      ],
      "hitSlow": true
@@ -600,22 +584,6 @@
         0.9
        ],
        "mode": "never"
-      },
-      {
-       "kind": "shooter",
-       "difficulty": "hard",
-       "reaction": [
-        0.3,
-        0.5
-       ],
-       "cadence": "weapon",
-       "aimErrorDeg": 4,
-       "maxRangeM": 60,
-       "engage": "stop",
-       "resumeDelay": [
-        0.4,
-        0.8
-       ]
       }
      ],
      "hitSlow": true

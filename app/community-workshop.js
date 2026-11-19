@@ -418,7 +418,43 @@
     const onKey = (event) => { if (event.key === "Escape" && scrim.isConnected) { event.stopPropagation(); shut(); } };
     document.addEventListener("keydown", onKey, true);
     close.onclick = shut;
-    head.append(title, close);
+    // auto-approve-v1: switch kept by the workshop service. On: new uploads are public at once (hide, delete
+    // and ban still work). Turning it on can also publish what is waiting now. Hidden on an older service.
+    const autoBox = el("div", "es-review-auto");
+    const autoNote = el("span", "es-review-auto-note", "");
+    const auto = el("button", null, "AUTO-APPROVE");
+    auto.type = "button"; auto.disabled = true;
+    autoBox.append(autoNote, auto);
+    autoBox.style.cssText = "display:flex;align-items:center;gap:10px;margin-left:auto;font-size:13px;opacity:.95";
+    let autoOn = false, waitingNow = 0;
+    const paintAuto = () => {
+      auto.textContent = "AUTO-APPROVE: " + (autoOn ? "ON" : "OFF");
+      auto.className = autoOn ? "is-primary" : "";
+      autoNote.replaceChildren(autoOn ? "New uploads go public about a minute after they are sent. You can still hide, delete or ban." : "New uploads wait here for you.");
+    };
+    const setAuto = async (on, approveWaiting) => {
+      auto.disabled = true;
+      try {
+        const result = await api.setSettings({ autoApprove: on, approveWaiting });
+        autoOn = result.autoApprove === true; paintAuto();
+        if (result.approved) message(panel, `Auto-approve is on. Published ${result.approved} waiting upload${result.approved === 1 ? "" : "s"}.`);
+        if (approveWaiting && current) open(current);
+      } catch (error) { message(panel, reason(error, "Could not change auto-approve.")); }
+      auto.disabled = false;
+    };
+    auto.onclick = () => {
+      if (autoOn) return setAuto(false, false);
+      if (!waitingNow) return setAuto(true, false);
+      // Something is waiting: ask whether to publish it too.
+      const yes = el("button", "is-primary", `YES, PUBLISH THE ${waitingNow} WAITING`), no = el("button", null, "ONLY NEW UPLOADS");
+      yes.type = no.type = "button";
+      yes.onclick = () => { waitingNow = 0; setAuto(true, true); };
+      no.onclick = () => setAuto(true, false);
+      autoNote.replaceChildren(`Turn on. Publish the ${waitingNow} upload${waitingNow === 1 ? "" : "s"} waiting now too?`, " ", yes, " ", no);
+    };
+    if (api.settings) api.settings().then((s) => { autoOn = s.autoApprove === true; waitingNow = s.waiting || 0; paintAuto(); auto.disabled = false; }, () => autoBox.remove());
+    else autoBox.remove();
+    head.append(title, autoBox, close);
     const tabs = el("div", "es-workshop-tabs");
     const status = el("p", "es-workshop-message");
     const tools = el("div", "es-review-tools");
@@ -902,8 +938,9 @@
   function syncShare(drawer, code) {
     const flash = (button, label, text) => {
       button.querySelector(".es-share-word").textContent = text;
+      button.classList.add("is-flash"); // the corner button shows its word only while it says Copied!
       clearTimeout(button._esTimer);
-      button._esTimer = setTimeout(() => { button.querySelector(".es-share-word").textContent = label; }, 1800);
+      button._esTimer = setTimeout(() => { button.querySelector(".es-share-word").textContent = label; button.classList.remove("is-flash"); }, 1800);
     };
     // Header line "NO.5BDF31 · Share code 5bdf…" stays hidden (the Share button copies the code).
     const line = [...drawer.querySelectorAll("*")].find((node) => node.children.length === 0 && /Share code/i.test(node.textContent));
@@ -923,51 +960,104 @@
     wrap.append(main);
     copy.after(wrap);
   }
-  // Drill panel "side rail" layout: Like / Save / Share in a column on the left, the big map name
-  // drawn faintly in the picture, the spawn name made readable. Styles: theme-esports.css "es-rail".
+  // Drill panel layout "D" (2026-11-19): Like / Save / Share as small buttons next to the close X, the
+  // creator as a byline under the title, the facts as one segmented bar, then your standing and the
+  // leaderboard, then a Rules card next to plays / likes / 7 days. Vue's own nodes stay where they are
+  // (hidden or reordered in CSS); everything added here is our own. Styles: theme-esports.css "es-d-on".
   function prettySpot(raw) {
     if (/attacker/i.test(raw)) return "Attacker spawn";
     if (/defender/i.test(raw)) return "Defender spawn";
     return raw.replace(/^ShooterTeamStart_?/i, "").replace(/_/g, " ").replace(/([a-z])([A-Z])/g, "$1 $2").trim();
   }
-  function syncRail(drawer, like) {
-    drawer.classList.add("es-rail-on");
-    const rail = document.createElement("div");
-    rail.className = "es-rail";
+  const statNumber = (drawer, pattern) => {
+    const node = [...drawer.querySelectorAll(".pw-meta .pw-stat")].find((span) => pattern.test(span.textContent));
+    return node?.querySelector("b")?.textContent.trim() || "0";
+  };
+  function syncLayout(drawer, code, like) {
+    drawer.classList.remove("es-rail-on");
+    drawer.classList.add("es-d-on");
+    // Top corner actions.
+    const acts = document.createElement("div");
+    acts.className = "es-acts";
     const favorite = () => drawer.querySelector(".pw-dr-foot .pw-gbtn[aria-pressed]:not(.es-like)");
     const save = document.createElement("button");
     save.type = "button";
-    save.className = "pw-gbtn es-rail-save";
+    save.className = "pw-gbtn es-act-save";
     save.innerHTML = (favorite()?.querySelector("svg")?.outerHTML || "") + "<span>Save</span>";
     const paintSave = () => {
       const on = favorite()?.getAttribute("aria-pressed") === "true";
       save.classList.toggle("is-on", on);
       save.setAttribute("aria-pressed", String(on));
       save.lastElementChild.textContent = on ? "Saved" : "Save";
-      save.title = on ? "Remove from Favorites" : "Save to Favorites (on this computer)";
+      save.title = on ? "Saved. Click to remove from Favorites" : "Save to Favorites (on this computer)";
     };
     save.onclick = () => { favorite()?.click(); requestAnimationFrame(() => requestAnimationFrame(paintSave)); setTimeout(paintSave, 300); };
     paintSave();
     const share = drawer.querySelector(".es-share-main");
-    rail.append(like, save);
-    if (share) { rail.append(share); drawer.querySelector(".es-share")?.remove(); }
-    drawer.append(rail);
-    // Faint big map name in the picture, readable spawn name in the line above the title.
-    const cover = drawer.querySelector(".pw-dr-cv");
-    const kind = drawer.querySelector(".pw-kind");
-    const mapName = kind && [...kind.children].find((node) => node.tagName === "SPAN" && !node.className)?.textContent.trim();
-    if (cover && mapName) {
-      const ghost = document.createElement("div");
-      ghost.className = "es-cv-ghost";
-      ghost.textContent = mapName;
-      cover.append(ghost);
-    }
+    acts.append(like, save);
+    if (share) { acts.append(share); drawer.querySelector(".es-share")?.remove(); }
+    drawer.append(acts);
+    // Readable spawn name in the red line above the title.
     const spot = drawer.querySelector(".pw-spot");
     if (spot && spot.textContent.trim()) {
       const pretty = document.createElement("span");
       pretty.className = "es-spot";
       pretty.textContent = prettySpot(spot.textContent.trim());
       spot.after(pretty);
+    }
+    // Byline: "by <name> · N creations", with the creator's Discord picture (no picture: just the text).
+    const maker = drawer.querySelector(".pw-maker");
+    const title = drawer.querySelector(".pw-dr-title");
+    if (maker && title) {
+      const name = maker.querySelector(":scope > b")?.textContent.trim() || "";
+      const works = Number((/(\d+)\s+creations?/i.exec(maker.querySelector(":scope > small")?.textContent || "") || [])[1]) || 0;
+      const byline = document.createElement("div");
+      byline.className = "es-byline";
+      const pic = document.createElement("img");
+      pic.className = "es-byline-pic";
+      pic.alt = "";
+      pic.onerror = () => pic.remove();
+      pic.src = "/api/local/workshop/avatar/" + code;
+      byline.append(pic, el2("span", "by"), el2("b", name || "Unknown"));
+      if (works) byline.append(el2("span", "· " + works + (works === 1 ? " creation" : " creations")));
+      title.after(byline);
+    }
+    // Rules card + plays / likes / 7 days, and the dates on one quiet line (under the leaderboard).
+    const grid = drawer.querySelector(".pw-dr-grid");
+    const facts = grid?.querySelector(".pw-facts");
+    if (grid && facts) {
+      const value = (label) => {
+        const dt = [...facts.querySelectorAll("dt")].find((node) => node.textContent.trim().toLowerCase() === label);
+        return dt?.nextElementSibling?.textContent.trim() || "";
+      };
+      const split = document.createElement("div");
+      split.className = "es-split";
+      const rules = document.createElement("div");
+      rules.className = "es-card es-rules";
+      const list = document.createElement("dl");
+      for (const [label, key] of [["Scoring", "scoring"], ["Movement", "movement"]]) {
+        const text = value(key);
+        if (text) list.append(el2("dt", label), el2("dd", text));
+      }
+      rules.append(el2("h3", "Rules"), list);
+      const stats = document.createElement("div");
+      stats.className = "es-card es-stats";
+      const stat = (number, label, cls) => {
+        const box = document.createElement("div");
+        const b = el2("b", number);
+        if (cls) b.className = cls;
+        box.append(b, el2("small", label));
+        return box;
+      };
+      stats.append(stat(statNumber(drawer, /plays/i), "Plays"),
+        stat(statNumber(drawer, /^\s*\S+\s+likes\s*$/i), "Likes", "es-stat-likes"),
+        stat(statNumber(drawer, /Last 7 days/i), "7 days"));
+      split.append(rules, stats);
+      const published = value("first published"), updated = value("last updated");
+      const dates = el2("p", [published && published !== "—" ? "Published " + published : "",
+        !updated || /never/i.test(updated) ? "never updated" : "updated " + updated.replace(/,\s*version.*$/i, "")].filter(Boolean).join(" · "));
+      dates.className = "es-dates";
+      grid.prepend(split, dates);
     }
   }
   function syncDrawer() {
@@ -977,20 +1067,8 @@
     if (!code) return;
     if (drawer.dataset.esCode === code && drawer.querySelector(".es-like")) return;
     drawer.dataset.esCode = code;
-    drawer.querySelectorAll(".es-like, .es-maker-pic, .es-mod-cover, .es-code-chip, .es-share, .es-rail, .es-cv-ghost, .es-spot, .es-board").forEach((node) => node.remove());
+    drawer.querySelectorAll(".es-like, .es-maker-pic, .es-mod-cover, .es-code-chip, .es-share, .es-rail, .es-cv-ghost, .es-spot, .es-board, .es-own-tools, .es-acts, .es-byline, .es-split, .es-dates, .es-go-goal, .es-title-edit, .es-edit-menu").forEach((node) => node.remove());
     syncShare(drawer, code);
-    drawer.querySelector(".pw-maker")?.classList.remove("es-has-pic");
-    // Creator picture over the colored hexagon; the hexagon stays when there is none.
-    const maker = drawer.querySelector(".pw-maker");
-    if (maker) {
-      const pic = document.createElement("img");
-      pic.className = "es-maker-pic";
-      pic.alt = "";
-      pic.onload = () => maker.classList.add("es-has-pic");
-      pic.onerror = () => pic.remove();
-      pic.src = "/api/local/workshop/avatar/" + code;
-      maker.prepend(pic);
-    }
     const favorite = drawer.querySelector(".pw-gbtn[aria-pressed]");
     if (!favorite) return;
     const like = document.createElement("button");
@@ -1007,6 +1085,8 @@
       like.title = identity ? (state.liked ? "Remove your like" : "Like this drill (everyone sees the count)") : "Sign in with Discord to like drills";
       const count = likeCountNode(drawer);
       if (count && state.likes != null) count.firstElementChild.textContent = String(state.likes);
+      const stat = drawer.querySelector(".es-stat-likes");
+      if (stat && state.likes != null) stat.textContent = String(state.likes);
     };
     like.onclick = async () => {
       if (!identity) { api.login().catch(() => {}); return; }
@@ -1030,77 +1110,192 @@
       like.disabled = false;
       paint();
     };
-    syncRail(drawer, like);
+    syncLayout(drawer, code, like);
     paint();
-    if (identity?.moderator) {
-      const tools = document.createElement("div");
-      tools.className = "es-mod-cover";
-      const change = document.createElement("button");
-      change.type = "button";
-      change.textContent = "CHANGE PICTURE";
-      const reset = document.createElement("button");
-      reset.type = "button";
-      reset.textContent = "MAP PICTURE";
-      reset.title = "Back to the map picture";
-      const note = document.createElement("small");
-      const save = async (data) => {
-        note.textContent = data ? "Saving…" : "Resetting…";
-        try {
-          await api.setCover(code, data, data ? "image/jpeg" : null);
-          note.textContent = data ? "Saved. Cards show it after the page refreshes." : "Map picture again. Cards update after the page refreshes.";
-        } catch (error) { note.textContent = reason(error, "The picture could not be saved."); }
-      };
-      change.onclick = () => chooseCover(save, (error) => { note.textContent = reason(error, "That file could not be read as a picture."); });
-      reset.onclick = () => save(null);
-      // Hide (can be shown again from Review uploads > Published) and Delete (permanent, asks
-      // with a second click). Afterwards this drill's cards are hidden on the page right away.
-      const hide = document.createElement("button");
-      hide.type = "button";
-      hide.textContent = "HIDE";
-      hide.title = "Take it off the workshop; show it again from Review uploads > Published";
-      const remove = document.createElement("button");
-      remove.type = "button";
-      remove.className = "es-mod-delete";
-      remove.textContent = "DELETE";
-      remove.title = "Erase the drill, its likes and leaderboard for good";
-      const gone = (text) => {
-        note.textContent = text;
-        [hide, remove, change, reset].forEach((button) => { button.disabled = true; });
-        const prefix = code.slice(0, 6).toUpperCase();
-        document.querySelectorAll(".pw-card").forEach((card) => {
-          if ((card.querySelector(".pw-card-no")?.textContent || "").toUpperCase().includes("NO." + prefix)) card.classList.add("es-gone");
-        });
-      };
-      hide.onclick = async () => {
-        note.textContent = "Hiding…";
-        try { await api.moderate(code, "hide"); gone("Hidden. Show it again from Review uploads > Published."); }
-        catch (error) { note.textContent = reason(error, "The drill could not be hidden."); }
-      };
-      let armed = null;
-      remove.onclick = async () => {
-        if (!armed) {
-          remove.textContent = "CLICK AGAIN TO DELETE FOR GOOD";
-          remove.classList.add("is-armed");
-          note.textContent = "Deleting can't be undone: the drill, its likes and its leaderboard are erased.";
-          armed = setTimeout(() => { armed = null; remove.textContent = "DELETE"; remove.classList.remove("is-armed"); note.textContent = ""; }, 5000);
-          return;
-        }
-        clearTimeout(armed);
-        armed = null;
-        remove.textContent = "DELETING…";
-        try { await api.moderate(code, "delete"); remove.textContent = "DELETED"; gone("Deleted. It's gone from the workshop."); }
-        catch (error) { remove.textContent = "DELETE"; remove.classList.remove("is-armed"); note.textContent = reason(error, "The drill could not be deleted."); }
-      };
-      tools.append(el2("b", "MODERATOR"), change, reset, hide, remove, note);
-      (drawer.querySelector(".pw-maker")?.parentElement || drawer).append(tools);
-    }
+    if (identity?.moderator) editMenu(drawer, code, true);
     api.likeState(code).then((result) => {
       if (drawer.dataset.esCode !== code) return;
       state = { likes: Number(result?.likes) || 0, liked: !!result?.liked }; likedByCode[code] = state.liked;
       paint();
       setCardLikes(code, state.likes);
+      if (result?.own && !identity?.moderator) editMenu(drawer, code, false);
     }).catch(() => {});
     syncBoard(drawer, code);
+  }
+
+  // creator-tools-v2 (2026-11-19): an Edit button (pencil) next to Like / Save / Share, for the drill's
+  // creator and the moderator. Its menu: Rename (the title becomes a name box), Change picture, Map
+  // picture, and for the moderator Hide; Delete asks again inside the menu. Results show as a toast, and
+  // the shelves reload so the cards show the change.
+  const EDIT_ICON = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>';
+  // Keys typed in our boxes belong to the box, not to the game's shortcuts.
+  const keepKeys = (node) => { for (const type of ["keydown", "keyup", "keypress"]) node.addEventListener(type, (event) => event.stopPropagation()); };
+  function reloadShelves() {
+    Promise.resolve(api.refresh?.()).catch(() => {}).then(() => {
+      cardLikes = { at: 0, promise: null, byPrefix: null };
+      loadCardLikes(true);
+      if (typeof window.__aimPwReload === "function") window.__aimPwReload();
+    });
+  }
+  function hideCards(code) {
+    const prefix = code.slice(0, 6).toUpperCase();
+    document.querySelectorAll(".pw-card").forEach((card) => {
+      if ((card.querySelector(".pw-card-no")?.textContent || "").toUpperCase().includes("NO." + prefix)) card.classList.add("es-gone");
+    });
+  }
+  // Picture and delete go through the creator routes; the moderator's own routes are the fallback
+  // for a game that has not been restarted since the update.
+  const editCall = (code, action, value, moderator) => {
+    if (api.own) return api.own(code, action, value);
+    if (!moderator) throw new Error("Restart the game to change your drill.");
+    if (action === "cover") return api.setCover(code, value ? value.image : null, value ? value.type : null);
+    if (action === "delete") return api.moderate(code, "delete");
+    throw new Error("Restart the game to rename drills.");
+  };
+  function startRename(drawer, code, moderator) {
+    if (drawer.querySelector(".es-title-edit")) { drawer.querySelector(".es-title-edit input")?.focus(); return; }
+    const title = drawer.querySelector(".pw-dr-title");
+    if (!title) return;
+    const box = document.createElement("div");
+    box.className = "es-title-edit";
+    keepKeys(box);
+    const input = document.createElement("input");
+    input.type = "text";
+    input.maxLength = 80;
+    input.spellcheck = false;
+    input.value = title.textContent.trim();
+    input.setAttribute("aria-label", "Drill name");
+    const save = Object.assign(document.createElement("button"), { type: "button", className: "es-title-save", textContent: "Save" });
+    const cancel = Object.assign(document.createElement("button"), { type: "button", className: "es-title-cancel", textContent: "Cancel" });
+    const hint = Object.assign(el2("small", "Enter to save · Esc to cancel"), { className: "es-title-hint" });
+    const row = document.createElement("div");
+    row.append(input, save, cancel);
+    box.append(row, hint);
+    const close = () => { box.remove(); drawer.classList.remove("es-renaming"); };
+    const submit = async () => {
+      const name = input.value.trim();
+      if (!name) { hint.textContent = "The name can't be empty."; hint.classList.add("is-bad"); input.focus(); return; }
+      if (/[<>]/.test(name)) { hint.textContent = "The name can't contain < or >."; hint.classList.add("is-bad"); input.focus(); return; }
+      if (name === title.textContent.trim()) { close(); return; }
+      save.disabled = cancel.disabled = input.disabled = true;
+      hint.classList.remove("is-bad");
+      hint.textContent = "Saving…";
+      try {
+        const result = await editCall(code, "rename", name, moderator);
+        title.textContent = result?.name || name;
+        close();
+        scoreToast("Renamed to “" + (result?.name || name) + "”", true);
+        reloadShelves();
+      } catch (error) {
+        save.disabled = cancel.disabled = input.disabled = false;
+        hint.textContent = reason(error, "The name could not be saved.");
+        hint.classList.add("is-bad");
+        input.focus();
+      }
+    };
+    save.onclick = submit;
+    cancel.onclick = close;
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") { event.preventDefault(); submit(); }
+      if (event.key === "Escape") { event.preventDefault(); close(); }
+    });
+    title.after(box);
+    drawer.classList.add("es-renaming");
+    input.focus();
+    input.select();
+  }
+  function editMenu(drawer, code, moderator) {
+    const acts = drawer.querySelector(".es-acts");
+    if (!acts || acts.querySelector(".es-act-edit")) return;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "pw-gbtn es-act-edit";
+    button.title = moderator ? "Edit this drill (moderator)" : "Edit your drill";
+    button.setAttribute("aria-haspopup", "menu");
+    button.setAttribute("aria-expanded", "false");
+    button.innerHTML = EDIT_ICON;
+    acts.prepend(button);
+    let menu = null;
+    const shut = () => {
+      menu?.remove(); menu = null;
+      button.classList.remove("is-open");
+      button.setAttribute("aria-expanded", "false");
+      document.removeEventListener("pointerdown", outside, true);
+    };
+    const outside = (event) => { if (menu && !menu.contains(event.target) && !button.contains(event.target)) shut(); };
+    const item = (label, note, run, extra = "") => {
+      const node = document.createElement("button");
+      node.type = "button";
+      node.className = "es-edit-item" + extra;
+      node.setAttribute("role", "menuitem");
+      node.append(el2("b", label));
+      if (note) node.append(el2("small", note));
+      node.onclick = run;
+      return node;
+    };
+    const savePicture = async (data) => {
+      try {
+        await editCall(code, "cover", data ? { image: data, type: "image/jpeg" } : null, moderator);
+        scoreToast(data ? "Picture saved" : "Back to the map picture", true);
+        reloadShelves();
+      } catch (error) { scoreToast(reason(error, "The picture could not be saved."), false); }
+    };
+    const open = () => {
+      if (menu) { shut(); return; }
+      menu = document.createElement("div");
+      menu.className = "es-edit-menu";
+      menu.setAttribute("role", "menu");
+      keepKeys(menu);
+      menu.addEventListener("keydown", (event) => { if (event.key === "Escape") { event.preventDefault(); shut(); button.focus(); } });
+      menu.append(el2("h4", moderator ? "Moderator" : "Your drill"));
+      menu.append(item("Rename", null, () => { shut(); startRename(drawer, code, moderator); }));
+      menu.append(item("Change picture", "JPEG, PNG or WebP", () => {
+        shut();
+        chooseCover(savePicture, (error) => scoreToast(reason(error, "That file could not be read as a picture."), false));
+      }));
+      menu.append(item("Use the map picture", null, () => { shut(); savePicture(null); }));
+      if (moderator) {
+        menu.append(item("Hide", "Show it again from Review uploads > Published", async () => {
+          shut();
+          try { await api.moderate(code, "hide"); hideCards(code); scoreToast("Hidden from the workshop", true); }
+          catch (error) { scoreToast(reason(error, "The drill could not be hidden."), false); }
+        }));
+      }
+      menu.append(Object.assign(document.createElement("hr"), { className: "es-edit-sep" }));
+      const remove = item("Delete drill", "Erases it, its likes and its leaderboard", null, " is-danger");
+      let armed = null;
+      remove.onclick = async () => {
+        if (!armed) {
+          remove.classList.add("is-armed");
+          remove.firstElementChild.textContent = "Click again to delete for good";
+          remove.lastElementChild.textContent = "This can't be undone";
+          armed = setTimeout(() => { armed = null; if (!remove.isConnected) return; remove.classList.remove("is-armed");
+            remove.firstElementChild.textContent = "Delete drill"; remove.lastElementChild.textContent = "Erases it, its likes and its leaderboard"; }, 5000);
+          return;
+        }
+        clearTimeout(armed);
+        remove.disabled = true;
+        remove.firstElementChild.textContent = "Deleting…";
+        try {
+          await editCall(code, "delete", null, moderator);
+          shut();
+          hideCards(code);
+          scoreToast("Deleted. It's gone from the workshop.", true);
+          drawer.querySelector(".pw-dr-x")?.click();
+          reloadShelves();
+        } catch (error) {
+          shut();
+          scoreToast(reason(error, "The drill could not be deleted."), false);
+        }
+      };
+      menu.append(remove);
+      acts.append(menu);
+      button.classList.add("is-open");
+      button.setAttribute("aria-expanded", "true");
+      document.addEventListener("pointerdown", outside, true);
+      menu.querySelector(".es-edit-item")?.focus();
+    };
+    button.onclick = open;
   }
 
   // Leaderboard in the drill panel: top 5 and your own best (workshop server, best round per
@@ -1109,24 +1304,78 @@
   const boards = {};
   const points = (value) => Math.round(value).toLocaleString("en-US");
   const time = (value) => (value < 60 ? value.toFixed(1) + " s" : Math.floor(value / 60) + ":" + String(Math.floor(value % 60)).padStart(2, "0"));
-  function boardRow(row) {
+  function boardRow(row, topScore) {
     const item = document.createElement("li");
     item.className = "es-board-row" + (row.mine ? " is-me" : "") + (row.rank <= 3 ? " is-top" + row.rank : "");
-    item.append(el2("em", "#" + row.rank), el2("b", row.mine ? row.name + " (you)" : row.name), el2("strong", points(row.score)));
+    // Score bar behind the row: this score against #1's.
+    const bar = document.createElement("i");
+    bar.className = "es-board-bar";
+    bar.style.width = (topScore > 0 ? Math.max(2, Math.min(100, (row.score / topScore) * 100)) : 0).toFixed(1) + "%";
+    const name = el2("b", row.name);
+    if (row.mine) name.append(Object.assign(el2("span", " (you)"), { className: "es-board-you" }));
+    item.append(bar, el2("em", "#" + row.rank), name, el2("strong", points(row.score)));
     const extra = [time(row.seconds)];
     if (row.accuracy != null) extra.push(row.accuracy.toFixed(1) + "%");
     item.append(el2("small", extra.join(" · ")));
     return item;
   }
+  // "Your standing": your rank, your best and how much you need for #1 (only once you are on the board).
+  function standCard(data) {
+    const me = data.me, first = data.top[0];
+    const card = document.createElement("div");
+    card.className = "es-stand";
+    const rank = el2("div", "#" + me.rank);
+    rank.className = "es-stand-rank";
+    rank.append(el2("small", " / " + data.players));
+    const best = document.createElement("div");
+    best.className = "es-stand-best";
+    const extra = [time(me.seconds)];
+    if (me.accuracy != null) extra.push(me.accuracy.toFixed(1) + "%");
+    best.append(el2("small", "Your best"), el2("b", points(me.score)), el2("span", extra.join(" · ")));
+    const gap = document.createElement("div");
+    gap.className = "es-stand-gap";
+    if (me.rank === 1) gap.append(el2("small", "You're"), el2("b", "#1"));
+    else gap.append(el2("small", "To take #1"), el2("b", "+" + points(Math.max(1, first.score - me.score + 1))));
+    card.append(rank, best, gap);
+    return card;
+  }
+  // The line under Start training: the score to beat, or what to do to get on the board.
+  function paintGoal(box, data) {
+    const play = box.closest(".pw-drawer")?.querySelector(".pw-dr-foot .pw-lock");
+    if (!play) return;
+    let goal = play.querySelector(".es-go-goal");
+    let text = "";
+    if (data && identity) {
+      const first = data.top[0];
+      if (!first) text = "Be the first on the leaderboard";
+      else if (!data.me) text = "Finish a round to get on the leaderboard";
+      else if (data.me.rank === 1) text = "You're #1 · beat your " + points(data.me.score);
+      else text = "Score " + points(first.score + 1) + " to take #1";
+    }
+    if (!text) { goal?.remove(); play.classList.remove("es-has-goal"); return; }
+    if (!goal) { goal = Object.assign(document.createElement("small"), { className: "es-go-goal" }); play.append(goal); }
+    goal.textContent = text;
+    play.classList.add("es-has-goal");
+  }
   function paintBoard(box, data) {
     const list = box.querySelector("ol");
     const note = box.querySelector(".es-board-note");
     list.replaceChildren();
+    box.querySelector(".es-stand")?.remove();
     box.querySelector(".es-board-count").textContent = data ? (data.players === 1 ? "1 player" : data.players + " players") : "";
+    paintGoal(box, data);
     if (!data) { note.textContent = "The leaderboard could not be loaded."; return; }
-    for (const row of data.top) list.append(boardRow(row));
+    const topScore = data.top[0]?.score || data.me?.score || 0;
+    if (data.me && identity) box.prepend(standCard(data));
+    for (const row of data.top) list.append(boardRow(row, topScore));
     if (data.me && !data.top.some((row) => row.mine)) {
-      list.append(Object.assign(document.createElement("li"), { className: "es-board-gap", textContent: "···" }), boardRow(data.me));
+      list.append(Object.assign(document.createElement("li"), { className: "es-board-gap", textContent: "···" }), boardRow(data.me, topScore));
+    } else if (data.top.length && data.top.length < 5) {
+      // One empty place under the last score, so a short board shows there's room on it.
+      const open = document.createElement("li");
+      open.className = "es-board-row is-open";
+      open.append(el2("em", "#" + (data.top.length + 1)), el2("b", "Open spot"));
+      list.append(open);
     }
     if (!data.top.length) note.textContent = identity ? "No scores yet. Finish a round to be first." : "No scores yet.";
     else if (!identity) note.textContent = "Sign in with Discord to get on the board.";
@@ -1143,8 +1392,7 @@
     const list = document.createElement("ol");
     const note = Object.assign(el2("p", ""), { className: "es-board-note" });
     box.append(head, list, note);
-    const maker = grid.querySelector(".pw-maker");
-    if (maker) maker.before(box); else grid.append(box);
+    grid.prepend(box); // first in the grid: above the Rules card (layout D)
     if (boards[code]) paintBoard(box, boards[code]); else note.textContent = "Loading…";
     api.scores(code).then((data) => {
       boards[code] = data;

@@ -497,6 +497,10 @@ export async function loadMap(id, load) {
     // Every upward collision face at (x, z), however high (tall crates, walls, roofs). The
     // editor keeps a bot on one of these when its height matches (placed there in 3D).
     topsAt: (x, z) => surfacesAt(floors.solid, x, z).filter((s) => s.floor).map((s) => s.y),
+    // bot-walls-v1: heights you can stand on at exactly (x, z): the walkable floor there plus tops of boxes and ledges
+    // with room for a body above. Unlike levelsAt there is no fallback to the floor beside it, so inside a wall it is
+    // empty (the Studio's check of bot routes against walls, drill.js pathBlocked).
+    standAt: (x, z) => merge([...(floors.nav ? navLevels(floors, x, z) : []), ...solidLevels(floors.solid, x, z)], 0.4),
     // studio-placement: every height something can stand on at exactly (x, z), lowest first: the walkable
     // floor there plus every upward collision face (no headroom or height filter). The 3D view matches the
     // surface under the mouse against these.

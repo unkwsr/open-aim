@@ -7,15 +7,19 @@ import {
   MAPS, mapLabel, WEAPONS, weaponLabel, LOOKS, SMOKE_AGENTS, smokeSpec, RANKS, MOVES, ARMOR,
   newDrill, newBot, newTargets, newWall, newBarrier, newAirFloor, newSmoke, itemName, problems, compile,
   FLASH_AGENTS, FLASH_FUSE, plan, flashTarget, normalize, newTrigger, COMPILER, DEFAULT_JUMP_HEIGHT, peekModes, peekWidth, spotPeekWidth, PEEK_WIDTH,
-  flashHeights, flashFlight, FLASH_THROW_Y, REYNA_REACH, yoruBounce,
+  flashHeights, flashFlight, FLASH_THROW_Y, REYNA_REACH, yoruBounce, PHOENIX_REACH, PHOENIX_RISE, phoenixStar, flashFrom,
   BLOCK_SHAPES, newBlock, structureTops, gameBlock,
   PLAYBACKS, RECORD_SECONDS, copycatFrames, copycatAt, copycatSmokes, trackFromTake, compileRecording,
-  canRandomSpot, usesOwnDispatcher, hasZone, zoneCorners, ZONE_MOVES, zoneCenter, zoneTurn, zoneTurnHandle, zoneTurnToward, tradeTarget, stuckTradeRings,
+  cutTrack, trimRange, TRIM_MIN,
+  canRandomSpot, usesOwnDispatcher, hasZone, zoneCorners, ZONE_MOVES, zoneCenter, zoneTurn, zoneTurnHandle, zoneTurnToward, tradeTarget, stuckTradeRings, zoneOnWall, dotSpotFields,
+  wavePlans, waveList, waveName, wavePlays, inWaves, newId,
+  botWallHits, strafeRoom, strafeAxis, fixedYaw,
+  isDot, dotRadius, dotHeight, DOT_HEIGHT, DOT_MAX_HEIGHT, TARGET_SIZES, newDot, dotWallSnap,
 } from "./drill.js";
-import { arenaSize, arenaRect, setArenaRect, ARENA_REACH, ARENA_MIN, arenaWallHeight, surfaceFor, darkArena, targetColor, arenaSurface, setArenaSurface, SURFACES } from "./arena.js";
+import { arenaSize, arenaRect, setArenaRect, ARENA_REACH, ARENA_MIN, arenaWallHeight, surfaceFor, darkArena, targetColor, arenaSurface, setArenaSurface, SURFACES, ARENA_COLOR_KEYS, arenaColor, customArenaColor } from "./arena.js";
 import { resizePiece, wallDepth, createPieceSnap, MIN_SIZE, MAX_SIZE } from './transform.js';
 const FREE = { hardMin: MIN_SIZE, hardMax: MAX_SIZE }; // studio-free-size: what the number boxes accept
-import { unpredictableOffset } from './strafe.js';
+import { unpredictableOffset, botSpeed, speedScale, defaultSpeedScale, SPEED_SCALE } from './strafe.js';
 import { loadMap } from "./map-data.js";
 import { createView3D } from "./view3d.js";
 
@@ -61,6 +65,7 @@ const ICON = {
   patrol: '<circle cx="5" cy="19" r="2"/><circle cx="19" cy="5" r="2"/><path d="M7 19h5a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h8" stroke-dasharray="2 2.5"/>',
   copycat: '<circle cx="7" cy="5" r="2.2"/><path d="M7 8v6M7 14l-2 6M7 14l2 6M4 10h6"/><circle cx="17" cy="5" r="2.2" stroke-dasharray="1.5 1.5"/><path d="M17 8v6M17 14l-2 6M17 14l2 6M14 10h6" stroke-dasharray="1.5 1.5"/>',
   rec: '<circle cx="12" cy="12" r="6" fill="currentColor" stroke="none"/>',
+  dot: '<circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 2.5v3M12 18.5v3M10 4.5l2-2 2 2M10 19.5l2 2 2-2" />', // dot-bots-v4
   targets: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor"/>',
   wall: '<rect x="3" y="7" width="18" height="10" rx="1"/><path d="M3 12h18M9 7v5M15 12v5"/>',
   barrier: '<rect x="3" y="5" width="18" height="14" stroke-dasharray="3 3"/><path d="M9 12h6"/>',
@@ -305,6 +310,30 @@ function floorCheck() {
     return (x, z) => (x >= r.x0 && x <= r.x1 && z >= r.z0 && z <= r.z1 ? 0 : null);
   }
   return S.map ? (x, z) => seenTop(x, z) ?? floorAt(x, z) : null;
+}
+// bot-walls-v1: every floor height at a point (map nav mesh + things built here), for checking bot lines against
+// walls (drill.js pathBlocked). Null on a map that hasn't loaded yet.
+function wallLevels() {
+  if (!S.drill || (onMap() && !S.map)) return null;
+  // + the tops of solid things on the map (crates, ledges), where bots are often placed
+  // map: only what is standable right at the point (map-data standAt), + tops of things built here
+  if (!onMap()) return (x, z) => levelsHere(x, z);
+  return (x, z) => [...new Set([...(S.map.standAt ? S.map.standAt(x, z) : S.map.levelsAt(x, z)), ...structureTops(S.drill.items, x, z)])];
+}
+// A bot's lines through walls and its strafe room, cached per bot until it, the start, the map or the built
+// walls / boxes change (the 2D map draws them every frame).
+const wallCache = new Map();
+function wallInfo(it) {
+  const lv = wallLevels();
+  if (!lv || it.kind !== "bot") return null;
+  const solids = S.drill.items.filter((i) => i.kind === "wall" || i.kind === "block");
+  const key = JSON.stringify([it, S.drill.start, S.map ? S.map.id || S.drill.place : "range", solids]);
+  const got = wallCache.get(it.id);
+  if (got && got.key === key) return got.info;
+  const info = { hits: botWallHits(S.drill, it, lv), room: it.move === "strafe" ? strafeRoom(S.drill, lv, it, S.drill.start) : null };
+  wallCache.set(it.id, { key, info });
+  if (wallCache.size > 400) wallCache.delete(wallCache.keys().next().value);
+  return info;
 }
 
 // Every change goes through edit(): it records undo history and redraws.
@@ -673,6 +702,7 @@ function buildEditor() {
   const tray = h("aside", { class: "tray", "data-coach": "tray", "aria-label": "Add to the map" },
     h("h4", {}, "Bots"),
     Object.entries(MOVES).map(([move, m]) => tool("bot", move, move, "ic-bot", m.short, m.tip)),
+    tool("dot", null, "dot", "ic-bot", "Dot", "A floating ball to shoot, one hit kills. Holds still or slides side to side. Sticks to walls; arrows set how high."),
     h("h4", {}, "Saved bots"),
     (savedBotsEl = h("div", { class: "saved-bots" })),
     h("h4", {}, "Targets"),
@@ -739,13 +769,13 @@ async function leaveEditor() {
 // without the map loaded (copies from the library); with it, heights are re-checked.
 async function saveDrill(drill, { quietOk = false } = {}) {
   const current = S.drill === drill;
-  const hard = problems(drill, current ? floorCheck() : null).filter((p) => !p.soft);
+  const hard = problems(drill, current ? floorCheck() : null, current ? wallLevels() : null).filter((p) => !p.soft);
   if (hard.length) {
     toast(`Can't save yet: ${hard[0].text}`, true);
     return null;
   }
   drill.compiled = COMPILER;
-  const { doc, type } = compile(drill, current && S.map ? (x, z, y) => floorAt(x, z, y) : null);
+  const { doc, type } = compile(drill, current && S.map ? (x, z, y) => floorAt(x, z, y) : null, current ? wallLevels() : null);
   if (gameCheck) {
     try {
       gameCheck(JSON.stringify(doc));
@@ -848,13 +878,17 @@ const yawDeg = (from, to) => ((Math.atan2(-(to.x - from.x), -(to.z - from.z)) * 
 const dist = (a, b) => Math.hypot(a.x - b.x, a.z - b.z);
 
 // Side-to-side direction for a bot facing your start (for strafes and target zones).
-function across(item) {
-  const d = dirOf(facingOf(item));
+// at: where it strafes (a peeker's peek spot); a peeker with its own direction strafes along its own left / right.
+function across(item, at = item) {
+  const d = dirOf(facingOf(item, at));
   return { x: -d.z, z: d.x };
 }
 // Where a thing looks (game yaw, degrees): a bot's fixed direction, or toward your start.
-const fixedFacing = (item) => item.kind === "bot" && typeof item.facing === "number" && (item.move === "still" || item.move === "strafe");
-const facingOf = (item, at = item) => (fixedFacing(item) ? item.facing : yawDeg(at, S.drill.start));
+// peek-facing-v1: peekers too (their own field peekFacing, see fixedYaw in drill.js).
+const fixedFacing = (item) => item.kind === "bot" && fixedYaw(item) !== null;
+// peek-facing-v2: a peeker's turn handle sits on its peek spot (point 2), where its direction matters.
+const turnFrom = (item) => (item.move === "peek" && item.route && item.route[1] ? item.route[1] : item);
+const facingOf = (item, at = item) => (fixedFacing(item) ? fixedYaw(item) : yawDeg(at, S.drill.start));
 function wallEnds(w) {
   const a = ((w.turn || 0) * Math.PI) / 180;
   const ux = Math.cos(a), uz = -Math.sin(a);
@@ -876,7 +910,7 @@ const TRADE_KILL = 3, TRIGGER_AT = 2; // preview: the traded bot "dies" 3 s into
 const rand01 = (n, id) => { const v = Math.sin(n * 12.9898 + [...String(id)].reduce((h, c) => h + c.charCodeAt(0), 0) * 78.233) * 43758.5453; return v - Math.floor(v); };
 // One appearance of a bot (a trade swings once): where it is `local` seconds in, hidden when it's done.
 function onceAt(b, local) {
-  const speed = b.speed === "walk" ? 2.97 : 5.4;
+  const speed = botSpeed(b);
   if (!b.route) return local >= 0 ? { ...basePreviewPos(b, local), shown: local >= 0 } : { x: b.x, z: b.z, shown: false };
   const r = routeLegs(b, speed, true);
   if (!r || local < 0) return { x: b.x, z: b.z, shown: false };
@@ -888,7 +922,7 @@ function tradeLoop(focus) {
   for (const x of S.drill.items) {
     if (x.kind !== "bot" || !tradeTarget(S.drill, x) || (focus && !focus.has(x.id))) continue;
     hi = Math.max(hi, x.tradeMax ?? 1);
-    const r = x.route ? routeLegs(x, x.speed === "walk" ? 2.97 : 5.4, true) : null;
+    const r = x.route ? routeLegs(x, botSpeed(x), true) : null;
     if (r) run = Math.max(run, r.total);
   }
   return Math.min(25, TRADE_KILL + hi + run + 1);
@@ -926,7 +960,7 @@ function previewPos(b, t) {
 }
 // Where a timed route is `local` seconds in (null after its end).
 function legsAt(part, local) {
-  const age = part.flashStart >= 0 && local >= part.flashStart && local - part.flashStart < FLASH_FUSE + 0.6 ? local - part.flashStart : undefined;
+  const age = part.flashStart >= 0 && local >= part.flashStart && local - part.flashStart < 2 ? local - part.flashStart : undefined;
   let left = local;
   for (const leg of part.legs) {
     if (left > leg.time) { left -= leg.time; continue; }
@@ -941,9 +975,9 @@ function legsAt(part, local) {
 function basePreviewPos(b, t) {
   if (b.move === "copycat") {
     const wait = b.delay || 0, at = copycatAt(b, S.drill.start, t - wait);
-    return at ? { x: at.x, y: at.y, z: at.z, shown: t >= wait } : { x: b.x, z: b.z, shown: true };
+    return at ? { x: at.x, y: at.y, z: at.z, crouch: at.crouch, shown: t >= wait } : { x: b.x, z: b.z, shown: true };
   }
-  const speed = b.speed === "walk" ? 2.97 : 5.4;
+  const speed = botSpeed(b);
   if (b.move === "strafe") {
     const a = across(b);
     if (b.unpredictable === true) {
@@ -973,7 +1007,7 @@ function basePreviewPos(b, t) {
   const part = parts.find((q) => now < q.from + q.total) || parts[parts.length - 1];
   const local = now - part.from;
   // Seconds since the flash was thrown, while it flies and pops.
-  const age = part.flashStart >= 0 && local >= part.flashStart && local - part.flashStart < FLASH_FUSE + 0.6 ? local - part.flashStart : undefined;
+  const age = part.flashStart >= 0 && local >= part.flashStart && local - part.flashStart < 2 ? local - part.flashStart : undefined;
   let left = local;
   for (const leg of part.legs) {
     if (left > leg.time) { left -= leg.time; continue; }
@@ -1033,13 +1067,13 @@ function previewOrder(b, variants) {
 function scrubPos(b) {
   if (!S.scrub || S.scrub.id !== b.id || S.sel !== b.id) return null;
   const at = copycatAt(b, S.drill.start, S.scrub.t);
-  return at && { x: at.x, y: at.y, z: at.z, shown: true };
+  return at && { x: at.x, y: at.y, z: at.z, crouch: at.crouch, shown: true };
 }
 
 // Bots take turns (so a peeker peeks once and hides).
-const takingTurns =() => S.drill.round.order !== "together" && S.drill.round.goal !== "track";
+const takingTurns =() => S.drill.round.order !== "together" && S.drill.round.order !== "waves" && S.drill.round.goal !== "track";
 // A bot that peeks once and hides each time: taking turns, or random spots / random wait (drill.js).
-const peeksOnce = (b) => takingTurns() || usesOwnDispatcher(b);
+const peeksOnce = (b) => takingTurns() || usesOwnDispatcher(b) || inWaves(S.drill).has(b.id);
 
 // Draws a bot's flash: the throw path to where it pops and, in the preview, the flash
 // flying (FLASH_FUSE seconds) and popping.
@@ -1054,7 +1088,8 @@ function botFlight(b) {
   const agent = b.flash.agent || "phoenix", throwAt = { x: from.x, y: fromY + FLASH_THROW_Y, z: from.z };
   // Yoru: arc to the bounce surface (wall or floor), bounce, pop 0.6 s later, as the game flies it.
   const yb = agent === "yoru" ? yoruBounce(b.flash, from, target, fromY) : null;
-  const flight = flashFlight(agent, throwAt, yb ? yb.target : { x: target.x, y: fromY + (b.flash.height ?? 2.2), z: target.z }, curve, yb?.normal);
+  const popY = fromY + (b.flash.height ?? 2.2);
+  const flight = flashFlight(agent, throwAt, yb ? yb.target : { x: target.x, y: popY, z: target.z }, curve, yb?.normal, { right: b.flash.curve !== "left", under: b.flash.throw === "under", floorY: fromY });
   return { from, fromY, target, curve, flight };
 }
 
@@ -1069,6 +1104,13 @@ function drawFlash(b, isSel, flashAge) {
   for (let i = 0; i <= 16; i++) { const q = flight.point(i / 16); i ? ctx.lineTo(...pt(q.x, q.z)) : ctx.moveTo(...pt(q.x, q.z)); }
   ctx.stroke();
   ctx.setLineDash([]);
+  // phoenix-reach-v1: Phoenix's star can only be on this circle (its fixed reach around the throw point).
+  const fr = isSel && (b.flash.agent || "phoenix") === "phoenix" ? flashFrom(b, S.drill.start) : null;
+  if (fr) {
+    const [fx, fy] = pt(fr.x, fr.z), [rx, ry] = pt(fr.x + PHOENIX_REACH, fr.z), R = Math.hypot(rx - fx, ry - fy);
+    ctx.strokeStyle = "rgba(255,255,255,.22)"; ctx.lineWidth = 1; ctx.setLineDash([2, 6]);
+    ctx.beginPath(); ctx.arc(fx, fy, R, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+  }
   const [tx, ty] = pt(target.x, target.z);
   // Reyna's eye stops at its reach (8.41 m): faint line past it, a ring where it stops.
   if (flight.short) {
@@ -1154,12 +1196,14 @@ const helpers3d = {
   label: (it) => itemName(S.drill, it) + (it.kind === "bot" && it.shoots !== "off" ? " · shoots" : ""),
   facingOf: (it) => facingOf(it),
   fixedFacing: (it) => fixedFacing(it),
-  across: (it) => across(it),
+  turnFrom: (it) => turnFrom(it),
+  across: (it, at) => across(it, at),
   peekWidth: (it) => peekWidth(it),
   spotPeekWidth: (it, s) => spotPeekWidth(it, s),
   inGroup: (id) => inGroup(id),
   startSel: () => S.startSel,
-  groupKey: () => S.group.join(","),
+  groupKey: () => S.group.join(",") + "|" + waveKey(),
+  faded: (it) => waveFaded(it),
   smokeSpec: (it) => smokeSpec(it),
   wallEnds: (it) => wallEnds(it),
   dir: (deg) => dirOf(deg),
@@ -1200,6 +1244,8 @@ function bind3D(v) {
   };
   // studio-placement: the standing spot under a screen point (see standOn), or null.
   const spotAt = (px, py, skipId, free, fallbackY) => { const at = v.surfacePoint(px, py, skipId, fallbackY); return at ? standOn(at, skipId, free) : null; };
+  // dot-bots-v2: the surface under the mouse with the way it faces (walls, boxes, floors, the drawn map), or null.
+  const dotHitAt = (px, py) => { const at = v.surfacePoint(px, py) || v.hitPoint(px, py); return at && !at.loose && at.normal ? at : v.hitPoint(px, py); };
   const clickSpot = (px, py, free) => {
     const at = spotAt(px, py, undefined, free);
     if (!at) toast("Nothing to stand on there. Point at a floor, a box or a ledge.");
@@ -1222,6 +1268,7 @@ function bind3D(v) {
     }
     if (e.button === 1 || (e.button === 0 && e.shiftKey && !S.tool)) { mode = "pan"; return; }
     if (e.button !== 0) return;
+    if (S.tool && S.tool.kind === "dot") { const at = dotHitAt(px, py); if (at) place(S.tool, { ...at, stand: true }); else toast("Point at a floor or a wall."); if (!e.shiftKey) setTool(null); mode = null; return; }
     if (S.tool) { const at = clickSpot(px, py, e.altKey); if (at) place(S.tool, at); if (!e.shiftKey) setTool(null); mode = null; return; }
     const sel = selItem();
     if (S.addPoint && sel && sel.route) { const at = clickSpot(px, py, e.altKey); if (at) addPoint(sel, at); mode = null; return; }
@@ -1238,9 +1285,10 @@ function bind3D(v) {
     if (target !== S.sel) { S.sel = target; S.addPoint = false; S.addSpot = false; renderSide(); }
     const obj = hit.item || S.drill.start;
     if (hit.type === 'transform') {
+      if (Number.isInteger(hit.spot)) S.spotSel = { id: obj.id, index: hit.spot };
       const gesture = v.beginTransform(hit, px, py);
       if (!gesture) { mode = null; return; }
-      drag = { ...hit, key: `transform-${Date.now()}`, original: structuredClone(obj), snapping: obj.kind === "smoke" ? null : createPieceSnap(S.drill.items, obj), gesture, moved: false };
+      drag = { ...hit, key: `transform-${Date.now()}`, original: structuredClone(obj), snapping: obj.kind === "smoke" || isDot(obj) ? null : createPieceSnap(S.drill.items, obj), gesture, moved: false };
       mode = 'transform';
       draw(); return;
     }
@@ -1248,8 +1296,16 @@ function bind3D(v) {
     const spot = (hit.type === "spotMove" || hit.type === "spotPoint") && obj.spots ? obj.spots[hit.spot] : null;
     const peekSpot = hit.type === "spotPeekWidth" && obj.spots && obj.spots[hit.spot] && obj.spots[hit.spot].route ? obj.spots[hit.spot].route[1] : null;
     const startSpot = (hit.type === "startSpot" || hit.type === "startSpotTurn") && S.drill.start.spots ? S.drill.start.spots[hit.index] : null;
-    const ref = hit.type === "peekWidth" && obj.route && obj.route[1] ? obj.route[1] : peekSpot || spot || startSpot || obj;
-    const planeY = (hit.type === "botTurn" || hit.type === "startSpotTurn" ? 1.5 : 0) + (floorAt(ref.x, ref.z, ref.y, obj.kind === "block" ? obj.id : undefined) ?? ref.y ?? 0);
+    // drag3d-points-v1 (17 Nov 2026): a route point is grabbed by ITSELF. Before, point 2+ (a peeker's peek spot,
+    // a runner's / rusher's later points, and the same on a random spot's route) used the bot's own position as the
+    // grab reference, so the point jumped toward the bot on the first move and then jittered against the mouse.
+    const routePoint = hit.type === "point" && obj.route ? obj.route[hit.index]
+      : hit.type === "spotPoint" && spot && spot.route ? spot.route[hit.index] : null;
+    const ref = hit.type === "peekWidth" && obj.route && obj.route[1] ? obj.route[1] : routePoint || peekSpot || spot || startSpot || (hit.type === "botTurn" ? turnFrom(obj) : obj);
+    let planeY = (hit.type === "botTurn" || hit.type === "startSpotTurn" ? 1.5 : 0) + (floorAt(ref.x, ref.z, ref.y, obj.kind === "block" ? obj.id : undefined) ?? ref.y ?? 0);
+    // drag3d-points-v1: the flash star is drawn in the air (its pop height); drag it on that height, so it stays under
+    // the mouse instead of jumping to where the mouse ray meets the floor.
+    if (hit.type === "flash" && obj.flash && obj.flash.agent !== "yoru") { const fp = helpers3d.flashPath(obj); if (fp && Number.isFinite(fp.toY)) planeY = fp.toY; }
     const at = v.planePoint(px, py, planeY) || { x: obj.x, z: obj.z };
     drag = { ...hit, key: `drag-${Date.now()}`, dx: obj.x - at.x, dz: obj.z - at.z, moved: false, planeY, baseY: obj.y, groupGrab, snapping: spot || groupGrab ? null : createPieceSnap(S.drill.items, obj) };
     // studio-placement: things that follow the surface are dragged by their feet. The mouse keeps the
@@ -1288,7 +1344,12 @@ function bind3D(v) {
           const value = (original.turn || 0) + delta;
           item.turn = ((e.altKey ? value : Math.round(value / 5) * 5) % 360 + 360) % 360;
         } else {
-          if (original.kind === "smoke") { const v2 = (original.height || 0) + delta; item.height = Math.max(0, Math.min(30, e.altKey ? v2 : Math.round(v2 * 10) / 10)); }
+          if (isDot(original) && Number.isInteger(drag.spot)) {
+            // dot-spots-v2: one random spot's own height (its white arrows in 3D).
+            const os = (original.spots || [])[drag.spot], s = (item.spots || [])[drag.spot];
+            if (os && s) { const v2 = spotHeight(original, os) + (drag.sign || 1) * delta; s.dotHeight = Math.max(0.2, Math.min(DOT_MAX_HEIGHT, e.altKey ? Math.round(v2 * 100) / 100 : Math.round(v2 * 10) / 10)); }
+          } else if (isDot(original)) { const v2 = dotHeight(original) + (drag.sign || 1) * delta; item.dotHeight = Math.max(0.2, Math.min(DOT_MAX_HEIGHT, e.altKey ? Math.round(v2 * 100) / 100 : Math.round(v2 * 10) / 10)); }
+          else if (original.kind === "smoke") { const v2 = (original.height || 0) + delta; item.height = Math.max(0, Math.min(30, e.altKey ? v2 : Math.round(v2 * 10) / 10)); }
           else resizePiece(item, original, drag.dimension, drag.sign, delta, e.altKey);
           drag.snapping?.resize(item, original, drag.dimension, drag.sign, e.altKey);
         }
@@ -1299,6 +1360,8 @@ function bind3D(v) {
       // Things you move follow the surface under the mouse, so dragging a bot onto a built
       // floor puts it on top; handles (widths, turns, the flash star) stay at their height.
       const onSurface = FOLLOWS.has(drag.type);
+      // dot-bots-v2: a dot goes onto whatever is under the mouse, walls included.
+      if (drag.type === "item" && isDot(drag.item) && !drag.groupGrab) { const hit = dotHitAt(px, py, drag.item.id); if (hit) dragMove(e, { ...hit, dotHit: true }); c.style.cursor = hit ? "grabbing" : "not-allowed"; draw(); return; }
       // A Yoru flash star sticks to the wall/floor under the mouse (exact bounce point and surface).
       const yoruAim = drag.type === "flash" && drag.item?.flash?.agent === "yoru";
       const at = yoruAim ? (v.hitPoint(px, py) ?? v.planePoint(px, py, drag.planeY))
@@ -1473,6 +1536,8 @@ function paint(t) {
   // Bots: routes, then bodies
   for (const it of d.items.filter((i) => i.kind === "bot")) {
     const isSel = it.id === sel;
+    // waves-tabs-v1: a bot of another wave: a faint body only (no route, spots, trade or flash lines, no name).
+    if (waveFaded(it)) { ctx.globalAlpha = 0.16; body(it, { x: it.x, z: it.z, shown: true }, false, false); ctx.globalAlpha = 1; continue; }
     drawZones(it, isSel);
     drawSpots(it, isSel, bad);
     if (it.route) {
@@ -1514,7 +1579,7 @@ function paint(t) {
     }
     if (it.move === "peek" && it.peekStrafe && it.route) {
       // A-D steps at the peek spot, as wide as its "How wide"; dashed when it only sometimes strafes.
-      const s = it.route[1], a = across(s), half = peekWidth(it) / 2;
+      const s = it.route[1], a = across(it, s), half = peekWidth(it) / 2;
       const p1 = { x: s.x - a.x * half, z: s.z - a.z * half }, p2 = { x: s.x + a.x * half, z: s.z + a.z * half };
       ctx.strokeStyle = isSel ? COLORS.route : "rgba(255,181,71,.55)";
       ctx.lineWidth = 2;
@@ -1536,6 +1601,7 @@ function paint(t) {
       ctx.font = "800 12px Bahnschrift, Segoe UI"; ctx.textAlign = "center"; ctx.fillStyle = "#ffffff"; ctx.fillText("you cross", mx, my + 18); ctx.restore();
     }
     if (it.tradeOf) drawTrade(it, isSel);
+    drawWallHits(it); // bot-walls-v1
     if (it.flash && it.flash.on) drawFlash(it, isSel, S.preview ? at.flashAge : undefined);
     if (at.shown) body(it, at, isSel, bad(it.x, it.z));
     if (at.deadAge !== undefined) {
@@ -1609,6 +1675,26 @@ function paint(t) {
   }
 }
 
+// bot-walls-v1: the part of a bot's line that goes through a wall in red with an X where it hits; a strafer's
+// width beyond its free room in red too (it is limited to that room when played).
+function drawWallHits(it) {
+  const info = wallInfo(it);
+  if (!info) return;
+  const red = "#ff3040";
+  ctx.save(); ctx.setLineDash([]); ctx.strokeStyle = red;
+  for (const hh of info.hits) {
+    ctx.lineWidth = 3.5; line(hh.hit.x, hh.hit.z, hh.b.x, hh.b.z);
+    const [hx, hy] = pt(hh.hit.x, hh.hit.z);
+    ctx.lineWidth = 2.5; ctx.beginPath(); ctx.moveTo(hx - 6, hy - 6); ctx.lineTo(hx + 6, hy + 6); ctx.moveTo(hx + 6, hy - 6); ctx.lineTo(hx - 6, hy + 6); ctx.stroke();
+  }
+  if (info.room && info.room.limited) {
+    const u = strafeAxis(it, S.drill.start), half = (it.width || 3) / 2, keep = info.room.width / 2;
+    ctx.lineWidth = 3.5;
+    for (const sg of [-1, 1]) line(it.x + u.x * keep * sg, it.z + u.z * keep * sg, it.x + u.x * half * sg, it.z + u.z * half * sg);
+  }
+  ctx.restore();
+}
+
 // A bot's extra random spots: dashed purple rings (and routes), "spot 2", "spot 3"...
 const SPOT_COLOR = "#b98cff";
 // A trade: a red dashed arrow from the bot you kill to the bot that then swings, "trades 0.3–1.0 s".
@@ -1631,7 +1717,7 @@ function drawTrade(it, isSel) {
 // spot). Only the area is drawn; the points it uses are picked in the game or at Play, never here.
 function drawZones(it, isSel) {
   if (!hasZone(it)) return;
-  const spots = canRandomSpot(it) ? [{ x: it.x, y: it.y, z: it.z, route: it.route }, ...(it.spots || [])] : [it];
+  const spots = canRandomSpot(it) ? [{ x: it.x, y: it.y, z: it.z, route: it.route, ...(isDot(it) ? { wall: it.wall, facing: it.facing, dotHeight: it.dotHeight } : {}) }, ...(it.spots || [])] : [it];
   ctx.save();
   for (const s of spots) {
     if (it.move === "peek" && !(s.route && s.route[1])) continue;
@@ -1646,7 +1732,8 @@ function drawZones(it, isSel) {
     if (isSel) {
       const [qx, qy] = pt((c[0].x + c[1].x) / 2, (c[0].z + c[1].z) / 2);
       ctx.fillStyle = SPOT_COLOR; ctx.font = "700 11px Bahnschrift, Segoe UI"; ctx.textAlign = "center";
-      ctx.fillText(it.move === "peek" ? "random peek zone" : "random zone", qx, qy - 6);
+      ctx.fillText(it.move === "peek" ? "random peek zone" : zoneOnWall(it, s) ? "random zone on the wall" : "random zone", qx, qy - 6);
+      if (zoneOnWall(it, s)) continue; // along its wall: nothing to turn
       // Turn handle: a line from the middle to a round handle past the end of the width; drag it to turn the zone.
       const mid = zoneCenter(it, s), hnd = zoneTurnHandle(it, S.drill.start, s);
       ctx.strokeStyle = SPOT_COLOR; ctx.lineWidth = 1.5; ctx.setLineDash([2, 3]);
@@ -1694,7 +1781,7 @@ function drawSpots(it, isSel, bad = () => false) {
     }
     if (it.move === "peek" && it.peekStrafe && s.route && s.route[1]) {
       // Its A-D strafe at this spot's peek point: its own width (drag the dots) or the bot's.
-      const sp = s.route[1], a = across(sp), half = spotPeekWidth(it, s) / 2;
+      const sp = s.route[1], a = across(it, sp), half = spotPeekWidth(it, s) / 2;
       const p1 = { x: sp.x - a.x * half, z: sp.z - a.z * half }, p2 = { x: sp.x + a.x * half, z: sp.z + a.z * half };
       ctx.strokeStyle = SPOT_COLOR; ctx.lineWidth = 2; ctx.setLineDash(it.peekStrafe === "random" ? [5, 4] : []);
       line(p1.x, p1.z, p2.x, p2.z); ctx.setLineDash([]);
@@ -1713,7 +1800,16 @@ function randomZoneGroup(b) {
   const set = (fn) => (v) => edit(mod((it) => { it.zone = { ...(it.zone || { on: false, w: 6, d: 2 }) }; fn(it.zone, v); }));
   if (b.move === "peek" && b.trigger) return h("div", { class: "group" }, field("Random zone", h("p", { class: "help" }, "Not with a trigger line on a peeker. Remove the trigger to use a random peek zone.")));
   if (b.move === "peek" && b.tradeOf) return h("div", { class: "group" }, field("Random zone", h("p", { class: "help" }, "Not on a peeker that trades: it swings from its own spot. Holders and strafers that trade can use a zone.")));
-  const peek = b.move === "peek";
+  const peek = b.move === "peek", wallZone = zoneOnWall(b);
+  if (wallZone) {
+    // dot-spots-v1: a dot stuck on a wall: the zone lies on the wall.
+    const wk = [field("Random zone", seg([[false, "Off"], [true, "On"]], !!z.on, set((zz, v) => (zz.on = v))),
+      z.on ? "Each time it shows up it sticks to a random point of this wall inside the purple line: anywhere along it and up or down. Points past the wall's end are never used." : "Off: it uses the exact spot you placed. On: anywhere on this wall inside an area.")];
+    if (z.on) wk.push(
+      field("Along the wall", slider(1, 20, 0.5, z.w ?? 6, metres, (dd, v) => mod((it) => { it.zone = { ...it.zone, w: v }; })(dd))),
+      field("Up and down", slider(0, 10, 0.5, z.d ?? 2, metres, (dd, v) => mod((it) => { it.zone = { ...it.zone, d: v }; })(dd)), `Around its height (${dotHeight(b).toFixed(1)} m). 0 keeps it at that height.`));
+    return h("div", { class: "group" }, ...wk);
+  }
   const kids = [field("Random zone", seg([[false, "Off"], [true, "On"]], !!z.on, set((zz, v) => (zz.on = v))),
     z.on
       ? (peek
@@ -1744,13 +1840,43 @@ function randomSpotsGroup(b) {
     : !turns && b.move !== "peek" ? " After a kill it comes back at another spot (Comes back after). Its first appearance is a moment after the round starts." : "";
   return h("div", { class: "group" }, field("Random spots", h("div", {},
     h("p", { class: "help" }, help + note),
+    isDot(b) && extra ? dotSpotRows(b) : null,
+    isDot(b) && extra ? h("p", { class: "help" }, "Height of each spot (middle of the ball above the floor). In 3D, select the dot and drag the white arrows on a purple spot.") : null,
     h("div", { class: "btn-row" },
       h("button", { class: "btn small" + (S.addSpot ? " primary" : ""), onclick: () => { S.addSpot = !S.addSpot; S.addPoint = false; S.tool = null; renderSide(); draw(); } }, ic("plus"), S.addSpot ? "Click the map… (Esc to stop)" : "Add a spot"),
       extra ? h("button", { class: "btn small", onclick: () => removeSpot(b, extra - 1) }, ic("minus"), "Remove last spot") : null))));
 }
 
+// dot-spots-v2: a dot spot's height (its own, else the dot's).
+const spotHeight = (b, s) => (s && Number.isFinite(s.dotHeight) ? s.dotHeight : dotHeight(b));
+function dotSpotRows(b) {
+  const step = (j, dir) => (e) => edit(mod((it) => { const s = it.spots && it.spots[j]; if (s) s.dotHeight = Math.round(Math.max(0.2, Math.min(DOT_MAX_HEIGHT, spotHeight(it, s) + dir * (e.shiftKey ? 1 : 0.1))) * 100) / 100; }));
+  return h("div", { class: "dot-spot-rows" }, (b.spots || []).map((s, j) => {
+    const picked = S.spotSel && S.spotSel.id === b.id && S.spotSel.index === j;
+    return h("div", { class: "dot-height" + (picked ? " picked" : "") },
+      h("span", { class: "dot-spot-name" }, `Spot ${j + 2}`, h("small", {}, s.wall && Number.isFinite(s.wall.x) ? " · on a wall" : " · floating")),
+      h("button", { type: "button", class: "btn small", title: "Lower (Shift: 1 m)", onclick: step(j, -1) }, "▼"),
+      h("b", {}, `${spotHeight(b, s).toFixed(1)} m`),
+      h("button", { type: "button", class: "btn small", title: "Higher (Shift: 1 m)", onclick: step(j, 1) }, "▲"));
+  }));
+}
+// dot-spots-v1: puts a dot's spot at `at` the way a dot is placed (sticks to a wall face near it; free = Alt).
+function placeDotSpot(b, spot, at, free = false, dragging = false) {
+  const tmp = { ...b, x: spot.x ?? b.x, y: spot.y ?? b.y, z: spot.z ?? b.z, ...dotSpotFields(b, spot) };
+  if (!("dotHeight" in spot)) tmp.dotHeight = dotHeight(b);
+  setDotSpot(tmp, at, S.drill, free, dragging);
+  Object.assign(spot, { x: tmp.x, y: tmp.y, z: tmp.z, wall: tmp.wall || null, facing: tmp.facing ?? null, dotHeight: tmp.dotHeight });
+  return spot;
+}
 // Drops a spot where you clicked: a copy of the bot (and its route) moved so its spot (point 1) is there.
 function addSpotAt(b, at) {
+  if (isDot(b)) {
+    const spot = placeDotSpot(b, {}, at, !!at.free);
+    edit(mod((it) => { it.spots = [...(it.spots || []), spot]; }));
+    S.spotSel = { id: b.id, index: (b.spots || []).length };
+    renderSide();
+    return;
+  }
   const ox = Math.round((at.x - b.x) * 10) / 10, oz = Math.round((at.z - b.z) * 10) / 10;
   const move = (p) => { const x = Math.round((p.x + ox) * 10) / 10, z = Math.round((p.z + oz) * 10) / 10; return { ...p, x, z, y: floorAt(x, z, at.y ?? p.y) ?? p.y }; };
   const spot = b.route ? { route: b.route.map(move) } : move({ x: b.x, y: b.y, z: b.z });
@@ -1779,6 +1905,7 @@ function addSpot(b) {
   const ox = Math.round(a.x * 2.5 * 10) / 10, oz = Math.round(a.z * 2.5 * 10) / 10;
   const move = (p) => { const x = Math.round((p.x + ox) * 10) / 10, z = Math.round((p.z + oz) * 10) / 10; return { ...p, x, z, y: floorAt(x, z, p.y) ?? p.y }; };
   const base = move(last);
+  if (isDot(b)) { const spot = placeDotSpot(b, { ...dotSpotFields(b, last) }, { x: base.x, z: base.z }); edit(mod((it) => { it.spots = [...(it.spots || []), spot]; })); return; }
   const spot = { x: base.x, y: base.y, z: base.z, ...(b.route ? { route: (last.route || b.route).map(move) } : {}) };
   if (spot.route) Object.assign(spot, { x: spot.route[0].x, y: spot.route[0].y, z: spot.route[0].z });
   edit(mod((it) => { it.spots = [...(it.spots || []), spot]; }));
@@ -1818,6 +1945,16 @@ function drawRun(it, isSel) {
 
 function body(it, at, isSel, isBad) {
   const k = S.view.k;
+  if (isDot(it)) {
+    // dot-bots-v1: the ball, its real size (at least 6 px), in the targets color, with a dashed ring so it reads as a bot.
+    const [x, y] = pt(at.x, at.z), r = Math.max(6, dotRadius(it) * k);
+    ctx.fillStyle = isBad ? "#5a1b22" : targetColor(S.drill);
+    ctx.strokeStyle = isSel ? "#fff" : isBad ? COLORS.bad : "#ff4655"; ctx.lineWidth = isSel ? 3 : 2;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    ctx.setLineDash([3, 3]); ctx.strokeStyle = isSel ? "rgba(255,255,255,.8)" : "rgba(255,70,85,.7)"; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(x, y, Math.max(9, 0.45 * k), 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+    return;
+  }
   const r = Math.max(9, 0.45 * k);
   const [x, y] = pt(at.x, at.z);
   ctx.fillStyle = isBad ? "#5a1b22" : it.shoots !== "off" ? "#ff4655" : "#e0646f";
@@ -1835,9 +1972,11 @@ function body(it, at, isSel, isBad) {
   ctx.beginPath(); ctx.moveTo(x + fx * r * 0.35, y + fy * r * 0.35); ctx.lineTo(x + fx * r * 0.95, y + fy * r * 0.95); ctx.stroke();
   // A fixed direction gets a line you can grab to turn the bot.
   if (fixedFacing(it) && isSel && !S.preview) {
-    const tip = { x: at.x + w.x * 2.2, z: at.z + w.z * 2.2 };
+    // A peeker turns from its peek spot (point 2), not from cover.
+    const o = it.move === "peek" ? turnFrom(it) : at, [ox, oy] = o === at ? [x + fx * r, y + fy * r] : pt(o.x, o.z);
+    const tip = { x: o.x + w.x * 2.2, z: o.z + w.z * 2.2 };
     ctx.strokeStyle = "rgba(255,255,255,.8)"; ctx.setLineDash([3, 3]);
-    ctx.beginPath(); ctx.moveTo(x + fx * r, y + fy * r); ctx.lineTo(...pt(tip.x, tip.z)); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ox, oy); ctx.lineTo(...pt(tip.x, tip.z)); ctx.stroke();
     ctx.setLineDash([]);
     handle(tip.x, tip.z, "#fff");
   }
@@ -2011,7 +2150,7 @@ function updateHint() {
     html = (focus ? `Previewing <b>${[...focus].length === 1 ? itemName(S.drill, S.drill.items.find((i) => i.id === [...focus][0])) : `${focus.size} bots`}</b> · click empty map to preview all` : "Previewing <b>all bots</b> · select one bot or Shift-select a few to preview only them")
       + ` · trades: the traded bot dies ${TRADE_KILL} s in · trigger lines: you cross ${TRIGGER_AT} s in`;
   } else if (S.tool) {
-    const name = S.tool.kind === "bot" ? MOVES[S.tool.move].short : S.tool.kind === "block" ? BLOCK_SHAPES[S.tool.move].label.toLowerCase() : { targets: "target zone", wall: "wall", barrier: "invisible wall", airfloor: "invisible floor", smoke: "smoke", start: "your start" }[S.tool.kind];
+    const name = S.tool.kind === "bot" ? MOVES[S.tool.move].short : S.tool.kind === "block" ? BLOCK_SHAPES[S.tool.move].label.toLowerCase() : { targets: "target zone", wall: "wall", barrier: "invisible wall", airfloor: "invisible floor", smoke: "smoke", start: "your start", dot: "a dot" }[S.tool.kind];
     html = `Click the map to place <b>${name}</b> · Shift-click to place more · <span class="kbd">Esc</span> cancel`;
   } else if (S.group.length > 1) {
     html = `<b>${S.group.length} selected</b> · drag one to move them all · Shift-click to add/remove · <span class="kbd">Del</span> remove all · <span class="kbd">Esc</span> clear`;
@@ -2064,16 +2203,18 @@ function hitTest(px, py) {
   for (let j = starts.length - 1; j >= 0; j--) if (near(starts[j].x, starts[j].z, Math.max(14, 0.45 * S.view.k))) return { type: "startSpot", index: j };
   if (it) {
     if (fixedFacing(it)) {
-      const f = dirOf(it.facing);
-      if (near(it.x + f.x * 2.2, it.z + f.z * 2.2, 10)) return { type: "botTurn", item: it };
+      const f = dirOf(fixedYaw(it));
+      const o = turnFrom(it);
+      if (near(o.x + f.x * 2.2, o.z + f.z * 2.2, 10)) return { type: "botTurn", item: it };
     }
     if (it.trigger) for (const end of ["a", "b"]) if (near(it.trigger[end].x, it.trigger[end].z, 11)) return { type: "trigEnd", item: it, end };
     const star = it.flash && it.flash.on ? flashTarget(it, d.start) : null;
     if (star && near(star.x, star.z, 12)) return { type: "flash", item: it };
     if (hasZone(it)) {
-      const spots = canRandomSpot(it) ? [{ x: it.x, y: it.y, z: it.z, route: it.route }, ...(it.spots || [])] : [it];
+      const spots = canRandomSpot(it) ? [{ x: it.x, y: it.y, z: it.z, route: it.route, ...(isDot(it) ? { wall: it.wall, facing: it.facing, dotHeight: it.dotHeight } : {}) }, ...(it.spots || [])] : [it];
       for (const s of spots) {
         if (it.move === "peek" && !(s.route && s.route[1])) continue;
+        if (zoneOnWall(it, s)) continue; // a wall zone has no turn handle
         const hnd = zoneTurnHandle(it, d.start, s);
         if (near(hnd.x, hnd.z, 11)) return { type: "zoneTurn", item: it, center: zoneCenter(it, s) };
       }
@@ -2084,7 +2225,7 @@ function hitTest(px, py) {
     if (it.move === "peek" && it.peekStrafe && Array.isArray(it.spots)) for (let j = it.spots.length - 1; j >= 0; j--) {
       const q = it.spots[j], qp = q.route && q.route[1];
       if (!qp) continue;
-      const qa = across(qp), qh = spotPeekWidth(it, q) / 2;
+      const qa = across(it, qp), qh = spotPeekWidth(it, q) / 2;
       for (const s of [-1, 1]) if (near(qp.x + qa.x * qh * s, qp.z + qa.z * qh * s, 9)) return { type: "spotPeekWidth", item: it, spot: j };
     }
     // An extra spot moves as a whole (its ring, point 1 or its dashed route), like dragging the bot;
@@ -2103,7 +2244,7 @@ function hitTest(px, py) {
       for (const s of [-1, 1]) if (near(it.x + a.x * half * s, it.z + a.z * half * s, 10)) return { type: "width", item: it };
     }
     if (it.move === "peek" && it.peekStrafe && it.route && it.route[1]) {
-      const sp = it.route[1], a = across(sp), half = peekWidth(it) / 2;
+      const sp = it.route[1], a = across(it, sp), half = peekWidth(it) / 2;
       for (const s of [-1, 1]) if (near(sp.x + a.x * half * s, sp.z + a.z * half * s, 10)) return { type: "peekWidth", item: it };
     }
     if (it.kind === "wall") {
@@ -2270,6 +2411,9 @@ function dragMove(e, at3) {
       const it = d.items.find((i) => i.id === drag.item.id);
       const ox = at.x - drag.ax, oz = at.z - drag.az;
       for (const end of ["a", "b"]) it.trigger[end] = { x: snap(drag.orig[end].x + ox), z: snap(drag.orig[end].z + oz) };
+    } else if (drag.type === "item" && isDot(drag.item) && !drag.groupGrab) {
+      const it = d.items.find((i) => i.id === drag.item.id);
+      setDotSpot(it, at.dotHit ? at : { x: snap(at.x + drag.dx), z: snap(at.z + drag.dz) }, d, e.altKey, true);
     } else if (drag.type === "item") {
       const it = d.items.find((i) => i.id === drag.item.id);
       const oldX = it.x, oldZ = it.z, oldY = it.y ?? 0;
@@ -2293,13 +2437,13 @@ function dragMove(e, at3) {
       if (it.flash && it.flash.target) it.flash.target = { x: snap(it.flash.target.x + ox), z: snap(it.flash.target.z + oz) };
     } else if (drag.type === "botTurn") {
       const it = d.items.find((i) => i.id === drag.item.id);
-      it.facing = Math.round(yawDeg(it, at));
+      it[it.move === "peek" ? "peekFacing" : "facing"] = Math.round(yawDeg(turnFrom(it), at));
     } else if (drag.type === "trigEnd") {
       const it = d.items.find((i) => i.id === drag.item.id);
       it.trigger[drag.end] = { x: snap(at.x), z: snap(at.z) };
     } else if (drag.type === "flash") {
       const it = d.items.find((i) => i.id === drag.item.id);
-      it.flash.target = { x: snap(at.x), z: snap(at.z) };
+      it.flash.target = { x: snap(at.x), z: snap(at.z) }; // phoenix-control-v1: free again
       // 3D aim (Yoru): keep the exact hit point and surface; a 2D drag goes back to "Bounces off".
       const r3 = (n) => Math.round(n * 1000) / 1000;
       if (at.normal && it.flash.agent === "yoru") { it.flash.target = { x: r3(at.x), z: r3(at.z) }; it.flash.hit = { x: r3(at.x), y: r3(at.y), z: r3(at.z) }; it.flash.normal = { x: r3(at.normal.x), y: r3(at.normal.y), z: r3(at.normal.z) }; }
@@ -2342,6 +2486,7 @@ function dragMove(e, at3) {
         const ox = at.x - drag.ax, oz = at.z - drag.az, oy = at.stand ? at.y - (o.y ?? 0) : 0;
         const put = (p, q) => { p.x = snap(q.x + ox); p.z = snap(q.z + oz); p.y = floorAt(p.x, p.z, (q.y ?? 0) + oy) ?? q.y; };
         if (s.route && o.route) { s.route.forEach((p, i) => put(p, o.route[i])); Object.assign(s, { x: s.route[0].x, y: s.route[0].y, z: s.route[0].z }); }
+        else if (isDot(it)) { Object.assign(s, structuredClone(o)); placeDotSpot(it, s, at.dotHit ? at : { x: snap(o.x + ox), z: snap(o.z + oz) }, e.altKey, true); }
         else put(s, o);
       }
     } else if (drag.type === "spotPeekWidth") {
@@ -2349,14 +2494,14 @@ function dragMove(e, at3) {
       const it = d.items.find((i) => i.id === drag.item.id);
       const q = it.spots && it.spots[drag.spot], sp = q && q.route && q.route[1];
       if (sp) {
-        const a = across(sp);
+        const a = across(it, sp);
         const w = Math.abs((at.x - sp.x) * a.x + (at.z - sp.z) * a.z) * 2;
         q.peekWidth = Math.round(Math.max(0.4, Math.min(8, w)) * 10) / 10;
       }
     } else if (drag.type === "peekWidth") {
       // A peeker's A-D strafe at its peek spot (point 2): the same width either side of it.
       const it = d.items.find((i) => i.id === drag.item.id);
-      const sp = it.route[1], a = across(sp);
+      const sp = it.route[1], a = across(it, sp);
       const w = Math.abs((at.x - sp.x) * a.x + (at.z - sp.z) * a.z) * 2;
       it.peekWidth = Math.round(Math.max(0.4, Math.min(8, w)) * 10) / 10;
     } else if (drag.type === "wallEnd") {
@@ -2440,7 +2585,8 @@ function place(tool, at) {
     }
     // A saved bot: its settings on the spot you clicked (botSettings() holds no position or route).
     if (tool.saved) Object.assign(item, JSON.parse(JSON.stringify(tool.saved.settings)));
-  } else if (tool.kind === "targets") item = newTargets(p);
+  } else if (tool.kind === "dot") { item = newDot(p); setDotSpot(item, at, S.drill); }
+  else if (tool.kind === "targets") item = newTargets(p);
   else if (tool.kind === "wall" || tool.kind === "barrier") {
     item = tool.kind === "barrier" ? newBarrier(p) : newWall(p);
     // Walls start square to your view.
@@ -2452,7 +2598,7 @@ function place(tool, at) {
     item.turn = Math.round((yawDeg(p, S.drill.start) + 180) % 360);
   } else if (tool.kind === "smoke") item = newSmoke(p);
   createPieceSnap(S.drill.items, item)?.move(item, false, true);
-  edit((d) => d.items.push(item));
+  edit((d) => { d.items.push(item); joinWave(d, [item]); });
   S.sel = item.id;
   renderSide();
 }
@@ -2571,7 +2717,7 @@ function duplicate() {
       shiftItem(c, Math.round(a.x * 15) / 10, Math.round(a.z * 15) / 10);
       return c;
     });
-    edit((d) => d.items.push(...copies));
+    edit((d) => { d.items.push(...copies); joinWave(d, copies); });
     setGroup(copies.map((c) => c.id));
     renderSide();
     return;
@@ -2585,7 +2731,7 @@ function duplicate() {
   shift(copy);
   if (copy.route) copy.route.forEach(shift);
   if (copy.flash && copy.flash.target) shift(copy.flash.target);
-  edit((d) => d.items.push(copy));
+  edit((d) => { d.items.push(copy); joinWave(d, [copy]); });
   S.sel = copy.id;
   renderSide();
 }
@@ -2614,15 +2760,34 @@ function seg(options, value, pick) {
     h("button", { class: v === value ? "on" : "", role: "radio", "aria-checked": String(v === value), title: title || null, onclick: () => pick(v) }, label)));
 }
 // Slider with a live readout. Changes while dragging are one undo step.
+// studio-slider-number-v1 (17 Nov 2026): every slider also has a box to type the exact number (Enter or click away
+// to apply). Typed values are kept between the slider's ends and may be finer than its step (to 0.01).
+function numberBox(min, max, step, value, apply) {
+  const dec = Math.min(2, Math.max(0, (String(step).split(".")[1] || "").length));
+  const box = h("input", {
+    type: "number", class: "slider-num", min, max, step: "any", value: (+value).toFixed(dec), "aria-label": "Type a value",
+    onkeydown: (e) => { if (e.key === "Enter") e.target.blur(); e.stopPropagation(); },
+    onchange: (e) => {
+      const raw = parseFloat(e.target.value);
+      if (!isFinite(raw)) { e.target.value = box.dataset.last; return; }
+      const v = Math.round(Math.min(max, Math.max(min, raw)) * 100) / 100;
+      e.target.value = String(v); box.dataset.last = String(v); apply(v);
+    },
+  });
+  box.dataset.last = box.value;
+  box.show = (v) => { box.value = (+v).toFixed(dec); box.dataset.last = box.value; };
+  return box;
+}
 function slider(min, max, step, value, fmt, set) {
   const out = h("output", {}, fmt(value));
   const key = `slider-${Math.random()}`;
   const input = h("input", {
     type: "range", min, max, step, value,
-    oninput: (e) => { const v = +e.target.value; out.textContent = fmt(v); edit((d) => set(d, v), { key, quiet: true }); },
+    oninput: (e) => { const v = +e.target.value; out.textContent = fmt(v); box.show(v); edit((d) => set(d, v), { key, quiet: true }); },
     onchange: () => renderSide(),
   });
-  return h("div", { class: "slider" }, input, out);
+  const box = numberBox(min, max, step, value, (v) => { input.value = v; out.textContent = fmt(v); edit((d) => set(d, v)); renderSide(); });
+  return h("div", { class: "slider" }, input, box, out);
 }
 // A slider over a list of allowed values (studio-30min, 13 Nov 2026): fine steps at the start, coarser
 // later, so 0-30 min stays easy to set to the second where it matters.
@@ -2632,10 +2797,12 @@ function stopSlider(stops, value, fmt, set) {
   const key = `slider-${Math.random()}`;
   const input = h("input", {
     type: "range", min: 0, max: stops.length - 1, step: 1, value: index(value),
-    oninput: (e) => { const v = stops[+e.target.value]; out.textContent = fmt(v); edit((d) => set(d, v), { key, quiet: true }); },
+    oninput: (e) => { const v = stops[+e.target.value]; out.textContent = fmt(v); box.show(v); edit((d) => set(d, v), { key, quiet: true }); },
     onchange: () => renderSide(),
   });
-  return h("div", { class: "slider" }, input, out);
+  // Typed values can be anything between the first and last stop (the slider shows the nearest stop).
+  const box = numberBox(stops[0], stops[stops.length - 1], 0.1, value, (v) => { input.value = index(v); out.textContent = fmt(v); edit((d) => set(d, v)); renderSide(); });
+  return h("div", { class: "slider" }, input, box, out);
 }
 const range = (from, to, step) => { const out = []; for (let v = from; v <= to + 1e-9; v += step) out.push(Math.round(v * 10) / 10); return out; };
 // Round length 10 s - 30 min; smoke times 0 - 30 min (0.5 s steps for the first minute).
@@ -2651,7 +2818,51 @@ const metres = (v) => `${v.toFixed(1)} m`;
 // When a bot first shows up: with the round (after a few seconds), when you walk across its line,
 // or after you kill another bot (a trade).
 function showsUpField(b, d) {
-  const timed = d.round.order === "together" || b.move === "patrol";
+  // studio-waves-v1 / waves-groups-v1 / waves-tabs-v1: a bot in a wave comes with its group (Drill settings > Bots
+  // show up). Its delay after the group starts is set here (the wave list only lists bots). Selecting a bot of
+  // another wave switches the wave tab to it.
+  if (d.round.order === "waves" && d.round.goal !== "track" && inWaves(d).has(b.id)) {
+    const names = wavePlans(d).filter((p) => p.bots.some((x) => x.bot === b.id)).map((p) => p.name);
+    const where = wavesOfBot(d, b.id), c = waveCursor();
+    if (c && where.length && !where.some((x) => x.wave === c.wave)) { S.waveSel = where[0]; setTimeout(draw, 0); }
+    const at = waveList(d).flatMap((w) => (w.groups || []).flatMap((g) => g.bots || [])).find((x) => x.bot === b.id)?.at || 0;
+    // waves-trades-v1: or it trades a bot of its group: comes tradeMin-tradeMax s after you kill that bot.
+    const mates = new Set(waveList(d).flatMap((w) => (w.groups || []).filter((g) => (g.bots || []).some((x) => x.bot === b.id)).flatMap((g) => g.bots.map((x) => x.bot))));
+    const groupMates = d.items.filter((i) => i.kind === "bot" && i.id !== b.id && mates.has(i.id));
+    const target = tradeTarget(d, b);
+    const lo = b.tradeMin ?? 0.3, hi = b.tradeMax ?? 1;
+    const tradeTo = (it, dd, id) => { it.tradeOf = id; if (id && stuckTradeRings(dd).some((ring) => ring.some((x) => x.id === it.id))) it.tradeStart = true; };
+    const pickWave = seg([["group", "When its group starts"], ["kill", "When I kill a bot"]], b.tradeOf ? "kill" : "group",
+      (v) => edit(mod((it, dd) => {
+        if (v === "group") { it.tradeOf = null; return; }
+        const near = groupMates.slice().sort((p, q) => dist(p, it) - dist(q, it))[0];
+        it.tradeStart = false; it.tradeOf = near ? near.id : null;
+        if (near && stuckTradeRings(dd).some((ring) => ring.some((x) => x.id === it.id))) it.tradeStart = true;
+        if (!near) toast("Put another bot in the same group first: this one comes when you kill that one.");
+      })));
+    const open = h("button", { class: "btn small", onclick: () => { S.sel = null; renderSide(); draw(); } }, "Open waves");
+    if (b.tradeOf) return field("Shows up", h("div", {}, pickWave,
+      h("p", { class: "help" }, "When I kill (a bot in the same group):"),
+      groupMates.length ? h("div", { class: "btn-row" }, groupMates.map((o) => h("button", {
+        class: "btn small" + (o.id === b.tradeOf ? " primary" : ""), onclick: () => edit(mod((it, dd) => tradeTo(it, dd, o.id))),
+      }, itemName(d, o)))) : h("p", { class: "help" }, "No other bot in its group yet."),
+      h("p", { class: "help" }, "It swings in this long after the kill (random between the two):"),
+      slider(0, 3, 0.05, lo, (v) => `from ${secs(v)}`, (dd, v) => mod((it) => { it.tradeMin = v; if ((it.tradeMax ?? 1) < v) it.tradeMax = v; })(dd)),
+      slider(0, 3, 0.05, hi, (v) => `to ${secs(v)}`, (dd, v) => mod((it) => { it.tradeMax = v; if ((it.tradeMin ?? 0.3) > v) it.tradeMin = v; })(dd)),
+      // waves-trade-start-v1: shows up first with its group, then only as a trade. (wave-plays-v1: the per-bot
+      // "comes back as a trade" count is gone; a wave can be played several times instead, in its wave card.)
+      toggle(!!b.tradeStart, "Also there when its group starts", "Shows up with its group first, then only as a trade", (dd, v) => mod((it) => (it.tradeStart = v))(dd)),
+      open),
+      !target ? "The bot it traded is gone. Pick another bot above."
+      : `In ${names.join(", ")}: ${b.tradeStart ? "it shows up when the group starts; after that, every" : "every"} time you kill ${itemName(d, target)} there, this bot swings ${secs(lo)}–${secs(hi)} later. The group isn't done until it came and you killed it.${mates.has(target.id) ? "" : ` ${itemName(d, target)} isn't in its group, so it comes with the group instead.`}`);
+    return field("Shows up", h("div", {}, pickWave,
+      h("p", { class: "help" }, `In ${names.join(", ")}. It comes when that group starts, and doesn't come back by itself.`),
+      field("Comes after", slider(0, 10, 0.1, at, (v) => (v ? `${secs(v)} after its group starts` : "right when its group starts"),
+        (dd, v) => { for (const w of wavesOf(dd).waves) for (const g of w.groups) for (const x of g.bots) if (x.bot === b.id) x.at = v; }),
+        "E.g. the flash at 0 s, the bot that swings with it 0.5 s later."),
+      open));
+  }
+  const timed = d.round.order === "together" || d.round.order === "waves" || b.move === "patrol";
   // studio-trade-pair: a bot that already trades this one can be picked too (two bots taking turns: kill 1, 2 comes;
   // kill 2, 1 comes). The game runs such loops like longer rings; the loop starts from the bot "Also there at the start".
   const others = d.items.filter((i) => i.kind === "bot" && i.id !== b.id);
@@ -2693,7 +2904,7 @@ function showsUpField(b, d) {
         : `A trade: it isn't there at the start. Every time you kill ${itemName(d, target)}, this bot shows up ${secs(lo)}–${secs(hi)} later and does its move once (a peeker swings once). Real trades are 0.3–1 s. It doesn't take turns; with random spots each trade swings from one of them, and a holder or strafer can use a random zone.`);
   }
   if (b.trigger) {
-    const turns = d.round.order !== "together" && d.round.goal !== "track";
+    const turns = d.round.order !== "together" && d.round.order !== "waves" && d.round.goal !== "track";
     return field("Shows up", h("div", {}, pick, delay((v) => (v ? `${secs(v)} after you cross` : "as soon as you cross"), 5)),
       `Drag the yellow line's ends on the map. Walk across it and this bot appears where it starts, then does its move (peek, run, flash).${turns ? " It doesn't take turns with the other bots." : ""}${d.round.move ? "" : " Turn on \"I can walk around\" in drill settings."}`);
   }
@@ -2730,7 +2941,7 @@ function head(iconName, cls, title, sub) {
 }
 
 function checksBox() {
-  const list = problems(S.drill, floorCheck());
+  const list = problems(S.drill, floorCheck(), wallLevels());
   if (!list.length) return h("div", { class: "checks ok" }, "Ready to play.");
   const hard = list.filter((p) => !p.soft).length;
   return h("div", { class: "checks" + (hard ? " bad" : "") },
@@ -2766,7 +2977,7 @@ function drillPanel() {
   const d = S.drill, r = d.round;
   const set = (fn) => (v) => edit((dd) => fn(dd.round, v));
   const bots = d.items.filter((i) => i.kind === "bot").length;
-  const oneByOne = r.order !== "together";
+  const oneByOne = r.order !== "together" && r.order !== "waves";
   return [
     ...head("gear", "", "Drill settings", "Click anything on the map to change it. These settings are for the whole drill."),
     checksBox(),
@@ -2781,6 +2992,7 @@ function drillPanel() {
           field("Boundary wall height", slider(0, 40, .5, arenaWallHeight(d), v => v ? metres(v) : "No walls", (dd,v) => {dd.arenaWallHeight=v;}), "Adds four solid walls around the empty area."),
         ),
       field("Mode", seg([["charcoal", "Dark"], ["light", "Light"]], darkArena(d) ? "charcoal" : "light", v => edit(dd => { dd.arenaTheme = v; }))),
+      onMap() ? null : arenaColorsField(d),
       field("Surface", seg(SURFACES, arenaSurface(d), v => edit(dd => setArenaSurface(dd, v)))),
       arenaSurface(d) === 'tile' ? field("Grid size", slider(.25,8,.05,d.floorTileScale ?? 2.4,metres,(dd,v)=>{dd.floorTileScale=dd.wallTileScale=v;for(const it of dd.items)delete it.surfaceScale;})) : null),
     shootersBox(),
@@ -2800,16 +3012,199 @@ function drillPanel() {
       field(null, toggle(r.move, "I can walk around", "Off: you stay on your start spot and only aim.", (dd, v) => (dd.round.move = v))),
       field(null, toggle(r.die, "Bots can kill me", "If you die, the round ends.", (dd, v) => (dd.round.die = v))),
       // studio-heal-on-kill: the game's own healOnKill rule (health and armor back to full on every kill).
-      field(null, toggle(r.heal, "Refill HP when I kill a bot", "Every kill puts your health and armor back to full.", (dd, v) => (dd.round.heal = v))),
+      field(null, toggle(r.heal, "Refill HP when I kill a bot", (r.healHp ?? 100) >= 100 ? "Every kill puts your health and armor back to full." : `Every kill gives you +${r.healHp} HP (up to 100). Armor is not refilled.`, (dd, v) => (dd.round.heal = v))),
+      // studio-heal-amount-v1: how much HP each kill gives back (100 = full health and armor, as before).
+      r.heal ? field("HP per kill", slider(10, 100, 5, r.healHp ?? 100, (v) => (v >= 100 ? "Full" : `+${v} HP`), (dd, v) => (dd.round.healHp = v))) : null,
       field(null, toggle(r.ammo, "Real magazine and reloads", "Off: endless ammo.", (dd, v) => (dd.round.ammo = v)))),
+    // studio-move-dodge-v1 (17 Nov 2026): Realistic = the game's move-dodge / aim-lag / bot-lead rules (CnrSARj_.js
+    // __aimMoveDodge); Basic = bots hit a moving player as well as a still one (rules.moveDodge = false).
+    d.items.some((i) => i.kind === "bot" && i.shoots && i.shoots !== "off") ? h("div", { class: "group" },
+      h("label", {}, "Bot aim when you move"),
+      field(null, seg([["realistic", "Realistic", "Bots track you like players: moving, A-D and Dash make them miss more"], ["basic", "Basic", "Bots hit you just as well whether you move or not"]], r.dodge === "basic" ? "basic" : "realistic", set((o, v) => (o.dodge = v))),
+        r.dodge === "basic"
+          ? "Bots hit you just as well whether you stand still or move. Only their rank's aim decides."
+          : "Each bot aims a moment behind you (Radiant 0.10 s, Diamond 0.14 s, Gold 0.19 s) and leads your movement, like a player. Steady running is still hit most of the time; sudden direction changes make it miss, and headshots get rarer the faster you move. Standing still or running straight at a bot: no change."),
+      // studio-adad-controls-v1: one switch for the A-D reward and Jett's Dash protection, with every number editable
+      // (game: CnrSARj_.js __aimMoveDodge reads rules.adadMiss / adadWindow / adadGap / adadHeads / dashMaxHits / dashLand).
+      r.dodge !== "basic" ? field(null, toggle(r.dodgeAdad !== false, "Reward A-D and Dash", "Switching between A and D, and Jett's Dash, throw the bots' aim off for a moment.", (dd, v) => (dd.round.dodgeAdad = v))) : null,
+      r.dodge !== "basic" && r.dodgeAdad !== false ? h("div", { class: "dodge-sub" },
+        field("Miss chance after a switch", slider(0, 100, 5, r.adadMiss ?? 50, (v) => `${v} %`, (dd, v) => (dd.round.adadMiss = v)),
+          "Share of bot hits that miss right after you switch between A and D. 0 % = no reward, 100 % = they never hit you then."),
+        field("Bots thrown off for", slider(0, 0.5, 0.01, r.adadWin ?? 0, (v) => (v ? `${v.toFixed(2)} s` : "Auto"), (dd, v) => (dd.round.adadWin = v)),
+          "How long after a switch the bots' aim is off. Auto = each bot's own reaction delay (Radiant 0.10 s, Diamond 0.14 s, Gold 0.19 s)."),
+        field("Switch counts within", slider(0.05, 0.4, 0.01, r.adadGap ?? 0.15, (v) => `${v.toFixed(2)} s`, (dd, v) => (dd.round.adadGap = v)),
+          "Letting go of A and pressing D (or the other way) counts as a switch if the second key comes within this time."),
+        field(null, toggle(!!r.adadHeads, "Headshots right after a switch", "Off: in that moment, bot hits that would be headshots land on the body.", (dd, v) => (dd.round.adadHeads = v))),
+        field("Max hits per Dash", slider(0, 4, 1, r.dashHits ?? 1, (v) => (v === 0 ? "None" : v === 1 ? "1 body hit" : `${v} body hits`), (dd, v) => (dd.round.dashHits = v)),
+          "From all bots together during one Jett Dash (0.45 s). Hits in a Dash always land on the body."),
+        field("Chance a Dash gets hit", slider(0, 100, 5, r.dashLand ?? 50, (v) => `${v} %`, (dd, v) => (dd.round.dashLand = v)),
+          "Share of Dashes where bots can hit you at all (up to the max above). Mostly matters when you Dash toward or away from a bot; sideways Dashes already make bots miss.")) : null) : null,
     r.goal !== "track" && bots ? h("div", { class: "group" },
-      field("Bots show up", seg([["together", "All at once"], ["random", "One by one, random"], ["inOrder", "One by one, in order"]], r.order, set((o, v) => (o.order = v))),
-        oneByOne ? "On its turn each bot does its thing once (a peeker peeks once). Rushers without a flash walk all round." : null),
+      field("Bots show up", seg([["together", "All at once"], ["random", "One by one, random"], ["inOrder", "One by one, in order"], ["waves", "In waves", "Wave A, B, C... each in groups: kill one group and the next comes"]], r.order,
+        (v) => edit((dd) => { dd.round.order = v; if (v === "waves" && !dd.round.waves) dd.round.waves = newWaves(dd); })),
+        oneByOne ? "On its turn each bot does its thing once (a peeker peeks once). Rushers without a flash walk all round."
+        : r.order === "waves" ? "Waves come in order. In a wave, group 1 comes first; kill all of it and group 2 comes, and so on. Kill the last group and the next wave starts." : null),
+      r.order === "waves" ? wavesBox(d) : null,
       oneByOne ? field("How many at a time", slider(1, 5, 1, r.atOnce || 1, (v) => `${v}`, (dd, v) => (dd.round.atOnce = v))) : null,
       oneByOne ? field("Pause before the next one", slider(0, 5, 0.1, r.gap ?? 1, secs, (dd, v) => (dd.round.gap = v))) : null) : null,
     h("div", { class: "group" },
       field("Description", h("textarea", { class: "text", maxlength: 300, placeholder: "Shown on the card in the lobby.", oninput: (e) => edit((dd) => (dd.note = e.target.value), { key: "note", quiet: true }) }, d.note || ""))),
   ];
+}
+
+// ---------- waves (studio-waves-v1, reworked as waves-groups-v1) ----------
+// waves-tabs-v1 (17 Nov 2026, user): you edit one wave at a time. S.waveSel = { wave, group } is the wave tab and the
+// group new bots go into; bots of the other waves are drawn faded on the map (2D and 3D) so they don't get in the way.
+const wavesOn = () => !!S.drill && S.drill.round.order === "waves" && S.drill.round.goal !== "track";
+function waveCursor() {
+  if (!wavesOn()) return null;
+  const list = waveList(S.drill);
+  if (!list.length) return null;
+  const w = list.find((x) => x.id === S.waveSel?.wave) || list[0], gs = w.groups || [];
+  const g = gs.find((x) => x.id === S.waveSel?.group) || gs[0];
+  return { wave: w.id, group: g ? g.id : null };
+}
+// The waves / groups a bot is in: [{ wave, group }].
+function wavesOfBot(d, id) {
+  const out = [];
+  for (const w of waveList(d)) for (const g of w.groups || []) if ((g.bots || []).some((b) => b.bot === id)) out.push({ wave: w.id, group: g.id });
+  return out;
+}
+function waveFaded(it) {
+  if (it.kind !== "bot" || it.id === S.sel) return false;
+  const c = waveCursor();
+  if (!c) return false;
+  const where = wavesOfBot(S.drill, it.id);
+  return where.length > 0 && !where.some((x) => x.wave === c.wave);
+}
+const waveKey = () => { const c = waveCursor(); return c ? c.wave + "/" + c.group : ""; };
+// New bots (placed, copied) go into the active group of the wave you are editing.
+function joinWave(dd, items) {
+  const c = waveCursor();
+  if (!c || !c.group) return;
+  const g = wavesOf(dd).waves.find((w) => w.id === c.wave)?.groups.find((x) => x.id === c.group);
+  if (g) for (const it of items) if (it.kind === "bot" && !g.bots.some((b) => b.bot === it.id)) g.bots.push({ bot: it.id, at: 0 });
+}
+// waves-groups-v1 (17 Nov 2026): waves A, B, C... always in order; each wave has groups that come one after another
+// (the next group once you kill every bot of the one before). Data: round.waves, see drill.js waveList / wavePlans.
+// Game side: CnrSARj_.js (tools/patch-studio-waves.cjs + patch-studio-waves-v2.cjs).
+const newGroup = (bots = []) => ({ id: newId("group"), bots: bots.map((b) => ({ bot: b.id, at: 0 })) });
+const newWave = (bots = []) => ({ id: newId("wave"), name: "", groups: [newGroup(bots)] });
+function newWaves(d) {
+  return { first: 1, pause: 2, groupPause: 0.5, hp: true, ammo: true, repeat: false, waves: [newWave(d.items.filter((i) => i.kind === "bot"))] };
+}
+// The drill's waves in the new form, for editing (an old plan list becomes one wave per plan, one group each).
+function wavesOf(dd) {
+  const w = dd.round.waves;
+  if (!w) return (dd.round.waves = newWaves(dd));
+  if (!Array.isArray(w.waves)) {
+    dd.round.waves = { first: w.first ?? 1, pause: w.pause ?? w.gap ?? 2, groupPause: w.groupPause ?? 0.5, hp: w.hp !== false, ammo: w.ammo !== false, repeat: !!w.repeat, waves: waveList(dd) };
+  }
+  return dd.round.waves;
+}
+// wave-panel-v2 (17 Nov 2026, user-approved preview previews/wave-panel/index.html): compact tabs (letter, ×plays,
+// bot count), name + copy / delete icons on one line, a − N× + stepper for Plays, groups with a number badge and the
+// bots as wrapping chips (PLACING tag on the active group), short "+ Add group", timing as three number rows, refills
+// as switches, "After the last wave" Round ends / Start again. Nothing in the panel is wider than the side bar.
+function wavesBox(d) {
+  const r = d.round, w = r.waves || {};
+  const list = waveList(d);
+  const bots = d.items.filter((i) => i.kind === "bot");
+  const exists = new Set(bots.map((b) => b.id));
+  const W = (fn) => (dd, v) => fn(wavesOf(dd), v);
+  const setW = (fn) => (v) => edit((dd) => W(fn)(dd, v));
+  const waveAt = (dd, id) => wavesOf(dd).waves.find((x) => x.id === id);
+  const groupAt = (dd, wid, gid) => waveAt(dd, wid)?.groups.find((g) => g.id === gid);
+  const show = (id) => { S.sel = id; renderSide(); draw(); focusOn(id); };
+  const goTo = (wave, group) => { S.waveSel = { wave, group }; renderSide(); draw(); };
+  const c = waveCursor();
+  const cur = list.find((x) => x.id === c?.wave);
+  const botsIn = (wv) => new Set((wv.groups || []).flatMap((g) => (g.bots || []).map((b) => b.bot)).filter((id) => exists.has(id))).size;
+  const xBtn = (title, onclick, cls = "") => h("button", { class: "wv-x " + cls, title, "aria-label": title, onclick }, "×");
+  const chip = (wv, g, b) => h("span", { class: "wv-chip" },
+    h("button", { class: "wv-chip-name", title: "Show this bot", onclick: () => show(b.bot) }, itemName(d, d.items.find((x) => x.id === b.bot))),
+    xBtn("Take this bot out of the group", () => edit((dd) => { const gg = groupAt(dd, wv.id, g.id); if (gg) gg.bots = gg.bots.filter((y) => y.bot !== b.bot); })));
+  // "+ Bot": a small select over the bots that are placed but not in this group
+  const addBot = (wv, g, free) => free.length ? h("label", { class: "wv-addbot", title: "Add a bot that's already on the map" }, "+ Bot",
+    h("select", { onchange: (e) => { const id = e.target.value; if (id) edit((dd) => groupAt(dd, wv.id, g.id)?.bots.push({ bot: id, at: 0 })); } },
+      h("option", { value: "" }, "Add a placed bot…"), ...free.map((b) => h("option", { value: b.id }, itemName(d, b))))) : null;
+  const groupCard = (wv, g, gi) => {
+    const inGroup = (g.bots || []).filter((b) => exists.has(b.bot));
+    const free = bots.filter((b) => !inGroup.some((x) => x.bot === b.id));
+    const on = c && c.group === g.id;
+    return h("div", { class: "wv-group" + (on ? " on" : ""), title: on ? null : "Click to place bots in this group", onclick: (e) => { if (!on && !e.target.closest("button, select, input, label")) goTo(wv.id, g.id); } },
+      h("div", { class: "wv-ghead" },
+        h("span", { class: "wv-num" }, String(gi + 1)),
+        h("span", { class: "wv-when" }, gi === 0 ? "When the wave starts" : `After group ${gi} is dead`),
+        on ? h("span", { class: "wv-tag" }, "Placing") : null,
+        wv.groups.length > 1 ? xBtn("Delete this group", () => edit((dd) => { const ww = waveAt(dd, wv.id); if (ww) ww.groups = ww.groups.filter((x) => x.id !== g.id); })) : null),
+      inGroup.length
+        ? h("div", { class: "wv-chips" }, ...inGroup.map((b) => chip(wv, g, b)), addBot(wv, g, free))
+        : h("p", { class: "wv-empty" }, on ? "Place bots on the map" : "Click here, then place bots on the map", free.length ? ", or " : ".", addBot(wv, g, free)));
+  };
+  const tabs = h("div", { class: "wv-tabs", role: "tablist" },
+    ...list.map((wv, i) => h("button", { class: "wv-tab" + (wv.id === c?.wave ? " on" : ""), role: "tab", "aria-selected": String(wv.id === c?.wave), title: waveName(wv, i),
+      onclick: () => goTo(wv.id, wv.groups?.[0]?.id) },
+      h("b", {}, String.fromCharCode(65 + (i % 26))), h("em", {}, wavePlays(wv) > 1 ? `×${wavePlays(wv)}` : ""),
+      h("small", {}, `${botsIn(wv)} bot${botsIn(wv) === 1 ? "" : "s"}`))),
+    h("button", { class: "wv-tab add", title: "Add a wave and start editing it", "aria-label": "Add a wave", onclick: () => {
+      const nw = newWave(); S.waveSel = { wave: nw.id, group: nw.groups[0].id };
+      edit((dd) => { wavesOf(dd).waves.push(nw); });
+    } }, ic("plus")));
+  const i = cur ? list.indexOf(cur) : -1;
+  const plays = cur ? wavePlays(cur) : 1;
+  const setPlays = (v) => edit((dd) => { const ww = waveAt(dd, cur.id); if (ww) ww.plays = Math.max(1, Math.min(5, v)); });
+  const card = cur ? h("div", { class: "wv-card" },
+    h("div", { class: "wv-row" },
+      h("input", {
+        class: "text wv-name", value: cur.name || "", placeholder: waveName(cur, i), maxlength: 40, "aria-label": "Wave name",
+        onkeydown: (e) => { if (e.key === "Enter") e.target.blur(); e.stopPropagation(); },
+        oninput: (e) => edit((dd) => { const ww = waveAt(dd, cur.id); if (ww) ww.name = e.target.value; }, { key: `wave-name-${cur.id}`, quiet: true }),
+      }),
+      h("button", { class: "btn small icon wv-icon", title: "Copy this wave (same bots)", "aria-label": "Copy this wave", onclick: () => {
+        const nid = newId("wave");
+        edit((dd) => {
+          const all = wavesOf(dd).waves, ww = all.find((x) => x.id === cur.id); if (!ww) return;
+          const cp = structuredClone(ww); cp.id = nid; cp.name = ww.name ? `${ww.name} copy` : ""; for (const g of cp.groups) g.id = newId("group");
+          all.splice(all.indexOf(ww) + 1, 0, cp);
+          S.waveSel = { wave: nid, group: cp.groups[0]?.id };
+        });
+      } }, ic("copy")),
+      h("button", { class: "btn small icon danger wv-icon", title: "Delete this wave (its bots stay on the map)", "aria-label": "Delete this wave", onclick: () => edit((dd) => { const o = wavesOf(dd); o.waves = o.waves.filter((x) => x.id !== cur.id); S.waveSel = null; }) }, ic("trash"))),
+    // wave-plays-v1: play this whole wave (all groups and trades) several times before the next wave.
+    h("div", { class: "wv-row wv-plays", title: "Kill every bot of this wave (all its groups) and it starts over, this many times, before the next wave. Each time is like a new wave: the pause between waves first, then refills." },
+      h("span", {}, "Plays"),
+      h("div", { class: "wv-stepper" },
+        h("button", { "aria-label": "Fewer times", disabled: plays <= 1, onclick: () => setPlays(plays - 1) }, ic("minus")),
+        h("output", {}, `${plays}×`),
+        h("button", { "aria-label": "More times", disabled: plays >= 5, onclick: () => setPlays(plays + 1) }, ic("plus")))),
+    ...(cur.groups || []).map((g, gi) => groupCard(cur, g, gi)),
+    h("button", { class: "wv-addgroup", onclick: () => { const ng = newGroup(); S.waveSel = { wave: cur.id, group: ng.id }; edit((dd) => { waveAt(dd, cur.id)?.groups.push(ng); }); } }, "+ Add group"),
+    h("p", { class: "wv-hint" }, "A new group comes after you kill the group above it.")) : null;
+  const waved = inWaves(d);
+  const loose = bots.filter((b) => !waved.has(b.id));
+  // A timing row: label (+ a small line) and one number box in seconds.
+  const tRow = (label, sub, value, set, unit = "s", min = 0, max = 30, step = 0.1) => h("div", { class: "wv-trow" },
+    h("span", {}, label, sub ? h("small", {}, sub) : null),
+    h("span", { class: "wv-num-in" }, numberBox(min, max, step, value, (v) => { edit((dd) => W(set)(dd, v)); renderSide(); }), h("i", {}, unit)));
+  return h("div", { class: "waves wv" },
+    h("label", {}, "Waves"),
+    tabs,
+    list.length > 1 ? h("p", { class: "wv-hint" }, "Bots of the other waves are faded on the map.") : null,
+    card || h("p", { class: "wv-hint" }, "No waves yet. Add one with +."),
+    loose.length ? h("p", { class: "wv-hint" }, `In no wave: ${loose.map((b) => itemName(d, b)).join(", ")}. ${loose.length > 1 ? "They are" : "It is"} there from the round start, like "All at once".`) : null,
+    h("div", { class: "wv-sect" }, h("h4", {}, "Timing"),
+      tRow("First wave after", null, w.first ?? 1, (o, v) => (o.first = v)),
+      tRow("Between groups", "after you kill a group", w.groupPause ?? 0.5, (o, v) => (o.groupPause = v)),
+      tRow("Between waves", "after the last group of a wave", w.pause ?? w.gap ?? 2, (o, v) => (o.pause = v))),
+    h("div", { class: "wv-sect" }, h("h4", {}, "Each new wave"),
+      toggle(w.hp !== false, "Refill HP", (w.hpAmount ?? 100) >= 100 ? "Health and armor back to full (not between groups)" : `+${w.hpAmount} HP, up to 100 (armor is not refilled)`, W((o, v) => (o.hp = v))),
+      // wave-hp-amount-v1: how much HP the wave refill gives (100 = full health + armor)
+      w.hp !== false ? tRow("Amount", "100 = full, with armor", w.hpAmount ?? 100, (o, v) => (o.hpAmount = Math.max(10, Math.min(100, Math.round(v)))), "HP", 10, 100, 1) : null,
+      r.ammo ? toggle(w.ammo !== false, "Refill magazine", null, W((o, v) => (o.ammo = v))) : null),
+    h("div", { class: "wv-sect" }, h("h4", {}, "After the last wave"),
+      seg([[false, "Round ends"], [true, "Start again"]], !!w.repeat, setW((o, v) => (o.repeat = v))),
+      h("p", { class: "wv-hint" }, w.repeat ? "Wave A comes again after the last wave, until the time is up." : "The round ends as soon as the last wave is cleared.")));
 }
 
 function floorPicker(o, apply) {
@@ -2862,6 +3257,7 @@ function removeStart(index) {
   renderSide(); draw();
 }
 function botPanel(b) {
+  if (isDot(b)) return dotPanel(b);
   const m = MOVES[b.move];
   const d = S.drill;
   const clear = d.round.goal === "clear";
@@ -2882,11 +3278,17 @@ function botPanel(b) {
     randomZoneGroup(b),
   ];
   const moveGroup = h("div", { class: "group" });
-  const speed = field("Speed", seg([["walk", "Walk"], ["run", "Run"]], b.speed, set((it, v) => (it.speed = v))));
+  const speed = h("div", {},
+    field("Speed", seg([["walk", "Walk"], ["run", "Run"]], b.speed, set((it, v) => (it.speed = v)))),
+    // bot-speed-v1: like copycat's Speed slider, scales Walk / Run (also strafes and peek A-D steps).
+    field("Speed multiplier", h("div", {},
+      slider(SPEED_SCALE[0], SPEED_SCALE[1], 0.05, speedScale(b), (v) => `${v.toFixed(2)}×${Math.abs(v - defaultSpeedScale(b)) < 1e-9 ? " (default)" : ""}`, (dd, v) => mod((it) => (it.speedScale = v))(dd)),
+      Number.isFinite(b.speedScale) ? h("button", { class: "btn small", onclick: () => { edit(mod((it) => (it.speedScale = null))); renderSide(); } }, "Use default") : null),
+      h("span", {}, h("b", {}, "! Default: 1.25× with no gun, 1× with a gun in hand."), " 1.25× is your own speed with no gun (6.75 m/s), 1× your speed with a Vandal (5.4 m/s). Also speeds up or slows down strafes and peeks.")));
   if (b.move === "strafe") {
     moveGroup.append(
       field("Movement", seg([[false, "Predictable"], [true, "Unpredictable"]], b.unpredictable === true, set((it, v) => (it.unpredictable = v))), "Unpredictable mixes short taps and longer strafes with short, random pauses, always at full speed, within the movement width."),
-      field("How wide", slider(0.4, 12, 0.1, b.width, metres, (dd, v) => mod((it) => (it.width = v))(dd)), "Or drag the orange end dots on the map."),
+      field("How wide", slider(0.4, 12, 0.1, b.width, metres, (dd, v) => mod((it) => (it.width = v))(dd)), (() => { const r = wallInfo(b)?.room; return r && r.limited ? `A wall is in the way: it strafes ${r.width} m here (the red part is cut off). Or drag the orange end dots on the map.` : "Or drag the orange end dots on the map."; })()), // bot-walls-v1
       speed);
   } else if (b.move === "peek") {
     moveGroup.append(...[
@@ -2901,6 +3303,13 @@ function botPanel(b) {
       takingTurns() || b.tradeOf ? null : field("Random extra wait",
         slider(0, 5, 0.1, b.randomWait || 0, (v) => (v ? `0–${v.toFixed(1)} s` : "Off"), (dd, v) => mod((it) => (it.randomWait = v))(dd)),
         "Each peek waits Time behind cover plus a random 0 to this many seconds, so you can't time it. The first peek is random too."),
+      // peek-facing-v1: which way it looks at the peek, and so which way its A-D strafe runs.
+      field("Faces", seg([[false, "Always faces you"], [true, "A direction I pick"]], typeof b.peekFacing === "number",
+        (v) => edit(mod((it) => (it.peekFacing = v ? Math.round(yawDeg(it.route && it.route[1] ? it.route[1] : it, S.drill.start)) : null)))),
+        typeof b.peekFacing === "number"
+          ? `Holds that direction while it peeks${b.peekStrafe ? " and strafes A-D along its own left and right" : ""}. Drag the white dot in front of the bot on the map, or use the slider.`
+          : `It turns to keep facing you${b.peekStrafe ? "; its A-D strafe runs across your view" : ""}.`),
+      typeof b.peekFacing === "number" ? slider(0, 359, 1, b.peekFacing, (v) => `${v}°`, (dd, v) => mod((it) => (it.peekFacing = v))(dd)) : null,
       speed,
       h("p", { class: "help" }, "On the map: point 1 (green) is cover, point 2 is the peek spot. Drag them. Put a wall between point 1 and you."),
     ].filter(Boolean));
@@ -2911,7 +3320,7 @@ function botPanel(b) {
   } else {
     moveGroup.append(h("p", { class: "help" }, "Stands on its spot, facing your start."));
   }
-  if (b.move === "still" || b.move === "strafe" || b.move === "peek") {
+  if ((b.move === "still" || b.move === "strafe" || b.move === "peek") && !isDot(b)) {
     moveGroup.append(field("Pose", seg([[false, "Standing"], [true, "Crouching"]], b.crouch, set((it, v) => { it.crouch = v; it.crouchRandom = false; })),
       b.move === "peek" ? "Crouching stays low for the peek and return. Movement speed still follows Walk / Run." : null));
   }
@@ -2935,7 +3344,8 @@ function botPanel(b) {
       field("Minimum wait between jumps", slider(0.5, 10, 0.1, b.jumpMin ?? 1.5, secs, (dd, v) => mod((it) => { it.jumpMin = v; it.jumpMax = Math.max(v, it.jumpMax ?? 3); })(dd))),
       field("Maximum wait between jumps", slider(0.5, 10, 0.1, b.jumpMax ?? 3, secs, (dd, v) => mod((it) => { it.jumpMax = v; it.jumpMin = Math.min(v, it.jumpMin ?? 1.5); })(dd)), "The bot waits this long after landing before its next jump."),
     ] : [])));
-  if (!copycat) out.push(h("div", { class: "group" },
+  const dot = isDot(b);
+  if (!copycat && !dot) out.push(h("div", { class: "group" },
     field(null, toggle(b.crouchRandom === true, "Occasional crouching", "Randomly crouches and stands during Play. Uses the player's crouch transition; waits for jumping to finish.", (dd, v) => mod((it) => { it.crouchRandom = v; if (v) it.crouch = false; })(dd))),
     ...(b.crouchRandom ? [
       field(null, toggle(b.crouchStill !== false, "Only when fully stopped", "Waits until the bot has fully stopped before it crouches, so it stays accurate. A strafer stays stopped until it stands back up.", (dd, v) => mod((it) => (it.crouchStill = v))(dd))),
@@ -2944,19 +3354,19 @@ function botPanel(b) {
       field("Minimum wait between crouches", slider(0.3, 10, 0.1, b.crouchGapMin ?? 2, secs, (dd, v) => mod((it) => { it.crouchGapMin = v; it.crouchGapMax = Math.max(v, it.crouchGapMax ?? 4); })(dd))),
       field("Maximum wait between crouches", slider(0.3, 10, 0.1, b.crouchGapMax ?? 4, secs, (dd, v) => mod((it) => { it.crouchGapMax = v; it.crouchGapMin = Math.min(v, it.crouchGapMin ?? 2); })(dd)), "Time standing before the next crouch."),
     ] : [])));
-  if (b.route) out.push(flashGroup(b));
+  if (b.route && !dot) out.push(flashGroup(b));
 
-  out.push(h("div", { class: "group" },
+  if (!dot) out.push(h("div", { class: "group" },
     field("Shoots back", rankGrid(b.shoots, (v) => edit(mod((it) => { it.shoots = v; if (v !== "off" && !it.weapon) it.weapon = "vandal"; }))),
       b.shoots === "off" ? "Pick a rank and it shoots back like a player of that rank." : `Reacts in about ${RANKS.find((r) => r[0] === b.shoots)[2].reaction[0].toFixed(2)} s${RANKS.find((r) => r[0] === b.shoots)[2].heads ? " and goes for your head" : ""}.${d.round.die ? "" : " Turn on \"Bots can kill me\" in drill settings for real danger."}`)));
 
   out.push(h("div", { class: "group" },
     field("After a kill", b.tradeOf ? h("p", { class: "help" }, "Stays dead until you kill the bot it trades again (see Shows up).") : clear ? h("p", { class: "help" }, "Stays dead (the goal is Clear them all).") :
       h("div", {}, seg([[true, "Comes back"], [false, "Stays dead"]], b.back, set((it, v) => (it.back = v))),
-        b.back ? slider(0.2, 8, 0.1, b.backAfter, (v) => `after ${secs(v)}`, (dd, v) => mod((it) => (it.backAfter = v))(dd)) : null)),
-    field("Toughness", seg(ARMOR.map(([v, l]) => [v, l.split(" (")[0], l]), b.hp, set((it, v) => (it.hp = v))))));
+        b.back ? slider(0, 8, 0.1, b.backAfter, (v) => (v === 0 ? "right away" : `after ${secs(v)}`), (dd, v) => mod((it) => (it.backAfter = v))(dd)) : null)),
+    dot ? null : field("Toughness", seg(ARMOR.map(([v, l]) => [v, l.split(" (")[0], l]), b.hp, set((it, v) => (it.hp = v))))));
 
-  out.push(h("div", { class: "group" },
+  if (!dot) out.push(h("div", { class: "group" },
     field("Looks like", lookGrid(b.look, set((it, v) => (it.look = v)))),
     field("Gun in hand", weaponGrid(b.weapon, true, set((it, v) => (it.weapon = v))), b.shoots !== "off" ? "It shoots with this gun's real fire rate." : null)));
 
@@ -2966,6 +3376,77 @@ function botPanel(b) {
     if (it.route) for (const p of it.route) p.y = Math.round((p.y + dy) * 100) / 100;
   })(dd)));
   out.push(actions());
+  return out;
+}
+
+// dot-bots-v2: where a dot goes for a point you picked. at.normal (3D): a wall face -> stuck on it at that height;
+// a floor or top -> head height above it. No normal (2D map): that spot at its current height. Either way, a wall face
+// within reach pulls it on (dotWallSnap); off a wall it faces you again. free (Alt in 2D): no wall pull.
+function setDotSpot(it, at, d, free = false, dragging = false) {
+  const r = dotRadius(it), q = (v) => Math.round(v * 1000) / 1000;
+  const n = at.normal, flat = n ? Math.hypot(n.x, n.z) : 0;
+  const stick = (x, z, nx, nz) => { it.x = q(x); it.z = q(z); it.wall = { x: q(nx), z: q(nz) }; it.facing = Math.round(yawDeg(it, { x: it.x + nx, z: it.z + nz })); };
+  const floorUnder = (x, z, y) => { const f = floorAt(x, z, y); return f !== null && f !== undefined && f <= y + 0.05 ? f : y - DOT_HEIGHT; };
+  if (n && Math.abs(n.y) < 0.5 && flat > 0) {
+    const nx = n.x / flat, nz = n.z / flat, x = at.x + nx * (r + 0.02), z = at.z + nz * (r + 0.02);
+    it.y = q(floorUnder(x, z, at.y));
+    it.dotHeight = Math.round(Math.max(0.2, Math.min(DOT_MAX_HEIGHT, at.y - it.y)) * 100) / 100;
+    stick(x, z, nx, nz);
+    return;
+  }
+    if (n && dragging && n.y > 0.5) {
+    // Same height in the world as before (over a box it doesn't jump up; it just can't go into the box).
+    const world = (it.y || 0) + dotHeight(it), floor = floorUnder(at.x, at.z, at.y);
+    it.y = q(floor); it.dotHeight = Math.round(Math.max(0.2, Math.min(DOT_MAX_HEIGHT, world - floor)) * 100) / 100;
+  }
+  else if (n) { it.y = q(at.y); it.dotHeight = DOT_HEIGHT; }
+  else it.y = floorAt(at.x, at.z, it.y ?? 0) ?? it.y ?? 0;
+  it.x = q(at.x); it.z = q(at.z);
+  const snapTo = free ? null : dotWallSnap(d, it.x, it.z, (it.y || 0) + dotHeight(it), r, dragging ? 0.3 : n ? 0.4 : 1);
+  if (snapTo) stick(snapTo.x, snapTo.z, snapTo.normal.x, snapTo.normal.z);
+  else { it.wall = null; it.facing = null; }
+}
+
+// dot-bots-v2: the Dot card's own panel: size, still or side to side, when it shows up, after a kill.
+function dotPanel(b) {
+  const d = S.drill, clear = d.round.goal === "clear";
+  const set = (fn) => (v) => edit(mod((it) => fn(it, v)));
+  const onWall = !!(b.wall && Number.isFinite(b.wall.x));
+  const out = [
+    ...head("dot", "ic-bot", itemName(d, b), "A ball like in Aim Lab. One hit kills it. Its color is the arena's Targets color."),
+    h("div", { class: "stat" }, h("span", {}, h("b", {}, `${dist(b, d.start).toFixed(0)} m`), " from you"),
+      h("span", {}, onWall ? "Stuck on a wall" : "Floating", " · ", h("b", {}, `${dotHeight(b).toFixed(1)} m`), " up")),
+    h("div", { class: "group" },
+      field("Size", seg([["small", "Small"], ["medium", "Medium"], ["large", "Large"]], TARGET_SIZES[b.dotSize] ? b.dotSize : "medium", set((it, v) => (it.dotSize = v))),
+        `${Math.round(dotRadius(b) * 200)} cm wide.`),
+      // dot-bots-v4: up / down arrows (0.1 m; Shift 1 m). In 3D the white arrows above and below the ball do the same.
+      field("Height", h("div", { class: "dot-height" },
+        h("button", { type: "button", class: "btn small", title: "Lower (Shift: 1 m)", onclick: (e) => edit(mod((it) => (it.dotHeight = Math.round(Math.max(0.2, dotHeight(it) - (e.shiftKey ? 1 : 0.1)) * 100) / 100))) }, "▼"),
+        h("b", {}, `${dotHeight(b).toFixed(1)} m`),
+        h("button", { type: "button", class: "btn small", title: "Higher (Shift: 1 m)", onclick: (e) => edit(mod((it) => (it.dotHeight = Math.round(Math.min(DOT_MAX_HEIGHT, dotHeight(it) + (e.shiftKey ? 1 : 0.1)) * 100) / 100))) }, "▲")),
+        "Middle of the ball above the floor. In 3D, drag the white arrows above and below it.")),
+  ];
+  const moves = h("div", { class: "group" },
+    field("Moves", seg([["still", "Still"], ["strafe", "Side to side"]], b.move === "strafe" ? "strafe" : "still", set((it, v) => (it.move = v))),
+      b.move !== "strafe" ? null : onWall ? "Moves left and right along the wall." : "Moves left and right across your view."));
+  if (b.move === "strafe") moves.append(
+    field("Movement", seg([[false, "Predictable"], [true, "Unpredictable"]], b.unpredictable === true, set((it, v) => (it.unpredictable = v)))),
+    field("How wide", slider(0.4, 12, 0.1, b.width, metres, (dd, v) => mod((it) => (it.width = v))(dd)), "Or drag the orange end dots on the map."),
+    field("Speed", seg([["walk", "Walk"], ["run", "Run"]], b.speed, set((it, v) => (it.speed = v)))),
+    field("Speed multiplier", h("div", {},
+      slider(SPEED_SCALE[0], SPEED_SCALE[1], 0.05, speedScale(b), (v) => `${v.toFixed(2)}×${Math.abs(v - defaultSpeedScale(b)) < 1e-9 ? " (default)" : ""}`, (dd, v) => mod((it) => (it.speedScale = v))(dd)),
+      Number.isFinite(b.speedScale) ? h("button", { class: "btn small", onclick: () => { edit(mod((it) => (it.speedScale = null))); renderSide(); } }, "Use default") : null)));
+  out.push(moves,
+    h("div", { class: "group" }, showsUpField(b, d)),
+    // dot-spots-v1: extra spots and a random zone, both sticking to walls like the dot.
+    randomSpotsGroup(b),
+    randomZoneGroup(b),
+    h("div", { class: "group" },
+      field("After a kill", clear ? h("p", { class: "help" }, "Stays dead (the goal is Clear them all).") :
+        h("div", {}, seg([[true, "Comes back"], [false, "Stays dead"]], b.back, set((it, v) => (it.back = v))),
+          b.back ? slider(0, 8, 0.1, b.backAfter, (v) => (v === 0 ? "right away" : `after ${secs(v)}`), (dd, v) => mod((it) => (it.backAfter = v))(dd)) : null))),
+    h("p", { class: "help" }, "Drag it on the map. Near a wall (or on one in 3D) it sticks to the wall; hold Alt in 2D to keep it off."),
+    actions());
   return out;
 }
 
@@ -2979,7 +3460,8 @@ function flashGroup(b) {
   if (!f.on) return box;
   const agent = FLASH_AGENTS.find((a) => a[0] === f.agent) || FLASH_AGENTS[0];
   // Very high / Highest are only for Reyna and KAY/O; other agents drop back to High.
-  box.append(field("Whose flash", agentGrid(FLASH_AGENTS, agent[0], setF((fl, v) => { fl.agent = v; const hs = flashHeights(v), cur = fl.height ?? 2.2; if (v !== "breach" && !hs.some((hh) => hh[0] === cur)) fl.height = hs.filter((hh) => hh[0] <= 3.5).reduce((a, hh) => (Math.abs(hh[0] - cur) < Math.abs(a - cur) ? hh[0] : a), 2.2); })), `${agent[1]}. ${agent[2]}`));
+  box.append(field("Whose flash", agentGrid(FLASH_AGENTS, agent[0], setF((fl, v) => { fl.agent = v; if (v === "kayo") fl.height = 0; const hs = flashHeights(v), cur = fl.height ?? 2.2; if (v !== "breach" && !hs.some((hh) => hh[0] === cur)) fl.height = hs.filter((hh) => hh[0] <= 3.5).reduce((a, hh) => (Math.abs(hh[0] - cur) < Math.abs(a - cur) ? hh[0] : a), 2.2); })), `${agent[1]}. ${agent[2]}`));
+  if (agent[0] === "kayo") box.append(field("Throw", seg([["over", "Overhand (1.3 s)"], ["under", "Underhand (0.7 s)"]], f.throw === "under" ? "under" : "over", setF((fl, v) => { if (v === "under") fl.throw = "under"; else delete fl.throw; }))));
   if (agent[3]) box.append(field("Throw", seg(agent[3], agent[3].some((c) => c[0] === f.curve) ? f.curve : agent[3][0][0], setF((fl, v) => (fl.curve = v)))));
   if (b.move !== "peek") {
     const choices = b.route.slice(1).map((_, i) => [i + 1, `Point ${i + 2}`]);
@@ -2993,16 +3475,17 @@ function flashGroup(b) {
     f.bounce === "floor" ? "Put the star on the floor where it should bounce. It flies up and pops 0.6 s after the bounce. For full control, drag the star in the 3D view onto any wall, floor or box." : "Put the star on the wall where it should bounce, at the height below. It comes back off the wall and pops 0.6 s after the bounce. For full control, drag the star in the 3D view onto any wall, floor or box."));
   const yoruFloor = agent[0] === "yoru" && (f.bounce === "floor" || aimed);
   box.append(...[
-    yoruFloor ? null : field(agent[0] === "yoru" ? "Hits the wall at" : "Pops at", agent[0] === "breach"
+    agent[0] === "phoenix" ? h("p", { class: "help" }, `Drag the star anywhere: the curve bends to pop there, 0.6 s after the throw. The dotted circle is the real VALORANT reach (${PHOENIX_REACH.toFixed(1)} m). In a round it bounces off walls in its way.`) : null,
+    yoruFloor ? null : field(agent[0] === "yoru" ? "Hits the wall at" : agent[0] === "kayo" ? "Aims at" : "Pops at", agent[0] === "breach"
         ? slider(0.5, 4, 0.1, f.height ?? 2.2, (v) => `${v.toFixed(1)} m`, (dd, v) => mod((it) => (it.flash.height = Math.round(v * 10) / 10))(dd))
         : seg(flashHeights(agent[0]), f.height ?? 2.2, setF((fl, v) => (fl.height = v))),
       agent[0] === "reyna" ? `Height above the bot's floor. The eye flies straight through walls and stops after ${REYNA_REACH} m (red ring on the map if the star is further).`
-        : agent[0] === "kayo" ? "Height above the bot's floor. Higher pops lob the grenade higher; it still pops 0.7 s after the throw."
+        : agent[0] === "kayo" ? "Where the bot aims, above its floor (the star). Like in VALORANT it flies at 18 m/s, bounces off what it hits and pops 0.5 s after the first bounce, or 1.3 s after the throw (underhand 0.7 s). Floor: it bounces at the star and pops near it."
         : agent[0] === "breach" ? "Height above the bot's floor where it comes out of the wall." : null),
     field("Waits after throwing", slider(0.3, 2.5, 0.1, f.wait ?? 1, secs, (dd, v) => mod((it) => (it.flash.wait = v))(dd)), "0.7 to 1.8 s feels like a real player: shorter and it runs into its own flash."),
     h("div", {},
-      h("p", { class: "help" }, "Drag the white star on the map to where the flash should pop. Press Preview moves to watch it."),
-      f.target ? h("button", { class: "btn small", onclick: () => edit(mod((it) => (it.flash.target = null))) }, "Put the star back in front of the bot") : null),
+      h("p", { class: "help" }, agent[0] === "phoenix" ? "Reset flash: back to the real reach toward your start spot, curving right, head height, default wait." : "Drag the white star on the map to where the flash should pop. Press Preview moves to watch it. Reset flash puts it back in front of the bot."),
+      h("button", { class: "btn small", onclick: () => edit(mod((it) => { const fl = it.flash; fl.target = null; delete fl.hit; delete fl.normal; fl.curve = agent[3] ? agent[3][0][0] : fl.curve; fl.height = agent[0] === "kayo" ? 0 : 2.2; delete fl.throw; fl.wait = 1; fl.bounce = "wall"; })) }, "Reset flash")),
     b.move === "patrol" ? h("p", { class: "help" }, "A Rusher that flashes walks its route once, disappears at the last point, then comes again.") : null,
     b.move === "peek" ? h("p", { class: "help" }, "A peeker that flashes disappears behind cover after each peek and comes again.") : null,
   ].filter(Boolean));
@@ -3095,7 +3578,7 @@ async function saveRunToLibrary(track) {
   const name = await askName("Save to run library", "Give it a name you'll recognise, for example \"wide swing\" or \"jiggle peek\".", track.name || "My run", "Save");
   if (name === null) return null;
   try {
-    const run = await api.saveRun({ name, place: S.drill.place, track });
+    const run = await api.saveRun({ name, place: S.drill.place, track: cutTrack(track) }); // the kept part only
     toast(`Saved "${run.name}" to your runs.`);
     return run;
   } catch (err) {
@@ -3148,8 +3631,9 @@ function savedBotSummary(p) {
   const s = p.settings, bits = [];
   if (p.move === "peek") bits.push(`${(s.wait ?? 1.2).toFixed(1)} s out`, `${(s.coverWait ?? 1).toFixed(1)} s cover`, s.peekStrafe === "random" ? "strafes or holds" : s.peekStrafe ? `strafes ${peekWidth(s).toFixed(1)} m` : "holds");
   if (p.move === "strafe") bits.push(`${s.width ?? 3} m wide`);
-  if (p.move === "copycat") bits.push(s.track ? `${Math.round(s.track.secs)} s run` : "no run");
-  if (p.move !== "still" && p.move !== "copycat") bits.push(s.speed === "walk" ? "walk" : "run");
+  if (p.move === "copycat") bits.push(s.track ? `${Math.round(cutTrack(s.track).secs)} s run` : "no run");
+  if (p.move !== "still" && p.move !== "copycat") bits.push((s.speed === "walk" ? "walk" : "run") + ` ${speedScale(s).toFixed(2)}×`);
+  if (s.form === "dot") bits.push(`dot ${s.dotSize || "medium"}`);
   if (s.crouch) bits.push("crouching");
   if (s.flash && s.flash.on) bits.push("flash");
   const rank = RANKS.find((r) => r[0] === s.shoots);
@@ -3257,7 +3741,7 @@ function copycatControls(b) {
   const set = (fn) => (v) => edit(mod((it) => fn(it, v)));
   const t = b.track;
   const out = [field("Your run", h("div", {},
-    h("p", { class: "help" }, t ? `${t.name ? `"${t.name}": ` : ""}${runSummary(t)}` : `Plays the drill from this bot's spot, facing your start. Move however you like (up to ${RECORD_SECONDS} s), then press Esc and leave the round to come back here. Or use a run you saved.`),
+    h("p", { class: "help" }, t ? `${t.name ? `"${t.name}": ` : ""}${runSummary(cutTrack(t))}${t.cut ? ` (trimmed from ${secs(t.secs)})` : ""}` : `Plays the drill from this bot's spot, facing your start. Move however you like (up to ${RECORD_SECONDS} s), then press Esc and leave the round to come back here. Or use a run you saved.`),
     h("div", { class: "btn-row" },
       h("button", { class: "btn small" + (t ? "" : " primary"), onclick: () => recordRun(b) }, ic("rec"), t ? "Record again" : "Record my movement"),
       h("button", { class: "btn small", onclick: () => useSavedRun(b) }, ic("copy"), "Use a saved run"),
@@ -3270,6 +3754,7 @@ function copycatControls(b) {
       t ? h("button", { class: "btn small", onclick: () => { S.scrub = null; edit(mod((it) => (it.track = null))); } }, ic("trash"), "Remove run") : null)))];
   if (!t) return out;
   out.push(
+    trimControls(b),
     field("Preview the run", scrubber(b), "Drag to see where it is at each moment. Preview moves plays it."),
     field("Playback", seg(PLAYBACKS, b.playback || "loop", set((it, v) => (it.playback = v)))),
     field("Speed", slider(0.75, 1.25, 0.05, b.replaySpeed || 1, (v) => `${v.toFixed(2)}×`, (dd, v) => mod((it) => (it.replaySpeed = v))(dd)), "1× is exactly your speed."),
@@ -3280,12 +3765,36 @@ function copycatControls(b) {
   return out;
 }
 
+// copycat-trim-v1: keep only part of the recording (drill.js cutTrack). Dragging a handle shows the bot
+// at that end of the kept part on the map. The recording stays whole; Reset brings it all back.
+function trimControls(b) {
+  const t = b.track, full = t.secs, [from, to] = trimRange(t);
+  const setCut = (d, a, z) => {
+    const it = d.items.find((i) => i.id === b.id);
+    if (!it || !it.track) return;
+    if (a <= 0 && z >= full) delete it.track.cut;
+    else it.track.cut = [Math.round(a * 100) / 100, Math.round(z * 100) / 100];
+  };
+  const cur = () => trimRange(S.drill.items.find((i) => i.id === b.id)?.track || t);
+  const startS = slider(0, Math.max(0, full - TRIM_MIN), 0.05, from, (v) => `from ${secs(v)}`, (d, v) => {
+    const [, z] = cur(); setCut(d, v, Math.max(z, v + TRIM_MIN)); S.scrub = { id: b.id, t: 0 };
+  });
+  const endS = slider(TRIM_MIN, full, 0.05, to, (v) => `to ${secs(v)}`, (d, v) => {
+    const [a] = cur(), lo = Math.min(a, v - TRIM_MIN); setCut(d, lo, v);
+    // Just before the end (a looping run at exactly its length is back at its start); the preview applies Speed.
+    S.scrub = { id: b.id, t: Math.max(0, (v - lo) / Math.max(0.75, Math.min(1.25, b.replaySpeed || 1)) - 0.02) };
+  });
+  const reset = t.cut ? h("button", { class: "btn small", onclick: () => { S.scrub = null; edit((d) => setCut(d, 0, full)); renderSide(); } }, "Use the whole run") : null;
+  return field("Trim", h("div", {}, startS, endS, reset),
+    `Keeps ${secs(to - from)} of ${secs(full)}. Cut slow walk-ups or the end after your peek. It appears where the kept part starts. To make the peek happen later in the round, use Shows up.`);
+}
+
 // Not an edit: only moves the selected copycat along its run on the map.
 function scrubber(b) {
   const value = S.scrub && S.scrub.id === b.id ? S.scrub.t : 0;
   const out = h("output", {}, secs(value));
   const input = h("input", {
-    type: "range", min: 0, max: b.track.secs, step: 0.05, value,
+    type: "range", min: 0, max: cutTrack(b.track).secs, step: 0.05, value,
     oninput: (e) => { S.scrub = { id: b.id, t: +e.target.value }; out.textContent = secs(S.scrub.t); draw(); },
   });
   return h("div", { class: "slider" }, input, out);
@@ -3464,6 +3973,29 @@ function surfaceColorPicker(item, color) {
       }))) : null);
 }
 
+// arena-colors-v1: one row per arena part (swatch, name, color); "Reset" goes back to the Dark / Light color.
+function arenaColorsField(d) {
+  const row = ([k, label]) => {
+    const custom = customArenaColor(d, k), color = arenaColor(d, k);
+    const value = h("span", { class: "arena-color-value" }, custom ? color.toUpperCase() : "Mode color");
+    const set = (v, quiet) => edit(dd => { dd.arenaColors = { ...(dd.arenaColors || {}), [k]: v }; }, { key: "arena-color-" + k, quiet });
+    return h("label", { class: "arena-color-row" + (custom ? " custom" : "") },
+      h("input", { type: "color", value: color, "aria-label": label + " color",
+        oninput: e => { const v = e.target.value.toLowerCase(); value.textContent = v.toUpperCase(); set(v, true); },
+        onchange: e => { rememberSurfaceColor(e.target.value.toLowerCase()); renderSide(); } }),
+      h("span", { class: "arena-color-name" }, label, value),
+      custom ? h("button", { type: "button", class: "btn small", title: "Back to the " + (darkArena(d) ? "Dark" : "Light") + " mode color",
+        onclick: e => { e.preventDefault(); edit(dd => { const c = { ...(dd.arenaColors || {}) }; delete c[k]; dd.arenaColors = c; }); renderSide(); } }, "Reset") : null);
+  };
+  const any = ARENA_COLOR_KEYS.some(([k]) => customArenaColor(d, k));
+  return h("div", { class: "field" },
+    h("label", {}, "Colors"),
+    h("div", { class: "arena-colors" }, ...ARENA_COLOR_KEYS.map(row)),
+    h("div", { class: "arena-colors-foot" },
+      h("p", { class: "help" }, "Click a swatch to pick a color. Pieces you colored yourself keep their color."),
+      any ? h("button", { type: "button", class: "btn small", onclick: () => { edit(dd => { delete dd.arenaColors; }); renderSide(); } }, "Reset all") : null));
+}
+
 function surfacePanel(item) {
   const appearance = surfaceFor(S.drill, item, item.shape === 'floor');
   return [h("div", { class: "group" },
@@ -3605,7 +4137,9 @@ function maybeCoach() {
 }
 
 // /studio/?probe: lets the placement check (previews/studio-placement) read the editor. Not used by the app.
-if (new URLSearchParams(location.search).has("probe")) window.__studioProbe = { get S() { return S; }, get view() { return view3d; }, standOn, floorAt };
+if (new URLSearchParams(location.search).has("probe")) window.__studioProbe = { get S() { return S; }, get view() { return view3d; }, standOn, floorAt, edit, newBot, select: (id) => { S.sel = id; renderSide(); draw(); },
+  // drag3d-points-v1: build + draw the 3D view now (tests run where the page gets no animation frames)
+  paint3d: () => { if (view3d && S.mode3d) paint3d(performance.now()); } };
 
 // ---------- start ----------
 (async () => {

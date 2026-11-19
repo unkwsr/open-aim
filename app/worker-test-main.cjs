@@ -25,6 +25,10 @@ fs.readFileSync=function(file,...args){
   // desynchronized here, and ON was less even). Save version 2 -> 3 resets old saves to off once; a player
   // who turns it on afterwards keeps it on.
   for(const [from,to,count] of [['t_=70,mA=2,EA=1','t_=70,mA=3,EA=1',1],['lowLatency:!0,lowLatencyRev:mA','lowLatency:!1,lowLatencyRev:mA',1],['lowLatency:!0,shadows:','lowLatency:!1,shadows:',4]]){assert.equal(s.split(from).length-1,count,'worker low-latency patch: '+from);s=s.split(from).join(to);}
+  // settings-to-worker-v1 (14 Nov 2026): the worker never runs the page's display-settings store, so enemy outline
+  // colour / width / on-off stayed at the yellow default. Export the function that applies them (q_) for worker-game-entry.mjs.
+  assert.equal(s.split('function q_(n){const[e,t,i]=dg(n.enemyHighlightColor)').length,2,'worker outline export');
+  s+='\nexport {q_ as __aimApplyEnemyOutline};\n';
   value=Buffer.isBuffer(value)?Buffer.from(s):s;
  }
  // Worker Test: yellow "!" warning above Low-latency mode in Video settings (HallSwitch gets an optional `warn`),

@@ -18,7 +18,7 @@
  }
  function paint(record){if(!record.dirty)return;const root=record.root,parent=root.parentElement;const width=root.clientWidth||parent?.clientWidth||innerWidth,height=root.clientHeight||parent?.clientHeight||innerHeight;if(!width||!height)return;
   const computedStyle=getComputedStyle(root),stretch=parseFloat(computedStyle.getPropertyValue('--game-stretch-x'))||1,frameH=parseFloat(computedStyle.getPropertyValue('--game-frame-h'))||1;
-  const pixelRatio=Math.min(devicePixelRatio||1,2),sizeKey=[width,height,stretch,frameH,pixelRatio,record.araxys,record.tour,!!tourTexture].join(':');record.dirty=false;if(sizeKey===record.sizeKey)return;record.sizeKey=sizeKey;
+  const pixelRatio=Math.min(devicePixelRatio||1,2),sizeKey=[width,height,stretch,frameH,pixelRatio,record.tour,!!tourTexture].join(':');record.dirty=false;if(sizeKey===record.sizeKey)return;record.sizeKey=sizeKey;
   const canvas=record.canvas;canvas.width=Math.round(width*pixelRatio);canvas.height=Math.round(height*pixelRatio);const context=canvas.getContext('2d');context.setTransform(pixelRatio,0,0,pixelRatio,0,0);context.clearRect(0,0,width,height);
   if(record.tour){if(tourTexture)drawTourScope(context,width,height,stretch,frameH);}else drawScope(context,width,height,stretch,frameH);
  }
@@ -54,8 +54,7 @@
  }
  function tick(root,view){if(!root)return undefined;if(!scopedWeapons.has(view.scopeWeapon)||view.scopeWeapon!=='tourdeforce'&&!scopeTexture){root.classList.remove('es-sniper-scope');return undefined;}
   const rawBlend=view.scopePhase==='running'?clamp(view.scopeVisualBlend??view.blend):0,opacity=smoothStep(rawBlend);
-  let record=overlayRecords.get(root);if(!record){const canvas=document.createElement('canvas');canvas.className='es-scope-reference';canvas.setAttribute('aria-hidden','true');root.append(canvas);record={root,canvas,sizeKey:'',dirty:true,lastScale:null,observer:null,layout:null,araxys:false};overlayRecords.set(root,record);record.observer=new ResizeObserver(()=>{record.dirty=true;});record.observer.observe(root);record.layout=new MutationObserver(()=>{record.dirty=true;});for(let parent=root.parentElement;parent;parent=parent.parentElement)record.layout.observe(parent,{attributes:true,attributeFilter:['style','class']});}
-  const isAraxys=view.scopeWeapon==='operator'&&window.__aimOperatorSkin==='araxys-operator';if(record.araxys!==isAraxys){record.araxys=isAraxys;record.dirty=true;}
+  let record=overlayRecords.get(root);if(!record){const canvas=document.createElement('canvas');canvas.className='es-scope-reference';canvas.setAttribute('aria-hidden','true');root.append(canvas);record={root,canvas,sizeKey:'',dirty:true,lastScale:null,observer:null,layout:null};overlayRecords.set(root,record);record.observer=new ResizeObserver(()=>{record.dirty=true;});record.observer.observe(root);record.layout=new MutationObserver(()=>{record.dirty=true;});for(let parent=root.parentElement;parent;parent=parent.parentElement)record.layout.observe(parent,{attributes:true,attributeFilter:['style','class']});}
   const isTour=view.scopeWeapon==='tourdeforce';if(record.tour!==isTour){record.tour=isTour;record.dirty=true;}if(isTour&&!record.tourLoaded&&tourTexture){record.tourLoaded=true;record.dirty=true;}
   if(!root.classList.contains('es-sniper-scope'))root.classList.add('es-sniper-scope');if(opacity>0){paint(record);const zoomScale=1+.12*(1-smoothStep(rawBlend));if(zoomScale!==record.lastScale){record.canvas.style.transform='scale('+zoomScale.toFixed(6)+')';record.lastScale=zoomScale;}}
   return opacity;
