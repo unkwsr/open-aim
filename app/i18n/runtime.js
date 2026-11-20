@@ -10,6 +10,7 @@
   if (window.__aimLang?.ready) return;
   const PACK = window.__aimLangPack || { code: "en", strings: {} };
   const CODE = PACK.code || "en";
+  const LIST_JOIN = { ja: "、", zh: "、" }[CODE] ?? ", ";
 
   const norm = text => text.trim().replace(/\s+/g, " ");
   const keep = (value, out) => value.match(/^\s*/)[0] + out + value.match(/\s*$/)[0];
@@ -66,6 +67,16 @@
       const shape = text.replace(NUMBER, "{}");
       if (SHAPES.has(shape)) return fill(SHAPES.get(shape), numbers);
     }
+    // Lists of numbered names ("Strafer 1, Holder 2" in the Studio): each name translated,
+    // joined the way the language writes lists. Only when every item ends in its number.
+    // Checked before the patterns, which would otherwise take "1, Holder 2" as one number.
+    if (text.includes(", ")) {
+      const items = text.split(", ");
+      if (items.every(s => /\S \d+$/.test(s))) {
+        const out = items.map(s => lookup(s));
+        if (!out.includes(null)) return out.join(LIST_JOIN);
+      }
+    }
     for (const [re, value, loose] of PATTERNS) {
       const m = re.exec(text);
       if (!m) continue;
@@ -84,7 +95,9 @@
 
   // A line made of several sentences ("15 bots at random spots. Bots shoot back (Gold).") is
   // translated sentence by sentence, but only when every sentence is known.
-  const SENTENCE = /(?<=[.!?;])\s+(?=[A-Z0-9])/;
+  // Also splits after a translated sentence ("…撃ち返してきます。 HP refills on every kill."): some
+  // scripts add an English sentence to card text that is already translated.
+  const SENTENCE = /(?<=[.!?;])\s+(?=[A-Z0-9])|(?<=[。！？])\s*(?=[A-Z0-9])/;
   const JOIN = { ja: "", zh: "" }[CODE] ?? " ";
   function lookupLine(text) {
     const whole = lookup(text);
@@ -126,6 +139,8 @@
     protect: (...list) => { for (const s of list) if (s) PROTECT.add(norm(String(s))); },
   };
   if (CODE === "en") return;
+  // Lets stylesheets adjust for longer lines in a language (html[data-aim-lang="ja"] ...).
+  document.documentElement.dataset.aimLang = CODE;
 
   // ---- page text ----
   const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "TEXTAREA", "CODE", "PRE", "NOSCRIPT", "SVG"]);
@@ -188,8 +203,55 @@
   observer.observe(document.documentElement, {
     childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ATTRS,
   });
-  const start = () => doTree(document.documentElement);
+  // ---- text put on the page by stylesheets (content: "Categories" and the like) ----
+  // Such text is not in the page, so each rule that sets an English content line gets a
+  // copy of itself with the translation, in one stylesheet of our own kept up to date.
+  let cssSheet = null;
+  let cssTimer = 0;
+  const cssDone = new Set(); // "selector\u0000text" already overridden
+  function scanRules(rules, out) {
+    for (const rule of rules) {
+      if (rule.cssRules && rule.cssRules.length && !rule.selectorText) { scanRules(rule.cssRules, out); continue; }
+      const content = rule.style?.content;
+      if (!content || content[0] !== '"' || !rule.selectorText) continue;
+      let text;
+      try { text = JSON.parse(content); } catch { continue; }
+      const key = rule.selectorText + "\u0000" + text;
+      if (cssDone.has(key) || !LETTERS.test(text)) continue;
+      cssDone.add(key);
+      const translated = translate(text);
+      if (translated !== text) out.push(`${rule.selectorText}{content:${JSON.stringify(translated)} !important}`);
+    }
+  }
+  function doStyles() {
+    cssTimer = 0;
+    const outRules = [];
+    for (const sheet of document.styleSheets) {
+      if (sheet.ownerNode === cssSheet) continue;
+      let rules;
+      try { rules = sheet.cssRules; } catch { continue; } // another origin's stylesheet
+      if (rules) scanRules(rules, outRules);
+    }
+    if (!outRules.length) return;
+    if (!cssSheet || !cssSheet.isConnected) {
+      cssSheet = document.createElement("style");
+      cssSheet.dataset.aimLangCss = "";
+      (document.head || document.documentElement).appendChild(cssSheet);
+    }
+    cssSheet.appendChild(document.createTextNode(outRules.join("\n") + "\n"));
+  }
+  const queueStyles = () => { if (!cssTimer) cssTimer = setTimeout(doStyles, 50); };
+  new MutationObserver(records => {
+    for (const r of records) for (const n of r.addedNodes) {
+      if (n.nodeName === "STYLE" || n.nodeName === "LINK") {
+        if (n !== cssSheet) { queueStyles(); if (n.nodeName === "LINK") n.addEventListener("load", queueStyles, { once: true }); }
+      }
+    }
+  }).observe(document.documentElement, { childList: true, subtree: true });
+
+  const start = () => { doTree(document.documentElement); queueStyles(); };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, { once: true });
+  window.addEventListener("load", queueStyles, { once: true });
   start();
 
   // ---- text drawn on canvases (HUD, result screens) ----

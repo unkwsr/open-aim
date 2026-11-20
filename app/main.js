@@ -166,6 +166,7 @@ function langScript(code) {
   return langScripts.get(code);
 }
 const LANG_HEAD = `<script>(() => { let c = "en"; try { c = localStorage.getItem("aim-ui-lang") || "en"; } catch {}
+if (c !== "en" && ${JSON.stringify(LANG_CODES)}.includes(c)) document.documentElement.lang = c === "zh" ? "zh-CN" : c;
 if (c !== "en" && ${JSON.stringify(LANG_CODES)}.includes(c)) document.write('<script src="${LANG_PACK}' + c + '.js"><\\/script>');
 else window.__aimLang = { ready: true, code: "en", t: s => s, protect() {} }; })();</script>`;
 // One executeJavaScript call avoids Electron registering a did-stop-loading
@@ -577,8 +578,27 @@ function resolve(reqUrl) {
   return [urlPath, isFile(p) ? p : null];
 }
 
+// pw-favorites-lookup-v1: Favorites > Community Workshop asks for the saved drills with one POST of their
+// codes. Every other POST is an online feature that doesn't exist offline (404 below); this one is
+// answered from the approved community drills, like the /batch/ address of COMMUNITY_ITEMS.
+const COMMUNITY_LOOKUP = "/prod-api/api/v1/val/aimlab/pw/items/lookup";
+function readJsonBody(req, limit = 64 * 1024) {
+  return new Promise((resolveBody) => {
+    let size = 0;
+    const chunks = [];
+    req.on("data", (chunk) => {
+      size += chunk.length;
+      if (size > limit) { req.destroy(); resolveBody(null); return; }
+      chunks.push(chunk);
+    });
+    req.on("end", () => { try { resolveBody(JSON.parse(Buffer.concat(chunks).toString("utf-8"))); } catch { resolveBody(null); } });
+    req.on("error", () => resolveBody(null));
+  });
+}
+
 async function handle(req, res) {
-  if (req.method !== "GET" && req.method !== "HEAD") {
+  const lookupPost = req.method === "POST" && decode(new URL(req.url, ORIGIN).pathname) === COMMUNITY_LOOKUP;
+  if (req.method !== "GET" && req.method !== "HEAD" && !lookupPost) {
     // Online features (scores, accounts) don't exist offline.
     res.writeHead(404).end();
     return;
@@ -592,6 +612,14 @@ async function handle(req, res) {
   }
   const url = new URL(req.url, ORIGIN);
   const requested = decode(url.pathname);
+  if (lookupPost) {
+    const body = await readJsonBody(req);
+    const list = Array.isArray(body) ? body : Array.isArray(body?.codes) ? body.codes : [];
+    const codes = new Set(list.filter((code) => typeof code === "string").slice(0, 500));
+    const cards = await approvedCommunityCards();
+    sendJson(req, res, communityFeed.OK(cards.filter((card) => codes.has(card.code))));
+    return;
+  }
   if (/^\/prod-api\/api\/v1\/public\/val\/aimlab\/pw\/covers\/default-arena(?:-s)?\.jpg$/.test(requested)) {
     res.writeHead(302, { Location: "/local/training-range-thumb.png" }).end();
     return;
@@ -643,7 +671,11 @@ async function handle(req, res) {
       res.writeHead(404).end();
       return;
     }
-    const body = fs.readFileSync(file);
+    let body = fs.readFileSync(file);
+    // The Studio follows the interface language too (studio-lang-v1): same pack and translator as the game pages.
+    if (path.extname(file).toLowerCase() === ".html") {
+      body = Buffer.from(body.toString("utf-8").replace(/<head[^>]*>/i, (m) => m + LANG_HEAD), "utf-8");
+    }
     res.writeHead(200, { "Content-Type": MIME[path.extname(file).toLowerCase()] || "application/octet-stream", "Content-Length": body.length, "Cache-Control": "no-cache" });
     res.end(req.method === "HEAD" ? undefined : body);
     return;
@@ -856,7 +888,7 @@ async function handle(req, res) {
   let mime = info.mime || MIME[path.extname(file).toLowerCase()];
   if (!mime) mime = path.basename(urlPath).includes(".") ? "application/octet-stream" : "text/html";
   let data = fs.readFileSync(file);
-  // Game pages load the chosen interface language first (LANG_HEAD); the Studio stays English.
+  // Game pages load the chosen interface language first (LANG_HEAD); the Studio gets it above.
   if (/^\/aim(\/|$)/.test(urlPath) && mime.startsWith("text/html")) {
     data = Buffer.from(data.toString("utf-8").replace(/<head[^>]*>/i, (m) => m + LANG_HEAD), "utf-8");
   }
@@ -931,7 +963,7 @@ function createWindow(url) {
     if (input.key === "F11") {
       win.setFullScreen(!win.isFullScreen());
       event.preventDefault();
-    } else if (input.key === "F12") {
+    } else if (input.key === "F12" && !app.isPackaged) { // no-devtools-release-v1: DevTools only when run from source
       win.webContents.toggleDevTools();
       event.preventDefault();
     }

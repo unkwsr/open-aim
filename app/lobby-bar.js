@@ -319,4 +319,41 @@
     });
   }, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
   syncBar();
+
+  // topbar-fit-v1: on narrow windows the tab strip scrolls sideways (theme-esports.css). The mouse wheel
+  // scrolls it, and the selected tab is brought into view when it changes. Does nothing while it all fits.
+  document.addEventListener("wheel", (event) => {
+    const tabs = event.target.closest?.(".hall-topnav .hall-tabs");
+    if (!tabs || tabs.scrollWidth <= tabs.clientWidth || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+    tabs.scrollLeft += event.deltaY;
+    event.preventDefault();
+  }, { passive: false });
+  document.addEventListener("click", (event) => {
+    const tab = event.target.closest?.(".hall-topnav .hall-tab");
+    const tabs = tab?.parentElement;
+    if (!tabs || tabs.scrollWidth <= tabs.clientWidth) return;
+    requestAnimationFrame(() => tab.scrollIntoView({ block: "nearest", inline: "nearest" }));
+  });
+  // Fade the edge that has hidden tabs. Only on resize / scroll of the strip, never per frame.
+  let fadeTabs = null;
+  const markTabs = () => {
+    if (!fadeTabs?.isConnected) return;
+    const more = fadeTabs.scrollWidth - fadeTabs.clientWidth;
+    fadeTabs.classList.toggle("es-more-left", more > 1 && fadeTabs.scrollLeft > 1);
+    fadeTabs.classList.toggle("es-more-right", more > 1 && fadeTabs.scrollLeft < more - 1);
+  };
+  const tabsObserver = new ResizeObserver(markTabs);
+  const watchTabs = () => {
+    const tabs = document.querySelector(".hall-topnav .hall-tabs");
+    if (!tabs || tabs === fadeTabs) return;
+    fadeTabs?.removeEventListener("scroll", markTabs);
+    tabsObserver.disconnect();
+    fadeTabs = tabs;
+    tabs.addEventListener("scroll", markTabs, { passive: true });
+    tabsObserver.observe(tabs);
+    for (const tab of tabs.children) tabsObserver.observe(tab); // a translated label changes a tab's width
+    markTabs();
+  };
+  window.__aimWatchPage(() => { if (!fadeTabs?.isConnected) watchTabs(); }, { childList: true, subtree: true });
+  watchTabs();
 })();
