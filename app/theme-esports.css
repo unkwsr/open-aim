@@ -433,6 +433,9 @@ html[data-aim-local]:not(#es) body .es-account-chip {
 }
 html[data-aim-local]:not(#es) body .es-account-chip:hover,
 html[data-aim-local]:not(#es) body .es-account.is-open .es-account-chip { background: var(--es-raised) !important; color: #fff !important; }
+/* account-menu-v1: keyboard focus = red underline like the other bar buttons, not a box */
+html[data-aim-local]:not(#es) body .es-account-chip:focus-visible { outline: none !important; color: #fff !important; border-bottom-color: var(--es-red) !important; }
+html[data-aim-local]:not(#es) body .es-account.is-open .es-account-chip { border-bottom-color: var(--es-red) !important; }
 html[data-aim-local]:not(#es) body .es-account-avatar { width: 22px; height: 22px; border-radius: 50%; display: block; flex: none; }
 html[data-aim-local]:not(#es) body .es-account-fallback {
   width: 22px; height: 22px; border-radius: 50%; flex: none;
@@ -565,11 +568,75 @@ body.al-training-active .aim-frame-meter { display:block; }
 .es-shotgraph-seg button + button { border-left: none; }
 .es-shotgraph-seg button:hover { color: #fff; background: #1e232d; }
 .es-shotgraph-seg button.is-on { background: #ff4655; border-color: #ff4655; color: #fff; }
-/* narrower windows: icons only (names stay in the tooltip) */
-@media (max-width: 1700px) {
+/* right-hand bar buttons: icons only (names stay in the tooltip), same as the translated
+   interface below, so English isn't crowded at 1920 px */
+@media (max-width: 2400px) {
   html[data-aim-local]:not(#es) body .es-bar-btn span { display: none; }
   html[data-aim-local]:not(#es) body .es-bar-btn { padding: 0 9px !important; }
 }
+/* Translated interface: Japanese, Chinese and Korean labels don't get the narrow (font-stretch)
+   English look, so they are much wider. Tighter tabs, and the right-hand bar buttons drop to icons
+   (names stay in the tooltip) up to a wider window, so the top bar never runs off the right edge. */
+html[data-aim-local][data-aim-lang]:not(#es) body .hall-tab { padding-inline: 13px !important; font-size: 14px !important; letter-spacing: 0 !important; }
+@media (max-width: 2400px) {
+  html[data-aim-local][data-aim-lang]:not(#es) body .es-bar-btn span { display: none; }
+  html[data-aim-local][data-aim-lang]:not(#es) body .es-bar-btn { padding: 0 9px !important; }
+}
+html[data-aim-local][data-aim-lang]:not(#es) body .hall-topnav { min-width: 0 !important; max-width: 100vw; overflow-x: clip; overflow-y: visible; /* account-menu-v1: clip sideways only, so the account menu can drop down */ }
+
+/* topbar-fit-v1 (20 Nov 2026): the bar needs ~1530 px (logo, tabs, icons + account, Sens, Exit), so between
+   1100 and 1600 px it ran off the right edge (English made the page scroll sideways), and below ~1100 the game hid
+   the tabs and wrapped Sens onto a second line. Now, in every language: one line always; the logo, icons, account,
+   Sens and Exit never shrink; it gets tighter in two steps; and if the tabs still don't fit, only the tab strip
+   scrolls sideways (mouse wheel works on it, see lobby-bar.js) so everything on the right stays reachable. */
+html[data-aim-local]:not(#es) body .hall-topnav { flex-wrap: nowrap !important; min-width: 0 !important; max-width: 100vw; overflow-x: clip; overflow-y: visible; }
+/* account-menu-v2: the Collection page (.es-col, fixed, z 40, starts under the bar) covered the account menu;
+   the bar now sits above it (results splash 50, dialogs and loading screens stay above the bar) */
+html[data-aim-local]:not(#es) body .hall-topnav { z-index: 45 !important; }
+html[data-aim-local]:not(#es) body .hall-topnav :is(.hall-brand, .es-bar, .hall-topnav-right) { flex: none !important; }
+/* the base site's narrow-window rule (site-overrides.css) put Sens on its own line (order 4, full width), after Exit */
+html[data-aim-local]:not(#es) body .hall-topnav .hall-topnav-right { order: 0 !important; padding: 0 !important; }
+html[data-aim-local]:not(#es) body .hall-topnav .hall-tabs {
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+html[data-aim-local]:not(#es) body .hall-topnav .hall-tabs::-webkit-scrollbar { display: none; }
+html[data-aim-local]:not(#es) body .hall-topnav .hall-tab { flex: none !important; display: flex !important; }
+@media (max-width: 1600px) {
+  html[data-aim-local]:not(#es) body .hall-topnav .hall-brand { padding: 0 14px 0 16px !important; }
+  html[data-aim-local]:not(#es) body .hall-topnav .hall-tab { padding-inline: 12px !important; }
+  html[data-aim-local][data-aim-lang]:not(#es) body .hall-topnav .hall-tab { padding-inline: 10px !important; }
+  html[data-aim-local]:not(#es) body .es-bar { gap: 0 !important; margin-right: 8px !important; }
+  html[data-aim-local]:not(#es) body .es-bar-btn { padding: 0 8px !important; }
+  html[data-aim-local]:not(#es) body .hall-topnav-right { gap: 10px !important; }
+}
+@media (max-width: 1440px) {
+  html[data-aim-local]:not(#es) body .hall-topnav .hall-brand > .hall-brand-logo { height: 19px !important; }
+  html[data-aim-local]:not(#es) body .hall-topnav .hall-brand { padding: 0 10px 0 14px !important; }
+  html[data-aim-local]:not(#es) body .hall-topnav .hall-tab { padding-inline: 9px !important; font-size: 14px !important; }
+  html[data-aim-local][data-aim-lang]:not(#es) body .hall-topnav .hall-tab { padding-inline: 8px !important; font-size: 13px !important; }
+  html[data-aim-local]:not(#es) body .es-account-name { display: none !important; } /* avatar + arrow; name in the menu */
+  html[data-aim-local]:not(#es) body .es-account-chip { gap: 5px !important; padding: 0 7px !important; }
+  html[data-aim-local]:not(#es) body .es-bar-btn { padding: 0 6px !important; }
+  html[data-aim-local]:not(#es) body .hall-topnav .hall-sens::before { display: none !important; } /* "Sens" word; the box keeps its tooltip */
+  html[data-aim-local]:not(#es) body .hall-topnav .hall-sens-value { width: 46px !important; min-width: 46px !important; }
+  html[data-aim-local]:not(#es) body .hall-topnav { padding-right: 12px !important; }
+}
+@media (max-width: 1400px) {
+  html[data-aim-local][data-aim-lang]:not(#es) body .hall-topnav .hall-tab { padding-inline: 6px !important; }
+  html[data-aim-local]:not(#es) body .hall-topnav .hall-tab { padding-inline: 7px !important; }
+}
+@media (max-width: 1300px) {
+  html[data-aim-local][data-aim-lang]:not(#es) body .hall-topnav .hall-tab { padding-inline: 4px !important; }
+}
+/* tabs that don't fit: fade at the edge that has more (lobby-bar.js sets the classes) */
+html[data-aim-local]:not(#es) body .hall-topnav .hall-tabs.es-more-right { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 44px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 44px), transparent); }
+html[data-aim-local]:not(#es) body .hall-topnav .hall-tabs.es-more-left { -webkit-mask-image: linear-gradient(90deg, transparent, #000 44px); mask-image: linear-gradient(90deg, transparent, #000 44px); }
+html[data-aim-local]:not(#es) body .hall-topnav .hall-tabs.es-more-left.es-more-right { -webkit-mask-image: linear-gradient(90deg, transparent, #000 44px, #000 calc(100% - 44px), transparent); mask-image: linear-gradient(90deg, transparent, #000 44px, #000 calc(100% - 44px), transparent); }
 
 /* ---------- hero ---------- */
 html[data-aim-local]:not(#es) body .al-wk-hero-art { border-radius: 0 !important; }
@@ -589,6 +656,16 @@ html[data-aim-local]:not(#es) body .al-wk-tools { border-radius: 0 !important; b
 html[data-aim-local]:not(#es) body .al-wk-slice { border-radius: 0 !important; clip-path: var(--es-slant) !important; border: none !important; box-shadow: none !important; }
 html[data-aim-local]:not(#es) body .al-wk-slice.is-on { box-shadow: inset 0 -4px 0 var(--es-red) !important; }
 html[data-aim-local]:not(#es) body .al-wk-s-name { font-weight: 700 !important; font-size: 17px !important; }
+/* Translated map names (katakana especially) are longer than the English ones, so in another
+   language the name sits on its own line above the task count instead of beside it. */
+html[data-aim-local][data-aim-lang]:not(#es) body .al-wk-slice:not(.is-all) .al-wk-s-name { font-size: 14px !important; bottom: 36px !important; right: 8px !important; overflow: hidden; text-overflow: ellipsis; }
+html[data-aim-local][data-aim-lang="ja"]:not(#es) body .al-wk-slice:not(.is-all) .al-wk-s-name { font-size: 12px !important; letter-spacing: 0 !important; }
+/* layout-scan-fix-v1 (20 Nov 2026): found by previews/layout-scan: in English at 1366-1600 px the 17 px map name ran
+   into the task count beside it ("ASCENT" over "16"). On narrower windows the name sits above the count, like in
+   the translated interface. */
+@media (max-width: 1760px) {
+  html[data-aim-local]:not([data-aim-lang]):not(#es) body .al-wk-slice:not(.is-all) .al-wk-s-name { bottom: 36px !important; right: 8px !important; overflow: hidden; text-overflow: ellipsis; }
+}
 
 /* The FModel drafts are exploration maps until their drill collision is built. */
 html[data-aim-local]:not(#es) body .al-wk-strip .is-locked[aria-label^="Haven:"],
@@ -1192,6 +1269,10 @@ html[data-aim-local]:not(#es) body .al-mr .al-mr-best { top: 140px !important; }
 /* at round end the game shrinks the 3D view a little; the light-gray container
    behind it showed as a bright frame around the screen */
 html[data-aim-local]:not(#es) body .al-trainer-shell { background: var(--es-bg) !important; }
+/* results-fullscreen-v2 (20 Nov 2026): under the results the 3D view keeps its full-screen size: no margin
+   (= no dark frame, no canvas resize hitch). Only padding / gap change; stacking untouched (v1 kept the
+   session class on and its z-index 100 black stage covered the results). */
+html[data-aim-local]:not(#es) body .al-trainer-shell:not(.al-session-active):has(.al-result-overlay) .al-stage-column { padding: 0 !important; gap: 0 !important; }
 
 /* ================= player tools panels (player-tools.js): Backups, Sens tools ================= */
 @keyframes es-tool-in { from { opacity: 0; transform: translateY(18px) scale(0.97); } to { opacity: 1; transform: none; } }
@@ -1844,6 +1925,40 @@ html[data-aim-local]:not(#es) body .al-wkload-back.is-quiet { justify-self: star
 html[data-aim-local]:not(#es) body .al-wkload-failed { flex-direction: column; align-items: flex-start !important; gap: 14px !important; }
 html[data-aim-local]:not(#es) body .al-wkload-failed p { font: 700 17px/1.4 var(--es-head) !important; }
 
+/* loading-layout-v1 (20 Nov 2026): the top block (title, minimap, "Building targets") was pinned to the top and
+   the steps to the bottom, so a long / translated title or a short window pushed one over the other. Now the
+   column is a grid: top block, then the steps under it; the minimap shrinks to the room that is left. The art,
+   agent and scrim stay absolute and are not grid items. */
+html[data-aim-local]:not(#es) body .al-wkload {
+  display: grid !important;
+  grid-template-columns: var(--wl-col) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+html[data-aim-local]:not(#es) body .al-wkload-side {
+  position: relative !important;
+  grid-column: 1; grid-row: 1;
+  top: auto !important; left: auto !important;
+  width: auto !important;
+  min-height: 0;
+  margin: var(--wl-pad) var(--wl-pad) 16px;
+  align-items: stretch !important;
+  z-index: 7;
+}
+html[data-aim-local]:not(#es) body .al-wkload-head { flex: none; }
+html[data-aim-local]:not(#es) body .al-wkload-plan {
+  flex: 1 1 0;
+  min-height: 0;
+  max-height: calc(34vh + 60px);
+  container-type: size;
+}
+html[data-aim-local]:not(#es) body .al-wkload-plan-box { width: min(100%, calc(100cqh - 52px)) !important; }
+html[data-aim-local]:not(#es) body .al-wkload-foot {
+  position: relative !important;
+  grid-column: 1; grid-row: 2;
+  left: auto !important; right: auto !important; bottom: auto !important;
+  width: auto !important;
+}
+
 /* short windows: the column has no room for the minimap, so it moves to the top-right corner of
    the art as a small framed inset */
 @media (max-height: 900px) and (min-width: 901px) {
@@ -1856,7 +1971,10 @@ html[data-aim-local]:not(#es) body .al-wkload-failed p { font: 700 17px/1.4 var(
     padding: 10px !important;
     background: rgba(11, 13, 18, 0.82) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    /* loading-layout-v1: out of the column here, so normal sizing */
+    flex: none; max-height: none; container-type: normal;
   }
+  html[data-aim-local]:not(#es) body .al-wkload-plan-box { width: 100% !important; }
 }
 /* narrow windows: the column takes the whole width, the art becomes a faint backdrop */
 @media (max-width: 900px) {
@@ -2025,6 +2143,7 @@ html[data-aim-local]:not(#es) body .st-view .st-tab[data-tab="crosshair"]::after
 html[data-aim-local]:not(#es) body .st-view .st-tab[data-tab="video"]::after { content: "Resolution, frame rate, latency"; }
 html[data-aim-local]:not(#es) body .st-view .st-tab[data-tab="audio"]::after { content: "Shot, hit and kill sounds, volume"; }
 html[data-aim-local]:not(#es) body .st-view .st-tab[data-tab="range"]::after { content: "Gun, flashes, outlines, impacts"; }
+html[data-aim-local]:not(#es) body .st-view .st-tab[data-tab="language"]::after { content: "Interface language"; }
 html[data-aim-local]:not(#es) body .st-view .st-tab.is-active::after { color: var(--es-muted); }
 /* the explanation card's idle line pointed left; the settings are on the right now */
 html[data-aim-local]:not(#es) body .st-view .st-explain-idle { font-size: 0 !important; }
@@ -2281,6 +2400,7 @@ html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab[data-tab="cross
 html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab[data-tab="video"]::after { content: "Resolution, frame rate, latency"; }
 html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab[data-tab="audio"]::after { content: "Shot, hit and kill sounds, volume"; }
 html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab[data-tab="range"]::after { content: "Gun, flashes, outlines, impacts"; }
+html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab[data-tab="language"]::after { content: "Interface language"; }
 html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab.is-active::after { color: var(--es-muted); }
 /* the number on the right; hidden while searching, when the match count sits there */
 html[data-aim-local]:not(#es) body .hall-dialog .sd-tabs .st-tab::before {

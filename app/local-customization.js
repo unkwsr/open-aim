@@ -45,13 +45,10 @@
   // no kill set of its own (default skins, Smite Ghost, Classic, Spectre, Bucky...) and for Headhunter, Tour de
   // Force and Blade Storm. Files in site/media/default-kills/. Melee is left alone.
   const defaultKillBuffers=new Map();
-  const defaultKillIcons=[1,2,3,4,5].map(stage=>{const icon=new Image();icon.decoding='async';icon.src='/media/default-kills/kill'+stage+'.png';return icon;});
   const defaultKillsReady=lazyAudio(()=>Promise.all([1,2,3,4,5].map(async stage=>{try{const response=await fetch('/media/default-kills/kill'+stage+'.mp3');if(!response.ok)throw Error('Missing default kill sound '+stage);defaultKillBuffers.set('kill'+stage,await context().decodeAudioData(await response.arrayBuffer()));}catch(error){console.warn('Default kill sound:',stage,error);}})));
-  const helixKillIcons=[1,2,3,4,5].map(stage=>{const icon=new Image();icon.decoding='async';icon.src='/media/helix-phantom-purple/kill'+stage+'.png';return icon;});
   const helixKillsReady=lazyAudio(()=>Promise.all([1,2,3,4,5].map(async stage=>{try{const response=await fetch('/media/helix-phantom-purple/kill'+stage+'.mp3');if(!response.ok)throw Error('Missing Helix kill sound '+stage);helixKillBuffers.set('kill'+stage,await context().decodeAudioData(await response.arrayBuffer()));}catch(error){console.warn('Helix kill sound:',stage,error);}})));
   const kuronamiKillBuffers=new Map();
   const kuronamiFireBuffers=[];let kuronamiFireIndex=0;
-  const kuronamiKillIcons=[1,2,3,4,5].map(stage=>{const icon=new Image();icon.decoding='async';icon.src='/media/kuronami-vandal-white/kill'+stage+'.png';return icon;});
   const kuronamiKillsReady=lazyAudio(()=>Promise.all([1,2,3,4,5].map(async stage=>{try{const response=await fetch('/media/kuronami-vandal-white/kill'+stage+'.mp3');if(!response.ok)throw Error('Missing Kuronami kill sound '+stage);kuronamiKillBuffers.set('kill'+stage,await context().decodeAudioData(await response.arrayBuffer()));}catch(error){console.warn('Kuronami kill sound:',stage,error);}})));
   const kuronamiFireReady=lazyAudio(()=>Promise.all([1,2,3,4,5].map(async stage=>{try{const response=await fetch('/media/kuronami-vandal-white/fire'+stage+'.wav');if(!response.ok)throw Error('Missing Kuronami firing layer '+stage);kuronamiFireBuffers[stage-1]=await context().decodeAudioData(await response.arrayBuffer());}catch(error){console.warn('Kuronami fire sound:',stage,error);}})));
   const helixFireReady=lazyAudio(()=>fetch('/media/helix-phantom-purple/fire.wav').then(response=>{if(!response.ok)throw Error('Missing Helix fire sound');return response.arrayBuffer();}).then(bytes=>context().decodeAudioData(bytes)).then(buffer=>{helixFireBuffer=buffer;}).catch(error=>console.warn('Helix fire sound:',error)));
@@ -133,28 +130,6 @@
     source.onended = () => { voices.delete(source); source.disconnect(); gain.disconnect(); if (killVoice === source) killVoice = null; };
     source.start(); return true;
   }
-  let skinKillIcon,skinKillCanvas,skinKillTimer;
-  function showSkinKillIcon(stage,icons){
-    const canvas=document.querySelector('canvas[data-role="kill-banner"]');
-    if(!canvas||getComputedStyle(canvas).display==='none')return;
-    const icon=icons[stage-1];
-    if(!icon.complete||!icon.naturalWidth)return;
-    const bounds=canvas.getBoundingClientRect();
-    if(!bounds.width||!bounds.height)return;
-    clearTimeout(skinKillTimer);
-    skinKillIcon?.remove();
-    if(skinKillCanvas&&skinKillCanvas!==canvas)skinKillCanvas.style.removeProperty('visibility');
-    skinKillCanvas=canvas;
-    canvas.style.visibility='hidden';
-    const image=document.createElement('img');
-    image.src=icon.src;
-    image.alt='';
-    image.setAttribute('aria-hidden','true');
-    image.style.cssText=`position:fixed;left:${bounds.left}px;top:${bounds.top}px;width:${bounds.width}px;height:${bounds.height}px;object-fit:contain;pointer-events:none;z-index:100;`;
-    document.body.append(image);
-    skinKillIcon=image;
-    skinKillTimer=setTimeout(()=>{image.remove();if(skinKillIcon===image)skinKillIcon=null;if(skinKillCanvas===canvas){canvas.style.removeProperty('visibility');skinKillCanvas=null;}},2300);
-  }
   window.__aimLocalAudio = {
     get ready(){return prepareSelectedAudio();},
     warmGuardian,updateGuardian,stopGuardian,
@@ -168,27 +143,21 @@
       if(weapon==='guardian'&&window.__aimGuardianSkin==='prime-guardian')return playGuardian(slot,ctx,destination);
       if(weapon==='vandal'&&window.__aimVandalSkin?.startsWith('rgx-vandal-'))return play('rgx-'+slot,ctx,destination,true,rgxBuffers.get(slot),RGX_VOLUME);
       if(weapon==='vandal'&&window.__aimVandalSkin==='champions-vandal')return play('champions-'+slot,ctx,destination,true,championsBuffers.get(slot),0.65);
-      if(weapon==='vandal'&&window.__aimVandalSkin?.startsWith('kuronami-vandal-')){
-        showSkinKillIcon(Number(slot.slice(4)),kuronamiKillIcons);
-        return play('kuronami-'+slot,ctx,destination,true,kuronamiKillBuffers.get(slot),0.65);
-      }
+      // kill-icons-removed-v1 (20 Nov 2026): no kill icon pictures for any gun; sounds stay.
+      if(weapon==='vandal'&&window.__aimVandalSkin?.startsWith('kuronami-vandal-'))return play('kuronami-'+slot,ctx,destination,true,kuronamiKillBuffers.get(slot),0.65);
       if(weapon==='phantom'&&window.__aimPhantomSkin==='blastx-phantom')return play('blastx-'+slot,ctx,destination,true,blastBuffers.get(slot),0.65);
       if(weapon==='phantom'&&['recon-phantom','recon-phantom-red'].includes(window.__aimPhantomSkin))return play('recon-'+slot,ctx,destination,true,reconBuffers.get(slot),0.65);
-      if(weapon==='phantom'&&window.__aimPhantomSkin==='helix-phantom-purple'){
-        showSkinKillIcon(Number(slot.slice(4)),helixKillIcons);
-        return play('helix-'+slot,ctx,destination,true,helixKillBuffers.get(slot),0.65);
-      }
+      if(weapon==='phantom'&&window.__aimPhantomSkin==='helix-phantom-purple')return play('helix-'+slot,ctx,destination,true,helixKillBuffers.get(slot),0.65);
       if(weapon==='sheriff'&&window.__aimSheriffSkin==='singularity-sheriff')return play('singularity-'+slot,ctx,destination,true,singularityBuffers.get(slot),0.65);
       if(weapon==='operator'&&window.__aimOperatorSkin==='rogue-operator')return play('rogue-'+slot,ctx,destination,true,rogueBuffers.get(slot),0.52);
       // default-kills-v1: everything else except melee.
       if(!weapon||weapon==='melee'||weapon==='knife')return false;
-      showSkinKillIcon(Number(slot.slice(4)),defaultKillIcons);
       return play('default-'+slot,ctx,destination,true,defaultKillBuffers.get(slot),0.65);
     },
   };
   const css = document.createElement('style');
   // The Vandal firing and kill sound settings are hidden: each skin brings its own sounds.
-  css.textContent = `[data-setting="fireKit"],[data-setting="killKit"]{display:none!important}.es-skin-select button{padding:7px 12px;background:#222b36;color:#eee;border:1px solid #48515f;cursor:pointer}.es-skin-select{display:flex;gap:6px;flex-wrap:wrap}.es-skin-select .is-active{background:#8e2435;border-color:#ff4655}.hall-choice:is(.es-melee-row,.es-vandal-row){flex-wrap:wrap!important;row-gap:10px}:is(.es-melee-row,.es-vandal-row)>:is(.hall-field-text,.es-skin-select){flex:1 1 100%!important;min-width:0}`;
+  css.textContent = `[data-setting="fireKit"],[data-setting="killKit"],[data-setting="killBanners"]{display:none!important}.es-skin-select button{padding:7px 12px;background:#222b36;color:#eee;border:1px solid #48515f;cursor:pointer}.es-skin-select{display:flex;gap:6px;flex-wrap:wrap}.es-skin-select .is-active{background:#8e2435;border-color:#ff4655}.hall-choice:is(.es-melee-row,.es-vandal-row){flex-wrap:wrap!important;row-gap:10px}:is(.es-melee-row,.es-vandal-row)>:is(.hall-field-text,.es-skin-select){flex:1 1 100%!important;min-width:0}`;
   document.head.append(css);
   function addMeleeChoice() {
     const anchor=document.querySelector('.es-vandal-row');if(!anchor||document.querySelector('.es-melee-row'))return;
@@ -263,10 +232,10 @@
   }
   function mount() {
     addMeleeChoice();addPhantomChoice();addSheriffChoice();addOperatorChoice();addGuardianChoice();addGhostChoice();
-    const native = [...document.querySelectorAll('.hall-field')].find(el => {
-      const buttons=[...el.querySelectorAll('button')].map(b=>b.textContent.trim());
-      return buttons.includes('Vandal') && buttons.includes('AK-47');
-    });
+    // The game's Vandal button reads "Vandal" in English and its translation otherwise.
+    // ak47-removed-v1 (20 Nov 2026): the game's own "Weapon skin" row (now only Vandal) is found by its setting
+    // key, in every language; it stays hidden and anchors our skin rows.
+    const native = document.querySelector('[data-setting="viewModelGun"]')?.closest('.hall-field');
     if (native && !native.nextElementSibling?.classList.contains('es-vandal-row')) {
       native.style.display='none';
       const row=document.createElement('div'); row.className='hall-field hall-choice es-vandal-row';
@@ -277,7 +246,7 @@
         const b=document.createElement('button');b.type='button';b.textContent=label;b.setAttribute('role','radio');
         const update=()=>{for(const item of row.querySelectorAll('button')){const on=item===b;item.classList.toggle('is-active',on);item.setAttribute('aria-checked',String(on));}};
         b.classList.toggle('is-active',selected===id);b.setAttribute('aria-checked',String(selected===id));
-        b.onclick=()=>{localStorage.setItem(SKIN,id);window.__aimVandalSkin=id;prepareSelectedAudio();[...native.querySelectorAll('button')].find(b=>b.textContent.trim()==='Vandal')?.click();update();};
+        b.onclick=()=>{localStorage.setItem(SKIN,id);window.__aimVandalSkin=id;prepareSelectedAudio();update();};
         row.lastChild.append(b);
       }
       native.after(row);addMeleeChoice();addPhantomChoice();addSheriffChoice();addOperatorChoice();addGuardianChoice();addGhostChoice();

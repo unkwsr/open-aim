@@ -219,7 +219,7 @@ body:has(.al-wkload,.tl-wait) .es-startup.su-launch{display:none}
     for (const el of document.querySelectorAll("body *")) {
       if (el.children.length || root.contains(el)) continue;
       const t = el.textContent.trim();
-      if (t.startsWith("Loading") && el.offsetParent) return true;
+      if (/^(Loading|加载中|正在加载|로딩|불러오는 중|読み込み中|ロード中)/.test(t) && el.offsetParent) return true;
     }
     return false;
   }

@@ -40,7 +40,10 @@
     const frameMode = document.querySelector('[data-setting="frameMode"]');
     const list = frameMode ? frameMode.parentElement : null;
     if (!list || list.querySelector(".es-ui-mode")) return;
-    const heading = [...list.children].find((el) => el.matches("h3.hall-dialog-section") && /Smoothness/.test(el.textContent));
+    // The Smoothness heading is the section heading right above Frame mode (found by
+    // position, since its text follows the interface language).
+    let heading = frameMode.previousElementSibling;
+    while (heading && !heading.matches("h3.hall-dialog-section")) heading = heading.previousElementSibling;
     const scoped = [...frameMode.attributes].filter((a) => a.name.startsWith("data-v-")).map((a) => a.name);
     const row = document.createElement("div");
     row.className = "hall-field hall-choice es-ui-mode";

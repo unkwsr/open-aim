@@ -4,7 +4,7 @@
 //  - v1 added a confirm step (one click on the X quit at once, and it sat above every lobby panel);
 //  - v2 (user screenshot: the bare X floated at the window edge, over the page's scroll bar column, and didn't look
 //    like the rest of the bar): it is now a normal top-bar item after the Sens box, power icon + "Exit", in the same
-//    style as Favorites / Creator / Sens tools (.es-bar-btn; below 1700 px wide the label hides like theirs).
+//    style as Favorites / Creator / Sens tools (.es-bar-btn; up to 2400 px wide the label hides like theirs).
 // Click Exit -> "Exit openVaim?" under it: Exit (or Enter) quits, Cancel / Esc / a click elsewhere closes it.
 // Hidden during a round (body.al-training-active). main.js handles "aim:app:quit" (only from the game window).
 (() => {

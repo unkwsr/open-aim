@@ -63,7 +63,7 @@
         shade.querySelector("details").open = false;
         const selected = result.profiles.findIndex(p => p.selected);
         preview.innerHTML = `<h3>Review import</h3><p>${files.map(f => escape(f.name)).join(", ")}</p>
-          ${result.profiles.length ? `<label>Crosshair profile <select data-profile>${result.profiles.map((p, i) => `<option value="${i}" ${i === selected ? "selected" : ""}>${escape(p.name)}${p.selected ? " (active in VALORANT)" : ""}</option>`).join("")}</select></label>` : ""}
+          ${result.profiles.length ? `<label>Crosshair profile <select data-profile>${result.profiles.map((p, i) => `<option value="${i}" ${i === selected ? "selected" : ""}>${escape(p.name)}${p.selected ? " " + escape(window.__aimLang?.t?.("(active in VALORANT)") || "(active in VALORANT)") : ""}</option>`).join("")}</select></label>` : ""}
           <ul>${result.changes.map(c => `<li>${escape(c.label)}: <b>${escape(c.value === null ? "Unbound" : c.value)}</b></li>`).join("")}</ul>
           <details><summary>Skipped settings and limitations (${result.unhandled} other saved entries)</summary><ul>${result.warnings.map(w => `<li>${escape(w)}</li>`).join("")}</ul></details>
           <p>Other trainer settings will keep their current values. Applying reloads the trainer and ends any current drill. VSync changes also require an app restart.</p>

@@ -2,6 +2,29 @@
 
 All notable changes to openVaim (formerly AimTrainer). Newest first.
 
+## [1.4.2] - 2026-11-20
+
+The game now speaks Korean, Japanese and Chinese, the top bar fits any window, and the download is about 95 MB smaller.
+
+Your settings, drills and history carry over when you update.
+
+### Languages
+- New Settings > Language tab: English, 한국어, 日本語 and 中文. The lobby, settings, rounds, results, history, Community Workshop and the Creator are all translated. Thanks to ehbori2014-bit for the first version.
+- Bot types in the Creator use the names players use (for example AD 무빙, レレレ, AD 拉扯 for strafers).
+- After you switch, the game reopens on the Language tab, so you can switch back if you picked one by mistake.
+
+### Lobby
+- The top bar stays on one line at every window size and in every language. The buttons on the right are icons, with their names in the tooltip.
+- The account menu shows Sign out on every tab, including Collection.
+- Drills you heart in the Community Workshop now show up under Favorites.
+
+### Fixes
+- The end of a round no longer shrinks the game into a dark frame with a short freeze behind the results.
+- The loading screen text no longer runs over the steps list.
+- Kill icon pictures are gone for every gun (kill sounds stay).
+- The AK-47 first-person option is gone; the Vandal is the rifle.
+- About 95 MB of files the game no longer used were removed.
+
 ## [1.4.1] - 2026-11-19
 
 Lots of Creator stuff (waves, Dot bots, more bot controls), smoother frames with bots on screen, a Potato graphics mode for slower PCs, and a bunch of fixes.

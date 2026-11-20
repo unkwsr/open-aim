@@ -146,11 +146,34 @@ const RELEASE_UPDATES_CSS = fs.readFileSync(path.join(__dirname, "release-update
 const SHOT_GRAPH_JS = fs.readFileSync(path.join(__dirname, "shooting-error.js"), "utf-8");
 // App name: "openVaim" in the lobby's top-left and the window title (brand-name.js).
 const BRAND_NAME_JS = fs.readFileSync(path.join(__dirname, "brand-name.js"), "utf-8");
+// Settings > Language tab (language.js). The translation itself: app/i18n/<code>.json maps the
+// game's English lines to that language, and i18n/runtime.js swaps them in on the page. Game
+// pages load both at the top of their <head> (LANG_HEAD), before the game starts.
+const LANGUAGE_JS = fs.readFileSync(path.join(__dirname, "language.js"), "utf-8");
+const LANG_CODES = ["en", "ko", "ja", "zh"];
+const LANG_PACK = "/_aim_lang/";
+const LANG_DIR = path.join(__dirname, "i18n");
+const LANG_RUNTIME = fs.readFileSync(path.join(LANG_DIR, "runtime.js"), "utf-8");
+const langScripts = new Map();
+function langScript(code) {
+  if (!langScripts.has(code)) {
+    let strings = {};
+    try { strings = JSON.parse(fs.readFileSync(path.join(LANG_DIR, `${code}.json`), "utf-8")); }
+    catch (err) { console.log(`LANGUAGE ${code}: ${err.message}`); }
+    const pack = JSON.stringify({ code, strings }).replace(/</g, "\\u003c");
+    langScripts.set(code, Buffer.from(`window.__aimLangPack = ${pack};\n${LANG_RUNTIME}`, "utf-8"));
+  }
+  return langScripts.get(code);
+}
+const LANG_HEAD = `<script>(() => { let c = "en"; try { c = localStorage.getItem("aim-ui-lang") || "en"; } catch {}
+if (c !== "en" && ${JSON.stringify(LANG_CODES)}.includes(c)) document.documentElement.lang = c === "zh" ? "zh-CN" : c;
+if (c !== "en" && ${JSON.stringify(LANG_CODES)}.includes(c)) document.write('<script src="${LANG_PACK}' + c + '.js"><\\/script>');
+else window.__aimLang = { ready: true, code: "en", t: s => s, protect() {} }; })();</script>`;
 // One executeJavaScript call avoids Electron registering a did-stop-loading
 // listener for each UI script while the page is still loading.
 const UI_SCRIPTS = [
   ["PAGE WATCH", PAGE_WATCH_JS],
-
+  ["LANGUAGE", LANGUAGE_JS],
   ["SNIPER SCOPES", SNIPER_SCOPES_JS],
   ["FAN AUDIO", FAN_AUDIO_JS],
   ["ADVANCED TRACERS", ADVANCED_TRACERS_JS],
@@ -555,8 +578,27 @@ function resolve(reqUrl) {
   return [urlPath, isFile(p) ? p : null];
 }
 
+// pw-favorites-lookup-v1: Favorites > Community Workshop asks for the saved drills with one POST of their
+// codes. Every other POST is an online feature that doesn't exist offline (404 below); this one is
+// answered from the approved community drills, like the /batch/ address of COMMUNITY_ITEMS.
+const COMMUNITY_LOOKUP = "/prod-api/api/v1/val/aimlab/pw/items/lookup";
+function readJsonBody(req, limit = 64 * 1024) {
+  return new Promise((resolveBody) => {
+    let size = 0;
+    const chunks = [];
+    req.on("data", (chunk) => {
+      size += chunk.length;
+      if (size > limit) { req.destroy(); resolveBody(null); return; }
+      chunks.push(chunk);
+    });
+    req.on("end", () => { try { resolveBody(JSON.parse(Buffer.concat(chunks).toString("utf-8"))); } catch { resolveBody(null); } });
+    req.on("error", () => resolveBody(null));
+  });
+}
+
 async function handle(req, res) {
-  if (req.method !== "GET" && req.method !== "HEAD") {
+  const lookupPost = req.method === "POST" && decode(new URL(req.url, ORIGIN).pathname) === COMMUNITY_LOOKUP;
+  if (req.method !== "GET" && req.method !== "HEAD" && !lookupPost) {
     // Online features (scores, accounts) don't exist offline.
     res.writeHead(404).end();
     return;
@@ -570,6 +612,14 @@ async function handle(req, res) {
   }
   const url = new URL(req.url, ORIGIN);
   const requested = decode(url.pathname);
+  if (lookupPost) {
+    const body = await readJsonBody(req);
+    const list = Array.isArray(body) ? body : Array.isArray(body?.codes) ? body.codes : [];
+    const codes = new Set(list.filter((code) => typeof code === "string").slice(0, 500));
+    const cards = await approvedCommunityCards();
+    sendJson(req, res, communityFeed.OK(cards.filter((card) => codes.has(card.code))));
+    return;
+  }
   if (/^\/prod-api\/api\/v1\/public\/val\/aimlab\/pw\/covers\/default-arena(?:-s)?\.jpg$/.test(requested)) {
     res.writeHead(302, { Location: "/local/training-range-thumb.png" }).end();
     return;
@@ -621,7 +671,11 @@ async function handle(req, res) {
       res.writeHead(404).end();
       return;
     }
-    const body = fs.readFileSync(file);
+    let body = fs.readFileSync(file);
+    // The Studio follows the interface language too (studio-lang-v1): same pack and translator as the game pages.
+    if (path.extname(file).toLowerCase() === ".html") {
+      body = Buffer.from(body.toString("utf-8").replace(/<head[^>]*>/i, (m) => m + LANG_HEAD), "utf-8");
+    }
     res.writeHead(200, { "Content-Type": MIME[path.extname(file).toLowerCase()] || "application/octet-stream", "Content-Length": body.length, "Cache-Control": "no-cache" });
     res.end(req.method === "HEAD" ? undefined : body);
     return;
@@ -798,6 +852,17 @@ async function handle(req, res) {
       return;
     }
   }
+  if (requested.startsWith(LANG_PACK)) {
+    const code = requested.slice(LANG_PACK.length).replace(/\.js$/, "");
+    if (!LANG_CODES.includes(code) || code === "en") {
+      res.writeHead(404).end();
+      return;
+    }
+    const body = langScript(code);
+    res.writeHead(200, { "Content-Type": "text/javascript", "Content-Length": body.length, "Cache-Control": "no-cache" });
+    res.end(req.method === "HEAD" ? undefined : body);
+    return;
+  }
   const mod = safeJoin(MODS, requested, ""); // path-guard-v1
   if (mod && isFile(mod)) {
     const body = fs.readFileSync(mod);
@@ -823,6 +888,10 @@ async function handle(req, res) {
   let mime = info.mime || MIME[path.extname(file).toLowerCase()];
   if (!mime) mime = path.basename(urlPath).includes(".") ? "application/octet-stream" : "text/html";
   let data = fs.readFileSync(file);
+  // Game pages load the chosen interface language first (LANG_HEAD); the Studio gets it above.
+  if (/^\/aim(\/|$)/.test(urlPath) && mime.startsWith("text/html")) {
+    data = Buffer.from(data.toString("utf-8").replace(/<head[^>]*>/i, (m) => m + LANG_HEAD), "utf-8");
+  }
   if (/^\/aim\/?$/.test(urlPath) && mime.startsWith("text/html") && !/Electron\//.test(req.headers["user-agent"] || "")) {
     data = Buffer.from(themedForBrowser(data.toString("utf-8")), "utf-8");
   }
@@ -894,7 +963,7 @@ function createWindow(url) {
     if (input.key === "F11") {
       win.setFullScreen(!win.isFullScreen());
       event.preventDefault();
-    } else if (input.key === "F12") {
+    } else if (input.key === "F12" && !app.isPackaged) { // no-devtools-release-v1: DevTools only when run from source
       win.webContents.toggleDevTools();
       event.preventDefault();
     }

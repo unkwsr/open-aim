@@ -1,7 +1,7 @@
 {
   "name": "aim-trainer",
   "productName": "openVaim",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Offline desktop version of the open-aim trainer",
   "main": "main.js",
   "private": true,
@@ -30,6 +30,7 @@
       "training-set.json",
       "package.json",
       "studio/**/*",
+      "i18n/**/*",
       "build/icon.ico",
       "!worker-trace-main.cjs",
       "!*.bak*",
