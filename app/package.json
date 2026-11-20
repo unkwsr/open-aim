@@ -28,6 +28,7 @@
       "*.mjs",
       "*.css",
       "training-set.json",
+      "i18n/**/*",
       "package.json",
       "studio/**/*",
       "build/icon.ico",

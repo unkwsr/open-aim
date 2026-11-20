@@ -263,9 +263,11 @@
   }
   function mount() {
     addMeleeChoice();addPhantomChoice();addSheriffChoice();addOperatorChoice();addGuardianChoice();addGhostChoice();
+    // The game's Vandal button reads "Vandal" in English and its translation otherwise.
+    const isVandal=text=>text==='Vandal'||text==='狂徒'||text===window.__aimLang?.t?.('狂徒')?.trim();
     const native = [...document.querySelectorAll('.hall-field')].find(el => {
       const buttons=[...el.querySelectorAll('button')].map(b=>b.textContent.trim());
-      return buttons.includes('Vandal') && buttons.includes('AK-47');
+      return buttons.some(isVandal) && buttons.includes('AK-47');
     });
     if (native && !native.nextElementSibling?.classList.contains('es-vandal-row')) {
       native.style.display='none';
@@ -277,7 +279,7 @@
         const b=document.createElement('button');b.type='button';b.textContent=label;b.setAttribute('role','radio');
         const update=()=>{for(const item of row.querySelectorAll('button')){const on=item===b;item.classList.toggle('is-active',on);item.setAttribute('aria-checked',String(on));}};
         b.classList.toggle('is-active',selected===id);b.setAttribute('aria-checked',String(selected===id));
-        b.onclick=()=>{localStorage.setItem(SKIN,id);window.__aimVandalSkin=id;prepareSelectedAudio();[...native.querySelectorAll('button')].find(b=>b.textContent.trim()==='Vandal')?.click();update();};
+        b.onclick=()=>{localStorage.setItem(SKIN,id);window.__aimVandalSkin=id;prepareSelectedAudio();[...native.querySelectorAll('button')].find(b=>isVandal(b.textContent.trim()))?.click();update();};
         row.lastChild.append(b);
       }
       native.after(row);addMeleeChoice();addPhantomChoice();addSheriffChoice();addOperatorChoice();addGuardianChoice();addGhostChoice();
