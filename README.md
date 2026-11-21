@@ -202,6 +202,9 @@ Want to add a drill to the built-in list? See [docs/scenario-format.md](docs/sce
 Credit to the [ishoutu aim trainer](https://ishoutu.cn/aim) for the original idea and for the
 map compression methods openVaim builds on.
 
+- [ehbori2014-bit](https://github.com/ehbori2014-bit): Language tab and first Korean, Japanese and Chinese translations
+- [mixiboo](https://github.com/mixiboo): Korean translation improvements
+
 
 <br>
 
