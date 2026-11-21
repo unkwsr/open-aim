@@ -1,29 +1,49 @@
 // Weapon skin choices, and the sounds that come with a skin (RGX, Gaia and Champions Vandal, BlastX
-// Recon and Helix Phantom, Singularity Sheriff, Prime Guardian).
+// Recon and Helix Phantom, Singularity Sheriff, Prime Guardian), and the firing sound of a skin
+// imported from the game files in bulk that has one of its own (docs/imported-skins.md).
 (() => {
   if (window.__aimLocalAudio) return;
   window.__aimPlayerModel = localStorage.getItem('es-player-model') || 'jett';
   const SKIN = 'es-vandal-skin';
+  // imported-skins-v1: skins imported from the game files in bulk are named <line>-<weapon> and are listed
+  // in /aim-ui/collection/imported.json (see collection.js), not here. A saved skin named that way is
+  // kept without the list, and dropped further down once the list has loaded if it is not on it.
+  const importedKept = [];
+  const keepImported = (id, weapon) => typeof id === 'string' && id !== 'default' && id.endsWith('-' + weapon) && (importedKept.push(weapon), true);
   const savedVandal = localStorage.getItem(SKIN);
   if (['kuronami-vandal-white', 'kuronami-vandal-purple'].includes(savedVandal)) localStorage.setItem(SKIN, 'kuronami-vandal-standard');
-  else if(savedVandal&&!['default-vandal','champions-vandal','rgx-vandal-yellow','rgx-vandal-blue','gaia-vandal-orange','gaia-vandal-white','gaia-vandal-blue','primordium-vandal','primordium-vandal-cobalt','kuronami-vandal-standard','kuronami-vandal-black-red'].includes(savedVandal))localStorage.setItem(SKIN,'default-vandal');
+  else if(savedVandal&&!['default-vandal','champions-vandal','rgx-vandal-yellow','rgx-vandal-blue','gaia-vandal-orange','gaia-vandal-white','gaia-vandal-blue','primordium-vandal','primordium-vandal-cobalt','kuronami-vandal-standard','kuronami-vandal-black-red'].includes(savedVandal)&&!keepImported(savedVandal,'vandal'))localStorage.setItem(SKIN,'default-vandal');
   const savedMelee = localStorage.getItem('es-melee-skin');
   if (savedMelee === 'reaver-karambit') localStorage.setItem('es-melee-skin', 'damascus-karambit');
   else if (['silkleaf-fan', 'orange-butterfly'].includes(savedMelee)) localStorage.setItem('es-melee-skin', 'default');
   window.__aimMeleeSkin = localStorage.getItem('es-melee-skin') || 'default';
-  if(localStorage.getItem('es-phantom-skin')&&!['default','blastx-phantom','recon-phantom','recon-phantom-red','helix-phantom-purple'].includes(localStorage.getItem('es-phantom-skin')))localStorage.setItem('es-phantom-skin','default');
+  if(localStorage.getItem('es-phantom-skin')&&!['default','blastx-phantom','recon-phantom','recon-phantom-red','helix-phantom-purple'].includes(localStorage.getItem('es-phantom-skin'))&&!keepImported(localStorage.getItem('es-phantom-skin'),'phantom'))localStorage.setItem('es-phantom-skin','default');
   window.__aimPhantomSkin = localStorage.getItem('es-phantom-skin') || 'blastx-phantom';
-  window.__aimSheriffSkin = ['singularity-sheriff','arcane-sheriff'].includes(localStorage.getItem('es-sheriff-skin')) ? localStorage.getItem('es-sheriff-skin') : 'default';
+  window.__aimSheriffSkin = ['singularity-sheriff','arcane-sheriff'].includes(localStorage.getItem('es-sheriff-skin')) || keepImported(localStorage.getItem('es-sheriff-skin'), 'sheriff') ? localStorage.getItem('es-sheriff-skin') : 'default';
   const operatorSkinKey = 'es-operator-skin';
   const savedOperator = localStorage.getItem(operatorSkinKey);
-  window.__aimOperatorSkin = savedOperator === 'rogue-operator' ? savedOperator : 'default';
+  window.__aimOperatorSkin = savedOperator === 'rogue-operator' || keepImported(savedOperator, 'operator') ? savedOperator : 'default';
   if (savedOperator !== null && savedOperator !== window.__aimOperatorSkin) {
     localStorage.setItem(operatorSkinKey, window.__aimOperatorSkin);
   }
-  window.__aimGuardianSkin = localStorage.getItem('es-guardian-skin') === 'prime-guardian' ? 'prime-guardian' : 'default';
-  localStorage.setItem('es-classic-skin','default');
-  window.__aimClassicSkin = 'default';
-  window.__aimGhostSkin = localStorage.getItem('es-ghost-skin') === 'smite-ghost' ? 'smite-ghost' : 'default';
+  window.__aimGuardianSkin = localStorage.getItem('es-guardian-skin') === 'prime-guardian' || keepImported(localStorage.getItem('es-guardian-skin'), 'guardian') ? localStorage.getItem('es-guardian-skin') : 'default';
+  if (!keepImported(localStorage.getItem('es-classic-skin'), 'classic')) localStorage.setItem('es-classic-skin','default');
+  window.__aimClassicSkin = localStorage.getItem('es-classic-skin');
+  window.__aimGhostSkin = localStorage.getItem('es-ghost-skin') === 'smite-ghost' || keepImported(localStorage.getItem('es-ghost-skin'), 'ghost') ? localStorage.getItem('es-ghost-skin') : 'default';
+  // the weapons that only have imported skins
+  for (const weapon of ['frenzy','shorty','bulldog','bucky','judge','ares','odin','spectre','stinger','marshal','outlaw']) {
+    const saved = localStorage.getItem('es-' + weapon + '-skin');
+    window['__aim' + weapon[0].toUpperCase() + weapon.slice(1) + 'Skin'] = keepImported(saved, weapon) ? saved : 'default';
+  }
+  fetch('/aim-ui/collection/imported.json').then(r => r.ok ? r.json() : {}).catch(() => ({})).then(list => {
+    for (const weapon of importedKept) {
+      const key = 'es-' + weapon + '-skin', id = localStorage.getItem(key);
+      if (Array.isArray(list[weapon]) && list[weapon].some(skin => skin && skin.id === id)) continue;
+      const fallback = weapon === 'vandal' ? 'default-vandal' : 'default';
+      localStorage.setItem(key, fallback);
+      window['__aim' + weapon[0].toUpperCase() + weapon.slice(1) + 'Skin'] = fallback;
+    }
+  });
   window.__aimVandalSkin = localStorage.getItem(SKIN) || 'rgx-vandal-yellow';
   const primordiumReady=import('/local/primordium-audio.mjs').then(module=>window.__aimPrimordiumAudio=module);
   let decoder, killVoice, gaiaFireBuffer;
@@ -130,11 +150,30 @@
     source.onended = () => { voices.delete(source); source.disconnect(); gain.disconnect(); if (killVoice === source) killVoice = null; };
     source.start(); return true;
   }
+  // The firing sound of an imported skin, for the skins that have one of their own in the game
+  // (/media/skin-fire/<skin>.ogg; index.json lists them with the volume to play each at). The sounds of the
+  // skins equipped when the page loads are fetched then; one picked later is fetched when it is picked, or
+  // on its first shot, which still sounds like the weapon's own. Skins whose sounds are set by hand in
+  // playSkinFire come first and never reach this.
+  const importedFire=new Map(),savedSkins={};let importedIndex=null;
+  const equippedSkin=weapon=>window['__aim'+weapon[0].toUpperCase()+weapon.slice(1)+'Skin']??(weapon in savedSkins?savedSkins[weapon]:savedSkins[weapon]=localStorage.getItem('es-'+weapon+'-skin'));
+  function importedFireOf(skin){
+    if(!importedIndex||!(skin in importedIndex))return null;
+    if(!importedFire.has(skin)){importedFire.set(skin,null);fetch('/media/skin-fire/'+skin+'.ogg').then(r=>{if(!r.ok)throw Error('missing');return r.arrayBuffer();}).then(bytes=>context().decodeAudioData(bytes)).then(buffer=>importedFire.set(skin,buffer)).catch(error=>console.warn('Skin firing sound:',skin,error));}
+    return importedFire.get(skin);
+  }
+  function playImportedFire(weapon,ctx,destination){
+    const skin=/^[a-z]+$/.test(weapon)?equippedSkin(weapon):null;
+    const buffer=typeof skin==='string'?importedFireOf(skin):null;
+    return buffer?play('imported-fire',ctx,destination,false,buffer,importedIndex[skin]):false;
+  }
+  fetch('/media/skin-fire/index.json').then(r=>r.ok?r.json():{}).then(index=>{importedIndex=index;for(const weapon of ['classic','shorty','frenzy','ghost','sheriff','stinger','spectre','bucky','judge','bulldog','guardian','phantom','vandal','marshal','outlaw','operator','ares','odin'])importedFireOf(equippedSkin(weapon));}).catch(()=>{importedIndex={};});
   window.__aimLocalAudio = {
     get ready(){return prepareSelectedAudio();},
     warmGuardian,updateGuardian,stopGuardian,
     guardianInfo:()=>({loaded:[...guardianBuffers.keys()],voices:guardianVoices.size,actions:[...guardianActions.keys()]}),
-    playSkinFire: (ctx, destination, weapon='vandal') => {if(weapon==='bucky-alt')return play('bucky-alt-fire',ctx,destination,false,buckyAltBuffers[buckyAltIndex++%3],.5);if(weapon==='vandal'&&window.__aimVandalSkin?.startsWith('kuronami-vandal-'))return play('kuronami-fire',ctx,destination,false,kuronamiFireBuffers[kuronamiFireIndex++%5],0.8);return weapon==='vandal'&&window.__aimVandalSkin?.startsWith('primordium-vandal') ? play('primordium-fire',ctx,destination,false,primordiumFireBuffer,.65) : weapon==='sheriff'&&window.__aimSheriffSkin==='arcane-sheriff' ? (window.__aimArcaneAudio?.playFire(ctx,destination)??false) : weapon==='tourdeforce' ? play('tour-de-force-fire',ctx,destination,false,tourFireBuffers[tourFireIndex++%5],.85) : weapon==='vandal'&&window.__aimVandalSkin?.startsWith('gaia-vandal-') ? play('gaia-fire',ctx,destination,false,gaiaFireBuffer,0.55) : weapon==='vandal'&&window.__aimVandalSkin?.startsWith('rgx-vandal-') ? play('rgx-fire',ctx,destination,false,rgxBuffers.get('fire'),RGX_VOLUME) : weapon==='vandal'&&window.__aimVandalSkin==='champions-vandal' ? play('champions-fire',ctx,destination,false,championsBuffers.get('fire'),0.75) : weapon==='phantom'&&window.__aimPhantomSkin==='blastx-phantom' ? play('blastx-fire',ctx,destination,false,blastBuffers.get('fire'),1) : weapon==='phantom'&&window.__aimPhantomSkin==='helix-phantom-purple' ? play('helix-fire',ctx,destination,false,helixFireBuffer,1) : weapon==='sheriff'&&window.__aimSheriffSkin==='singularity-sheriff' ? play('singularity-fire',ctx,destination,false,singularityBuffers.get('fire'),1) : weapon==='operator'&&window.__aimOperatorSkin==='rogue-operator' ? play('rogue-fire',ctx,destination,false,rogueBuffers.get('fire'),1.15) : weapon==='guardian'&&window.__aimGuardianSkin==='prime-guardian' ? playGuardian('fire',ctx,destination) : false;},
+    warmSkinFire: skin => { importedFireOf(skin); }, // the Collection calls this when a skin is picked, so its first shot already has the sound
+    playSkinFire: (ctx, destination, weapon='vandal') => {if(weapon==='bucky-alt')return play('bucky-alt-fire',ctx,destination,false,buckyAltBuffers[buckyAltIndex++%3],.5);if(weapon==='vandal'&&window.__aimVandalSkin?.startsWith('kuronami-vandal-'))return play('kuronami-fire',ctx,destination,false,kuronamiFireBuffers[kuronamiFireIndex++%5],0.8);return weapon==='vandal'&&window.__aimVandalSkin?.startsWith('primordium-vandal') ? play('primordium-fire',ctx,destination,false,primordiumFireBuffer,.65) : weapon==='sheriff'&&window.__aimSheriffSkin==='arcane-sheriff' ? (window.__aimArcaneAudio?.playFire(ctx,destination)??false) : weapon==='tourdeforce' ? play('tour-de-force-fire',ctx,destination,false,tourFireBuffers[tourFireIndex++%5],.85) : weapon==='vandal'&&window.__aimVandalSkin?.startsWith('gaia-vandal-') ? play('gaia-fire',ctx,destination,false,gaiaFireBuffer,0.55) : weapon==='vandal'&&window.__aimVandalSkin?.startsWith('rgx-vandal-') ? play('rgx-fire',ctx,destination,false,rgxBuffers.get('fire'),RGX_VOLUME) : weapon==='vandal'&&window.__aimVandalSkin==='champions-vandal' ? play('champions-fire',ctx,destination,false,championsBuffers.get('fire'),0.75) : weapon==='phantom'&&window.__aimPhantomSkin==='blastx-phantom' ? play('blastx-fire',ctx,destination,false,blastBuffers.get('fire'),1) : weapon==='phantom'&&window.__aimPhantomSkin==='helix-phantom-purple' ? play('helix-fire',ctx,destination,false,helixFireBuffer,1) : weapon==='sheriff'&&window.__aimSheriffSkin==='singularity-sheriff' ? play('singularity-fire',ctx,destination,false,singularityBuffers.get('fire'),1) : weapon==='operator'&&window.__aimOperatorSkin==='rogue-operator' ? play('rogue-fire',ctx,destination,false,rogueBuffers.get('fire'),1.15) : weapon==='guardian'&&window.__aimGuardianSkin==='prime-guardian' ? playGuardian('fire',ctx,destination) : playImportedFire(weapon,ctx,destination);},
     playSkinKill: (ctx,destination,count,weapon) => {
       const slot='kill'+((Math.max(1,Math.floor(count))-1)%5+1);
       if(weapon==='sheriff'&&window.__aimSheriffSkin==='arcane-sheriff')return play('arcane-'+slot,ctx,destination,true,arcaneKills.get(slot),.65);

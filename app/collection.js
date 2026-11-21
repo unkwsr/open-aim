@@ -3,6 +3,8 @@
 // skin models by previews/skin-renders/), so the page draws no 3D and costs no frame time.
 // It is only built while open and is removed when closed or when a round starts.
 // Equip writes the same keys the old Settings > Visuals rows used (local-customization.js).
+// Skins imported from the game files in bulk are not listed here: they come from
+// /aim-ui/collection/imported.json (docs/imported-skins.md).
 (() => {
   if (window.__aimCollection) return;
   window.__aimCollection = true;
@@ -76,6 +78,29 @@
     ] },
   ];
 
+  // imported-skins-v1: skins imported from the game files in bulk. Each has a model and a colour atlas in
+  // /aim-viewmodel/ and a still made from them (tools/collection-stills.mjs). /aim-ui/collection/imported.json
+  // lists the ones installed, as { weapon: [{ id, name }] }. This repository carries a few of them; the full
+  // set is a separate download that brings its own list. A weapon that has no tab above gets one.
+  const IMPORTED_ONLY = { frenzy: "Frenzy", classic: "Classic", shorty: "Shorty", bulldog: "Bulldog", bucky: "Bucky", judge: "Judge", ares: "Ares", odin: "Odin", spectre: "Spectre", stinger: "Stinger", marshal: "Marshal", outlaw: "Outlaw" };
+  fetch("/aim-ui/collection/imported.json").then((r) => (r.ok ? r.json() : {})).then((list) => {
+    for (const [weapon, skins] of Object.entries(list)) {
+      if (!Array.isArray(skins) || !skins.length) continue;
+      let w = WEAPONS.find((x) => x.id === weapon);
+      if (!w) {
+        const label = IMPORTED_ONLY[weapon];
+        if (!label) continue;
+        w = { id: weapon, label, key: `es-${weapon}-skin`, global: `__aim${label}Skin`, fallback: "default", skins: [{ id: "default", name: label }] };
+        WEAPONS.splice(WEAPONS.findIndex((x) => x.id === "melee"), 0, w);   // Melee stays last
+      }
+      for (const s of skins) {
+        // the names go into the page as markup, so they are kept to plain text
+        if (s && /^[a-z0-9-]+$/.test(s.id) && !w.skins.some((x) => x.id === s.id)) w.skins.push({ id: s.id, name: String(s.name || s.id).replace(/[<>&"]/g, "") });
+      }
+    }
+    if (page) render();
+  }).catch(() => {});
+
   const equipped = (w) => {
     let v = null;
     try { v = localStorage.getItem(w.key); } catch {}
@@ -85,6 +110,7 @@
     try { localStorage.setItem(w.key, id); } catch {}
     window[w.global] = id;
     try { window.__aimPrepareSkinAudio?.(); } catch {}
+    try { window.__aimLocalAudio?.warmSkinFire?.(id); } catch {}
     dispatchEvent(new CustomEvent("aim-skin-change", { detail: { weapon: w.id, skin: id } }));
   }
 

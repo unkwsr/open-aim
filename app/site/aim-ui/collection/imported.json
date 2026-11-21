@@ -1,0 +1,38 @@
+{
+ "vandal": [
+  {
+   "id": "dragon-vandal",
+   "name": "Dragon"
+  }
+ ],
+ "phantom": [
+  {
+   "id": "oni-phantom",
+   "name": "Oni"
+  }
+ ],
+ "operator": [
+  {
+   "id": "raygun-operator",
+   "name": "Raygun"
+  }
+ ],
+ "sheriff": [
+  {
+   "id": "soulstealer-sheriff",
+   "name": "Soul Stealer"
+  }
+ ],
+ "ghost": [
+  {
+   "id": "ninja2-ghost",
+   "name": "Ninja 2"
+  }
+ ],
+ "frenzy": [
+  {
+   "id": "oni2-frenzy",
+   "name": "Oni 2"
+  }
+ ]
+}
