@@ -3323,6 +3323,7 @@
  "On its turn each bot does its thing once (a peeker peeks once). Rushers without a flash walk all round.": "出番が来ると各ボットが動きを1回します（ピーカーは1回ピーク）。フラッシュなしのラッシュはラウンド中ずっと歩きます。",
  "How many at a time": "同時に何体",
  "Pause before the next one": "次までの間隔",
+ "Comes back on its next turn. The wait is Drill settings > Pause before the next one.": "次の番で復活します。待ち時間はドリル設定 > 次までの間隔です。",
  "Shown on the card in the lobby.": "ロビーのカードに表示されます。",
  "Take this bot out of the group": "このボットをグループから外す",
  "Add a bot that's already on the map": "マップにあるボットを追加",

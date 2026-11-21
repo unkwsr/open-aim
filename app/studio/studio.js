@@ -1073,6 +1073,10 @@ function scrubPos(b) {
 // Bots take turns (so a peeker peeks once and hides).
 const takingTurns =() => S.drill.round.order !== "together" && S.drill.round.order !== "waves" && S.drill.round.goal !== "track";
 // A bot that peeks once and hides each time: taking turns, or random spots / random wait (drill.js).
+// turns-pause-zero-v1: bots that take turns (same rule as turnTaker in drill.js compile) come back on their next
+// turn, after the round's "Pause before the next one"; their own Comes back after slider does nothing there.
+const takesTurn = (b) => takingTurns() && !b.trigger && !b.tradeOf && b.move !== "copycat" && !(b.move === "patrol" && !(b.flash && b.flash.on));
+const TURN_BACK_HELP = "Comes back on its next turn. The wait is Drill settings > Pause before the next one.";
 const peeksOnce = (b) => takingTurns() || usesOwnDispatcher(b) || inWaves(S.drill).has(b.id);
 
 // Draws a bot's flash: the throw path to where it pops and, in the preview, the flash
@@ -3046,7 +3050,7 @@ function drillPanel() {
         : r.order === "waves" ? "Waves come in order. In a wave, group 1 comes first; kill all of it and group 2 comes, and so on. Kill the last group and the next wave starts." : null),
       r.order === "waves" ? wavesBox(d) : null,
       oneByOne ? field("How many at a time", slider(1, 5, 1, r.atOnce || 1, (v) => `${v}`, (dd, v) => (dd.round.atOnce = v))) : null,
-      oneByOne ? field("Pause before the next one", slider(0, 5, 0.1, r.gap ?? 1, secs, (dd, v) => (dd.round.gap = v))) : null) : null,
+      oneByOne ? field("Pause before the next one", slider(0, 5, 0.1, r.gap ?? 1, (v) => (v === 0 ? "right away" : secs(v)), (dd, v) => (dd.round.gap = v))) : null) : null,
     h("div", { class: "group" },
       field("Description", h("textarea", { class: "text", maxlength: 300, placeholder: "Shown on the card in the lobby.", oninput: (e) => edit((dd) => (dd.note = e.target.value), { key: "note", quiet: true }) }, d.note || ""))),
   ];
@@ -3363,7 +3367,7 @@ function botPanel(b) {
   out.push(h("div", { class: "group" },
     field("After a kill", b.tradeOf ? h("p", { class: "help" }, "Stays dead until you kill the bot it trades again (see Shows up).") : clear ? h("p", { class: "help" }, "Stays dead (the goal is Clear them all).") :
       h("div", {}, seg([[true, "Comes back"], [false, "Stays dead"]], b.back, set((it, v) => (it.back = v))),
-        b.back ? slider(0, 8, 0.1, b.backAfter, (v) => (v === 0 ? "right away" : `after ${secs(v)}`), (dd, v) => mod((it) => (it.backAfter = v))(dd)) : null)),
+        b.back ? (takesTurn(b) ? h("p", { class: "help" }, TURN_BACK_HELP) : slider(0, 8, 0.1, b.backAfter, (v) => (v === 0 ? "right away" : `after ${secs(v)}`), (dd, v) => mod((it) => (it.backAfter = v))(dd))) : null)),
     dot ? null : field("Toughness", seg(ARMOR.map(([v, l]) => [v, l.split(" (")[0], l]), b.hp, set((it, v) => (it.hp = v))))));
 
   if (!dot) out.push(h("div", { class: "group" },
@@ -3444,7 +3448,7 @@ function dotPanel(b) {
     h("div", { class: "group" },
       field("After a kill", clear ? h("p", { class: "help" }, "Stays dead (the goal is Clear them all).") :
         h("div", {}, seg([[true, "Comes back"], [false, "Stays dead"]], b.back, set((it, v) => (it.back = v))),
-          b.back ? slider(0, 8, 0.1, b.backAfter, (v) => (v === 0 ? "right away" : `after ${secs(v)}`), (dd, v) => mod((it) => (it.backAfter = v))(dd)) : null))),
+          b.back ? (takesTurn(b) ? h("p", { class: "help" }, TURN_BACK_HELP) : slider(0, 8, 0.1, b.backAfter, (v) => (v === 0 ? "right away" : `after ${secs(v)}`), (dd, v) => mod((it) => (it.backAfter = v))(dd))) : null))),
     h("p", { class: "help" }, "Drag it on the map. Near a wall (or on one in 3D) it sticks to the wall; hold Alt in 2D to keep it off."),
     actions());
   return out;

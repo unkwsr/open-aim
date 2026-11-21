@@ -3372,6 +3372,7 @@
  "On its turn each bot does its thing once (a peeker peeks once). Rushers without a flash walk all round.": "차례가 되면 각 봇이 자기 움직임을 한 번 해요(피커는 한 번 피킹). 섬광 없는 러시는 라운드 내내 걸어요.",
  "How many at a time": "한 번에 몇 명",
  "Pause before the next one": "다음까지 쉬는 시간",
+ "Comes back on its next turn. The wait is Drill settings > Pause before the next one.": "다음 차례에 다시 나와요. 기다리는 시간은 드릴 설정 > 다음까지 쉬는 시간이에요.",
  "Shown on the card in the lobby.": "로비의 카드에 표시돼요.",
  "Take this bot out of the group": "이 봇을 그룹에서 빼기",
  "Add a bot that's already on the map": "이미 맵에 있는 봇 추가",

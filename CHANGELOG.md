@@ -2,6 +2,20 @@
 
 All notable changes to openVaim (formerly AimTrainer). Newest first.
 
+## [1.4.3] - 2026-11-21
+
+A hotfix for the VCT Sigil knife and two Creator fixes, plus a better Korean translation.
+
+Your settings, drills and history carry over when you update.
+
+### Fixes
+- Fixed not being able to enter a round with the VCT Sigil knife equipped (1.4.2 was missing some of its files).
+- Creator, Bots show up "One by one, random": the bot you just killed can come again. Before, two bots always took turns 1-2-1-2.
+- Creator, "One by one": Pause before the next one at 0 now really means right away. Bots taking turns now show that this pause sets their wait, instead of a Comes back after slider that did nothing.
+
+### Languages
+- Korean translation reworded to sound more natural, with the missing Video settings lines added. Thanks to mixiboo.
+
 ## [1.4.2] - 2026-11-20
 
 The game now speaks Korean, Japanese and Chinese, the top bar fits any window, and the download is about 95 MB smaller.
