@@ -2,22 +2,34 @@
 
 Most skins in the Collection were put in by hand, one at a time, with their materials, sounds and effects. An **imported skin** is one taken from the game files in bulk: its model, its colour atlas and its animations, and nothing set by hand. That is how a whole catalogue (615 skins over 18 weapons) can be offered at once.
 
-This repository carries six of them as samples, and the Frenzy's own first-person model, which was missing:
+This repository carries five per weapon (90 skins, about 360 MB), picked from what the community asked for and the best-known lines, and the Frenzy's own first-person model, which was missing. A line the repository already has by hand for a weapon is not repeated.
 
-| Weapon | Skin (name in the game files) |
+| Weapon | Skins |
 | --- | --- |
-| Vandal | Dragon |
-| Phantom | Oni |
-| Operator | Raygun |
-| Sheriff | Soul Stealer |
-| Ghost | Ninja 2 |
-| Frenzy | Oni 2 |
+| Ghost | Reaver Ghost, Phaseguard Ghost, Sovereign Ghost, Kuronami Ghost, Ruination Ghost |
+| Sheriff | Reaver Sheriff, Ion Sheriff, Kuronami Sheriff, Popmonz Sheriff, Sentinels of Light Sheriff |
+| Vandal | Reaver Vandal, Elderflame Vandal, Prime Vandal, Solarstride Vandal, Blackthorn Vandal |
+| Phantom | Primordium Phantom, Oni Phantom, Reaver Phantom, Sovereign Phantom, Ion Phantom |
+| Guardian | Reaver Guardian, Sovereign Guardian, Solarstride Guardian, Blackthorn Guardian, Oni Guardian |
+| Operator | Elderflame Operator, Reaver Operator, Ion Operator, Origin Operator, Glitchpop Operator |
+| Classic | Prime Classic, Glitchpop Classic, RGX 11z Pro Classic, Forsaken Classic, Blackthorn Classic |
+| Frenzy | Elderflame Frenzy, Oni Frenzy, Glitchpop Frenzy, Prime//2.0 Frenzy, RGX 11z Pro Frenzy |
+| Shorty | Oni Shorty, Primordium Shorty, Gaia's Vengeance Shorty, Sentinels of Light Shorty, Prelude to Chaos Shorty |
+| Spectre | Reaver Spectre, Prime Spectre, Ion Spectre, Kuronami Spectre, RGX 11z Pro Spectre |
+| Stinger | Sovereign Stinger, RGX 11z Pro Stinger, Prelude to Chaos Stinger, Popmonz Stinger, Lycan's Bane Stinger |
+| Bulldog | Glitchpop Bulldog, Oni Bulldog, Araxys Bulldog, Phaseguard Bulldog, Radiant Entertainment System Bulldog |
+| Bucky | Oni Bucky, Ion Bucky, Magepunk Bucky, Prime//2.0 Bucky, Origin Bucky |
+| Judge | Elderflame Judge, Glitchpop Judge, Sovereign Judge, Mystbloom Judge, Imperium Judge |
+| Ares | Oni Ares, Ion Ares, Sentinels of Light Ares, Singularity Ares, Gaia's Vengeance Ares |
+| Odin | Reaver Odin, Glitchpop Odin, Prime//2.0 Odin, Sovereign Odin, Xenohunter Odin |
+| Marshal | Sovereign Marshal, Kuronami Marshal, Blackthorn Marshal, Magepunk Marshal, Gaia's Vengeance Marshal |
+| Outlaw | Mystbloom Outlaw, Araxys Outlaw, RGX 11z Pro Outlaw, Phaseguard Outlaw, Keys to Elysium Outlaw |
 
 The full set is about 2.3 GB, too much for the repository. It is a separate download with the same folders as `app/site/`: unpack it over `app/site/` and the Collection lists everything in it.
 
 ## What a skin is made of
 
-A skin is named `<line>-<weapon>` (`dragon-vandal`, `oni2-frenzy`). The name is the game's working name for the line, which is not always the name in the store.
+A skin's files are named `<line>-<weapon>` after the game's working name for the line, which is often not the name in the store: `soulstealer2-ghost` is the Reaver Ghost, `dragon-vandal` the Elderflame Vandal. The name shown in the Collection is the store name, read from the game files and kept in the list below.
 
 | File | What |
 | --- | --- |
@@ -50,9 +62,9 @@ The download brings both lists complete, so unpacking it replaces the two files 
 
 In a hidden copy of the app on this branch, driven through its debugging port:
 
-- The Collection: the six samples are on their weapons' tabs with their stills, the Frenzy has a tab, and Equip saves each of them.
-- After a reload the six are still equipped; three saved skins named like imported ones but not on the list were put back to the default.
-- A round with the Dragon Vandal equipped: the model shows in first person.
+- The Collection: each of the 90 skins has its tile on its weapon's tab with its still and its store name, and its model, atlas and sound files are served. Twelve weapons got a tab; the 19 tabs wrap onto a second row in a 1280 or 1024 px window.
+- Equip saves a skin; after a reload it is still equipped, and three saved skins named like imported ones but not on the list were put back to the default.
+- A round with the Elderflame Vandal, and one with the Reaver Vandal: the model shows in first person.
 - No page errors from this change.
 
-Not checked: the other five samples in a round, the firing sounds by ear, and the full set on this version of the game (it was built and used on 1.4.0).
+Not checked: the other 88 skins in a round, the firing sounds by ear, and the full set on this version of the game (it was built and used on 1.4.0).

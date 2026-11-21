@@ -1,38 +1,398 @@
 {
- "vandal": [
+ "ghost": [
   {
-   "id": "dragon-vandal",
-   "name": "Dragon"
-  }
- ],
- "phantom": [
+   "id": "soulstealer2-ghost",
+   "name": "Reaver Ghost"
+  },
   {
-   "id": "oni-phantom",
-   "name": "Oni"
-  }
- ],
- "operator": [
+   "id": "commando-ghost",
+   "name": "Phaseguard Ghost"
+  },
   {
-   "id": "raygun-operator",
-   "name": "Raygun"
+   "id": "sovereign-ghost",
+   "name": "Sovereign Ghost"
+  },
+  {
+   "id": "ninja2-ghost",
+   "name": "Kuronami Ghost"
+  },
+  {
+   "id": "king-ghost",
+   "name": "Ruination Ghost"
   }
  ],
  "sheriff": [
   {
    "id": "soulstealer-sheriff",
-   "name": "Soul Stealer"
+   "name": "Reaver Sheriff"
+  },
+  {
+   "id": "oblivion-sheriff",
+   "name": "Ion Sheriff"
+  },
+  {
+   "id": "ninja-sheriff",
+   "name": "Kuronami Sheriff"
+  },
+  {
+   "id": "gachapon-sheriff",
+   "name": "Popmonz Sheriff"
+  },
+  {
+   "id": "sol-sheriff",
+   "name": "Sentinels of Light Sheriff"
   }
  ],
- "ghost": [
+ "vandal": [
   {
-   "id": "ninja2-ghost",
-   "name": "Ninja 2"
+   "id": "soulstealer-vandal",
+   "name": "Reaver Vandal"
+  },
+  {
+   "id": "dragon-vandal",
+   "name": "Elderflame Vandal"
+  },
+  {
+   "id": "hypebeast-vandal",
+   "name": "Prime Vandal"
+  },
+  {
+   "id": "lny26-vandal",
+   "name": "Solarstride Vandal"
+  },
+  {
+   "id": "rose-vandal",
+   "name": "Blackthorn Vandal"
+  }
+ ],
+ "phantom": [
+  {
+   "id": "hellfire-phantom",
+   "name": "Primordium Phantom"
+  },
+  {
+   "id": "oni-phantom",
+   "name": "Oni Phantom"
+  },
+  {
+   "id": "soulstealer2-phantom",
+   "name": "Reaver Phantom"
+  },
+  {
+   "id": "sovereign2-phantom",
+   "name": "Sovereign Phantom"
+  },
+  {
+   "id": "oblivion-phantom",
+   "name": "Ion Phantom"
+  }
+ ],
+ "guardian": [
+  {
+   "id": "soulstealer-guardian",
+   "name": "Reaver Guardian"
+  },
+  {
+   "id": "sovereign-guardian",
+   "name": "Sovereign Guardian"
+  },
+  {
+   "id": "lny26-guardian",
+   "name": "Solarstride Guardian"
+  },
+  {
+   "id": "rose-guardian",
+   "name": "Blackthorn Guardian"
+  },
+  {
+   "id": "oni-guardian",
+   "name": "Oni Guardian"
+  }
+ ],
+ "operator": [
+  {
+   "id": "dragon-operator",
+   "name": "Elderflame Operator"
+  },
+  {
+   "id": "soulstealer-operator",
+   "name": "Reaver Operator"
+  },
+  {
+   "id": "oblivion-operator",
+   "name": "Ion Operator"
+  },
+  {
+   "id": "circle-operator",
+   "name": "Origin Operator"
+  },
+  {
+   "id": "cyberpunk2-operator",
+   "name": "Glitchpop Operator"
+  }
+ ],
+ "classic": [
+  {
+   "id": "hypebeast-classic",
+   "name": "Prime Classic"
+  },
+  {
+   "id": "cyberpunk2-classic",
+   "name": "Glitchpop Classic"
+  },
+  {
+   "id": "afterglow2-classic",
+   "name": "RGX 11z Pro Classic"
+  },
+  {
+   "id": "fallen-classic",
+   "name": "Forsaken Classic"
+  },
+  {
+   "id": "rose-classic",
+   "name": "Blackthorn Classic"
   }
  ],
  "frenzy": [
   {
+   "id": "dragon-frenzy",
+   "name": "Elderflame Frenzy"
+  },
+  {
    "id": "oni2-frenzy",
-   "name": "Oni 2"
+   "name": "Oni Frenzy"
+  },
+  {
+   "id": "cyberpunk-frenzy",
+   "name": "Glitchpop Frenzy"
+  },
+  {
+   "id": "hypebeast2-frenzy",
+   "name": "Prime//2.0 Frenzy"
+  },
+  {
+   "id": "afterglow-frenzy",
+   "name": "RGX 11z Pro Frenzy"
+  }
+ ],
+ "shorty": [
+  {
+   "id": "oni-shorty",
+   "name": "Oni Shorty"
+  },
+  {
+   "id": "hellfire-shorty",
+   "name": "Primordium Shorty"
+  },
+  {
+   "id": "ashen2-shorty",
+   "name": "Gaia's Vengeance Shorty"
+  },
+  {
+   "id": "sol2-shorty",
+   "name": "Sentinels of Light Shorty"
+  },
+  {
+   "id": "demonstone-shorty",
+   "name": "Prelude to Chaos Shorty"
+  }
+ ],
+ "spectre": [
+  {
+   "id": "soulstealer2-spectre",
+   "name": "Reaver Spectre"
+  },
+  {
+   "id": "hypebeast-spectre",
+   "name": "Prime Spectre"
+  },
+  {
+   "id": "oblivion2-spectre",
+   "name": "Ion Spectre"
+  },
+  {
+   "id": "ninja-spectre",
+   "name": "Kuronami Spectre"
+  },
+  {
+   "id": "afterglow2-spectre",
+   "name": "RGX 11z Pro Spectre"
+  }
+ ],
+ "stinger": [
+  {
+   "id": "sovereign-stinger",
+   "name": "Sovereign Stinger"
+  },
+  {
+   "id": "afterglow-stinger",
+   "name": "RGX 11z Pro Stinger"
+  },
+  {
+   "id": "demonstone-stinger",
+   "name": "Prelude to Chaos Stinger"
+  },
+  {
+   "id": "gachapon-stinger",
+   "name": "Popmonz Stinger"
+  },
+  {
+   "id": "silverwolf-stinger",
+   "name": "Lycan's Bane Stinger"
+  }
+ ],
+ "bulldog": [
+  {
+   "id": "cyberpunk-bulldog",
+   "name": "Glitchpop Bulldog"
+  },
+  {
+   "id": "oni2-bulldog",
+   "name": "Oni Bulldog"
+  },
+  {
+   "id": "antares-bulldog",
+   "name": "Araxys Bulldog"
+  },
+  {
+   "id": "commando-bulldog",
+   "name": "Phaseguard Bulldog"
+  },
+  {
+   "id": "arcade-bulldog",
+   "name": "Radiant Entertainment System Bulldog"
+  }
+ ],
+ "bucky": [
+  {
+   "id": "oni-bucky",
+   "name": "Oni Bucky"
+  },
+  {
+   "id": "oblivion-bucky",
+   "name": "Ion Bucky"
+  },
+  {
+   "id": "magepunk-bucky",
+   "name": "Magepunk Bucky"
+  },
+  {
+   "id": "hypebeast2-bucky",
+   "name": "Prime//2.0 Bucky"
+  },
+  {
+   "id": "circle-bucky",
+   "name": "Origin Bucky"
+  }
+ ],
+ "judge": [
+  {
+   "id": "dragon-judge",
+   "name": "Elderflame Judge"
+  },
+  {
+   "id": "cyberpunk-judge",
+   "name": "Glitchpop Judge"
+  },
+  {
+   "id": "sovereign2-judge",
+   "name": "Sovereign Judge"
+  },
+  {
+   "id": "spirit-judge",
+   "name": "Mystbloom Judge"
+  },
+  {
+   "id": "dynasty-judge",
+   "name": "Imperium Judge"
+  }
+ ],
+ "ares": [
+  {
+   "id": "oni2-ares",
+   "name": "Oni Ares"
+  },
+  {
+   "id": "oblivion2-ares",
+   "name": "Ion Ares"
+  },
+  {
+   "id": "sol-ares",
+   "name": "Sentinels of Light Ares"
+  },
+  {
+   "id": "edge-ares",
+   "name": "Singularity Ares"
+  },
+  {
+   "id": "ashen2-ares",
+   "name": "Gaia's Vengeance Ares"
+  }
+ ],
+ "odin": [
+  {
+   "id": "soulstealer2-odin",
+   "name": "Reaver Odin"
+  },
+  {
+   "id": "cyberpunk-odin",
+   "name": "Glitchpop Odin"
+  },
+  {
+   "id": "hypebeast2-odin",
+   "name": "Prime//2.0 Odin"
+  },
+  {
+   "id": "sovereign2-odin",
+   "name": "Sovereign Odin"
+  },
+  {
+   "id": "alien-odin",
+   "name": "Xenohunter Odin"
+  }
+ ],
+ "marshal": [
+  {
+   "id": "sovereign-marshal",
+   "name": "Sovereign Marshal"
+  },
+  {
+   "id": "ninja-marshal",
+   "name": "Kuronami Marshal"
+  },
+  {
+   "id": "rose-marshal",
+   "name": "Blackthorn Marshal"
+  },
+  {
+   "id": "magepunk-marshal",
+   "name": "Magepunk Marshal"
+  },
+  {
+   "id": "ashen-marshal",
+   "name": "Gaia's Vengeance Marshal"
+  }
+ ],
+ "outlaw": [
+  {
+   "id": "spirit2-outlaw",
+   "name": "Mystbloom Outlaw"
+  },
+  {
+   "id": "antares2-outlaw",
+   "name": "Araxys Outlaw"
+  },
+  {
+   "id": "afterglow3-outlaw",
+   "name": "RGX 11z Pro Outlaw"
+  },
+  {
+   "id": "commando-outlaw",
+   "name": "Phaseguard Outlaw"
+  },
+  {
+   "id": "scorchthesky-outlaw",
+   "name": "Keys to Elysium Outlaw"
   }
  ]
 }
