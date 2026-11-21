@@ -3394,6 +3394,7 @@
  "On its turn each bot does its thing once (a peeker peeks once). Rushers without a flash walk all round.": "轮到时每个 bot 做一次动作（拉枪探一次）。不带闪光的Rush整回合都在走。",
  "How many at a time": "每次几个",
  "Pause before the next one": "下一个之前的停顿",
+ "Comes back on its next turn. The wait is Drill settings > Pause before the next one.": "轮到它时会复活。等待时间在 训练设置 > 下一个之前的停顿。",
  "Shown on the card in the lobby.": "显示在大厅的卡片上。",
  "Take this bot out of the group": "把这个 bot 移出该组",
  "Add a bot that's already on the map": "添加地图上已有的 bot",

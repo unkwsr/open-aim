@@ -253,7 +253,7 @@ export const DOT_MAX_HEIGHT = 30; // dot-bots-v4: as high as the tallest wall yo
 export const dotHeight = (bot) => Math.max(0.2, Math.min(DOT_MAX_HEIGHT, Number.isFinite(bot.dotHeight) ? bot.dotHeight : DOT_HEIGHT));
 
 // Bumped whenever compile() changes what it writes; the Studio re-saves older drills.
-export const COMPILER = 23; // 23: random player starts (playerSpawns); 22: per-spot peek strafe width, copycat with spots starts at round start; 21: Studio smokes are always Omen; 20: peeker strafe width (peekWidth) and "random" strafe-or-hold at the peek (dispatcher route groups, aim-dispatch-group in BiMsX6Xn.js); 19: a peeker with its own dispatcher (random wait/spots) waits back-after after a kill; 18: flashing/once peekers wait their own back-after time after a kill; // 16: Unpredictable strafe taps / full speed, crouch "Only when fully stopped"; 17: Yoru flash bounce surface (normal)
+export const COMPILER = 25; // 25: random turns may repeat the last bot (repeat); 24: taking turns with Pause 0 has no random extra; 23: random player starts (playerSpawns); 22: per-spot peek strafe width, copycat with spots starts at round start; 21: Studio smokes are always Omen; 20: peeker strafe width (peekWidth) and "random" strafe-or-hold at the peek (dispatcher route groups, aim-dispatch-group in BiMsX6Xn.js); 19: a peeker with its own dispatcher (random wait/spots) waits back-after after a kill; 18: flashing/once peekers wait their own back-after time after a kill; // 16: Unpredictable strafe taps / full speed, crouch "Only when fully stopped"; 17: Yoru flash bounce surface (normal)
 export const DEFAULT_JUMP_HEIGHT = 1.15;
 
 let counter = 0;
@@ -1367,8 +1367,13 @@ function compileDrill(drill, floorAt) {
     doc.dispatchers = [{
       id: "dispatcher-1", name: "One at a time", routes,
       order: round.order === "inOrder" ? "sequence" : "shuffle",
+      // turns-repeat-v1 (21 Nov 2026): random turns can bring the bot you just killed again (game patch
+      // aim-turns-repeat in BiMsX6Xn.js); before, 2 bots always alternated.
+      ...(round.order === "inOrder" ? {} : { repeat: true }),
       maxAlive: Math.max(1, Math.min(turnBots, Math.round(round.atOnce || 1))),
-      interval: [r2(round.gap ?? 1), r2((round.gap ?? 1) + 0.5)],
+      // turns-pause-zero-v1 (20 Nov 2026): Pause 0 = the next one right away (no +0.5 s random extra), like a bot's own
+      // "Comes back after" 0. Bots taking turns use this pause, not their own Comes back after.
+      interval: [r2(round.gap ?? 1), r2((round.gap ?? 1) + ((round.gap ?? 1) > 0 ? 0.5 : 0))],
       // One setting for all bots that take turns: they face you unless one has a fixed direction.
       faceTarget: !routes.some((r) => r.fixed),
       ...(clear ? { total: turnBots } : {}),
