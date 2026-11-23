@@ -193,7 +193,7 @@ npm start
 ```
 
 `npm run build` makes the installer. How it's put together: [docs/architecture.md](docs/architecture.md).
-Want to add a drill to the built-in list? See [docs/scenario-format.md](docs/scenario-format.md) and [CONTRIBUTING.md](CONTRIBUTING.md).
+Want to add a drill to the built-in list? See [docs/scenario-format.md](docs/scenario-format.md).
 
 <br>
 
