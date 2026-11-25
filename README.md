@@ -2,7 +2,8 @@
 
 <p align="center">
   Aim training on real VALORANT maps.<br>
-  Pre-aim the routes you actually play, build your own drills and share them.
+  Pre-aim the routes you actually play, build your own drills and share them.<br>
+  Inspired by <a href="https://aimpro.world">AimPro</a>.
 </p>
 
 <p align="center">
